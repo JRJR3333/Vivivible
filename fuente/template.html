@@ -112,7 +112,7 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
 
 <section class="card">
   <h2><span class="step">2</span>¿Qué buscas?</h2>
-  <div class="seg" id="op"><button data-v="venta" class="on">Comprar</button><button data-v="alquiler">Alquilar piso</button><button data-v="habitacion">Habitación</button></div>
+  <div class="seg" id="op" role="group" aria-label="Qué buscas"><button data-v="venta" class="on" aria-pressed="true">Comprar</button><button data-v="alquiler" aria-pressed="false">Alquilar piso</button><button data-v="habitacion" aria-pressed="false">Habitación</button></div>
   <label for="precio" id="precioLbl">Precio que piden (€)</label>
   <input id="precio" type="number" inputmode="numeric" placeholder="p. ej. 320000">
 </section>
@@ -140,15 +140,15 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
     <div class="po"><label for="com">Comunidad (€/mes)</label><input id="com" type="number" inputmode="numeric" placeholder="60"></div>
   </div>
   <label>Tiene…</label>
-  <div class="chips" id="extras">
-    <button class="chip on" data-k="asc">Ascensor</button>
-    <button class="chip on po" data-k="ext">Exterior</button>
-    <button class="chip" data-k="ter">Terraza/balcón</button>
-    <button class="chip" data-k="aa">Aire acondicionado</button>
-    <button class="chip po" data-k="gar">Garaje</button>
-    <button class="chip po" data-k="tra">Trastero</button>
-    <button class="chip ro" data-k="lav" style="display:none">Lavavajillas</button>
-    <button class="chip ro" data-k="cer" style="display:none">Cerradura en la habitación</button>
+  <div class="chips" id="extras" role="group" aria-label="Qué tiene el piso">
+    <button aria-pressed="true" class="chip on" data-k="asc">Ascensor</button>
+    <button aria-pressed="true" class="chip on po" data-k="ext">Exterior</button>
+    <button aria-pressed="false" class="chip" data-k="ter">Terraza/balcón</button>
+    <button aria-pressed="false" class="chip" data-k="aa">Aire acondicionado</button>
+    <button aria-pressed="false" class="chip po" data-k="gar">Garaje</button>
+    <button aria-pressed="false" class="chip po" data-k="tra">Trastero</button>
+    <button aria-pressed="false" class="chip ro" data-k="lav" style="display:none">Lavavajillas</button>
+    <button aria-pressed="false" class="chip ro" data-k="cer" style="display:none">Cerradura en la habitación</button>
   </div>
 </section>
 
@@ -254,13 +254,13 @@ async function buscarDir(){
 $("#buscar").onclick=buscarDir;$("#dir").addEventListener("keydown",ev=>{if(ev.key==="Enter"){ev.preventDefault();buscarDir();}});
 
 // ---------- form controls
-function setOp(v){state.op=v;[...$("#op").children].forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+function setOp(v){state.op=v;[...$("#op").children].forEach(b=>{const on=b.dataset.v===v;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);});
   $("#precioLbl").textContent={venta:"Precio que piden (€)",alquiler:"Alquiler que piden (€/mes)",habitacion:"Precio de la habitación (€/mes)"}[v];
   $("#precio").placeholder={venta:"p. ej. 320000",alquiler:"p. ej. 1400",habitacion:"p. ej. 550"}[v];
   const room=v==="habitacion";$("#roomFields").style.display=room?"":"none";$("#t3").textContent=room?"La habitación y el piso":"El piso";
   document.querySelectorAll(".po").forEach(e=>e.style.display=room?"none":"");document.querySelectorAll(".ro").forEach(e=>e.style.display=room?"":"none");}
 $("#op").onclick=e=>{const v=e.target.dataset.v;if(v)setOp(v);};
-function setEx(k,on){state.ex[k]=on?1:0;const b=document.querySelector(`#extras [data-k=${k}]`);b&&b.classList.toggle("on",!!on);}
+function setEx(k,on){state.ex[k]=on?1:0;const b=document.querySelector(`#extras [data-k=${k}]`);if(b){b.classList.toggle("on",!!on);b.setAttribute("aria-pressed",!!on);}}
 $("#extras").onclick=e=>{const k=e.target.dataset.k;if(k)setEx(k,!state.ex[k]);};
 
 // ---------- paste an ad
@@ -539,7 +539,7 @@ function render(x){
   const lo=x.est*.9,hi=x.est*1.1,mo=op==="venta"?"":"/mes";
   h+=`<section class="card"><h2>💶 ${op==="venta"?"¿Cuánto vale?":"¿Cuánto debería costar?"}</h2><p class="hint">${room?`Estimación a partir del precio medio de una habitación en ${c.n} (${eur(c.hab)}/mes) ajustado al distrito y a lo que ofrece.`:`Estimación según el precio medio de ${d||c.n} y las características del piso.`}</p>
   <div class="row2"><div class="box"><div class="l">${op==="venta"?"Valor estimado":room?"Precio razonable":"Alquiler razonable"}</div><div class="big">${eur(x.est)}${mo}</div><div class="l">Horquilla: ${eur(lo)} – ${eur(hi)}</div></div>
-  <div class="box"><div class="l">Lo que piden</div><div class="big">${f.precio?eur(f.precio)+mo:"—"}</div>${x.dev!==null?`<div class="l">${x.dev>=0?"+":""}${(x.dev*100).toFixed(0)} % frente a la estimación</div>`:'<div class="l">Pon el precio para compararlo</div>'}</div></div><div class="kv" style="margin-top:12px">`;
+  <div class="box"><div class="l">Lo que piden</div><div class="big">${f.precio?eur(f.precio)+mo:"—"}</div>${x.dev!==null?`<div class="l">${Math.round(x.dev*100)===0?"Igual que":(x.dev>0?"+":"−")+Math.abs(Math.round(x.dev*100))+" % frente a"} la estimación</div>`:'<div class="l">Pon el precio para compararlo</div>'}</div></div><div class="kv" style="margin-top:12px">`;
   if(room)h+=`<div>Habitación media en ${d||c.n}</div><div>${eur(x.base)}/mes</div><div>Media de ${c.n}</div><div>${eur(c.hab)}/mes</div>`;
   else{h+=`<div>Precio medio en ${d||c.n}${x.v.est?" (estimado)":""}</div><div>${op==="venta"?fmt(x.v.baseS)+" €/m²":dec(x.v.baseR)+" €/m²/mes"}</div>`+(f.precio?`<div>Este piso</div><div>${op==="venta"?fmt(f.precio/f.m2)+" €/m²":dec(f.precio/f.m2)+" €/m²/mes"}</div>`:"")+`<div>Media de ${c.n}</div><div>${op==="venta"?fmt(c.venta)+" €/m²":dec(c.alquiler)+" €/m²/mes"}</div>`;}
   h+=`</div>`;
@@ -555,7 +555,8 @@ function render(x){
   if(env){h+=`<section class="card"><h2>🚇 Transporte</h2><p class="hint">Estaciones a menos de 1,2 km y tiempo andando (estimado).</p>`+
     (env.st.length?env.st.map(s=>`<div class="st"><span>${s.n} <span class="ln">${s.typ}</span>${(s.l||[]).map(l=>`<span class="ln">${l}</span>`).join("")}</span><b>${walkMin(s.km)} min</b></div>`).join(""):`<p class="hint">No hay estaciones de metro, tranvía ni tren a menos de 1,2 km: dependerás del autobús o del coche.</p>`)+
     `<div class="kv" style="margin-top:10px">${env.bus!=null?`<div>Paradas de autobús a menos de 400 m</div><div>${env.bus}</div>`:""}${work?work.err?`<div>Al trabajo</div><div>no encontré «${work.n}»</div>`:`<div>Al trabajo (${work.n})</div><div>≈ ${work.min} min</div>`:""}</div><p class="note">Tiempo al trabajo aproximado: andando + espera + trayecto + transbordos.</p></section>`;}
-  else if(state.pt)h+=`<section class="card"><h2>🚇 Transporte y servicios</h2><p class="hint">No he podido consultar ahora los datos de la zona (OpenStreetMap no responde). Vuelve a pulsar «Ver informe» en un rato.</p></section>`;
+  else if(!state.pt)h+=`<section class="card noprint"><h2>📍 Falta el punto exacto</h2><p class="hint">Este informe usa la media del distrito. Si escribes la dirección o tocas en el mapa, te digo también el metro más cercano, el tiempo al trabajo, los supermercados, los parques y el ruido de la calle.</p><button class="btn2" id="toMap">Marcar el piso en el mapa</button></section>`;
+  else h+=`<section class="card"><h2>🚇 Transporte y servicios</h2><p class="hint">No he podido consultar ahora los datos de la zona (OpenStreetMap no responde). Vuelve a pulsar «Ver informe» en un rato.</p></section>`;
   // services
   if(env&&!env.partial){const sh=env.shops.find(s=>s.s==="supermarket");const sal=env.salud[0];
     h+=`<section class="card"><h2>🛒 Servicios y zonas verdes</h2><div class="kv">`+
@@ -572,6 +573,7 @@ function render(x){
   const res=$("#res");res.innerHTML=h;res.style.display="block";res.scrollIntoView({behavior:"smooth",block:"start"});
   $("#pdf").onclick=()=>{try{window.print();}catch(e){}};
   $("#share").onclick=share;
+  const tm=$("#toMap");if(tm)tm.onclick=()=>{$("#dir").closest(".card").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>$("#dir").focus({preventScroll:true}),400);};
 }
 
 // ---------- share & restore

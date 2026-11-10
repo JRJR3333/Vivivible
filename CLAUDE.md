@@ -14,6 +14,10 @@ Web estática publicada con GitHub Pages desde la rama `master` (raíz): https:/
 - Habitación (`hab`): cada trimestre, informe de habitaciones de idealista.
 - ITP/AJD: revisar si alguna comunidad cambia el tipo general.
 
+## Ciclo automático de mejoras
+- `.github/workflows/ciclo.yml` ejecuta Claude Code en GitHub Actions cada 6 horas (y a mano desde la pestaña Actions) siguiendo `.ciclo/INSTRUCCIONES.md`. Lo hecho queda en `.ciclo/historial.md`.
+- Necesita el secreto del repositorio `CLAUDE_CODE_OAUTH_TOKEN` (o `ANTHROPIC_API_KEY`).
+
 ## Antes de publicar
 - `python3 fuente/build.py` sin errores y `node --check` del script de `index.html`.
 - Probar en un navegador (simulando Nominatim y Overpass): los tres modos, pegar anuncio, búsqueda por dirección en al menos dos ciudades, informe, enlace para compartir y una página de distrito.

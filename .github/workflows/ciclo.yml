@@ -1,0 +1,53 @@
+# Ciclo auditor → desarrollador → verificador de Vivible, con Claude Code dentro del repositorio.
+# Se lanza cada 6 horas y también a mano (pestaña Actions → «Ciclo de mejoras» → Run workflow).
+# Necesita el secreto CLAUDE_CODE_OAUTH_TOKEN (claude setup-token) o ANTHROPIC_API_KEY.
+name: Ciclo de mejoras
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: ciclo-de-mejoras
+  cancel-in-progress: false
+jobs:
+  ciclo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Navegador para las pruebas (Playwright + Chromium)
+        run: |
+          pip install --quiet playwright
+          python -m playwright install --with-deps chromium
+      - name: Identidad de git
+        run: |
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+      - name: Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Eres el ciclo de mejoras de Vivible y trabajas dentro del repositorio ${{ github.repository }} (rama master, ya clonada en el directorio actual).
+            Lee y sigue al pie de la letra .ciclo/INSTRUCCIONES.md y CLAUDE.md. Hora de inicio de este ciclo: la de ahora (`date -u`).
+          claude_args: >-
+            --max-turns 400
+            --allowedTools "Bash,Read,Write,Edit,MultiEdit,Glob,Grep,Task,TodoWrite,WebSearch,WebFetch"
+      - name: Publicar en GitHub Pages
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "No se pudo pedir la publicación; se hará con el siguiente push."

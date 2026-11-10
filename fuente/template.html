@@ -300,6 +300,12 @@ function parseAd(t){
   m=T.match(/(?:en |, )((?:calle|c\/|avenida|avda\.?|paseo|plaza|pza\.?|camino|ronda|glorieta|traves[ií]a|carrer|passeig|avinguda|kalea)[^,\n·|.;]{2,60}(?:,\s*\d{1,4})?)/i);
   if(m){out.dir=m[1].trim();got.push("dirección");}
   for(const [k,c] of Object.entries(C)){const n=norm(c.n);if(new RegExp("\\b"+n+"\\b").test(norm(T))||(k==="valencia"&&/val[eè]ncia/i.test(T))||(k==="alicante"&&/alacant/i.test(T))){out.ck=k;break;}}
+  const NT=" "+norm(T)+" ",STOP=new Set(["centro","este","norte","sur","oeste","jesus","universidad","miraflores"]),hits=[];
+  for(const [k,c] of Object.entries(C)){if(out.ck&&k!==out.ck)continue;
+    for(const d of Object.keys(c.d))for(const part of new Set([d,...d.split(/\s*-\s*/)])){const n=norm(part).replace(/^l /,"");
+      if(n.length>=4&&!STOP.has(n)&&NT.includes(" "+n+" "))hits.push({k,d,len:n.length});}}
+  if(hits.length){hits.sort((a,b)=>b.len-a.len);const top=hits.filter(h=>h.len===hits[0].len);
+    if(top.every(h=>h.k===top[0].k&&h.d===top[0].d)){out.ck=top[0].k;out.d=top[0].d;got.push("distrito");}}
   return {out,got};
 }
 $("#rellenar").onclick=async()=>{
@@ -310,6 +316,7 @@ $("#rellenar").onclick=async()=>{
   setV("precio",out.precio);setV("m2",out.m2);setV("hab",out.hab);setV("ban",out.ban);setV("planta",out.planta);setV("estado",out.estado);setV("anio",out.anio);setV("ori",out.ori);setV("cal",out.cal);setV("com",out.com);setV("rm2",out.rm2);setV("rban",out.rban);setV("gastos",out.gastos);setV("pers",out.pers);
   for(const k of ["asc","ext","ter","gar","tra","aa"])if(out[k]!=null)setEx(k,out[k]);
   if(out.ck&&out.ck!==state.ck)setCity(out.ck);
+  if(out.d&&C[state.ck].d[out.d]){state.d=out.d;selD.value=out.d;where();}
   msg.className="ok";msg.textContent=got.length>1?"He rellenado: "+got.join(", ")+". Revisa que esté bien y completa lo que falte.":"No he sacado casi nada del texto. Rellena el formulario a mano.";
   if(out.dir){$("#dir").value=out.dir+", "+C[state.ck].n;await buscarDir();}
 };

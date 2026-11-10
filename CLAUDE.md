@@ -15,8 +15,8 @@ Web estática publicada con GitHub Pages desde la rama `master` (raíz): https:/
 - ITP/AJD: revisar si alguna comunidad cambia el tipo general.
 
 ## Ciclo automático de mejoras
-- `.github/workflows/ciclo.yml` ejecuta Claude Code en GitHub Actions cada 6 horas (y a mano desde la pestaña Actions) siguiendo `.ciclo/INSTRUCCIONES.md`. Lo hecho queda en `.ciclo/historial.md`.
-- Necesita el secreto del repositorio `CLAUDE_CODE_OAUTH_TOKEN` (o `ANTHROPIC_API_KEY`).
+- La tarea programada de Claude «Vivible: ciclo auditor-desarrollador» se lanza cada 6 horas y sigue `.ciclo/INSTRUCCIONES.md`. Lo hecho queda en `.ciclo/historial.md`.
+- Alternativa manual: `.github/workflows/ciclo.yml` (solo a mano; necesita el secreto `CLAUDE_CODE_OAUTH_TOKEN` o `ANTHROPIC_API_KEY`).
 
 ## Antes de publicar
 - `python3 fuente/build.py` sin errores y `node --check` del script de `index.html`.

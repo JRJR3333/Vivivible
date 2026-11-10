@@ -1,10 +1,8 @@
 # Ciclo auditor → desarrollador → verificador de Vivible, con Claude Code dentro del repositorio.
-# Se lanza cada 6 horas y también a mano (pestaña Actions → «Ciclo de mejoras» → Run workflow).
+# Solo a mano (Actions → «Ciclo de mejoras» → Run workflow). El ciclo habitual lo hace la tarea programada de Claude «Vivible: ciclo auditor-desarrollador».
 # Necesita el secreto CLAUDE_CODE_OAUTH_TOKEN (claude setup-token) o ANTHROPIC_API_KEY.
 name: Ciclo de mejoras
 on:
-  schedule:
-    - cron: "17 */6 * * *"
   workflow_dispatch:
 permissions:
   contents: write

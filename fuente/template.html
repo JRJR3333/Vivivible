@@ -174,7 +174,7 @@ const P = __PRECIOS__;
 const MAD = __MADRID__;
 const C = P.ciudades;
 const $=s=>document.querySelector(s);
-const fmt=n=>Math.round(n).toLocaleString("es-ES");
+const fmt=n=>{const r=Math.round(n),a=String(Math.abs(r)).replace(/\B(?=(\d{3})+(?!\d))/g,".");return (r<0?"-":"")+a;};
 const eur=n=>fmt(n)+" €";
 const dec=(n,d=1)=>n.toFixed(d).replace(".",",");
 const norm=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();

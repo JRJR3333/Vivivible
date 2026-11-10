@@ -28,6 +28,9 @@ def dprice(c, d):
     if r is None: r = c["alquiler"] * (s / c["venta"]) ** .5; est = True
     return s, r, est
 
+FAV = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f6f54'/%3E%3Cpath d='M8 16l8-7 8 7v8h-5v-5h-6v5H8z' fill='%23fff'/%3E%3C/svg%3E"
+HEADX = f'<link rel="icon" href="{FAV}"><meta name="theme-color" content="#1f6f54"><meta property="og:type" content="website"><meta property="og:site_name" content="Vivible"><meta property="og:locale" content="es_ES"><meta name="twitter:card" content="summary">\n'
+
 meses = sorted({c["mes"] for c in C.values()})
 mes_txt = "julio–octubre 2026"
 
@@ -35,7 +38,7 @@ mes_txt = "julio–octubre 2026"
 ciudades_links = "".join(f'<a href="{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items())
 t = open(F("fuente", "template.html"), encoding="utf-8").read()
 idx = (t.replace("__PRECIOS__", json.dumps(P, ensure_ascii=False, separators=(",", ":")))
-        .replace("__MADRID__", MAD).replace("__MESES__", mes_txt).replace("__CIUDADES__", ciudades_links))
+        .replace("__MADRID__", MAD).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", ciudades_links))
 open(F("index.html"), "w", encoding="utf-8").write(idx)
 
 # ---------- static pages
@@ -49,8 +52,15 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;b
 def page(title, desc, path, body, crumbs):
     canon = BASE + path
     bc = " › ".join(f'<a href="{u}">{esc(n)}</a>' if u else esc(n) for n, u in crumbs)
+    depth = path.count("/")
+    ld = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i + 1, "name": n,
+         "item": BASE + "/".join(path.split("/")[:i]) + ("/" if i else "")} for i, (n, u) in enumerate(crumbs)]},
+        ensure_ascii=False).replace("</", "<\\/")
     return f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{esc(desc)}"><link rel="canonical" href="{canon}">
+{HEADX}<meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:url" content="{canon}">
+<script type="application/ld+json">{ld}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>{CSS}</style></head><body><div class="w"><div class="m">{bc}</div>{body}
 <p class="m" style="margin-top:28px">Datos: precios medios de idealista ({esc(mes_txt)}); habitaciones: precio medio de la ciudad. Estimaciones orientativas, no tasaciones oficiales. Hecho por <a href="{"../" * path.count("/")}">Vivible</a>.</p></div></body></html>"""

@@ -29,7 +29,7 @@ def dprice(c, d):
     return s, r, est
 
 FAV = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f6f54'/%3E%3Cpath d='M8 16l8-7 8 7v8h-5v-5h-6v5H8z' fill='%23fff'/%3E%3C/svg%3E"
-HEADX = f'<link rel="icon" href="{FAV}"><meta name="theme-color" content="#1f6f54"><meta property="og:type" content="website"><meta property="og:site_name" content="Vivible"><meta property="og:locale" content="es_ES"><meta name="twitter:card" content="summary">\n'
+HEADX = f'<link rel="icon" href="{FAV}"><meta name="theme-color" content="#1f6f54"><meta property="og:type" content="website"><meta property="og:site_name" content="Vivible"><meta property="og:locale" content="es_ES"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="{BASE}assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Vivible: ¿se vive bien en ese piso?">\n'
 
 meses = sorted({c["mes"] for c in C.values()})
 mes_txt = "julio–octubre 2026"
@@ -75,7 +75,8 @@ for ck, c in C.items():
     body = f"""<h1>Vivir en {esc(c["n"])}: precio por distritos ({esc(c["mes"])})</h1>
 <p>Comprar en {esc(c["n"])} cuesta de media <b>{fmt(c["venta"])} €/m²</b> y alquilar <b>{dec(c["alquiler"])} €/m² al mes</b>. Una habitación en piso compartido ronda los <b>{fmt(c["hab"])} € al mes</b>. Estos son los {n} distritos, del más caro al más barato.</p>
 <div class="card"><table><tr><th>Distrito</th><th>Venta</th><th>Alquiler/mes</th></tr>{tr}</table></div>
-<a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>"""
+<a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
+<div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)}</div>"""
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
         f"Vivir en {c['n']}: precio de la vivienda por distritos (2026) | Vivible",
         f"Precio medio de compra, alquiler y habitación en los {n} distritos de {c['n']}. Compara barrios y analiza un piso gratis.",

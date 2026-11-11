@@ -19,10 +19,10 @@ select:focus,input:focus,textarea:focus{outline:2px solid var(--acc);outline-off
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
 .row{display:flex;gap:8px}
 .seg{display:flex;background:#efebe4;border-radius:12px;padding:4px;gap:4px}
-.seg button{flex:1;border:0;background:transparent;font:600 14px Inter;padding:10px 6px;border-radius:9px;color:var(--mute);cursor:pointer}
+.seg button{flex:1;min-height:44px;border:0;background:transparent;font:600 14px Inter;padding:10px 6px;border-radius:9px;color:var(--mute);cursor:pointer}
 .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 13px;font:500 14px Inter;cursor:pointer;color:var(--ink)}
+.chip{min-height:44px;border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 13px;font:500 14px Inter;cursor:pointer;color:var(--ink)}
 .chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
 .btn2{border:1px solid var(--acc);background:#fff;color:var(--acc);border-radius:10px;padding:10px 14px;font:600 14px Inter;cursor:pointer;flex:none}
 .where{margin-top:10px;font-weight:600}

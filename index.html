@@ -249,8 +249,8 @@ async function setPoint(lat,lon,fromMap){
 const GEO={};
 async function geocode(q){
   if(q in GEO)return GEO[q];
-  const r=await fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=es&q="+encodeURIComponent(q),{headers:{"Accept-Language":"es"}});
-  const j=await r.json();return GEO[q]=j.length?[+j[0].lat,+j[0].lon]:null;
+  return GEO[q]=fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=es&q="+encodeURIComponent(q),{headers:{"Accept-Language":"es"}})
+    .then(r=>r.json()).then(j=>j.length?[+j[0].lat,+j[0].lon]:null).catch(e=>{delete GEO[q];throw e;});
 }
 async function buscarDir0(){
   const q=$("#dir").value.trim(),e=$("#dirErr");e.textContent="";if(q.length<4)return;

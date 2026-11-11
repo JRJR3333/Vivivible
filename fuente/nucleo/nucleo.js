@@ -354,6 +354,7 @@ async function informe(f,lugar,trabajo){
   const c=C[ck];x.room=!!x.room;
   // Sin datos de la zona (sin punto exacto u OpenStreetMap caído) no se puntúan transporte ni servicios: la nota sale de lo que sí se sabe.
   if(!env)x.parts=x.parts.filter(p=>p[0]!=="Transporte"&&p[0]!=="Servicios y verde");
+  else if(env.partial)x.parts=x.parts.filter(p=>p[0]!=="Servicios y verde"); // sin OpenStreetMap no hay datos de servicios: no se inventan
   x.tot=x.parts.reduce((s,p)=>s+p[1]*p[2],0)/x.parts.reduce((s,p)=>s+p[2],0);
   x.tv=x.tot>=7.5?(x.room?"Buena habitación 👍":"Se vive bien aquí 👍"):x.tot>=6?"Está bien, con matices":"Piénsatelo dos veces";
   x.place=(x.auto?x.auto+", ":"")+(d||"")+(d?", ":"")+c.n;

@@ -99,5 +99,22 @@ global.fetch = async (url, o) => {
   global.fetch = fe;
   assert(tb.includes("Carrer d'Aragó") && !/&#39;|&amp;/.test(tb), tb);
   assert(/entre [\d.]+ €\/mes y [\d.]+ €\/mes/.test(tb), tb);
+  // 6. con OpenStreetMap caído (Madrid usa su lista de metro) la nota no cuenta servicios; «Media de la ciudad» no repite la media
+  const fOk = global.fetch;
+  global.fetch = async url => { if (String(url).includes("overpass")) throw new Error("caído"); return fOk(url); };
+  for (const op of ["alquiler", "habitacion"]) {
+    const xp = await V.informe({ op, precio: op === "alquiler" ? 1300 : 500, m2: 70 }, { ck: "madrid", d: "Centro", pt: [40.4204, -3.705] }, "");
+    assert(xp.env && xp.env.partial, "debería ser parcial");
+    const nombres = xp.parts.map(p => p[0]);
+    assert(!nombres.includes("Servicios y verde") && nombres.includes("Transporte"), op + ": " + nombres);
+    assert(V.informeHTML(xp).includes("la nota no cuenta los servicios"));
+  }
+  global.fetch = fOk;
+  for (const op of ["venta", "alquiler", "habitacion"]) {
+    const hm = V.informeHTML(await V.informe({ op }, { ck: "madrid", d: "", pt: null, media: true }));
+    assert(!hm.includes("Media de Madrid"), "media repetida en " + op);
+    const hd = V.informeHTML(await V.informe({ op }, { ck: "madrid", d: "Centro", pt: null }));
+    assert(hd.includes("Media de Madrid"), "falta la media de la ciudad en " + op);
+  }
   console.log("núcleo OK");
 })().catch(e => { console.error(e); process.exit(1); });

@@ -20,6 +20,7 @@ Web estática publicada con GitHub Pages desde la rama `master` (raíz): https:/
 
 ## Principio de diseño (lo pidió Juan, 2026-11-11)
 - Que el usuario rellene lo menos posible y que todo sea intuitivo y automático. Solo es obligatorio decir dónde está el piso; lo demás se deduce del anuncio pegado, se supone con valores razonables (avisándolo en el informe) o va plegado en «Más detalles (opcional)».
+- Formato de conversación (Juan lo eligió el 2026-11-11): la portada es un chat (`startChat`, `askWhere`, `askRest`, `go` en `fuente/template.html`) que solo pregunta lo que falta, con botones y una caja para pegar el anuncio o la calle. La ficha completa (`#ficha`) sigue debajo para ajustar datos; el chat escribe en sus campos y usa `analyze()`, así que los cálculos no dependen del chat. No volver a un formulario.
 - Pegar el anuncio genera el informe solo, y tras el primer informe cualquier cambio lo actualiza al momento. No añadir campos obligatorios ni pasos extra.
 
 ## Antes de publicar

@@ -32,6 +32,10 @@ def dprice(c, d):
     if r is None: r = c["alquiler"] * (s / c["venta"]) ** .5; er = True
     return s, r, es, er
 
+def hab_d(c, r):
+    # habitación en un distrito: media de la ciudad ajustada por lo caro que es su alquiler (la misma fórmula en todas las páginas)
+    return round(c["hab"] * (r / c["alquiler"]) ** .8 / 5) * 5
+
 FAV = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f6f54'/%3E%3Cpath d='M8 16l8-7 8 7v8h-5v-5h-6v5H8z' fill='%23fff'/%3E%3C/svg%3E"
 HEADX = f'<link rel="icon" href="{FAV}"><meta name="theme-color" content="#1f6f54"><meta property="og:type" content="website"><meta property="og:site_name" content="Vivible"><meta property="og:locale" content="es_ES"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="{BASE}assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Vivible: ¿se vive bien en ese piso?">\n'
 
@@ -157,6 +161,7 @@ for ck, c in C.items():
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a></div>
+<div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>"""
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
@@ -170,7 +175,7 @@ for ck, c in C.items():
         vs = (s / c["venta"] - 1) * 100
         tier = "de los más caros" if i < n / 3 else ("de precio medio" if i < 2 * n / 3 else "de los más asequibles")
         buy70 = s * 70; rent70 = r * 70
-        room = round(c["hab"] * (r / c["alquiler"]) ** .8 / 5) * 5
+        room = hab_d(c, r)
         ahorro = buy70 * (.2 + c["itp"] / 100 + .015) + 400
         cuota = buy70 * .8 * (.028 / 12) / (1 - (1 + .028 / 12) ** -360)
         yld = rent70 * 12 / buy70 * 100
@@ -204,6 +209,7 @@ for ck, c in C.items():
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a></div>
+<div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
         open(F(ck, sd, "index.html"), "w", encoding="utf-8").write(page(
@@ -294,13 +300,58 @@ for ck, c in C.items():
 <div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² por distritos, del más barato al más caro: alquiler al mes y sueldo neto recomendado (alquiler ≤ 33 %)</caption><tr><th scope="col">Distrito</th><th scope="col">Alquiler</th><th scope="col">Sueldo neto</th></tr>{tr}</table>{nota}</div>
 {sq_html}
 <a class="cta" href="../../#c={ck}&op=alquiler">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "sueldo-para-alquilar"), exist_ok=True)
     open(F(ck, "sueldo-para-alquilar", "index.html"), "w", encoding="utf-8").write(page(
         f"Cuánto hay que ganar para alquilar en {c['n']} (2026)",
         desc_corta(f"Sueldo neto para alquilar en {c['n']}: piso medio ≈ {fmt(rc)} €/mes (ganar ≈ {fmt(sc)} €), habitación ≈ {fmt(hab)} € (≈ {fmt(sh)} €).", " Por distritos."),
         f"{ck}/sueldo-para-alquilar/", body, [("Vivible", "../../"), (c["n"], "../"), ("Sueldo para alquilar", None)], sq_ld))
     urls.append(BASE + f"{ck}/sueldo-para-alquilar/")
+
+# ---------- habitación por ciudad (<ciudad>/habitacion/): «precio habitación en <ciudad>», «compartir piso o vivir solo»;
+# habitación por distrito con hab_d (la misma cifra que la página del distrito) frente a un estudio de 40 m² a precio de m² del distrito
+M2E = 40
+for ck, c in C.items():
+    assert "habitacion" not in [slug(d) for d in c["d"]]
+    rows = []
+    for d in c["d"]:
+        _, r, _, er = dprice(c, d)
+        rows.append((d, hab_d(c, r), r * M2E, er))
+    rows.sort(key=lambda x: x[1])
+    hab, est = c["hab"], c["alquiler"] * M2E
+    sh = (hab + GHAB) / ESF
+    bar, car = rows[0], rows[-1]
+    tr = "".join(f'<tr><td><a href="../{slug(d)}/">{esc(d)}</a></td><td><b>{fmt(h)} €</b></td><td>{fmt(e)} €{"*" if x else ""}</td></tr>' for d, h, e, x in rows)
+    nota = '<p class="m">* Alquiler del distrito estimado a partir de su precio de venta: idealista no publica ese dato.</p>' if any(x for *_, x in rows) else ""
+    hq_html, hq_ld = faq([
+        (f"¿Cuánto cuesta una habitación en {c['n']}?",
+         f"De media, unos {fmt(hab)} € al mes en piso compartido ({c['mes']}). Según el distrito, va de unos {fmt(bar[1])} € en {bar[0]} a unos {fmt(car[1])} € en {car[0]} (estimado a partir de lo caro que es el alquiler en cada uno)."),
+        (f"¿Cuál es el distrito más barato para alquilar una habitación en {c['n']}?",
+         f"{bar[0]}, con habitaciones por unos {fmt(bar[1])} € al mes, {fmt(hab - bar[1])} € menos que la media de {c['n']}."),
+        (f"¿Compensa compartir piso o vivir solo en {c['n']}?",
+         f"Un estudio de {M2E} m² cuesta de media unos {fmt(est)} € al mes en {c['n']}, frente a {fmt(hab)} € de una habitación: compartir ahorra unos {fmt(est - hab)} € al mes ({fmt((est - hab) * 12)} € al año), "
+         "y además los gastos de luz, agua e internet se reparten. Vivir solo da más intimidad; los estudios pequeños suelen costar algo más por m² que la media."),
+        (f"¿Cuánto hay que ganar para alquilar una habitación en {c['n']}?",
+         f"Con unos {GHAB} € de gastos (luz, agua, internet), lo recomendable es que la habitación no pase del 33 % de lo que ganas: unos {fmt(sh)} € netos al mes. "
+         f"Para entrar, cuenta con el primer mes y la fianza que suele pedirse (normalmente un mes): unos {fmt(hab * 2)} €."),
+    ])
+    body = f"""<h1>Precio de una habitación en {esc(c["n"])} por distritos (2026)</h1>
+<p>Alquilar una habitación en piso compartido cuesta de media <b>{fmt(hab)} € al mes</b> en {esc(c["n"])} ({esc(c["mes"])}). En los distritos donde el alquiler es más caro, la habitación también lo es. Esta tabla estima el precio en cada distrito y lo compara con vivir solo en un estudio de {M2E} m².</p>
+<div class="g"><div class="k"><small>Habitación en {esc(c["n"])}</small><b>≈ {fmt(hab)} €/mes</b><small>Media de la ciudad</small></div>
+<div class="k"><small>Estudio de {M2E} m² para ti solo</small><b>≈ {fmt(est)} €/mes</b><small>{dec(c["alquiler"])} €/m² × {M2E} m²</small></div>
+<div class="k"><small>Lo que ahorras compartiendo</small><b>≈ {fmt(est - hab)} €/mes</b><small>≈ {fmt((est - hab) * 12)} € al año</small></div>
+<div class="k"><small>Sueldo recomendado</small><b>≈ {fmt(sh)} € netos</b><small>Habitación y gastos ≤ 33 %</small></div></div>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Habitación al mes por distritos, de la más barata a la más cara, frente a un estudio de {M2E} m² en el mismo distrito</caption><tr><th scope="col">Distrito</th><th scope="col">Habitación</th><th scope="col">Estudio {M2E} m²</th></tr>{tr}</table>{nota}
+<p class="m">Habitación estimada a partir de la media de {esc(c["n"])} y del alquiler de cada distrito. Precios sin gastos. Cifras orientativas.</p></div>
+{hq_html}
+<a class="cta" href="../../#c={ck}&op=habitacion">¿Has visto una habitación? Analízala gratis</a>
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+    os.makedirs(F(ck, "habitacion"), exist_ok=True)
+    open(F(ck, "habitacion", "index.html"), "w", encoding="utf-8").write(page(
+        f"Precio de una habitación en {c['n']} por distritos (2026)",
+        desc_corta(f"Una habitación en {c['n']} cuesta ≈ {fmt(hab)} €/mes: de {fmt(bar[1])} € en {bar[0]} a {fmt(car[1])} € en {car[0]}.", " Compartir o vivir solo."),
+        f"{ck}/habitacion/", body, [("Vivible", "../../"), (c["n"], "../"), ("Habitación", None)], hq_ld))
+    urls.append(BASE + f"{ck}/habitacion/")
 
 # ---------- comprar o alquilar por ciudad (<ciudad>/comprar-o-alquilar/): hipoteca frente a alquiler y rentabilidad bruta por distrito;
 # mismas cifras que gastos de compra (80 %, 30 años, 2,8 %; piso de 70 m²)

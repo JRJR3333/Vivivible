@@ -49,6 +49,13 @@ a{color:#1f6f54}h1{font:700 30px/1.15 Fraunces,Georgia,serif;margin:10px 0}.b{di
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;border-top:1px solid #f1ede6;text-align:left}td:last-child,th:last-child{text-align:right}.m{color:#5f6b66;font-size:13px}
 @media(max-width:480px){.g{grid-template-columns:1fr}h1{font-size:26px}}"""
 
+def tit_distrito(d, cn):
+    t = f"{d}, {cn}: precio por m² y alquiler 2026 | Vivible"
+    if len(t) > 65: t = t.replace(" | Vivible", "")
+    if len(t) > 65: t = t.replace(" y alquiler", "")
+    return t
+
+
 def page(title, desc, path, body, crumbs):
     canon = BASE + path
     bc = " › ".join(f'<a href="{u}">{esc(n)}</a>' if u else esc(n) for n, u in crumbs)
@@ -111,7 +118,7 @@ for ck, c in C.items():
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
         open(F(ck, sd, "index.html"), "w", encoding="utf-8").write(page(
-            f"Vivir en {d}, {c['n']}: precio por m², alquiler y habitación (2026) | Vivible",
+            tit_distrito(d, c['n']),
             f"{d} ({c['n']}): {fmt(s)} €/m² en venta, {dec(r)} €/m² de alquiler y habitación por unos {fmt(room)} €. Cuánto necesitas para comprar o alquilar.",
             f"{ck}/{sd}/", body, [("Vivible", "../../"), (c["n"], "../"), (d, None)]))
         urls.append(BASE + f"{ck}/{sd}/")

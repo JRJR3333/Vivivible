@@ -193,6 +193,15 @@ async function askPrice(otra){
   let n=m?+m[1].replace(/[.\s]/g,"").replace(",","."):0;if(m&&m[2])n*=m[2][0]==="k"||m[2]==="mil"?1000:1e6;
   me(r.text);
   if(!n)return askPrice(true);
+  const alt=modoPorPrecio(state.op,n);
+  if(alt){ // la cifra no cuadra con lo que busca: se pregunta en vez de cambiar de modo sin decirlo
+    const nom={venta:"comprar",alquiler:"alquiler",habitacion:"habitación"}[alt];
+    const opts=(v&&n<1000?[{t:eur(n*1000),v:"mil"}]:[]).concat([{t:eur(n)+(alt==="venta"?"":"/mes")+" ("+nom+")",v:alt},{t:"Me he equivocado",v:"otra"}]);
+    await bot("¿Quieres decir…?");
+    const r2=await ask({chips:opts});me(r2.t);
+    if(r2.v==="otra")return askPrice();
+    if(r2.v==="mil")n*=1000;else setOp(r2.v);
+  }
   $("#precio").value=Math.round(n);
 }
 async function askRest(){

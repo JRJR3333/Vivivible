@@ -78,6 +78,8 @@ footer a{color:var(--mute)}
 .cities{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .cities a{font-size:13px;color:var(--acc);text-decoration:none;background:var(--acc2);padding:4px 10px;border-radius:99px}
 details summary{cursor:pointer;font-weight:600;font-size:14px}
+.dirrow{flex-wrap:wrap}.dirrow input{flex:1 1 180px;min-width:0}@media(max-width:520px){#aqui{flex-basis:100%}}
+.mas{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}.mas summary{color:var(--acc)}
 @media(max-width:480px){.bar{grid-template-columns:96px 1fr 30px}header h1{font-size:28px}.row2{grid-template-columns:1fr}#map{height:260px}}
 @media print{body{background:#fff}.noprint,.leaflet-container{display:none!important}.card{break-inside:avoid;border-color:#ccc}#res{display:block!important}}
 </style>
@@ -87,21 +89,21 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
 <header>
   <span class="badge">Gratis · 10 ciudades de España</span>
   <h1>¿Se vive bien en <span>ese piso</span>?</h1>
-  <p>Para comprar, alquilar un piso o una habitación. Pega el anuncio o márcalo en el mapa y te decimos si está bien de precio, cómo es y qué tal se vive en la zona. Antes de ir a verlo.</p>
+  <p>Para comprar, alquilar un piso o una habitación. Pega el anuncio y el informe sale solo: si está bien de precio, cómo es y qué tal se vive en la zona. Antes de ir a verlo.</p>
 </header>
 
 <section class="card noprint">
-  <h2><span class="step">0</span>¿Tienes el anuncio? <small style="font-weight:400;color:var(--mute)">(opcional)</small></h2>
-  <p class="hint">Copia el texto del anuncio (Idealista, Fotocasa, Habitaclia…) y pégalo aquí. Rellenamos el formulario por ti.</p>
+  <h2><span class="step">0</span>Pega el anuncio <small style="font-weight:400;color:var(--mute)">(lo más rápido)</small></h2>
+  <p class="hint">Abre el anuncio (Idealista, Fotocasa, Habitaclia…), copia todo su texto y pégalo aquí. No tienes que rellenar nada más: el informe sale solo.</p>
   <textarea id="anuncio" placeholder="Piso en venta en calle de Fuencarral, 120 · 320.000 € · 75 m² construidos · 2 hab. · 1 baño · Planta 3ª exterior con ascensor…"></textarea>
-  <div class="row" style="margin-top:8px"><button class="btn2" id="rellenar">Rellenar con el anuncio</button></div>
+  <div class="row" style="margin-top:8px"><button class="btn2" id="rellenar">Leer el anuncio</button></div>
   <div id="anuncioMsg" class="ok" role="status" aria-live="polite"></div>
 </section>
 
 <section class="card">
   <h2><span class="step">1</span>¿Dónde está?</h2>
-  <p class="hint">Escribe la dirección, toca en el mapa o elige ciudad y distrito.</p>
-  <div class="row noprint" style="margin-bottom:10px"><input id="dir" type="text" placeholder="Calle y número, ciudad" autocomplete="street-address"><button class="btn2" id="buscar">Buscar</button></div>
+  <p class="hint">Escribe la dirección, toca en el mapa o, si estás delante del piso, pulsa «Estoy aquí».</p>
+  <div class="row dirrow noprint" style="margin-bottom:10px"><input id="dir" type="text" placeholder="Calle y número, ciudad" autocomplete="street-address"><button class="btn2" id="buscar">Buscar</button><button class="btn2" id="aqui" title="Usar mi ubicación">📍 Estoy aquí</button></div>
   <div class="err noprint" id="dirErr" style="margin:-4px 0 8px" role="status" aria-live="polite"></div>
   <div id="map" class="noprint"></div>
   <div class="grid">
@@ -113,6 +115,7 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
 
 <section class="card">
   <h2><span class="step">2</span>¿Qué buscas?</h2>
+  <p class="hint">Si pones un precio de alquiler en «Comprar» (o al revés), lo cambio yo.</p>
   <div class="seg" id="op" role="group" aria-label="Qué buscas"><button data-v="venta" class="on" aria-pressed="true">Comprar</button><button data-v="alquiler" aria-pressed="false">Alquilar piso</button><button data-v="habitacion" aria-pressed="false">Habitación</button></div>
   <label for="precio" id="precioLbl">Precio que piden (€)</label>
   <input id="precio" type="number" inputmode="numeric" placeholder="p. ej. 320000">
@@ -123,22 +126,16 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
   <div id="roomFields" style="display:none"><div class="grid">
     <div><label for="rm2">m² de la habitación</label><input id="rm2" type="number" inputmode="numeric" placeholder="10"></div>
     <div><label for="pers">Personas en el piso (contigo)</label><select id="pers"><option>2</option><option selected>3</option><option>4</option><option>5</option><option value="6">6 o más</option></select></div>
+  </div><details id="mas1" class="mas"><summary>Más detalles de la habitación (opcional)</summary><div class="grid">
     <div><label for="rban">Baño</label><select id="rban"><option value="priv">Privado</option><option value="1" selected>Compartido (1 baño)</option><option value="2">Compartido (2 baños)</option></select></div>
     <div><label for="gastos">Gastos (luz, agua, internet)</label><select id="gastos"><option value="inc">Incluidos</option><option value="no" selected>Aparte</option></select></div>
     <div><label for="vent">Ventana</label><select id="vent"><option value="calle">A la calle</option><option value="patio">A un patio</option><option value="no">Sin ventana</option></select></div>
     <div><label for="cama">Cama</label><select id="cama"><option value="ind">Individual</option><option value="doble" selected>Doble</option></select></div>
-  </div></div>
+  </div></details></div>
   <div class="grid">
-    <div class="po"><label for="m2">Metros construidos</label><input id="m2" type="number" inputmode="numeric" placeholder="75"></div>
+    <div class="po"><label for="m2">Metros <small style="font-weight:400;color:var(--mute)">(opcional)</small></label><input id="m2" type="number" inputmode="numeric" placeholder="75"></div>
     <div class="po"><label for="hab">Habitaciones</label><select id="hab"><option value="0">Estudio</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option value="5">5 o más</option></select></div>
-    <div class="po"><label for="ban">Baños</label><select id="ban"><option>1</option><option>2</option><option value="3">3 o más</option></select></div>
     <div><label for="planta">Planta</label><select id="planta"><option value="-1">Semisótano</option><option value="0">Bajo</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option value="6">6 o más</option><option value="99">Ático</option></select></div>
-    <div class="po"><label for="estado">Estado</label><select id="estado"><option value="reformar">A reformar</option><option value="bueno" selected>Buen estado</option><option value="reformado">Reformado</option><option value="nuevo">Obra nueva</option></select></div>
-    <div class="po"><label for="anio">Año del edificio</label><select id="anio"><option value="1940">Antes de 1950</option><option value="1960">1950–1969</option><option value="1975" selected>1970–1979</option><option value="1990">1980–1999</option><option value="2005">2000–2014</option><option value="2020">2015 o después</option></select></div>
-    <div class="po"><label for="ori">Orientación</label><select id="ori"><option value="?">No lo sé</option><option value="S">Sur</option><option value="E">Este</option><option value="O">Oeste</option><option value="N">Norte</option></select></div>
-    <div><label for="cal">Calefacción</label><select id="cal"><option value="ind">Individual</option><option value="cen">Central</option><option value="no">No tiene</option></select></div>
-    <div><label for="calle">La calle es…</label><select id="calle"><option value="tranq">Tranquila</option><option value="normal" selected>Normal</option><option value="ruido">Avenida / ruidosa</option><option value="peat">Peatonal</option></select></div>
-    <div class="po"><label for="com">Comunidad (€/mes)</label><input id="com" type="number" inputmode="numeric" placeholder="60"></div>
   </div>
   <label>Tiene…</label>
   <div class="chips" id="extras" role="group" aria-label="Qué tiene el piso">
@@ -151,11 +148,21 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
     <button aria-pressed="false" class="chip ro" data-k="lav" style="display:none">Lavavajillas</button>
     <button aria-pressed="false" class="chip ro" data-k="cer" style="display:none">Cerradura en la habitación</button>
   </div>
+  <details id="mas2" class="mas"><summary>Más detalles (opcional: afinan el informe)</summary><div class="grid">
+    <div class="po"><label for="ban">Baños</label><select id="ban"><option>1</option><option>2</option><option value="3">3 o más</option></select></div>
+    <div class="po"><label for="estado">Estado</label><select id="estado"><option value="reformar">A reformar</option><option value="bueno" selected>Buen estado</option><option value="reformado">Reformado</option><option value="nuevo">Obra nueva</option></select></div>
+    <div class="po"><label for="anio">Año del edificio</label><select id="anio"><option value="1940">Antes de 1950</option><option value="1960">1950–1969</option><option value="1975" selected>1970–1979</option><option value="1990">1980–1999</option><option value="2005">2000–2014</option><option value="2020">2015 o después</option></select></div>
+    <div class="po"><label for="ori">Orientación</label><select id="ori"><option value="?">No lo sé</option><option value="S">Sur</option><option value="E">Este</option><option value="O">Oeste</option><option value="N">Norte</option></select></div>
+    <div><label for="cal">Calefacción</label><select id="cal"><option value="ind">Individual</option><option value="cen">Central</option><option value="no">No tiene</option></select></div>
+    <div><label for="calle">La calle es…</label><select id="calle"><option value="tranq">Tranquila</option><option value="normal" selected>Normal</option><option value="ruido">Avenida / ruidosa</option><option value="peat">Peatonal</option></select></div>
+    <div class="po"><label for="com">Comunidad (€/mes)</label><input id="com" type="number" inputmode="numeric" placeholder="60"></div>
+  </div></details>
 </section>
 
 <section class="card">
   <h2><span class="step">4</span>¿Dónde trabajas o estudias? <small style="font-weight:400;color:var(--mute)">(opcional)</small></h2>
   <input id="trabajo" type="text" placeholder="Dirección o lugar, p. ej. Nuevos Ministerios, Madrid">
+  <p class="hint" style="margin:6px 0 0">Lo recuerdo para la próxima vez. Cuando veas el informe, si cambias cualquier dato se actualiza solo.</p>
   <button class="go noprint" id="go">Ver informe</button>
   <div class="err" id="err" role="alert"></div>
 </section>
@@ -210,7 +217,7 @@ let map=null,marker=null;
 try{
   map=L.map("map",{scrollWheelZoom:false}).setView(C.madrid.centro,12);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
-  map.on("click",e=>setPoint(e.latlng.lat,e.latlng.lng,true));
+  map.on("click",async e=>{await setPoint(e.latlng.lat,e.latlng.lng,true);if(state.pt)liveUpdate();});
 }catch(e){$("#map").style.display="none";}
 function placeMarker(lat,lon){if(!map)return;if(marker)marker.setLatLng([lat,lon]);else marker=L.marker([lat,lon]).addTo(map);}
 
@@ -239,11 +246,13 @@ async function setPoint(lat,lon,fromMap){
     }catch(e){}
   }
 }
+const GEO={};
 async function geocode(q){
+  if(q in GEO)return GEO[q];
   const r=await fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=es&q="+encodeURIComponent(q),{headers:{"Accept-Language":"es"}});
-  const j=await r.json();return j.length?[+j[0].lat,+j[0].lon]:null;
+  const j=await r.json();return GEO[q]=j.length?[+j[0].lat,+j[0].lon]:null;
 }
-async function buscarDir(){
+async function buscarDir0(){
   const q=$("#dir").value.trim(),e=$("#dirErr");e.textContent="";if(q.length<4)return;
   e.style.color="var(--mute)";e.textContent="Buscando…";
   try{
@@ -252,7 +261,14 @@ async function buscarDir(){
     e.textContent="";e.style.color="";map&&map.setView(p,16);await setPoint(p[0],p[1]);
   }catch(x){e.style.color="var(--bad)";e.textContent="No he podido buscar ahora. Toca en el mapa o elige ciudad y distrito.";}
 }
+let lastDir="";
+async function buscarDir(){const q=$("#dir").value.trim();lastDir=q;await buscarDir0();if(state.pt)liveUpdate();}
 $("#buscar").onclick=buscarDir;$("#dir").addEventListener("keydown",ev=>{if(ev.key==="Enter"){ev.preventDefault();buscarDir();}});
+$("#dir").addEventListener("change",()=>{const q=$("#dir").value.trim();if(q.length>=4&&q!==lastDir)buscarDir();});
+$("#aqui").onclick=()=>{const e=$("#dirErr");if(!navigator.geolocation){e.textContent="Tu navegador no deja usar la ubicación. Escribe la dirección o toca en el mapa.";return;}
+  e.style.color="var(--mute)";e.textContent="Buscando dónde estás…";
+  navigator.geolocation.getCurrentPosition(async g=>{e.textContent="";e.style.color="";const la=g.coords.latitude,lo=g.coords.longitude;map&&map.setView([la,lo],16);await setPoint(la,lo);if(state.pt)liveUpdate();},
+    ()=>{e.style.color="var(--bad)";e.textContent="No he podido saber dónde estás. Escribe la dirección o toca en el mapa.";},{enableHighAccuracy:true,timeout:10000});};
 
 // ---------- form controls
 function setOp(v){state.op=v;[...$("#op").children].forEach(b=>{const on=b.dataset.v===v;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);});
@@ -309,8 +325,12 @@ function parseAd(t){
     if(top.every(h=>h.k===top[0].k&&h.d===top[0].d)){out.ck=top[0].k;out.d=top[0].d;got.push("distrito");}}
   return {out,got};
 }
-$("#rellenar").onclick=async()=>{
-  const t=$("#anuncio").value.trim(),msg=$("#anuncioMsg");if(t.length<20){msg.className="err";msg.textContent="Pega el texto del anuncio primero.";return;}
+let lastAd="";
+async function readAd(auto){
+  const t=$("#anuncio").value.trim(),msg=$("#anuncioMsg");
+  if(auto&&t===lastAd)return;lastAd=t;
+  if(/^https?:\/\/\S+$/.test(t)){msg.className="err";msg.textContent="Los portales no dejan leer sus enlaces desde otra web. Abre el anuncio, copia su texto (mantén pulsado → Seleccionar todo → Copiar) y pégalo aquí.";return;}
+  if(t.length<20){if(!auto){msg.className="err";msg.textContent="Pega el texto del anuncio primero.";}return;}
   const {out,got}=parseAd(t);
   setOp(out.op);
   const setV=(id,v)=>{if(v!=null)$("#"+id).value=v;};
@@ -318,9 +338,15 @@ $("#rellenar").onclick=async()=>{
   for(const k of ["asc","ext","ter","gar","tra","aa"])if(out[k]!=null)setEx(k,out[k]);
   if(out.ck&&out.ck!==state.ck)setCity(out.ck);
   if(out.d&&C[state.ck].d[out.d]){state.d=out.d;selD.value=out.d;where();}
-  msg.className="ok";msg.textContent=got.length>1?"He rellenado: "+got.join(", ")+". Revisa que esté bien y completa lo que falte.":"No he sacado casi nada del texto. Rellena el formulario a mano.";
-  if(out.dir){$("#dir").value=out.dir+", "+C[state.ck].n;await buscarDir();}
-};
+  if(got.length<=1){msg.className="err";msg.textContent="No he sacado casi nada del texto. ¿Has copiado el anuncio entero? Si no, dime al menos dónde está (paso 1).";return;}
+  msg.className="ok";msg.textContent="He leído: "+got.join(", ")+".";
+  if(out.dir){$("#dir").value=out.dir+", "+C[state.ck].n;lastDir=$("#dir").value;await buscarDir0();}
+  if(state.pt||state.d){msg.textContent+=" Aquí tienes el informe; si algo no cuadra, cámbialo y se actualiza.";await analyze();}
+  else{msg.textContent+=" Solo me falta dónde está: escribe la dirección o toca en el mapa.";$("#dir").closest(".card").scrollIntoView({behavior:"smooth",block:"start"});}
+}
+$("#rellenar").onclick=()=>readAd(false);
+$("#anuncio").addEventListener("paste",()=>setTimeout(()=>readAd(true),50));
+let adT;$("#anuncio").addEventListener("input",()=>{clearTimeout(adT);adT=setTimeout(()=>{if($("#anuncio").value.trim().length>=60)readAd(true);},1500);});
 
 // ---------- environment from OpenStreetMap
 const OVERPASS=["https://overpass-api.de/api/interpreter","https://overpass.kumi.systems/api/interpreter"];
@@ -374,8 +400,10 @@ function madFallback(pt){
   const st=MAD.stations.map(s=>({n:s.n,typ:s.t==="ML"?"Metro ligero":"Metro",l:s.l,km:hav(pt,[s.y,s.x])})).sort((a,b)=>a.km-b.km).slice(0,5);
   return {st,bus:null,shops:[],farm:[],salud:[],hosp:[],cole:null,parks:[],named:[],bars:null,road:null,rail:false,partial:true};
 }
+const ENV={};
 async function environment(pt,ck){
-  try{return classify(await overpass(pt[0],pt[1]),pt);}
+  const key=pt.join(",");if(ENV[key])return ENV[key];
+  try{return ENV[key]=classify(await overpass(pt[0],pt[1]),pt);}
   catch(e){return ck==="madrid"?madFallback(pt):null;}
 }
 async function commute(pt,w0){
@@ -390,6 +418,7 @@ function readForm(){
   return {op:state.op,precio:+$("#precio").value||0,m2:+$("#m2").value||0,hab:+$("#hab").value,ban:+$("#ban").value,planta:+$("#planta").value,estado:$("#estado").value,anio:+$("#anio").value,ori:$("#ori").value,cal:$("#cal").value,calle:$("#calle").value,com:+$("#com").value||0,ex:{...state.ex},
     rm2:+$("#rm2").value||0,pers:+$("#pers").value,rban:$("#rban").value,gastos:$("#gastos").value,vent:$("#vent").value,cama:$("#cama").value};
 }
+const M2HAB={0:40,1:55,2:75,3:95,4:115,5:140};
 function valuation(f,ck,d){
   let k=1;const why=[];const add=(v,t)=>{if(v){k*=1+v;why.push([t,v]);}};
   if(f.planta===-1)add(-.18,"Semisótano");else if(f.planta===0)add(-.10,"Planta baja");
@@ -441,26 +470,42 @@ function envScores(env,f,pt){
   if(!f.ex.ext)q+=1.5;if(f.planta>=4&&f.planta!==99)q+=1;if(f.planta<=0&&f.ex.ext)q-=1.5;if(f.anio>=2005)q+=.5;
   return {tr:score(tr),ent:score(ent),q:score(q),pros,cons,info};
 }
-async function analyze(){
+let busy=false,again=false;
+async function analyze(quiet){
+  if(busy){again=true;return;}
   const err=$("#err");err.textContent="";
+  let notes=[];
+  {const p=+$("#precio").value||0;
+    if(state.op==="venta"&&p>0&&p<5000){setOp(p<900?"habitacion":"alquiler");notes.push(`${eur(p)} parece un precio al mes: lo he tratado como ${state.op==="habitacion"?"habitación":"alquiler"}.`);}
+    else if(state.op!=="venta"&&p>=20000){setOp("venta");notes.push(`${eur(p)} parece un precio de venta: lo he tratado como compra.`);}}
   const f=readForm(),ck=state.ck,d=state.d;
-  if(!state.pt&&!d){err.textContent="Dinos dónde está el piso (paso 1): dirección, mapa o distrito.";return;}
-  if(f.op!=="habitacion"&&(f.m2<15||f.m2>600)){err.textContent="Indica los metros del piso (paso 3).";return;}
-  if(f.op==="habitacion"&&(f.rm2<4||f.rm2>40)){err.textContent="Indica los m² de la habitación (paso 3).";return;}
+  if(!state.pt&&!d){if(!quiet)err.textContent="Dinos dónde está el piso (paso 1): dirección, mapa o distrito.";return;}
+  if(f.op!=="habitacion"&&!f.m2){f.m2=M2HAB[f.hab]||75;f.m2est=true;}
+  if(f.op==="habitacion"&&!f.rm2){f.rm2=10;f.rm2est=true;}
+  if(f.op!=="habitacion"&&(f.m2<15||f.m2>600)){err.textContent="Revisa los metros del piso (paso 3): entre 15 y 600 m².";return;}
+  if(f.op==="habitacion"&&(f.rm2<4||f.rm2>40)){err.textContent="Revisa los m² de la habitación (paso 3): entre 4 y 40 m².";return;}
   if(f.op==="venta"&&f.precio>0&&f.precio<30000){err.textContent=`${eur(f.precio)} es muy poco para comprar un piso. Si es un alquiler, elige «Alquilar piso» en el paso 2; si es una venta, escribe el precio entero sin puntos (p. ej. 320000).`;$("#precio").focus();return;}
-  if(f.op!=="venta"&&f.precio>=20000){err.textContent=`${eur(f.precio)} al mes parece un precio de venta. Si quieres comprar, elige «Comprar» en el paso 2; si es un alquiler, pon lo que pagas cada mes.`;$("#precio").focus();return;}
-  const btn=$("#go");btn.disabled=true;btn.textContent="Analizando la zona…";
+  const btn=$("#go");btn.disabled=true;btn.textContent="Analizando la zona…";busy=true;
   const pt=state.pt;
   const env=pt?await environment(pt,ck):null;
   const w0=env&&env.st[0]?walkMin(env.st[0].km):12;
   const work=pt?await commute(pt,w0):null;
-  btn.disabled=false;btn.textContent="Ver informe";
+  btn.disabled=false;btn.textContent="Ver informe";busy=false;
   const es=envScores(env,f,pt);
   if(work&&!work.err&&!work.far){if(work.min>45)es.tr=score(es.tr-1.5);else if(work.min<=25)es.tr=score(es.tr+.5);}
-  const r={f,ck,d,env,work,es};
+  if(f.m2est)es.info.unshift(`No sé los metros: he supuesto ${f.m2} m², lo normal con ${f.hab?f.hab+" habitaci"+(f.hab>1?"ones":"ón"):"un estudio"}. Ponlos en el paso 3 para afinar.`);
+  if(f.rm2est)es.info.unshift("No sé los m² de la habitación: he supuesto 10 m², lo habitual. Ponlos en el paso 3 para afinar.");
+  const r={f,ck,d,env,work,es,quiet};
   if(f.op==="habitacion")roomReport(r);else flatReport(r);
-  saveHash();
+  if(notes.length)$("#res").insertAdjacentHTML("afterbegin",`<p class="note" role="status">↺ ${notes.join(" ")}</p>`);
+  state.done=true;saveHash();
+  try{localStorage.setItem("viv.trabajo",$("#trabajo").value.trim());localStorage.setItem("viv.op",state.op);}catch(e){}
+  if(again){again=false;analyze(true);}
 }
+// tras el primer informe, cualquier cambio lo actualiza solo
+let liveT;function liveUpdate(){if(!state.done)return;clearTimeout(liveT);liveT=setTimeout(()=>analyze(true),500);}
+document.querySelectorAll("main input:not(#dir),main select,.wrap input:not(#dir):not(#anuncio),.wrap select").forEach(el=>{if(el.id==="ciudad")return;el.addEventListener("change",liveUpdate);});
+$("#op").addEventListener("click",liveUpdate);$("#extras").addEventListener("click",liveUpdate);
 function flatReport(r){
   const {f,ck,d,es}=r;const pros=[...es.pros],cons=[...es.cons],info=[...es.info];
   const rooms=Math.max(1,f.hab),m2r=f.m2/(rooms+1);let lay=6.5;
@@ -489,7 +534,7 @@ function flatReport(r){
   if(f.anio<2002&&f.anio>=1950)chk.push("Edificio construido antes de 2002: pregunta si hay amianto en bajantes o cubiertas.");
   if(f.op==="venta")chk.push("Pide la nota simple del Registro de la Propiedad: titular real y si tiene cargas o hipotecas.","Pide el certificado de la comunidad de que no hay deudas y el último recibo del IBI.","Pide el certificado energético (es obligatorio para vender).");
   else chk.push("Por ley (Ley 12/2023), los honorarios de la inmobiliaria los paga el propietario, no tú.","La fianza legal es 1 mes; como garantía adicional te pueden pedir como máximo 2 meses más.","Haz fotos y un inventario el día de la entrega y adjúntalo al contrato.","Pide el certificado energético y confirma quién paga la comunidad y el IBI.");
-  render({...r,v,est,dev,ver,cls,parts,pros,cons,info,chk,title:`${f.hab?f.hab+" hab · ":"Estudio · "}${f.m2} m²`});
+  render({...r,v,est,dev,ver,cls,parts,pros,cons,info,chk,title:`${f.hab?f.hab+" hab · ":"Estudio · "}${f.m2est?"≈ ":""}${f.m2} m²`});
 }
 function roomReport(r){
   const {f,ck,d,es}=r;const pros=[...es.pros],cons=[...es.cons],info=[...es.info];
@@ -524,7 +569,7 @@ function roomReport(r){
   let q=es.q;if(f.vent==="patio")q=score(q+1.5);if(f.pers>=5)q=score(q-1);
   const parts=[["Transporte",es.tr,.25],["Precio",pr,.25],["Convivencia",score(cv),.2],["Tranquilidad",q,.1],["Confort",score(cf),.1],["Servicios y verde",es.ent,.1]];
   const chk=["Pide contrato por escrito, aunque sea una habitación: precio, fianza, duración, preaviso y qué gastos se pagan.","Pregunta si te puedes empadronar: lo necesitas para la tarjeta sanitaria y muchos trámites.","La fianza de una habitación se pacta (lo normal es 1 mes): que conste en el contrato y paga siempre por transferencia.","Si quien alquila es otro inquilino y no el dueño, pide ver la autorización por escrito del propietario para subarrendar.","Conoce a tus compañeros antes de decidir: horarios, si trabajan o estudian, visitas, mascotas, tabaco.","Pregunta las normas de la casa: limpieza, espacio en la nevera, visitas que se quedan a dormir.","Haz fotos de la habitación y de los muebles el día que entres y mándalas por escrito al casero."];
-  render({...r,room:true,base,est,dev,ver,cls,parts,pros,cons,info,chk,v:{why},title:`Habitación de ${f.rm2} m² · piso de ${f.pers} personas`});
+  render({...r,room:true,base,est,dev,ver,cls,parts,pros,cons,info,chk,v:{why},title:`Habitación de ${f.rm2est?"≈ ":""}${f.rm2} m² · piso de ${f.pers} personas`});
 }
 
 // ---------- render
@@ -573,7 +618,7 @@ function render(x){
     `<div>Parques y jardines a menos de 1,2 km</div><div>${env.parks.length}</div></div><p class="note">Datos de OpenStreetMap: pueden faltar locales recientes.</p></section>`;}
   h+=`<section class="card"><h2>🏠 ${room?"Convivencia y confort":"Distribución, ruido y confort"}</h2><ul class="pc">`+x.pros.map(t=>`<li class="p">${t}</li>`).join("")+x.cons.map(t=>`<li class="c">${t}</li>`).join("")+x.info.map(t=>`<li class="i">${t}</li>`).join("")+`</ul></section>`;
   h+=`<section class="card"><h2>📋 ${room?"Antes de decir que sí":"Qué revisar en la visita"}</h2><ul class="pc">`+x.chk.map(t=>`<li class="q">${t}</li>`).join("")+`</ul></section>`;
-  const res=$("#res");res.innerHTML=h;res.style.display="block";res.scrollIntoView({behavior:"smooth",block:"start"});
+  const res=$("#res");res.innerHTML=h;res.style.display="block";if(!x.quiet)res.scrollIntoView({behavior:"smooth",block:"start"});
   $("#pdf").onclick=()=>{try{window.print();}catch(e){}};
   $("#share").onclick=share;
   const tm=$("#toMap");if(tm)tm.onclick=()=>{$("#dir").closest(".card").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>$("#dir").focus({preventScroll:true}),400);};
@@ -603,7 +648,8 @@ function restore(){
   if(q.c&&C[q.c]){setCity(q.c);if(q.d&&C[q.c].d[q.d]){state.d=q.d;selD.value=q.d;where();}if(q.op)setOp(q.op);}
 }
 setCity("madrid",true);
-$("#go").onclick=analyze;
+$("#go").onclick=()=>analyze(false);
+try{const t=localStorage.getItem("viv.trabajo"),o=localStorage.getItem("viv.op");if(t)$("#trabajo").value=t;if(o&&["venta","alquiler","habitacion"].includes(o))setOp(o);}catch(e){}
 restore();
 window.__viv={parseAd,matchDistrict,dPrice,roomBase,classify,state};
 </script>

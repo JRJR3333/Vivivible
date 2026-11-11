@@ -449,6 +449,16 @@ cs = sorted(C.items(), key=lambda kc: -kc[1]["venta"])
 tr = "".join(f'<tr><td><a href="../{k}/">{esc(c["n"])}</a></td><td>{fmt(c["venta"])} €</td><td>{dec(c["alquiler"])} €</td><td>{fmt(c["hab"])} €</td><td>{str(c["itp"]).replace(".", ",")} %</td></tr>' for k, c in cs)
 car, bar = cs[0][1], cs[-1][1]
 hb = min(C.values(), key=lambda c: c["hab"]); hc = max(C.values(), key=lambda c: c["hab"])
+# sueldo neto recomendado por ciudad, con las mismas reglas que sus guías (alquiler ≤ 33 %, habitación + gastos ≤ 33 %, cuota ≤ 30 %)
+def sueldos(c):
+    med = c["venta"] * M2A
+    return c["alquiler"] * M2A / ESF, (c["hab"] + GHAB) / ESF, cuota(med) / ESC, gastos(med, c)[2]
+ss = sorted(C.items(), key=lambda kc: sueldos(kc[1])[0])
+tr2 = "".join(f'<tr><td><a href="../{k}/">{esc(c["n"])}</a></td>' + "".join(f"<td>{fmt(x)} €</td>" for x in sueldos(c)) + "</tr>" for k, c in ss)
+sa_b, sa_c = ss[0][1], ss[-1][1]
+sc_b = min(C.values(), key=lambda c: sueldos(c)[2]); sc_c = max(C.values(), key=lambda c: sueldos(c)[2])
+GUIAS = [("gastos-de-compra", "Gastos de compra"), ("sueldo-para-comprar", "Sueldo para comprar"), ("sueldo-para-alquilar", "Sueldo para alquilar"), ("comprar-o-alquilar", "Comprar o alquilar"), ("habitacion", "Habitación")]
+guias = "".join(f'<p style="margin:0"><b>{esc(c["n"])}:</b> ' + " · ".join(f'<a href="../{k}/{g}/">{t}</a>' for g, t in GUIAS) + "</p>" for k, c in C.items())
 q_html, q_ld = faq([
     ("¿Cuál es la ciudad más cara para comprar piso?",
      f"De estas 10, {car['n']}: {fmt(car['venta'])} €/m² de media, unos {fmt(car['venta'] * 70)} € por un piso de 70 m². La más barata es {bar['n']}, con {fmt(bar['venta'])} €/m² (unos {fmt(bar['venta'] * 70)} €)."),
@@ -456,12 +466,21 @@ q_html, q_ld = faq([
      f"En {hb['n']}, por unos {fmt(hb['hab'])} € al mes de media. La más cara es {hc['n']}, con unos {fmt(hc['hab'])} € al mes."),
     ("¿Qué impuesto se paga al comprar un piso de segunda mano?",
      "El impuesto de transmisiones patrimoniales (ITP), que fija cada comunidad: " + ", ".join(f"{cc} {str(t).replace('.', ',')} %" for cc, t in sorted({c["ccaa"]: c["itp"] for c in C.values()}.items(), key=lambda x: x[1])) + " (tipo general; hay rebajas para jóvenes y familias en algunas comunidades)."),
+    ("¿En qué ciudad hay que ganar menos para alquilar un piso?",
+     f"En {sa_b['n']}: para un piso de {M2A} m² basta con unos {fmt(sueldos(sa_b)[0])} € netos al mes (alquiler ≤ 33 % del sueldo). En {sa_c['n']} hacen falta unos {fmt(sueldos(sa_c)[0])} €."),
+    ("¿En qué ciudad hay que ganar menos para comprar un piso?",
+     f"En {sc_b['n']}: con una hipoteca del 80 % a {ANOS} años al 2,8 %, unos {fmt(sueldos(sc_b)[2])} € netos al mes para un piso de {M2A} m² (cuota ≤ 30 %) y unos {fmt(sueldos(sc_b)[3])} € ahorrados. "
+     f"En {sc_c['n']} hacen falta unos {fmt(sueldos(sc_c)[2])} € al mes y {fmt(sueldos(sc_c)[3])} € de ahorros."),
 ])
 body = f"""<h1>Precio de la vivienda en 10 ciudades de España ({esc(mes_txt)})</h1>
 <p>Comprar, alquilar o compartir piso no cuesta lo mismo en {esc(car["n"])} que en {esc(bar["n"])}. Esta tabla compara el precio medio de las 10 ciudades de Vivible, de la más cara a la más barata para comprar.</p>
 <div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio: venta y alquiler por m², habitación al mes e impuesto de compra de segunda mano</caption><tr><th scope="col">Ciudad</th><th scope="col">Venta m²</th><th scope="col">Alquiler m²</th><th scope="col">Habitación</th><th scope="col">ITP</th></tr>{tr}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">¿Cuánto hay que ganar en cada ciudad?</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Sueldo neto al mes recomendado para alquilar un piso de {M2A} m² (alquiler ≤ 33 %), una habitación (con gastos, ≤ 33 %) o comprarlo (hipoteca del 80 % a {ANOS} años al 2,8 %, cuota ≤ 30 %), y ahorros para comprar; de la ciudad más barata a la más cara para alquilar</caption><tr><th scope="col">Ciudad</th><th scope="col">Alquilar</th><th scope="col">Habitación</th><th scope="col">Comprar</th><th scope="col">Ahorros</th></tr>{tr2}</table>
+<p class="m">Cifras orientativas con precios medios. El detalle por distritos está en la guía de cada ciudad.</p></div>
 {q_html}
-<a class="cta" href="../">Analiza un piso concreto gratis</a>"""
+<a class="cta" href="../">Analiza un piso concreto gratis</a>
+<div class="card m"><b>Guías por ciudad</b>{guias}</div>"""
 os.makedirs(F("precios"), exist_ok=True)
 open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
     "Precio de la vivienda por ciudad (2026): compra, alquiler y habitación",

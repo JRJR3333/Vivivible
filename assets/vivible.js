@@ -90,11 +90,11 @@ function parseAd(t){
   m=L.match(/(?<![\w².,])(\d)\s*baños?/);if(m){out.ban=Math.min(3,+m[1]);got.push("baños");}
   // --- planta
   const ORD={primera:1,primer:1,segunda:2,segundo:2,tercera:3,tercer:3,cuarta:4,cuarto:4,quinta:5,quinto:5,sexta:6,sexto:6,septima:6,octava:6,novena:6,decima:6};
-  if(/semis[oó]tano/.test(L))out.planta=-1;else if(/[aá]tico/.test(L))out.planta=99;else if(/\bbajo\b(?! cubierta)|planta baja/.test(L))out.planta=0;
-  else{m=L.match(/planta\s*(\d{1,2})(?!\d)|(?<![\d.,])(\d{1,2})\s*[ºªo°a]?\s*planta(?!s)|(?<![\d.,])(\d{1,2})\s*[ºª°]\s*piso\b|\bpiso\s*(\d{1,2})\s*[ºª°]/);if(m)out.planta=Math.min(6,+(m[1]||m[2]||m[3]||m[4]));
+  if(/semis[oó]tano/.test(L))out.planta=-1;else if(/(?<![a-záéíóúüñ])(?:sobre-?)?[aá]tico/.test(L))out.planta=99;else if(/\bbajo\b(?! (cubierta|consumo|precio|coste|mantenimiento|demanda))|planta baja/.test(L))out.planta=0;
+  else{m=L.match(/planta\s*:?\s*(\d{1,2})(?!\d)|(?<![\d.,])(\d{1,2})\s*[ºªo°a]?\s*planta(?!s)|(?<![\d.,])(\d{1,2})\s*[ºª°]\s*piso\b|\bpiso\s*(\d{1,2})\s*[ºª°]/);if(m)out.planta=Math.min(6,+(m[1]||m[2]||m[3]||m[4]));
     else{m=norm(L).match(/\b(primera?|segund[ao]|tercera?|cuart[ao]|quint[ao]|sext[ao]|septima|octava|novena|decima)\s+planta(?!s)/);if(m)out.planta=ORD[m[1]];}}
   if(out.planta!=null)got.push("planta");
-  if(/sin ascensor|no (tiene|dispone de|hay|cuenta con) ascensor/.test(L)){out.asc=0;got.push("ascensor");}else if(/ascensor/.test(L)){out.asc=1;got.push("ascensor");}
+  if(/sin ascensor|no (tiene|dispone de|hay|cuenta con) ascensor|ascensor\s*:\s*no\b/.test(L)){out.asc=0;got.push("ascensor");}else if(/ascensor/.test(L)){out.asc=1;got.push("ascensor");}
   if(/\binterior\b/.test(L)){out.ext=0;}else if(/\bexterior\b/.test(L)){out.ext=1;}
   if(/a reformar|para reformar|(?<!no )necesita reforma/.test(L))out.estado="reformar";else if(/(?<!alquilar )obra nueva(?!\s*\n)|a estrenar/.test(L))out.estado="nuevo";else if(/reformad[oa]|reci[eé]n reformad/.test(L))out.estado="reformado";else if(/buen estado|segunda mano/.test(L))out.estado="bueno";
   if(out.estado)got.push("estado");
@@ -405,12 +405,12 @@ function informeHTML(x){
 function informeTexto(x){
   const {f,env,work}=x,c=C[x.ck],mo=f.op==="venta"?"":"/mes",L=[];
   L.push(`*${dec(x.tot)}/10 · ${x.tv}*`,`${x.title} · ${x.place}`,"");
-  L.push(`💶 ${f.op==="venta"?"Valor estimado":"Precio razonable"}: ${eur(x.est)}${mo} (entre ${eur(x.est*.9)} y ${eur(x.est*1.1)})`);
+  L.push(`💶 ${f.op==="venta"?"Valor estimado":"Precio razonable"}: ${eur(x.est)}${mo} (entre ${eur(x.est*.9)}${mo} y ${eur(x.est*1.1)}${mo})`);
   if(f.precio)L.push(`Piden ${eur(f.precio)}${mo}`+(x.dev!==null?` → ${x.ver}`:""));
   L.push("",...x.parts.map(p=>`${p[0]}: ${dec(p[1])}`));
   if(env&&env.st.length)L.push("",`🚇 ${env.st.slice(0,3).map(s=>`${s.n} (${s.typ}, ${walkMin(s.km)} min)`).join(" · ")}`);
   if(work&&!work.err)L.push(work.far?`Al trabajo: demasiado lejos (${fmt(work.km)} km)`:`Al trabajo (${work.n}): ≈ ${work.min} min`);
-  const sin=t=>t.replace(/<[^>]+>/g,"");
+  const sin=t=>t.replace(/<[^>]+>/g,"").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,"&");
   if(x.pros.length)L.push("",...x.pros.slice(0,4).map(t=>"✅ "+sin(t)));
   if(x.cons.length)L.push(...x.cons.slice(0,4).map(t=>"⚠️ "+sin(t)));
   return L.join("\n");

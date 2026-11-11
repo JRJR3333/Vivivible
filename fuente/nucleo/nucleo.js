@@ -90,11 +90,11 @@ function parseAd(t){
   m=L.match(/(?<![\w².,])(\d)\s*baños?/);if(m){out.ban=Math.min(3,+m[1]);got.push("baños");}
   // --- planta
   const ORD={primera:1,primer:1,segunda:2,segundo:2,tercera:3,tercer:3,cuarta:4,cuarto:4,quinta:5,quinto:5,sexta:6,sexto:6,septima:6,octava:6,novena:6,decima:6};
-  if(/semis[oó]tano/.test(L))out.planta=-1;else if(/[aá]tico/.test(L))out.planta=99;else if(/\bbajo\b(?! cubierta)|planta baja/.test(L))out.planta=0;
-  else{m=L.match(/planta\s*(\d{1,2})(?!\d)|(?<![\d.,])(\d{1,2})\s*[ºªo°a]?\s*planta(?!s)|(?<![\d.,])(\d{1,2})\s*[ºª°]\s*piso\b|\bpiso\s*(\d{1,2})\s*[ºª°]/);if(m)out.planta=Math.min(6,+(m[1]||m[2]||m[3]||m[4]));
+  if(/semis[oó]tano/.test(L))out.planta=-1;else if(/(?<![a-záéíóúüñ])(?:sobre-?)?[aá]tico/.test(L))out.planta=99;else if(/\bbajo\b(?! (cubierta|consumo|precio|coste|mantenimiento|demanda))|planta baja/.test(L))out.planta=0;
+  else{m=L.match(/planta\s*:?\s*(\d{1,2})(?!\d)|(?<![\d.,])(\d{1,2})\s*[ºªo°a]?\s*planta(?!s)|(?<![\d.,])(\d{1,2})\s*[ºª°]\s*piso\b|\bpiso\s*(\d{1,2})\s*[ºª°]/);if(m)out.planta=Math.min(6,+(m[1]||m[2]||m[3]||m[4]));
     else{m=norm(L).match(/\b(primera?|segund[ao]|tercera?|cuart[ao]|quint[ao]|sext[ao]|septima|octava|novena|decima)\s+planta(?!s)/);if(m)out.planta=ORD[m[1]];}}
   if(out.planta!=null)got.push("planta");
-  if(/sin ascensor|no (tiene|dispone de|hay|cuenta con) ascensor/.test(L)){out.asc=0;got.push("ascensor");}else if(/ascensor/.test(L)){out.asc=1;got.push("ascensor");}
+  if(/sin ascensor|no (tiene|dispone de|hay|cuenta con) ascensor|ascensor\s*:\s*no\b/.test(L)){out.asc=0;got.push("ascensor");}else if(/ascensor/.test(L)){out.asc=1;got.push("ascensor");}
   if(/\binterior\b/.test(L)){out.ext=0;}else if(/\bexterior\b/.test(L)){out.ext=1;}
   if(/a reformar|para reformar|(?<!no )necesita reforma/.test(L))out.estado="reformar";else if(/(?<!alquilar )obra nueva(?!\s*\n)|a estrenar/.test(L))out.estado="nuevo";else if(/reformad[oa]|reci[eé]n reformad/.test(L))out.estado="reformado";else if(/buen estado|segunda mano/.test(L))out.estado="bueno";
   if(out.estado)got.push("estado");

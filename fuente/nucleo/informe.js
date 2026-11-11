@@ -47,12 +47,12 @@ function informeHTML(x){
 function informeTexto(x){
   const {f,env,work}=x,c=C[x.ck],mo=f.op==="venta"?"":"/mes",L=[];
   L.push(`*${dec(x.tot)}/10 · ${x.tv}*`,`${x.title} · ${x.place}`,"");
-  L.push(`💶 ${f.op==="venta"?"Valor estimado":"Precio razonable"}: ${eur(x.est)}${mo} (entre ${eur(x.est*.9)} y ${eur(x.est*1.1)})`);
+  L.push(`💶 ${f.op==="venta"?"Valor estimado":"Precio razonable"}: ${eur(x.est)}${mo} (entre ${eur(x.est*.9)}${mo} y ${eur(x.est*1.1)}${mo})`);
   if(f.precio)L.push(`Piden ${eur(f.precio)}${mo}`+(x.dev!==null?` → ${x.ver}`:""));
   L.push("",...x.parts.map(p=>`${p[0]}: ${dec(p[1])}`));
   if(env&&env.st.length)L.push("",`🚇 ${env.st.slice(0,3).map(s=>`${s.n} (${s.typ}, ${walkMin(s.km)} min)`).join(" · ")}`);
   if(work&&!work.err)L.push(work.far?`Al trabajo: demasiado lejos (${fmt(work.km)} km)`:`Al trabajo (${work.n}): ≈ ${work.min} min`);
-  const sin=t=>t.replace(/<[^>]+>/g,"");
+  const sin=t=>t.replace(/<[^>]+>/g,"").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,"&");
   if(x.pros.length)L.push("",...x.pros.slice(0,4).map(t=>"✅ "+sin(t)));
   if(x.cons.length)L.push(...x.cons.slice(0,4).map(t=>"⚠️ "+sin(t)));
   return L.join("\n");

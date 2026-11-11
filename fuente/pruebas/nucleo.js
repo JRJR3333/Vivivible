@@ -42,6 +42,14 @@ global.fetch = async (url, o) => {
     ["Habitación con baño privado en piso de 4 personas, 2 baños. Málaga 500 €/mes", { op: "habitacion", rban: "priv" }],
     ["Alquiler piso 3 dormitorios Bilbao Indautxu 1.250€/mes 95 m2 baño", { ban: undefined, hab: 3, m2: 95 }],
     ["Venta piso 80 m2 dormitorio principal con vestidor, 2 baños. Sevilla 200.000 €", { hab: undefined, ban: 2 }],
+    ["Piso en venta en Madrid, 300.000 €, 80 m², portero automático, 3ª planta", { planta: 3 }],
+    ["Piso en venta Madrid 300.000 € 80 m² sistema climático, 1ª planta", { planta: 1 }],
+    ["Piso en venta Madrid 300.000 € 80 m² bajo consumo, 2ª planta", { planta: 2 }],
+    ["Piso en alquiler en Madrid, 1.200 €/mes, 70 m2, a bajo precio, 3ª planta", { planta: 3 }],
+    ["Piso en venta en Madrid, 250.000 €, 70 m². Planta: 2ª. Ascensor: No", { planta: 2, asc: 0 }],
+    ["Ático en venta con terraza en Madrid, 400.000 €, 90 m²", { planta: 99 }],
+    ["Sobreático en venta en Madrid, 890.000 €, 120 m²", { planta: 99 }],
+    ["Piso bajo exterior en venta en Madrid, 200.000 €, 60 m²", { planta: 0 }],
   ];
   for (const [t, esp] of AN) { const o = V.parseAd(t).out; for (const [k, v] of Object.entries(esp)) assert.strictEqual(o[k], v, `«${t.slice(0, 40)}…» ${k}: ${o[k]} ≠ ${v}`); }
   assert.strictEqual(V.matchDistrict("malaga", ["Oeste"]), ""); assert.strictEqual(V.matchDistrict("barcelona", ["!!!"]), "");
@@ -69,5 +77,12 @@ global.fetch = async (url, o) => {
   const sp = await V.informe({ op: "alquiler", precio: 1400, m2: 70, hab: 2 }, { ck: "madrid", d: "Salamanca", pt: null });
   assert(!sp.parts.some(p => p[0] === "Transporte" || p[0] === "Servicios y verde") && sp.tot >= 6, "sin punto: " + sp.tot);
   assert.strictEqual(V.modoPorPrecio("venta", 1300), "alquiler");
+  // el texto para WhatsApp no lleva códigos HTML (&#39;) y la horquilla de alquiler va con /mes
+  const fe = global.fetch;
+  global.fetch = async () => ({ ok: true, json: async () => ({ elements: [{ type: "way", center: { lat: 41.392, lon: 2.16 }, tags: { highway: "primary", name: "Carrer d'Aragó" } }] }) });
+  const tb = V.informeTexto(await V.informe({ op: "alquiler", precio: 1300, m2: 70 }, { ck: "barcelona", d: "Eixample", pt: [41.392, 2.16] }, ""));
+  global.fetch = fe;
+  assert(tb.includes("Carrer d'Aragó") && !/&#39;|&amp;/.test(tb), tb);
+  assert(/entre [\d.]+ €\/mes y [\d.]+ €\/mes/.test(tb), tb);
   console.log("núcleo OK");
 })().catch(e => { console.error(e); process.exit(1); });

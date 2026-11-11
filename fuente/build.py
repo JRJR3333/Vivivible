@@ -155,6 +155,7 @@ for ck, c in C.items():
 <div class="card"><table><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² en cada distrito de {esc(c["n"])} ({esc(c["mes"])})</caption><tr><th scope="col">Distrito</th><th scope="col">Venta</th><th scope="col">Alquiler/mes</th></tr>{tr}</table>{nota}</div>
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
+<div class="card m"><b>¿Vas a comprar?</b> <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>"""
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
         f"Vivir en {c['n']}: precio de la vivienda por distritos (2026) | Vivible",
@@ -199,12 +200,63 @@ for ck, c in C.items():
 <div class="card"><b>Lo que debes saber</b><p>{esc(consejo)} El impuesto de compra de segunda mano {esc(en_ccaa(c["ccaa"]))} es del {str(c["itp"]).replace(".", ",")} % (tipo general).</p></div>
 {dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
+<div class="card m"><b>¿Vas a comprar?</b> <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
         open(F(ck, sd, "index.html"), "w", encoding="utf-8").write(page(
             tit_distrito(d, c['n']),
             desc_corta(f"{d} ({c['n']}): {fmt(s)} €/m² en venta, {dec(r)} €/m² de alquiler y habitación por unos {fmt(room)} €.", " Cuánto necesitas para comprar o alquilar."),
             f"{ck}/{sd}/", body, [("Vivible", "../../"), (c["n"], "../"), (d, None)], dq_ld))
         urls.append(BASE + f"{ck}/{sd}/")
+
+# ---------- gastos de compra por ciudad (<ciudad>/gastos-de-compra/): lo que la gente busca como
+# «gastos de comprar un piso en <ciudad>» o «ITP en <comunidad>»; todo sale de precios.json
+NOT, TAS = .015, 400  # notaría, registro y gestoría (≈1,5 %) y tasación: las mismas cifras que en las páginas de distrito
+pct = lambda x: dec(x, 2).rstrip("0").rstrip(",")
+def gastos(precio, c, nueva=False):
+    imp = precio * ((10 + c["ajd"]) if nueva else c["itp"]) / 100
+    otros = precio * NOT + TAS
+    return imp, otros, precio * .2 + imp + otros
+for ck, c in C.items():
+    assert "gastos-de-compra" not in [slug(d) for d in c["d"]]
+    med = c["venta"] * 70
+    ejemplos = sorted({round(med / 5e4) * 5e4 or 5e4, 150000, 250000, 400000})
+    def fila(precio, nueva=False):
+        imp, otros, tot = gastos(precio, c, nueva)
+        return f"<tr><td>{fmt(precio)} €</td><td>{fmt(imp)} €</td><td>{fmt(otros)} €</td><td><b>{fmt(tot)} €</b></td></tr>"
+    cab = '<tr><th scope="col">Precio</th><th scope="col">Impuesto</th><th scope="col">Notaría y más</th><th scope="col">Ahorro total</th></tr>'
+    i2, o2, t2 = gastos(med, c); i1, o1, t1 = gastos(med, c, True)
+    cuota = med * .8 * (.028 / 12) / (1 - (1 + .028 / 12) ** -360)
+    ccaa = en_ccaa(c["ccaa"]); itp = pct(c["itp"]); ajd = pct(c["ajd"])
+    gq_html, gq_ld = faq([
+        (f"¿Cuánto es el ITP {ccaa}?",
+         f"El tipo general del impuesto de transmisiones patrimoniales {ccaa} es del {itp} % del precio de compra. Lo paga quien compra un piso de segunda mano. "
+         "Algunas comunidades rebajan el tipo a jóvenes, familias numerosas o pisos baratos: consúltalo en la web de tu comunidad antes de firmar."),
+        (f"¿Cuánto dinero necesito ahorrado para comprar un piso en {c['n']}?",
+         f"Para un piso medio de 70 m² en {c['n']} (unos {fmt(med)} €) necesitas unos {fmt(t2)} €: el 20 % de entrada ({fmt(med * .2)} €), {fmt(i2)} € de ITP y unos {fmt(o2)} € de notaría, registro, gestoría y tasación. "
+         f"La hipoteca del 80 % restante, a 30 años y al 2,8 %, saldría por unos {fmt(cuota)} € al mes."),
+        (f"¿Qué impuestos paga un piso de obra nueva en {c['n']}?",
+         f"No paga ITP: paga un 10 % de IVA y un {ajd} % de actos jurídicos documentados (AJD) {ccaa}. Para un piso de {fmt(med)} € son {fmt(i1)} € de impuestos, {fmt(i1 - i2)} € más que si fuera de segunda mano."),
+        ("¿Quién paga los gastos de la hipoteca?",
+         "Desde 2019 el banco paga la notaría, el registro, la gestoría y el impuesto de la escritura de la hipoteca. Tú pagas la tasación y los gastos de la escritura de compraventa."),
+    ])
+    body = f"""<h1>Gastos de comprar un piso en {esc(c["n"])} (2026): impuestos y cuánto ahorrar</h1>
+<p>Al precio del piso hay que sumarle los impuestos y los gastos de la compra. En {esc(c["n"])}, un piso de segunda mano paga el <b>{itp} % de ITP</b> {esc(ccaa)} y uno nuevo, un <b>10 % de IVA y un {ajd} % de AJD</b>. Además, el banco suele financiar como mucho el 80 %, así que la entrada (el 20 %) también sale de tus ahorros.</p>
+<div class="g"><div class="k"><small>Piso medio de 70 m² en {esc(c["n"])}</small><b>≈ {fmt(med)} €</b><small>A {fmt(c["venta"])} €/m² ({esc(c["mes"])})</small></div>
+<div class="k"><small>Ahorro necesario (segunda mano)</small><b>≈ {fmt(t2)} €</b><small>Entrada, ITP y gastos</small></div>
+<div class="k"><small>Ahorro necesario (obra nueva)</small><b>≈ {fmt(t1)} €</b><small>Entrada, IVA, AJD y gastos</small></div>
+<div class="k"><small>Hipoteca (80 %, 30 años, 2,8 %)</small><b>≈ {fmt(cuota)} €/mes</b><small>Sin contar seguros</small></div></div>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de segunda mano: ITP del {itp} %, notaría, registro, gestoría y tasación, y ahorro total con el 20 % de entrada</caption>{cab}{"".join(fila(x) for x in ejemplos)}</table></div>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de obra nueva: 10 % de IVA y {ajd} % de AJD, gastos y ahorro total con el 20 % de entrada</caption>{cab}{"".join(fila(x, True) for x in ejemplos)}</table>
+<p class="m">«Notaría y más»: notaría, registro y gestoría (≈ 1,5 % del precio) y tasación (≈ {TAS} €). Tipos generales; puede haber rebajas según tu edad o tu familia.</p></div>
+{gq_html}
+<a class="cta" href="../../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
+<div class="card m"><b>Precios en {esc(c["n"])}:</b> <a href="../">Por distritos</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+    os.makedirs(F(ck, "gastos-de-compra"), exist_ok=True)
+    open(F(ck, "gastos-de-compra", "index.html"), "w", encoding="utf-8").write(page(
+        f"Gastos de comprar un piso en {c['n']} (2026): ITP e impuestos",
+        desc_corta(f"Cuánto cuesta comprar un piso en {c['n']}: ITP del {itp} %, IVA y AJD de obra nueva, notaría y registro, y cuánto ahorrar.", " Con ejemplos."),
+        f"{ck}/gastos-de-compra/", body, [("Vivible", "../../"), (c["n"], "../"), ("Gastos de compra", None)], gq_ld))
+    urls.append(BASE + f"{ck}/gastos-de-compra/")
 
 # ---------- comparativa de ciudades (precios/): venta, alquiler, habitación e impuesto de compra
 cs = sorted(C.items(), key=lambda kc: -kc[1]["venta"])

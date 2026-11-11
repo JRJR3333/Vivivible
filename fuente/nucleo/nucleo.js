@@ -99,7 +99,7 @@ function parseAd(t){
   if(out.planta!=null)got.push("planta");
   if(/sin ascensor|no (tiene|dispone de|hay|cuenta con) ascensor|ascensor\s*:\s*no\b/.test(L)){out.asc=0;got.push("ascensor");}else if(/ascensor/.test(L)){out.asc=1;got.push("ascensor");}
   // extras: «sin terraza», «no dispone de aire acondicionado», «sin terraza ni balcón»… cuentan como que no lo tiene
-  const EX=w=>{const np=(L.match(new RegExp(w,"g"))||[]).length;if(!np)return null;const nn=(L.match(new RegExp("(?:\\bsin|\\bni|\\bno(?: (?:tiene|dispone de|hay|cuenta con))?)\\s+(?:(?:una?|de)\\s+)?(?:"+w+")","g"))||[]).length;return np>nn?1:0;};
+  const EX=w=>{const np=(L.match(new RegExp(w,"g"))||[]).length;if(!np)return null;const nn=(L.match(new RegExp("(?:\\bsin|\\bni|\\bno(?: (?:tiene|dispone de|hay|cuenta con))?)\\s+(?:(?:una?|de)\\s+)?(?:"+w+")","g"))||[]).length+(L.match(new RegExp("(?:"+w+")(?:\\s*:\\s*no\\b|\\s+comunitari)","g"))||[]).length;return np>nn?1:0;};
   if(/\binterior\b/.test(L)){out.ext=0;}else{const e=EX("\\bexterior\\b");if(e!=null)out.ext=e;}
   if(/a reformar|para reformar|(?<!no )necesita reforma/.test(L))out.estado="reformar";else if(/(?<!alquilar )obra nueva(?!\s*\n)|a estrenar/.test(L))out.estado="nuevo";else if(/reformad[oa]|reci[eé]n reformad/.test(L))out.estado="reformado";else if(/buen estado|segunda mano/.test(L))out.estado="bueno";
   if(out.estado)got.push("estado");
@@ -109,7 +109,7 @@ function parseAd(t){
   if(/garaje incluid|plaza de garaje incluid|parking incluid/.test(L))out.gar=1;
   {const e=EX("trastero");if(e!=null)out.tra=e;}
   {const e=EX("aire acondicionado|climatizaci");if(e!=null)out.aa=e;}
-  if(/calefacci[oó]n central/.test(L))out.cal="cen";else if(/no dispone de calefacci|sin calefacci/.test(L))out.cal="no";else if(/calefacci[oó]n/.test(L))out.cal="ind";
+  if(/calefacci[oó]n central/.test(L))out.cal="cen";else if(/no (?:tiene|dispone de|hay|cuenta con) calefacci|\b(?:sin|ni) calefacci|calefacci[oó]n\s*:\s*no\b/.test(L))out.cal="no";else if(/calefacci[oó]n/.test(L))out.cal="ind";
   m=L.match(/(?:gastos de )?comunidad[^0-9\n]{0,20}(\d{1,4})\s*€/);if(m){out.com=+m[1];got.push("comunidad");}
   if(/baño privado|ba[nñ]o propio|ba[nñ]o en suite/.test(L))out.rban="priv";else if(room&&out.ban>=1)out.rban=out.ban>=2?"2":"1";
   if(/gastos incluidos|suministros incluidos/.test(L))out.gastos="inc";

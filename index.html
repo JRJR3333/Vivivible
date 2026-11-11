@@ -408,8 +408,10 @@ async function environment(pt,ck){
   try{return ENV[key]=classify(await overpass(pt[0],pt[1]),pt);}
   catch(e){return ck==="madrid"?madFallback(pt):null;}
 }
+// mientras se escribe el trabajo, el cálculo usa lo último confirmado (no busca palabras a medias)
+let trabajoOk=null;["focus","change"].forEach(ev=>$("#trabajo").addEventListener(ev,()=>{trabajoOk=$("#trabajo").value;}));
 async function commute(pt,w0){
-  const q=$("#trabajo").value.trim();if(!q)return null;
+  const tEl=$("#trabajo"),q=(document.activeElement===tEl&&trabajoOk!==null?trabajoOk:tEl.value).trim();if(!q)return null;
   try{let p=await geocode(/,/.test(q)?q:q+", "+C[state.ck].n);if(!p)return {n:q,err:true};
     const km=hav(pt,p);if(km>60)return {n:q,far:true,km};return {n:q,km,min:km<1.2?walkMin(km):Math.round(Math.min(w0,15)+4+km*2.7+(km>4?5:0)+6)};}
   catch(e){return {n:q,err:true};}

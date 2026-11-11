@@ -12,6 +12,10 @@ P = json.load(open(F("fuente", "precios.json"), encoding="utf-8"))
 MAD = open(F("fuente", "data.json"), encoding="utf-8").read()
 C = P["ciudades"]
 
+# «en la Comunidad de Madrid», «en las Illes Balears»… (los nombres de precios.json van sin artículo)
+ART = {"Comunidad de Madrid": "la ", "Comunitat Valenciana": "la ", "Región de Murcia": "la ", "Illes Balears": "las ", "País Vasco (Bizkaia)": "el "}
+def en_ccaa(n): return "en " + ART.get(n, "") + n
+
 def slug(s):
     s = unicodedata.normalize("NFD", s.lower())
     s = "".join(ch for ch in s if unicodedata.category(ch) != "Mn")
@@ -151,9 +155,9 @@ for ck, c in C.items():
 <div class="k"><small>Alquilar{" (estimado)" if er else ""}</small><b>{dec(r)} €/m²/mes</b><small>Media: {dec(c["alquiler"])} €/m²/mes</small></div>
 <div class="k"><small>Piso de 70 m² en venta</small><b>≈ {fmt(buy70)} €</b><small>Ahorros necesarios: ≈ {fmt(ahorro)} €</small></div>
 <div class="k"><small>Piso de 70 m² en alquiler</small><b>≈ {fmt(rent70)} €/mes</b><small>Ingresos recomendados: ≈ {fmt(rent70/.33)} €/mes</small></div>
-<div class="k"><small>Habitación en piso compartido</small><b>≈ {fmt(room)} €/mes</b><small>Media de la ciudad: {fmt(c["hab"])} €</small></div>
+<div class="k"><small>Habitación en piso compartido</small><b>≈ {fmt(room)} €/mes</b><small>Media de la ciudad: {fmt(c["hab"])} €/mes</small></div>
 <div class="k"><small>Hipoteca de ese piso (80 %, 30 años, 2,8 %)</small><b>≈ {fmt(cuota)} €/mes</b><small>Rentabilidad bruta si se alquila: {dec(yld)} %</small></div></div>
-<div class="card"><b>Lo que debes saber</b><p>{esc(consejo)} El impuesto de compra de segunda mano en {esc(c["ccaa"])} es del {str(c["itp"]).replace(".", ",")} % (tipo general).</p></div>
+<div class="card"><b>Lo que debes saber</b><p>{esc(consejo)} El impuesto de compra de segunda mano {esc(en_ccaa(c["ccaa"]))} es del {str(c["itp"]).replace(".", ",")} % (tipo general).</p></div>
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
         open(F(ck, sd, "index.html"), "w", encoding="utf-8").write(page(

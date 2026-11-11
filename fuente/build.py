@@ -31,8 +31,13 @@ def dprice(c, d):
 FAV = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f6f54'/%3E%3Cpath d='M8 16l8-7 8 7v8h-5v-5h-6v5H8z' fill='%23fff'/%3E%3C/svg%3E"
 HEADX = f'<link rel="icon" href="{FAV}"><meta name="theme-color" content="#1f6f54"><meta property="og:type" content="website"><meta property="og:site_name" content="Vivible"><meta property="og:locale" content="es_ES"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="{BASE}assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Vivible: ¿se vive bien en ese piso?">\n'
 
-meses = sorted({c["mes"] for c in C.values()})
-mes_txt = "julio–octubre 2026"
+# periodo de los datos, calculado de los meses de cada ciudad (p. ej. «julio–octubre 2026»)
+MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+_ms = sorted((int(a), MESES.index(m)) for c in C.values() for m, a in re.findall(r"([a-záéíóú]+)(?:–[a-záéíóú]+)* (\d{4})", c["mes"]) if m in MESES)
+_ms += sorted((int(a), MESES.index(m)) for c in C.values() for m, a in re.findall(r"–([a-záéíóú]+) (\d{4})", c["mes"]) if m in MESES)
+_ms.sort()
+(a0, m0), (a1, m1) = _ms[0], _ms[-1]
+mes_txt = (f"{MESES[m0]} {a0}" if (a0, m0) == (a1, m1) else f"{MESES[m0]}–{MESES[m1]} {a1}" if a0 == a1 else f"{MESES[m0]} {a0}–{MESES[m1]} {a1}")
 
 # ---------- núcleo común: assets/vivible.js, assets/vivible.css y datos.json
 # Todos los formatos (web, conversación y los que vengan) cargan estos mismos ficheros.
@@ -45,7 +50,10 @@ css = rd("fuente", "nucleo", "base.css")
 open(F("assets", "vivible.js"), "w", encoding="utf-8").write(core)
 open(F("assets", "vivible.css"), "w", encoding="utf-8").write(css)
 open(F("datos.json"), "w", encoding="utf-8").write(PJ)  # los mismos precios, para apps o bots que no usen el JS
-V = hashlib.md5((core + css).encode("utf-8")).hexdigest()[:8]
+ficha = rd("fuente", "navegador", "ficha.js")  # la ficha del piso, común a los formatos de navegador
+open(F("assets", "vivible-ficha.js"), "w", encoding="utf-8").write(ficha)
+CAMPOS = rd("fuente", "navegador", "campos.html").rstrip("\n")
+V = hashlib.md5((core + css + ficha).encode("utf-8")).hexdigest()[:8]
 
 # ---------- formatos: cada uno es solo pantalla (fuente/formatos/<nombre>.html)
 # nombre del fichero -> carpeta donde se publica ("" = portada)
@@ -55,8 +63,8 @@ for nombre, carpeta in FORMATOS.items():
     t = rd("fuente", "formatos", nombre + ".html")
     links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items())
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
-    t = t.replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
-    assert "__" not in re.sub(r"window\.__viv|__aranaRes", "", t), "queda un marcador sin sustituir en " + nombre
+    t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
+    assert "__" not in t.replace("window.__viv", ""), "queda un marcador sin sustituir en " + nombre
     if carpeta: os.makedirs(F(carpeta), exist_ok=True)
     open(F(carpeta, "index.html") if carpeta else F("index.html"), "w", encoding="utf-8").write(t)
 

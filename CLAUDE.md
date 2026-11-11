@@ -4,7 +4,7 @@ Web estática publicada con GitHub Pages desde la rama `master` (raíz): https:/
 
 ## Cómo se monta
 - Todo se genera con `python3 fuente/build.py` desde la raíz: `index.html`, `chat/index.html`, una página por ciudad (`<ciudad>/`), una por distrito (`<ciudad>/<distrito>/`), `sitemap.xml` y `robots.txt`.
-- Nunca se editan a mano los ficheros generados (`index.html`, `chat/`, carpetas de ciudad, `assets/vivible.js`, `assets/vivible.css`, `datos.json`, `sitemap.xml`, `robots.txt`): se cambia algo de `fuente/` y se vuelve a generar.
+- Nunca se editan a mano los ficheros generados (`index.html`, `chat/`, carpetas de ciudad, `assets/vivible.js`, `assets/vivible-ficha.js`, `assets/vivible.css`, `datos.json`, `sitemap.xml`, `robots.txt`): se cambia algo de `fuente/` y se vuelve a generar.
 - `fuente/precios.json`: por ciudad, venta €/m² y alquiler €/m²/mes por distrito (idealista), precio medio de habitación, ITP/AJD de la comunidad y centro del mapa. `null` = sin dato (la web lo estima).
 - `fuente/data.json`: barrios de Madrid (polígonos, para saber el distrito exacto) y estaciones de metro de Madrid (respaldo si OpenStreetMap no responde). `fuente/prep.py` lo genera.
 - `assets/leaflet/`: mapa (Leaflet 1.9.4, BSD-2). En el navegador se usan Nominatim (direcciones) y Overpass (transporte, comercios, colegios, parques, ruido).
@@ -12,6 +12,7 @@ Web estática publicada con GitHub Pages desde la rama `master` (raíz): https:/
 ## Un motor, varios formatos (lo pidió Juan, 2026-11-11)
 - Juan quiere varios formatos (web, conversación, app, WhatsApp…) con la parte gráfica separada y **la misma información y base de datos**. Está explicado en `fuente/LEEME.md`.
 - `fuente/nucleo/` es el motor común (datos, leer anuncios, localizar, entorno, valoración, `informe()`, `informeHTML()`, `informeTexto()`); no usa `document` ni `window` y funciona también en Node.
+- `fuente/navegador/` son las piezas de pantalla comunes a los formatos de navegador: `ficha.js` (campos, mapa, pegar anuncio, pedir y pintar el informe, compartir; se publica como `assets/vivible-ficha.js`) y `campos.html` (se inserta en `__CAMPOS__`). Cada formato ajusta `FORMATO.*` y llama a `iniciarFicha()`.
 - `fuente/formatos/<nombre>.html` es solo pantalla e interacción. Un cálculo, un texto del informe o un dato **nunca** se cambia dentro de un formato: va al núcleo o a `precios.json`, una sola vez.
 - Formato nuevo: fichero en `fuente/formatos/` y una línea en `FORMATOS` de `build.py`.
 
@@ -30,7 +31,9 @@ Web estática publicada con GitHub Pages desde la rama `master` (raíz): https:/
 - Pegar el anuncio genera el informe solo, y tras el primer informe cualquier cambio lo actualiza al momento. No añadir campos obligatorios ni pasos extra.
 
 ## Antes de publicar
-- `python3 fuente/build.py` sin errores, `node fuente/pruebas/nucleo.js` (el motor, sin navegador), y `node --check` de `assets/vivible.js` y del script de cada formato (`index.html`, `chat/index.html`).
+- `python3 fuente/build.py` sin errores, `node fuente/pruebas/nucleo.js` (el motor, sin navegador), y `node --check` de `assets/vivible.js`, de `assets/vivible-ficha.js` y del script de cada formato (`index.html`, `chat/index.html`).
 - Probar en un navegador **cada formato** (simulando Nominatim y Overpass): los tres modos, pegar anuncio, búsqueda por dirección en al menos dos ciudades, informe, enlace para compartir y una página de distrito.
+- Todo dato que venga de fuera (OpenStreetMap, enlace compartido, texto pegado) se escapa con `esc()` antes de ir a HTML.
+- Si se toca `parseAd`, añadir el anuncio que fallaba a la lista `AN` de `fuente/pruebas/nucleo.js`.
 - Textos en español de España, tuteando, claros y sin tecnicismos.
 - Comprobar que «pages build and deployment» del último commit acaba en verde.

@@ -4,7 +4,7 @@ function ring(v,c){return `<div class="ring" role="img" aria-label="Nota ${dec(v
 const barCol=v=>v>=7.5?"#1f7a4d":v>=5.5?"#d39b3a":"#b23b3b";
 function informeHTML(x){
   const {f,ck,d,env,work}=x,c=C[ck],op=f.op,room=x.room,tot=x.tot,tv=x.tv,place=x.place;
-  let h=`<section class="card"><div class="score">${ring(tot,barCol(tot))}<div><p class="verdict">${tv}</p><div style="color:var(--mute);font-size:14px">${x.title} · ${place}</div>${x.dev!==null?`<div style="margin-top:8px"><span class="pill ${x.cls}">${x.ver}</span></div>`:""}</div></div><div class="bars">`+
+  let h=`<section class="card"><div class="score">${ring(tot,barCol(tot))}<div><p class="verdict">${tv}</p><div style="color:var(--mute);font-size:14px">${x.title} · ${esc(place)}</div>${x.dev!==null?`<div style="margin-top:8px"><span class="pill ${x.cls}">${x.ver}</span></div>`:""}</div></div><div class="bars">`+
     x.parts.map(p=>`<div class="bar"><span>${p[0]}</span><div class="t"><b style="width:${p[1]*10}%;background:${barCol(p[1])}"></b></div><span>${dec(p[1])}</span></div>`).join("")+`</div>
     <div class="actions noprint" style="margin-top:14px"><button class="btn2" id="pdf">Guardar en PDF</button><button class="btn2" id="share">Compartir informe</button></div><div id="shareMsg" class="ok noprint" role="status" aria-live="polite"></div></section>`;
   // price
@@ -24,21 +24,21 @@ function informeHTML(x){
     h+=`<h2 style="margin-top:16px">🧾 Al entrar</h2><div class="kv">`+(room?`<div>Primer mes + fianza habitual (1 mes)</div><div>${eur(rent*2)}</div><div>Coste real al mes${gm?" (con unos 55 € de gastos)":""}</div><div>${eur(rent+gm)}</div>`:`<div>Fianza legal (1 mes)</div><div>${eur(rent)}</div><div>Garantía adicional máxima (2 meses)</div><div>${eur(rent*2)}</div><div>Honorarios de agencia</div><div>0 € (los paga el propietario)</div>`)+`<div>Ingresos netos recomendados (≤ 33 %)</div><div>${eur((rent+gm)/.33)}/mes</div></div>`;}
   h+=`</section>`;
   // transport
-  if(env){h+=`<section class="card"><h2>🚇 Transporte</h2><p class="hint">Estaciones a menos de 1,2 km y tiempo andando (estimado).</p>`+
-    (env.st.length?env.st.map(s=>`<div class="st"><span>${s.n} <span class="ln">${s.typ}</span>${(s.l||[]).map(l=>`<span class="ln">${l}</span>`).join("")}</span><b>${walkMin(s.km)} min</b></div>`).join(""):`<p class="hint">No hay estaciones de metro, tranvía ni tren a menos de 1,2 km: dependerás del autobús o del coche.</p>`)+
-    `<div class="kv" style="margin-top:10px">${env.bus!=null?`<div>Paradas de autobús a menos de 400 m</div><div>${env.bus}</div>`:""}${work?work.err?`<div>Al trabajo</div><div>no encontré «${work.n}»</div>`:work.far?`<div>Al trabajo (${work.n})</div><div>a ${fmt(work.km)} km: demasiado lejos para ir cada día</div>`:`<div>Al trabajo (${work.n})</div><div>≈ ${work.min} min</div>`:""}</div><p class="note">Tiempo al trabajo aproximado: andando + espera + trayecto + transbordos.</p></section>`;}
-  else if(!x.pt)h+=`<section class="card noprint"><h2>📍 Falta el punto exacto</h2><p class="hint">Este informe usa la media del distrito. Si escribes la dirección o tocas en el mapa, te digo también el metro más cercano, el tiempo al trabajo, los supermercados, los parques y el ruido de la calle.</p><button class="btn2" id="toMap">Marcar el piso en el mapa</button></section>`;
+  if(env){h+=`<section class="card"><h2>🚇 Transporte</h2><p class="hint">Estaciones a menos de 1,2 km y tiempo andando (estimado).</p>${env.partial?`<p class="note">⚠️ OpenStreetMap no responde ahora: solo te enseño el metro. Faltan autobuses, servicios y ruido de la zona; vuelve a intentarlo en un rato.</p>`:""}`+
+    (env.st.length?env.st.map(s=>`<div class="st"><span>${esc(s.n)} <span class="ln">${s.typ}</span>${(s.l||[]).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</span><b>${walkMin(s.km)} min</b></div>`).join(""):`<p class="hint">No hay estaciones de metro, tranvía ni tren a menos de 1,2 km: dependerás del autobús o del coche.</p>`)+
+    `<div class="kv" style="margin-top:10px">${env.bus!=null?`<div>Paradas de autobús a menos de 400 m</div><div>${env.bus}</div>`:""}${work?work.err?`<div>Al trabajo</div><div>no encontré «${esc(work.n)}»</div>`:work.far?`<div>Al trabajo (${esc(work.n)})</div><div>a ${fmt(work.km)} km: demasiado lejos para ir cada día</div>`:`<div>Al trabajo (${esc(work.n)})</div><div>≈ ${work.min} min</div>`:""}</div><p class="note">Tiempo al trabajo aproximado: andando + espera + trayecto + transbordos.</p></section>`;}
+  else if(!x.pt)h+=`<section class="card noprint"><h2>📍 Falta el punto exacto</h2><p class="hint">Este informe usa la media ${d?"del distrito":"de la ciudad"}. Si escribes la dirección o tocas en el mapa, te digo también el metro más cercano, el tiempo al trabajo, los supermercados, los parques y el ruido de la calle.</p><button class="btn2" id="toMap">Marcar el piso en el mapa</button></section>`;
   else h+=`<section class="card"><h2>🚇 Transporte y servicios</h2><p class="hint">No he podido consultar ahora los datos de la zona (OpenStreetMap no responde). Vuelve a pulsar «Ver informe» en un rato.</p></section>`;
   // services
   if(env&&!env.partial){const sh=env.shops.find(s=>s.s==="supermarket");const sal=env.salud[0];
     h+=`<section class="card"><h2>🛒 Servicios y zonas verdes</h2><div class="kv">`+
-    `<div>Supermercado más cercano</div><div>${sh?sh.n+" · "+dist(sh.km):"ninguno a menos de 600 m"}</div>`+
+    `<div>Supermercado más cercano</div><div>${sh?esc(sh.n)+" · "+dist(sh.km):"ninguno a menos de 600 m"}</div>`+
     `<div>Tiendas de alimentación a menos de 600 m</div><div>${env.shops.length}</div>`+
     `<div>Farmacia más cercana</div><div>${env.farm[0]?dist(env.farm[0].km):"más de 1,5 km"}</div>`+
-    `<div>Centro de salud o clínica</div><div>${sal?sal.n+" · "+dist(sal.km):"más de 1,5 km"}</div>`+
-    `${env.hosp[0]?`<div>Hospital</div><div>${env.hosp[0].n} · ${dist(env.hosp[0].km)}</div>`:""}`+
+    `<div>Centro de salud o clínica</div><div>${sal?esc(sal.n)+" · "+dist(sal.km):"más de 1,5 km"}</div>`+
+    `${env.hosp[0]?`<div>Hospital</div><div>${esc(env.hosp[0].n)} · ${dist(env.hosp[0].km)}</div>`:""}`+
     `<div>Colegios y escuelas infantiles a menos de 1 km</div><div>${env.cole}</div>`+
-    `<div>Parque más cercano</div><div>${env.parks[0]?(env.named[0]&&env.named[0].km-env.parks[0].km<.2?env.named[0].n:"Zona verde")+" · "+dist(env.parks[0].km):"ninguno a menos de 1,2 km"}</div>`+
+    `<div>Parque más cercano</div><div>${env.parks[0]?(env.named[0]&&env.named[0].km-env.parks[0].km<.2?esc(env.named[0].n):"Zona verde")+" · "+dist(env.parks[0].km):"ninguno a menos de 1,2 km"}</div>`+
     `<div>Parques y jardines a menos de 1,2 km</div><div>${env.parks.length}</div></div><p class="note">Datos de OpenStreetMap: pueden faltar locales recientes.</p></section>`;}
   h+=`<section class="card"><h2>🏠 ${room?"Convivencia y confort":"Distribución, ruido y confort"}</h2><ul class="pc">`+x.pros.map(t=>`<li class="p">${t}</li>`).join("")+x.cons.map(t=>`<li class="c">${t}</li>`).join("")+x.info.map(t=>`<li class="i">${t}</li>`).join("")+`</ul></section>`;
   h+=`<section class="card"><h2>📋 ${room?"Antes de decir que sí":"Qué revisar en la visita"}</h2><ul class="pc">`+x.chk.map(t=>`<li class="q">${t}</li>`).join("")+`</ul></section>`;

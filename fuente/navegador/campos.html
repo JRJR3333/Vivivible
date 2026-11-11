@@ -1,0 +1,34 @@
+  <div id="roomFields" style="display:none"><div class="grid">
+    <div><label for="rm2">m² de la habitación</label><input id="rm2" type="number" inputmode="numeric" placeholder="10"></div>
+    <div><label for="pers">Personas en el piso (contigo)</label><select id="pers"><option>2</option><option selected>3</option><option>4</option><option>5</option><option value="6">6 o más</option></select></div>
+  </div><details id="mas1" class="mas"><summary>Más detalles de la habitación (opcional)</summary><div class="grid">
+    <div><label for="rban">Baño</label><select id="rban"><option value="priv">Privado</option><option value="1" selected>Compartido (1 baño)</option><option value="2">Compartido (2 baños)</option></select></div>
+    <div><label for="gastos">Gastos (luz, agua, internet)</label><select id="gastos"><option value="inc">Incluidos</option><option value="no" selected>Aparte</option></select></div>
+    <div><label for="vent">Ventana</label><select id="vent"><option value="calle">A la calle</option><option value="patio">A un patio</option><option value="no">Sin ventana</option></select></div>
+    <div><label for="cama">Cama</label><select id="cama"><option value="ind">Individual</option><option value="doble" selected>Doble</option></select></div>
+  </div></details></div>
+  <div class="grid">
+    <div class="po"><label for="m2">Metros <small style="font-weight:400;color:var(--mute)">(opcional)</small></label><input id="m2" type="number" inputmode="numeric" placeholder="75"></div>
+    <div class="po"><label for="hab">Habitaciones</label><select id="hab"><option value="0">Estudio</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option value="5">5 o más</option></select></div>
+    <div><label for="planta">Planta</label><select id="planta"><option value="-1">Semisótano</option><option value="0">Bajo</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option value="6">6 o más</option><option value="99">Ático</option></select></div>
+  </div>
+  <div class="lbl" id="extrasLbl">Tiene…</div>
+  <div class="chips" id="extras" role="group" aria-labelledby="extrasLbl">
+    <button aria-pressed="true" class="chip on" data-k="asc">Ascensor</button>
+    <button aria-pressed="true" class="chip on po" data-k="ext">Exterior</button>
+    <button aria-pressed="false" class="chip" data-k="ter">Terraza/balcón</button>
+    <button aria-pressed="false" class="chip" data-k="aa">Aire acondicionado</button>
+    <button aria-pressed="false" class="chip po" data-k="gar">Garaje</button>
+    <button aria-pressed="false" class="chip po" data-k="tra">Trastero</button>
+    <button aria-pressed="false" class="chip ro" data-k="lav" style="display:none">Lavavajillas</button>
+    <button aria-pressed="false" class="chip ro" data-k="cer" style="display:none">Cerradura en la habitación</button>
+  </div>
+  <details id="mas2" class="mas"><summary>Más detalles (opcional: afinan el informe)</summary><div class="grid">
+    <div class="po"><label for="ban">Baños</label><select id="ban"><option>1</option><option>2</option><option value="3">3 o más</option></select></div>
+    <div class="po"><label for="estado">Estado</label><select id="estado"><option value="reformar">A reformar</option><option value="bueno" selected>Buen estado</option><option value="reformado">Reformado</option><option value="nuevo">Obra nueva</option></select></div>
+    <div class="po"><label for="anio">Año del edificio</label><select id="anio"><option value="1940">Antes de 1950</option><option value="1960">1950–1969</option><option value="1975" selected>1970–1979</option><option value="1990">1980–1999</option><option value="2005">2000–2014</option><option value="2020">2015 o después</option></select></div>
+    <div class="po"><label for="ori">Orientación</label><select id="ori"><option value="?">No lo sé</option><option value="S">Sur</option><option value="E">Este</option><option value="O">Oeste</option><option value="N">Norte</option></select></div>
+    <div><label for="cal">Calefacción</label><select id="cal"><option value="ind">Individual</option><option value="cen">Central</option><option value="no">No tiene</option></select></div>
+    <div><label for="calle">La calle es…</label><select id="calle"><option value="tranq">Tranquila</option><option value="normal" selected>Normal</option><option value="ruido">Avenida / ruidosa</option><option value="peat">Peatonal</option></select></div>
+    <div class="po"><label for="com">Comunidad (€/mes)</label><input id="com" type="number" inputmode="numeric" placeholder="60"></div>
+  </div></details>

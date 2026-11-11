@@ -10,6 +10,7 @@ const dec=(n,d=1)=>n.toFixed(d).replace(".",",");
 const norm=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
 function hav(a,b){const R=6371,r=Math.PI/180,dl=(b[0]-a[0])*r,dn=(b[1]-a[1])*r,x=Math.sin(dl/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x));}
 const walkMin=km=>Math.max(1,Math.round(km*1.25*1000/80));
+const esc=t=>String(t==null?"":t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const score=v=>Math.max(1,Math.min(10,v));
 const dist=km=>{const m=Math.max(50,Math.round(km*20)*50);return m<1000?m+" m":dec(km)+" km";};
 
@@ -31,8 +32,9 @@ function inPoly(pt,ring){let c=false;for(let i=0,j=ring.length-1;i<ring.length;j
 function madBarrio(lat,lon){return MAD.barrios.find(b=>b.r.some(r=>inPoly([lon,lat],r)));}
 function nearestCity(lat,lon){let best=null,bd=1e9;for(const [k,c] of Object.entries(C)){const d=hav([lat,lon],c.centro);if(d<bd){bd=d;best=k;}}return bd<25?best:null;}
 function matchDistrict(ck,names){
-  const ds=Object.keys(C[ck].d);const cand=names.filter(Boolean).map(norm);
-  for(const d of ds){const parts=d.split(/ - |-/).map(norm).filter(x=>x.length>2);if(cand.some(n=>n===norm(d)||parts.some(p=>n===p||n.includes(p)||p.includes(n))))return d;}
+  const ds=Object.keys(C[ck].d);const cand=names.map(norm).filter(n=>n.length>2).map(n=>" "+n+" ");
+  for(const d of ds)if(cand.some(n=>n.trim()===norm(d)))return d;
+  for(const d of ds){const parts=d.split(/ - |-/).map(norm).filter(x=>x.length>2);if(cand.some(n=>parts.some(p=>n.includes(" "+p+" "))))return d;}
   return "";
 }
 // dónde cae un punto: ciudad, distrito y barrio (Madrid con polígonos; el resto con Nominatim)
@@ -57,29 +59,44 @@ async function geocode(q){
 }
 
 // ---------- paste an ad
+// zonas de Madrid que la gente nombra y no son distrito ni barrio oficial
+const ZONAS_MADRID=[["la latina","Centro"],["lavapies","Centro"],["malasana","Centro"],["chueca","Centro"],["huertas","Centro"],["barrio de las letras","Centro"],["opera","Centro"]];
 function parseAd(t){
-  const T=t.replace(/\u00a0/g," "),L=T.toLowerCase(),out={},got=[];
-  const num=s=>+String(s).replace(/\./g,"").replace(",",".");
-  const room=/habitaci[oó]n (en|de|para)[^.\n]{0,25}(piso|vivienda) compartid|alquiler de habitaci|habitaci[oó]n en alquiler|compa[nñ]eros de piso/.test(L);
-  const L2=L.replace(/(gastos de )?comunidad[^\n]{0,30}/g," ").replace(/ibi[^\n]{0,30}/g," ");
-  const sale=/\ben venta\b|se vende|\bventa\b|comprar/.test(L2);
-  const rent=!sale&&/alquiler|alquila|€\s*\/\s*mes|al mes|\/mes|mensual/.test(L2);
-  out.op=room?"habitacion":rent?"alquiler":"venta";got.push(room?"habitación":rent?"alquiler":"compra");
-  const prices=[...T.matchAll(/(?<![\d.,])(\d{1,3}(?:\.\d{3})+|\d{1,3}(?: \d{3})+|\d{3,7})\s*(?:€|eur)/gi)].map(m=>num(m[1].replace(/\s/g,"")));
-  if(prices.length){out.precio=out.op==="venta"?Math.max(...prices):Math.min(...prices.filter(p=>p>=150))||prices[0];got.push("precio");}
-  let m=L.match(/(\d{2,4})\s*m(?:²|2)\s*(?:construidos|const)/)||L.match(/(\d{2,4})\s*m(?:²|2)/);
-  if(m){if(out.op==="habitacion"){const mm=L.match(/habitaci[oó]n[^.\n]{0,40}?(\d{1,2})\s*m(?:²|2)/)||L.match(/(\d{1,2})\s*m(?:²|2)/);if(mm){out.rm2=+mm[1];got.push("m² de la habitación");}}else{out.m2=+m[1];got.push("m²");}}
-  if(/\bestudio\b/.test(L)&&out.op!=="habitacion")out.hab=0;
-  m=L.match(/(\d)\s*(?:hab\b|hab\.|habs?\b|habitaciones|dormitorios)/);if(m&&out.op!=="habitacion"){out.hab=Math.min(5,+m[1]);got.push("habitaciones");}
+  const T=t.replace(/ /g," "),L=T.toLowerCase(),out={},got=[];
+  const num=s=>+String(s).replace(/[.\s]/g,"").replace(",",".");
+  // --- qué es: manda el titular («piso en alquiler», «habitación en…»), no las palabras sueltas del menú del portal
+  const roomH=/habitaci[oó]n (en|de|para)[^.\n]{0,25}(piso|vivienda) compartid|alquiler de habitaci[oó]n\b|habitaci[oó]n en alquiler|(alquilo|se alquila|alquiler)\s+(una\s+)?habitaci[oó]n\b/.test(L);
+  const rentH=/(piso|[aá]tico|estudio|apartamento|d[uú]plex|loft|casa|chalet|vivienda)\s+(en|de)\s+alquiler|alquiler de (piso|[aá]tico|estudio|apartamento|d[uú]plex|loft|casa|chalet|vivienda)|se alquila|alquilo\b/.test(L);
+  const saleH=/(piso|[aá]tico|estudio|apartamento|d[uú]plex|loft|casa|chalet|vivienda)\s+en\s+venta|\ben venta\b|se vende|vendo\b|venta (de )?(piso|[aá]tico|estudio|apartamento)/.test(L);
+  const mes=/€\s*\/\s*mes|euros?\s*\/\s*mes|al mes|\/mes|mensual/.test(L);
+  out.op=roomH?"habitacion":rentH&&!saleH?"alquiler":saleH&&!rentH?"venta":mes||(/alquiler|alquila/.test(L)&&!/\bventa\b/.test(L))?"alquiler":"venta";
+  // --- precio: fuera comunidad, fianza, IBI y precios tachados; el primero que tenga sentido
+  const prices=[...T.matchAll(/(?<![\d.,])(\d{1,3}(?:\.\d{3})+|\d{1,3}(?: \d{3})+|\d{3,7})(?:,\d{1,2})?\s*(?:€|eur)/gi)]
+    .filter(m=>!/(?<![a-záéíóúñ])(comunidad|fianza|ibi|gastos|antes|dep[oó]sito|garant[ií]a)(?![a-záéíóúñ])[^\d\n]{0,25}$/i.test(T.slice(Math.max(0,m.index-40),m.index))).map(m=>num(m[1]));
+  const okP={venta:p=>p>=30000,alquiler:p=>p>=300&&p<20000,habitacion:p=>p>=150&&p<=2000};
+  let precio=prices.find(okP[out.op]);
+  if(precio==null&&prices.length&&!roomH){const alt=modoPorPrecio(out.op,prices[0]);if(alt&&alt!=="habitacion"&&okP[alt](prices[0])){out.op=alt;precio=prices[0];}}
+  got.push({habitacion:"habitación",alquiler:"alquiler",venta:"compra"}[out.op]);
+  if(precio!=null){out.precio=precio;got.push("precio");}
+  const room=out.op==="habitacion";
+  // --- metros: los de la vivienda (no terraza, patio…); en habitación, los de la habitación
+  const M2=/(?<![\d.,])(\d{1,4})\s*(?:m²|m2\b|mts?\b|metros(?: cuadrados)?)(\s*(?:construidos|const\b))?/g;
+  const ms=[...L.matchAll(M2)].map(m=>({n:+m[1],c:!!m[2],pre:L.slice(Math.max(0,m.index-30),m.index)})).filter(m=>!/(terraza|balc[oó]n|patio|parcela|jard[ií]n|trastero|garaje)[^\d.\n]{0,20}$/.test(m.pre));
+  if(room){const h=ms.find(m=>m.n>=4&&m.n<=40&&/habitaci[oó]n[^.\n]{0,25}$/.test(m.pre))||ms.find(m=>m.n>=4&&m.n<=40&&!/piso[^.\n]{0,15}$/.test(m.pre));if(h){out.rm2=h.n;got.push("m² de la habitación");}}
+  else{const big=ms.filter(m=>m.n>=15&&m.n<=600),c=big.find(m=>m.c)||big.sort((a,b)=>b.n-a.n)[0];if(c){out.m2=c.n;got.push("m²");}}
+  let m;
+  if(/\bestudio\b/.test(L)&&!room)out.hab=0;
+  m=L.match(/(\d)\s*(?:habs?\b\.?|habitaci[oó]n(?:es)?|dormitorios?)/);if(m&&!room&&+m[1]>0){out.hab=Math.min(5,+m[1]);got.push("habitaciones");}
   m=L.match(/(\d)\s*baños?/);if(m){out.ban=Math.min(3,+m[1]);got.push("baños");}
-  const NL=norm(T),L3=L.replace(/(patios?|carpinter[ií]a|dise[nñ]o|escaleras?|puertas?|decoraci[oó]n|jard[ií]n(es)?|fachada|zonas?)\s+(de\s+)?(interior|exterior)(es)?/g," ");
-  if(/semis[oó]tano/.test(L))out.planta=-1;else if(/\batico\b/.test(NL))out.planta=99;
-  else{m=L.match(/planta\s*(\d{1,2})|(\d{1,2})\s*[ºªo°]?\s*planta/);if(m)out.planta=Math.min(6,+(m[1]||m[2]));
-    else if(/planta baja|\bbajo\b(?!\s+(consumo|coste|precio|mantenimiento))/.test(L))out.planta=0;}
+  // --- planta
+  const ORD={primera:1,primer:1,segunda:2,segundo:2,tercera:3,tercer:3,cuarta:4,cuarto:4,quinta:5,quinto:5,sexta:6,sexto:6,septima:6,octava:6,novena:6,decima:6};
+  if(/semis[oó]tano/.test(L))out.planta=-1;else if(/[aá]tico/.test(L))out.planta=99;else if(/\bbajo\b(?! cubierta)|planta baja/.test(L))out.planta=0;
+  else{m=L.match(/planta\s*(\d{1,2})(?!\d)|(?<![\d.,])(\d{1,2})\s*[ºªo°a]?\s*planta(?!s)/);if(m)out.planta=Math.min(6,+(m[1]||m[2]));
+    else{m=norm(L).match(/\b(primera?|segund[ao]|tercera?|cuart[ao]|quint[ao]|sext[ao]|septima|octava|novena|decima)\s+planta(?!s)/);if(m)out.planta=ORD[m[1]];}}
   if(out.planta!=null)got.push("planta");
-  if(/sin ascensor/.test(L)){out.asc=0;got.push("ascensor");}else if(/con ascensor|ascensor/.test(L)){out.asc=1;got.push("ascensor");}
-  if(/\binterior\b/.test(L3)){out.ext=0;}else if(/\bexterior\b/.test(L3)){out.ext=1;}
-  if(/a reformar|para reformar|necesita reforma/.test(L))out.estado="reformar";else if(/obra nueva|promoci[oó]n/.test(L))out.estado="nuevo";else if(/reformad[oa]|reci[eé]n reformad/.test(L))out.estado="reformado";else if(/buen estado|segunda mano/.test(L))out.estado="bueno";
+  if(/sin ascensor|no (tiene|dispone de|hay|cuenta con) ascensor/.test(L)){out.asc=0;got.push("ascensor");}else if(/ascensor/.test(L)){out.asc=1;got.push("ascensor");}
+  if(/\binterior\b/.test(L)){out.ext=0;}else if(/\bexterior\b/.test(L)){out.ext=1;}
+  if(/a reformar|para reformar|(?<!no )necesita reforma/.test(L))out.estado="reformar";else if(/(?<!alquilar )obra nueva(?!\s*\n)|a estrenar/.test(L))out.estado="nuevo";else if(/reformad[oa]|reci[eé]n reformad/.test(L))out.estado="reformado";else if(/buen estado|segunda mano/.test(L))out.estado="bueno";
   if(out.estado)got.push("estado");
   m=L.match(/(?:construid[oa] en|a[nñ]o de construcci[oó]n:?|del a[nñ]o)\s*(1[89]\d\d|20\d\d)/);if(m){const y=+m[1];out.anio=y<1950?1940:y<1970?1960:y<1980?1975:y<2000?1990:y<2015?2005:2020;got.push("año");}
   m=L.match(/orientaci[oó]n\s*(sur|norte|este|oeste)/);if(m){out.ori={sur:"S",norte:"N",este:"E",oeste:"O"}[m[1]];got.push("orientación");}
@@ -92,15 +109,22 @@ function parseAd(t){
   if(/baño privado|ba[nñ]o propio|ba[nñ]o en suite/.test(L))out.rban="priv";
   if(/gastos incluidos|suministros incluidos/.test(L))out.gastos="inc";
   m=L.match(/(\d)\s*(?:compa[nñ]eros|inquilinos|personas)/);if(m){out.pers=Math.min(6,+m[1]+(/compa[nñ]eros/.test(m[0])?1:0));}
-  m=T.match(/(?:en |, )((?:calle|c\/|avenida|avda\.?|paseo|plaza|pza\.?|camino|ronda|glorieta|traves[ií]a|carrer|passeig|avinguda|kalea)[^,\n·|.;]{2,60}(?:,\s*\d{1,4})?)/i);
+  m=T.match(/(?:en |, )((?:calle|c\/|avenida|avda\.?|paseo|plaza|pza\.?|camino|ronda|glorieta|traves[ií]a|carrer|passeig|avinguda|kalea)\s+(?!tranquil|peatonal|principal|comercial|de garaje|mar[ií]tim|sin salida|muy |con |sin )[^,\n·|.;]{2,60}?(?:,?\s*(?:n[ºo°]\s*)?\d{1,4}(?![\d.]|\s*(?:€|eur|m²|m2|hab)))?)(?=\s*(?:[,\n·|.;]|$))/i);
   if(m){out.dir=m[1].trim();got.push("dirección");}
-  for(const [k,c] of Object.entries(C)){const n=norm(c.n);if(new RegExp("\\b"+n+"\\b").test(norm(T))||(k==="valencia"&&/val[eè]ncia/i.test(T))||(k==="alicante"&&/alacant/i.test(T))){out.ck=k;break;}}
-  const NT=" "+norm(out.dir?T.replace(out.dir," "):T)+" ",STOP=new Set(["centro","este","norte","sur","oeste","jesus","universidad","miraflores"]),hits=[];
-  for(const [k,c] of Object.entries(C)){if(out.ck&&k!==out.ck)continue;
-    for(const d of Object.keys(c.d))for(const part of new Set([d,...d.split(/\s*-\s*/)])){const n=norm(part).replace(/^l /,"");
-      if(n.length>=4&&!STOP.has(n)&&NT.includes(" "+n+" "))hits.push({k,d,len:n.length});}}
-  if(hits.length){hits.sort((a,b)=>b.len-a.len);const top=hits.filter(h=>h.len===hits[0].len);
-    if(top.every(h=>h.k===top[0].k&&h.d===top[0].d)){out.ck=top[0].k;out.d=top[0].d;got.push("distrito");}}
+  // ciudad: fuera de la dirección («avenida de Madrid» no es Madrid); si hay varias, la última
+  const sinDir=out.dir?T.replace(out.dir," "):T,NS=norm(sinDir);let pos=-1;
+  for(const [k,c] of Object.entries(C)){const alt=k==="valencia"?"valencia|valencia":k==="alicante"?"alicante|alacant":norm(c.n);
+    for(const mm of NS.matchAll(new RegExp("\\b(?:"+alt+")\\b","g")))if(mm.index>pos){pos=mm.index;out.ck=k;}}
+  const STOP=new Set(["centro","este","norte","sur","oeste","jesus","universidad","miraflores"]);
+  const busca=txt=>{const NT=" "+norm(txt)+" ",hits=[];
+    if(!out.ck||out.ck==="madrid")for(const [n,d] of ZONAS_MADRID)if(NT.includes(" "+n+" "))hits.push({k:"madrid",d,len:n.length+.5});
+    if(!out.ck||out.ck==="madrid")for(const b of MAD.barrios){const n=norm(b.n);if(n.length>=4&&!STOP.has(n)&&NT.includes(" "+n+" "))hits.push({k:"madrid",d:b.d,len:n.length+.5});}
+    for(const [k,c] of Object.entries(C)){if(out.ck&&k!==out.ck)continue;
+      for(const d of Object.keys(c.d))for(const part of new Set([d,...d.split(/\s*-\s*/)])){const n=norm(part).replace(/^l /,"");
+        if(n.length>=4&&!STOP.has(n)&&NT.includes(" "+n+" "))hits.push({k,d,len:n.length});}}
+    if(!hits.length)return false;hits.sort((a,b)=>b.len-a.len);const top=hits.filter(h=>h.len===hits[0].len);
+    if(!top.every(h=>h.k===top[0].k&&h.d===top[0].d))return false;out.ck=top[0].k;out.d=top[0].d;got.push("distrito");return true;};
+  busca(sinDir);
   return {out,got};
 }
 
@@ -134,7 +158,6 @@ function classify(els,pt){
     if(t.railway==="station"||t.railway==="halt"||t.railway==="tram_stop"||t.public_transport==="station"){
       if(!t.name)continue;
       let typ=t.station==="subway"||t.subway==="yes"?"Metro":(t.railway==="tram_stop"||t.station==="light_rail"||t.tram==="yes"||t.light_rail==="yes")?"Tranvía":(t.train==="yes"||t.station==="train"||t.railway==="halt"||t.railway==="station")?"Tren":"Estación";
-      if(t.station==="subway"||t.subway==="yes")typ="Metro";
       const key=norm(t.name)+typ;if(seen.has(key))continue;seen.add(key);
       o.st.push({n:t.name,typ,km,l:(t.line||t.ref||"").split(/[;,]/).map(s=>s.trim()).filter(s=>s&&s.length<5).slice(0,4)});}
     else if(t.highway==="bus_stop")o.bus++;
@@ -153,7 +176,7 @@ function classify(els,pt){
   return o;
 }
 function madFallback(pt){
-  const st=MAD.stations.map(s=>({n:s.n,typ:s.t==="ML"?"Metro ligero":"Metro",l:s.l,km:hav(pt,[s.y,s.x])})).sort((a,b)=>a.km-b.km).slice(0,5);
+  const st=MAD.stations.map(s=>({n:s.n,typ:s.t==="ML"?"Metro ligero":"Metro",l:s.l,km:hav(pt,[s.y,s.x])})).sort((a,b)=>a.km-b.km).filter(s=>s.km<=1.2).slice(0,5);
   return {st,bus:null,shops:[],farm:[],salud:[],hosp:[],cole:null,parks:[],named:[],bars:null,road:null,rail:false,partial:true};
 }
 const ENV={};
@@ -203,7 +226,7 @@ function envScores(env,f,pt){
   if(env){
     const s0=env.st[0];const w0=s0?walkMin(s0.km):30;
     tr=w0<=5?10:w0<=8?8.5:w0<=12?7:w0<=18?5:3;
-    tr+=Math.min(1.5,(env.st.filter(s=>walkMin(s.km)<=10).length-1)*.5);
+    tr+=Math.min(1.5,Math.max(0,env.st.filter(s=>walkMin(s.km)<=10).length-1)*.5);
     if(env.bus!=null)tr+=env.bus>=4?.5:env.bus===0?-1:0;
     if(!env.partial){
       const sh=env.shops.find(s=>s.s==="supermarket")||env.shops[0];
@@ -212,7 +235,7 @@ function envScores(env,f,pt){
       const sal=env.salud[0]||env.hosp[0];if(sal&&sal.km<1)ent+=.75;
       const pk=env.parks[0];if(pk&&pk.km<.3)ent+=1.5;else if(pk&&pk.km<.8)ent+=.75;
       if(env.cole>=2)ent+=.5;
-      if(env.road&&env.road.km<.07){q-=2;cons.push(`Junto a ${env.road.n}: ruido de tráfico. Pide ver el piso con las ventanas abiertas.`);}
+      if(env.road&&env.road.km<.07){q-=2;cons.push(`Junto a ${esc(env.road.n)}: ruido de tráfico. Pide ver el piso con las ventanas abiertas.`);}
       if(env.rail){q-=1;info.push("Hay una vía de tren cerca: comprueba si se oye el paso de los trenes.");}
       if(env.bars>=8){q-=1.5;cons.push(`Zona de bares y ocio (${env.bars} locales a menos de 250 m): ruido por la noche, sobre todo los fines de semana.`);}
       else if(env.bars>=3){q-=.5;info.push(`Hay ${env.bars} bares a menos de 250 m: ambiente, pero mira el ruido nocturno.`);}
@@ -269,7 +292,7 @@ function roomReport(r){
   const perBath=f.rban==="priv"?1:f.pers/(+f.rban);let cv=7;
   if(f.rban==="priv"){cv+=2;pros.push("Baño privado: la mayor ventaja en un piso compartido.");}
   else if(perBath>=4){cv-=2.5;cons.push(`${f.pers} personas para ${f.rban} baño${f.rban==="1"?"":"s"}: habrá colas por las mañanas.`);}
-  else if(perBath>=3){cv-=1;cons.push(`${f.pers} personas para un baño: justo.`);}
+  else if(perBath>=3){cv-=1;cons.push(`${f.pers} personas para ${f.rban} baño${f.rban==="1"?"":"s"}: justo.`);}
   else pros.push(`Buena proporción de baños: ${f.pers} personas para ${f.rban} baño${f.rban==="1"?"":"s"}.`);
   if(f.pers>=5){cv-=1;cons.push("Piso con muchas personas: más ruido, cocina y nevera más llenas.");}else if(f.pers<=3)pros.push("Pocos compañeros: más fácil convivir y organizarse.");
   if(f.rm2<7){cv-=2;cons.push(`Habitación muy pequeña (${f.rm2} m²): comprueba que entran cama, armario y mesa.`);}
@@ -304,7 +327,7 @@ function completar(f){
 }
 // devuelve el código del fallo (clave de FALLOS) o null si se puede hacer el informe
 function fallo(f,lugar){
-  if(lugar&&!lugar.pt&&!lugar.d)return "lugar";
+  if(lugar&&(!C[lugar.ck]||(!lugar.pt&&!lugar.d&&!lugar.media)))return "lugar";
   if(f.op!=="habitacion"&&(f.m2<15||f.m2>600))return "m2";
   if(f.op==="habitacion"&&(f.rm2<4||f.rm2>40))return "rm2";
   if(f.op==="venta"&&f.precio>0&&f.precio<30000)return "precioBajo";
@@ -315,13 +338,13 @@ async function informe(f,lugar,trabajo){
   f=completar(f);const {ck,d,pt}=lugar;
   const err=fallo(f,lugar);if(err)return {error:err,mensaje:FALLOS[err]};
   const env=pt?await environment(pt,ck):null;
-  const w0=env&&env.st[0]?walkMin(env.st[0].km):12;
+  const w0=env&&env.st[0]?walkMin(env.st[0].km):env?30:12;
   const work=pt?await commute(pt,w0,trabajo,ck):null;
   const es=envScores(env,f,pt);
   if(work&&!work.err&&!work.far){if(work.min>45)es.tr=score(es.tr-1.5);else if(work.min<=25)es.tr=score(es.tr+.5);}
   if(f.m2est)es.info.unshift(`No sé los metros: he supuesto ${f.m2} m², lo normal con ${f.hab?f.hab+" habitaci"+(f.hab>1?"ones":"ón"):"un estudio"}. Dime los metros para afinar.`);
   if(f.rm2est)es.info.unshift("No sé los m² de la habitación: he supuesto 10 m², lo habitual. Dime los metros para afinar.");
-  const r={f,ck,d,pt:pt||null,auto:lugar.auto||"",env,work,es};
+  const r={f,ck,d:C[ck].d[d]?d:"",pt:pt||null,auto:lugar.auto||"",env,work,es};
   const x=f.op==="habitacion"?roomReport(r):flatReport(r);
   const c=C[ck];x.room=!!x.room;
   x.tot=x.parts.reduce((s,p)=>s+p[1]*p[2],0);
@@ -337,7 +360,7 @@ function ring(v,c){return `<div class="ring" role="img" aria-label="Nota ${dec(v
 const barCol=v=>v>=7.5?"#1f7a4d":v>=5.5?"#d39b3a":"#b23b3b";
 function informeHTML(x){
   const {f,ck,d,env,work}=x,c=C[ck],op=f.op,room=x.room,tot=x.tot,tv=x.tv,place=x.place;
-  let h=`<section class="card"><div class="score">${ring(tot,barCol(tot))}<div><p class="verdict">${tv}</p><div style="color:var(--mute);font-size:14px">${x.title} · ${place}</div>${x.dev!==null?`<div style="margin-top:8px"><span class="pill ${x.cls}">${x.ver}</span></div>`:""}</div></div><div class="bars">`+
+  let h=`<section class="card"><div class="score">${ring(tot,barCol(tot))}<div><p class="verdict">${tv}</p><div style="color:var(--mute);font-size:14px">${x.title} · ${esc(place)}</div>${x.dev!==null?`<div style="margin-top:8px"><span class="pill ${x.cls}">${x.ver}</span></div>`:""}</div></div><div class="bars">`+
     x.parts.map(p=>`<div class="bar"><span>${p[0]}</span><div class="t"><b style="width:${p[1]*10}%;background:${barCol(p[1])}"></b></div><span>${dec(p[1])}</span></div>`).join("")+`</div>
     <div class="actions noprint" style="margin-top:14px"><button class="btn2" id="pdf">Guardar en PDF</button><button class="btn2" id="share">Compartir informe</button></div><div id="shareMsg" class="ok noprint" role="status" aria-live="polite"></div></section>`;
   // price
@@ -357,21 +380,21 @@ function informeHTML(x){
     h+=`<h2 style="margin-top:16px">🧾 Al entrar</h2><div class="kv">`+(room?`<div>Primer mes + fianza habitual (1 mes)</div><div>${eur(rent*2)}</div><div>Coste real al mes${gm?" (con unos 55 € de gastos)":""}</div><div>${eur(rent+gm)}</div>`:`<div>Fianza legal (1 mes)</div><div>${eur(rent)}</div><div>Garantía adicional máxima (2 meses)</div><div>${eur(rent*2)}</div><div>Honorarios de agencia</div><div>0 € (los paga el propietario)</div>`)+`<div>Ingresos netos recomendados (≤ 33 %)</div><div>${eur((rent+gm)/.33)}/mes</div></div>`;}
   h+=`</section>`;
   // transport
-  if(env){h+=`<section class="card"><h2>🚇 Transporte</h2><p class="hint">Estaciones a menos de 1,2 km y tiempo andando (estimado).</p>`+
-    (env.st.length?env.st.map(s=>`<div class="st"><span>${s.n} <span class="ln">${s.typ}</span>${(s.l||[]).map(l=>`<span class="ln">${l}</span>`).join("")}</span><b>${walkMin(s.km)} min</b></div>`).join(""):`<p class="hint">No hay estaciones de metro, tranvía ni tren a menos de 1,2 km: dependerás del autobús o del coche.</p>`)+
-    `<div class="kv" style="margin-top:10px">${env.bus!=null?`<div>Paradas de autobús a menos de 400 m</div><div>${env.bus}</div>`:""}${work?work.err?`<div>Al trabajo</div><div>no encontré «${work.n}»</div>`:work.far?`<div>Al trabajo (${work.n})</div><div>a ${fmt(work.km)} km: demasiado lejos para ir cada día</div>`:`<div>Al trabajo (${work.n})</div><div>≈ ${work.min} min</div>`:""}</div><p class="note">Tiempo al trabajo aproximado: andando + espera + trayecto + transbordos.</p></section>`;}
-  else if(!x.pt)h+=`<section class="card noprint"><h2>📍 Falta el punto exacto</h2><p class="hint">Este informe usa la media del distrito. Si escribes la dirección o tocas en el mapa, te digo también el metro más cercano, el tiempo al trabajo, los supermercados, los parques y el ruido de la calle.</p><button class="btn2" id="toMap">Marcar el piso en el mapa</button></section>`;
+  if(env){h+=`<section class="card"><h2>🚇 Transporte</h2><p class="hint">Estaciones a menos de 1,2 km y tiempo andando (estimado).</p>${env.partial?`<p class="note">⚠️ OpenStreetMap no responde ahora: solo te enseño el metro. Faltan autobuses, servicios y ruido de la zona; vuelve a intentarlo en un rato.</p>`:""}`+
+    (env.st.length?env.st.map(s=>`<div class="st"><span>${esc(s.n)} <span class="ln">${s.typ}</span>${(s.l||[]).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</span><b>${walkMin(s.km)} min</b></div>`).join(""):`<p class="hint">No hay estaciones de metro, tranvía ni tren a menos de 1,2 km: dependerás del autobús o del coche.</p>`)+
+    `<div class="kv" style="margin-top:10px">${env.bus!=null?`<div>Paradas de autobús a menos de 400 m</div><div>${env.bus}</div>`:""}${work?work.err?`<div>Al trabajo</div><div>no encontré «${esc(work.n)}»</div>`:work.far?`<div>Al trabajo (${esc(work.n)})</div><div>a ${fmt(work.km)} km: demasiado lejos para ir cada día</div>`:`<div>Al trabajo (${esc(work.n)})</div><div>≈ ${work.min} min</div>`:""}</div><p class="note">Tiempo al trabajo aproximado: andando + espera + trayecto + transbordos.</p></section>`;}
+  else if(!x.pt)h+=`<section class="card noprint"><h2>📍 Falta el punto exacto</h2><p class="hint">Este informe usa la media ${d?"del distrito":"de la ciudad"}. Si escribes la dirección o tocas en el mapa, te digo también el metro más cercano, el tiempo al trabajo, los supermercados, los parques y el ruido de la calle.</p><button class="btn2" id="toMap">Marcar el piso en el mapa</button></section>`;
   else h+=`<section class="card"><h2>🚇 Transporte y servicios</h2><p class="hint">No he podido consultar ahora los datos de la zona (OpenStreetMap no responde). Vuelve a pulsar «Ver informe» en un rato.</p></section>`;
   // services
   if(env&&!env.partial){const sh=env.shops.find(s=>s.s==="supermarket");const sal=env.salud[0];
     h+=`<section class="card"><h2>🛒 Servicios y zonas verdes</h2><div class="kv">`+
-    `<div>Supermercado más cercano</div><div>${sh?sh.n+" · "+dist(sh.km):"ninguno a menos de 600 m"}</div>`+
+    `<div>Supermercado más cercano</div><div>${sh?esc(sh.n)+" · "+dist(sh.km):"ninguno a menos de 600 m"}</div>`+
     `<div>Tiendas de alimentación a menos de 600 m</div><div>${env.shops.length}</div>`+
     `<div>Farmacia más cercana</div><div>${env.farm[0]?dist(env.farm[0].km):"más de 1,5 km"}</div>`+
-    `<div>Centro de salud o clínica</div><div>${sal?sal.n+" · "+dist(sal.km):"más de 1,5 km"}</div>`+
-    `${env.hosp[0]?`<div>Hospital</div><div>${env.hosp[0].n} · ${dist(env.hosp[0].km)}</div>`:""}`+
+    `<div>Centro de salud o clínica</div><div>${sal?esc(sal.n)+" · "+dist(sal.km):"más de 1,5 km"}</div>`+
+    `${env.hosp[0]?`<div>Hospital</div><div>${esc(env.hosp[0].n)} · ${dist(env.hosp[0].km)}</div>`:""}`+
     `<div>Colegios y escuelas infantiles a menos de 1 km</div><div>${env.cole}</div>`+
-    `<div>Parque más cercano</div><div>${env.parks[0]?(env.named[0]&&env.named[0].km-env.parks[0].km<.2?env.named[0].n:"Zona verde")+" · "+dist(env.parks[0].km):"ninguno a menos de 1,2 km"}</div>`+
+    `<div>Parque más cercano</div><div>${env.parks[0]?(env.named[0]&&env.named[0].km-env.parks[0].km<.2?esc(env.named[0].n):"Zona verde")+" · "+dist(env.parks[0].km):"ninguno a menos de 1,2 km"}</div>`+
     `<div>Parques y jardines a menos de 1,2 km</div><div>${env.parks.length}</div></div><p class="note">Datos de OpenStreetMap: pueden faltar locales recientes.</p></section>`;}
   h+=`<section class="card"><h2>🏠 ${room?"Convivencia y confort":"Distribución, ruido y confort"}</h2><ul class="pc">`+x.pros.map(t=>`<li class="p">${t}</li>`).join("")+x.cons.map(t=>`<li class="c">${t}</li>`).join("")+x.info.map(t=>`<li class="i">${t}</li>`).join("")+`</ul></section>`;
   h+=`<section class="card"><h2>📋 ${room?"Antes de decir que sí":"Qué revisar en la visita"}</h2><ul class="pc">`+x.chk.map(t=>`<li class="q">${t}</li>`).join("")+`</ul></section>`;
@@ -392,4 +415,4 @@ function informeTexto(x){
 }
 
 // para usarlo fuera del navegador (Node: bot de WhatsApp, pruebas…)
-if(typeof module!=="undefined"&&module.exports)module.exports={P,C,MAD,fmt,eur,dec,norm,hav,walkMin,dist,dPrice,roomBase,nearestCity,matchDistrict,locate,geocode,parseAd,overpass,classify,environment,commute,valuation,verdict,envScores,completar,fallo,FALLOS,modoPorPrecio,informe,informeHTML,informeTexto};
+if(typeof module!=="undefined"&&module.exports)module.exports={P,C,MAD,esc,fmt,eur,dec,norm,hav,walkMin,dist,dPrice,roomBase,nearestCity,matchDistrict,locate,geocode,parseAd,overpass,classify,environment,commute,valuation,verdict,envScores,completar,fallo,FALLOS,modoPorPrecio,informe,informeHTML,informeTexto};

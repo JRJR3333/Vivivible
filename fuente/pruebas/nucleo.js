@@ -20,6 +20,28 @@ global.fetch = async (url, o) => {
   const { out } = V.parseAd("Piso en venta en calle de Fuencarral, 120, Madrid · 320.000 € · 75 m² construidos · 2 hab. · 1 baño · Planta 3ª exterior con ascensor");
   assert.deepStrictEqual([out.op, out.precio, out.m2, out.hab, out.planta, out.asc, out.ck], ["venta", 320000, 75, 2, 3, 1, "madrid"]);
   assert.strictEqual(V.parseAd("Habitación en piso compartido en Gràcia, Barcelona. 450 € al mes, 12 m2").out.op, "habitacion");
+  // 2b. anuncios difíciles (auditoría del 2026-11-11): [texto, lo que debe salir]
+  const AN = [
+    ["Piso en venta en calle de Alcalá, 200, Salamanca, Madrid\n320.000 € 350.000 € 9%\n75 m² 2 hab.", { op: "venta", precio: 320000, d: "Salamanca" }],
+    ["Piso en alquiler en Ruzafa, Valencia. Renta 1.300 €/mes. Gastos de comunidad 180 € a cargo del inquilino. 80 m²", { op: "alquiler", precio: 1300, m2: 80 }],
+    ["Venta piso Eixample Barcelona 450.000,00 € 85 m2 3 dormitorios", { precio: 450000, hab: 3 }],
+    ["Piso en alquiler en Nervión, Sevilla. 70 m2. Comunidad 60 € incluida. Precio a consultar.", { op: "alquiler", precio: undefined }],
+    ["Comprar Alquilar Obra nueva\nPiso de alquiler en Calle Larios, Centro, Málaga\n1.100 € /mes\n2 habs. 65 m² 4ª Planta", { op: "alquiler", precio: 1100, estado: undefined, planta: 4 }],
+    ["Alquiler de piso de 4 habitaciones en Moncloa, Madrid, ideal para estudiantes o compañeros de piso. 2.000 €/mes, 110 m²", { op: "alquiler", precio: 2000, m2: 110, hab: 4 }],
+    ["Alquilo habitación luminosa para chica en Indautxu, Bilbao. 420 euros/mes. Habitación de 12 m2", { op: "habitacion", precio: 420, rm2: 12 }],
+    ["Se vende piso de 90m2 situado en calle tranquila de Deusto, Bilbao. Precio: 410.000€", { dir: undefined, d: "Deusto", m2: 90 }],
+    ["Piso en calle Fuencarral, 320.000 €, 2 habitaciones, 70 m², Madrid", { dir: "calle Fuencarral", precio: 320000 }],
+    ["Ático en venta con terraza de 25 m². Vivienda de 95 m², 3 habitaciones. 600.000 €. Retiro, Madrid", { m2: 95, planta: 99 }],
+    ["Se alquila piso de 1 habitación en Triana, Sevilla. 55 metros cuadrados. 850 euros al mes. No necesita reforma. Edificio de 5 plantas, no tiene ascensor.", { hab: 1, m2: 55, planta: undefined, asc: 0, estado: undefined }],
+    ["Piso en venta en avenida de Madrid, 150, Delicias, Zaragoza. 150.000 € 70 m² 3 hab", { ck: "zaragoza", d: "Delicias" }],
+    ["Piso en venta en La Latina, Madrid. 60 m², 380.000 €. Bajo cubierta con mucho encanto", { d: "Centro", planta: undefined }],
+    ["Habitación en piso compartido en Benimaclet, Valencia. 9 m², 350 €/mes", { op: "habitacion", rm2: 9 }],
+  ];
+  for (const [t, esp] of AN) { const o = V.parseAd(t).out; for (const [k, v] of Object.entries(esp)) assert.strictEqual(o[k], v, `«${t.slice(0, 40)}…» ${k}: ${o[k]} ≠ ${v}`); }
+  assert.strictEqual(V.matchDistrict("malaga", ["Oeste"]), ""); assert.strictEqual(V.matchDistrict("barcelona", ["!!!"]), "");
+  // 2c. lo que viene de fuera se escapa en el informe
+  const xs = await V.informe({ op: "venta", m2: 80 }, { ck: "madrid", d: "Centro", pt: null, auto: "<img src=x onerror=1>" }, "");
+  assert(!V.informeHTML(xs).includes("<img"));
   // 3. dónde cae un punto
   assert.deepStrictEqual((await V.locate(40.4200, -3.7050)).ck, "madrid");
   assert.strictEqual((await V.locate(41.39, 2.16)).d, "Eixample");
@@ -36,6 +58,7 @@ global.fetch = async (url, o) => {
   // 5. datos que no cuadran
   assert.strictEqual((await V.informe({ op: "venta", precio: 900, m2: 75 }, lugar)).error, "precioBajo");
   assert.strictEqual((await V.informe({ op: "venta" }, { ck: "madrid", d: "", pt: null })).error, "lugar");
+  assert(!(await V.informe({ op: "venta" }, { ck: "murcia", d: "", pt: null, media: true })).error);
   assert.strictEqual(V.modoPorPrecio("venta", 1300), "alquiler");
   console.log("núcleo OK");
 })().catch(e => { console.error(e); process.exit(1); });

@@ -95,14 +95,14 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
   <p class="hint">Copia el texto del anuncio (Idealista, Fotocasa, Habitaclia…) y pégalo aquí. Rellenamos el formulario por ti.</p>
   <textarea id="anuncio" placeholder="Piso en venta en calle de Fuencarral, 120 · 320.000 € · 75 m² construidos · 2 hab. · 1 baño · Planta 3ª exterior con ascensor…"></textarea>
   <div class="row" style="margin-top:8px"><button class="btn2" id="rellenar">Rellenar con el anuncio</button></div>
-  <div id="anuncioMsg" class="ok"></div>
+  <div id="anuncioMsg" class="ok" role="status" aria-live="polite"></div>
 </section>
 
 <section class="card">
   <h2><span class="step">1</span>¿Dónde está?</h2>
   <p class="hint">Escribe la dirección, toca en el mapa o elige ciudad y distrito.</p>
   <div class="row noprint" style="margin-bottom:10px"><input id="dir" type="text" placeholder="Calle y número, ciudad" autocomplete="street-address"><button class="btn2" id="buscar">Buscar</button></div>
-  <div class="err noprint" id="dirErr" style="margin:-4px 0 8px"></div>
+  <div class="err noprint" id="dirErr" style="margin:-4px 0 8px" role="status" aria-live="polite"></div>
   <div id="map" class="noprint"></div>
   <div class="grid">
     <div><label for="ciudad">Ciudad</label><select id="ciudad"></select></div>
@@ -157,7 +157,7 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
   <h2><span class="step">4</span>¿Dónde trabajas o estudias? <small style="font-weight:400;color:var(--mute)">(opcional)</small></h2>
   <input id="trabajo" type="text" placeholder="Dirección o lugar, p. ej. Nuevos Ministerios, Madrid">
   <button class="go noprint" id="go">Ver informe</button>
-  <div class="err" id="err"></div>
+  <div class="err" id="err" role="alert"></div>
 </section>
 
 <div id="res"></div>
@@ -447,6 +447,8 @@ async function analyze(){
   if(!state.pt&&!d){err.textContent="Dinos dónde está el piso (paso 1): dirección, mapa o distrito.";return;}
   if(f.op!=="habitacion"&&(f.m2<15||f.m2>600)){err.textContent="Indica los metros del piso (paso 3).";return;}
   if(f.op==="habitacion"&&(f.rm2<4||f.rm2>40)){err.textContent="Indica los m² de la habitación (paso 3).";return;}
+  if(f.op==="venta"&&f.precio>0&&f.precio<30000){err.textContent=`${eur(f.precio)} es muy poco para comprar un piso. Si es un alquiler, elige «Alquilar piso» en el paso 2; si es una venta, escribe el precio entero sin puntos (p. ej. 320000).`;$("#precio").focus();return;}
+  if(f.op!=="venta"&&f.precio>=20000){err.textContent=`${eur(f.precio)} al mes parece un precio de venta. Si quieres comprar, elige «Comprar» en el paso 2; si es un alquiler, pon lo que pagas cada mes.`;$("#precio").focus();return;}
   const btn=$("#go");btn.disabled=true;btn.textContent="Analizando la zona…";
   const pt=state.pt;
   const env=pt?await environment(pt,ck):null;
@@ -535,7 +537,7 @@ function render(x){
   const place=(state.auto?state.auto+", ":"")+(d||"")+(d?", ":"")+c.n;
   let h=`<section class="card"><div class="score">${ring(tot,barCol(tot))}<div><p class="verdict">${tv}</p><div style="color:var(--mute);font-size:14px">${x.title} · ${place}</div>${x.dev!==null?`<div style="margin-top:8px"><span class="pill ${x.cls}">${x.ver}</span></div>`:""}</div></div><div class="bars">`+
     x.parts.map(p=>`<div class="bar"><span>${p[0]}</span><div class="t"><b style="width:${p[1]*10}%;background:${barCol(p[1])}"></b></div><span>${dec(p[1])}</span></div>`).join("")+`</div>
-    <div class="actions noprint" style="margin-top:14px"><button class="btn2" id="pdf">Guardar en PDF</button><button class="btn2" id="share">Compartir informe</button></div><div id="shareMsg" class="ok noprint"></div></section>`;
+    <div class="actions noprint" style="margin-top:14px"><button class="btn2" id="pdf">Guardar en PDF</button><button class="btn2" id="share">Compartir informe</button></div><div id="shareMsg" class="ok noprint" role="status" aria-live="polite"></div></section>`;
   // price
   const lo=x.est*.9,hi=x.est*1.1,mo=op==="venta"?"":"/mes";
   h+=`<section class="card"><h2>💶 ${op==="venta"?"¿Cuánto vale?":"¿Cuánto debería costar?"}</h2><p class="hint">${room?`Estimación a partir del precio medio de una habitación en ${c.n} (${eur(c.hab)}/mes) ajustado al distrito y a lo que ofrece.`:`Estimación según el precio medio de ${d||c.n} y las características del piso.`}</p>

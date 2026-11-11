@@ -85,6 +85,7 @@ a{color:#1f6f54}h1{font:700 30px/1.15 Fraunces,Georgia,serif;margin:10px 0}.b{di
 .card{background:#fff;border:1px solid #e4dfd6;border-radius:16px;padding:18px;margin-top:16px}.g{display:grid;grid-template-columns:1fr 1fr;gap:12px}.k{background:#faf8f4;border:1px solid #e4dfd6;border-radius:12px;padding:12px}
 .k small{display:block;color:#5f6b66;font-size:12px}.k b{font:700 24px Fraunces,serif}.cta{display:block;text-align:center;background:#1f6f54;color:#fff;text-decoration:none;font-weight:700;padding:15px;border-radius:12px;margin-top:18px}
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;border-top:1px solid #f1ede6;text-align:left}td:last-child,th:last-child{text-align:right}.m{color:#5f6b66;font-size:13px}.card.m a{display:inline-block;min-height:44px;line-height:44px;padding:0 2px}
+.faq h2{font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px}.faq h3{font-size:16px;margin:14px 0 2px}.faq p{margin:0}
 @media(max-width:480px){.g{grid-template-columns:1fr}h1{font-size:26px}}"""
 
 def tit_distrito(d, cn):
@@ -99,7 +100,16 @@ def desc_corta(base, cola):
     return base + cola if len(base + cola) <= 160 else base
 
 
-def page(title, desc, path, body, crumbs):
+def faq(preguntas):
+    """Bloque «Preguntas frecuentes» visible + sus datos estructurados (FAQPage). preguntas: [(pregunta, respuesta en texto)]"""
+    h = '<section class="card faq"><h2>Preguntas frecuentes</h2>' + "".join(f"<h3>{esc(q)}</h3><p>{esc(a)}</p>" for q, a in preguntas) + "</section>"
+    ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in preguntas]},
+        ensure_ascii=False).replace("</", "<\\/")
+    return h, ld
+
+
+def page(title, desc, path, body, crumbs, extra_ld=None):
     canon = BASE + path
     bc = " › ".join(f'<a href="{u}">{esc(n)}</a>' if u else esc(n) for n, u in crumbs)
     depth = path.count("/")
@@ -110,7 +120,7 @@ def page(title, desc, path, body, crumbs):
     return f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{esc(desc)}"><link rel="canonical" href="{canon}">
 {HEADX}<meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:url" content="{canon}">
-<script type="application/ld+json">{ld}</script>
+<script type="application/ld+json">{ld}</script>{f'<script type="application/ld+json">{extra_ld}</script>' if extra_ld else ""}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>{CSS}</style></head><body><div class="w"><nav class="m" aria-label="Migas de pan">{bc}</nav><main>{body}</main>
 <footer class="m" style="margin-top:28px">Datos: precios medios de idealista ({esc(mes_txt)}); habitaciones: precio medio de la ciudad. Estimaciones orientativas, no tasaciones oficiales. Hecho por <a href="{"../" * path.count("/")}">Vivible</a>.</footer></div></body></html>"""
@@ -123,15 +133,33 @@ for ck, c in C.items():
     # city page
     tr = "".join(f'<tr><td><a href="{slug(d)}/">{esc(d)}</a></td><td>{fmt(s)} €/m²{"*" if es else ""}</td><td>{dec(r)} €/m²{"*" if er else ""}</td></tr>' for d, s, r, es, er in rows)
     nota = '<p class="m">* Estimado a partir del otro precio del distrito: idealista no publica ese dato.</p>' if any(x[3] or x[4] for x in rows) else ""
+    rent_c = c["alquiler"] * 70
+    bv, ba = min(rows, key=lambda x: x[1]), min(rows, key=lambda x: x[2])
+    av = max(rows, key=lambda x: x[2])
+    itp_t = str(c["itp"]).replace(".", ",")
+    fq_html, fq_ld = faq([
+        (f"¿Cuánto cuesta alquilar un piso en {c['n']}?",
+         f"De media, {dec(c['alquiler'])} € por m² al mes: un piso de 70 m² ronda los {fmt(rent_c)} € al mes. "
+         f"Va de unos {fmt(ba[2] * 70)} € en {ba[0]}{' (estimado)' if ba[4] else ''} a unos {fmt(av[2] * 70)} € en {av[0]}{' (estimado)' if av[4] else ''}."),
+        (f"¿Cuánto cuesta una habitación en {c['n']}?",
+         f"Una habitación en piso compartido cuesta de media unos {fmt(c['hab'])} € al mes en {c['n']}. En los distritos caros suele pagarse más y en los asequibles, menos."),
+        (f"¿Qué impuestos se pagan al comprar un piso en {c['n']}?",
+         f"Un piso de segunda mano paga el impuesto de transmisiones (ITP) {en_ccaa(c['ccaa'])}: el {itp_t} % del precio (tipo general). "
+         f"Uno nuevo paga un 10 % de IVA y un {dec(c['ajd'], 2).rstrip('0').rstrip(',')} % de actos jurídicos documentados. Además, notaría, registro y gestoría suman alrededor de un 1,5 %."),
+        (f"¿Cuál es el distrito más barato de {c['n']}?",
+         f"Para comprar, {bv[0]}: {fmt(bv[1])} €/m²{' (estimado)' if bv[3] else ''}, frente a {fmt(c['venta'])} €/m² de media. "
+         + (f"Para alquilar también es el más barato." if ba[0] == bv[0] else f"Para alquilar, {ba[0]}: {dec(ba[2])} €/m² al mes{' (estimado)' if ba[4] else ''}.")),
+    ])
     body = f"""<h1>Vivir en {esc(c["n"])}: precio por distritos ({esc(c["mes"])})</h1>
 <p>Comprar en {esc(c["n"])} cuesta de media <b>{fmt(c["venta"])} €/m²</b> y alquilar <b>{dec(c["alquiler"])} €/m² al mes</b>. Una habitación en piso compartido ronda los <b>{fmt(c["hab"])} € al mes</b>. Estos son los {n} distritos, del más caro al más barato.</p>
 <div class="card"><table><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² en cada distrito de {esc(c["n"])} ({esc(c["mes"])})</caption><tr><th scope="col">Distrito</th><th scope="col">Venta</th><th scope="col">Alquiler/mes</th></tr>{tr}</table>{nota}</div>
+{fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)}</div>"""
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
         f"Vivir en {c['n']}: precio de la vivienda por distritos (2026) | Vivible",
         f"Precio medio de compra, alquiler y habitación en los {n} distritos de {c['n']}. Compara barrios y analiza un piso gratis.",
-        f"{ck}/", body, [("Vivible", "../"), (c["n"], None)]))
+        f"{ck}/", body, [("Vivible", "../"), (c["n"], None)], fq_ld))
     urls.append(BASE + ck + "/")
     # district pages
     for i, (d, s, r, es, er) in enumerate(rows):
@@ -148,6 +176,17 @@ for ck, c in C.items():
             "de precio medio": f"Está en la franja media de {c['n']}: suele haber buen equilibrio entre precio y servicios. Revisa el transporte hasta tu trabajo antes de decidir.",
             "de los más asequibles": f"Es de las zonas más asequibles de {c['n']}. Puede ser una buena oportunidad, pero revisa con calma el estado del edificio, el transporte y el ambiente de la calle de día y de noche.",
         }[tier]
+        dq_html, dq_ld = faq([
+            (f"¿Cuánto cuesta alquilar un piso en {d}?",
+             f"Un piso de 70 m² en {d} ronda los {fmt(rent70)} € al mes ({dec(r)} €/m² al mes{', estimado' if er else ''}), frente a unos {fmt(c['alquiler'] * 70)} € de media en {c['n']}. "
+             f"Para pagarlo sin apuros conviene ingresar unos {fmt(rent70 / .33)} € al mes."),
+            (f"¿Cuánto cuesta una habitación en {d}?",
+             f"Unos {fmt(room)} € al mes, calculado a partir de la media de {c['n']} ({fmt(c['hab'])} €) y de lo caro que es el alquiler en {d}."),
+            (f"¿Cuánto dinero necesito para comprar un piso en {d}?",
+             f"Un piso de 70 m² cuesta unos {fmt(buy70)} €{' (estimado)' if es else ''}. Necesitas ahorrado unos {fmt(ahorro)} €: el 20 % de entrada ({fmt(buy70 * .2)} €), "
+             f"el {str(c['itp']).replace('.', ',')} % de impuesto de compra de segunda mano {en_ccaa(c['ccaa'])} ({fmt(buy70 * c['itp'] / 100)} €) y unos {fmt(buy70 * .015 + 400)} € de notaría, registro, gestoría y tasación. "
+             f"La hipoteca del resto (30 años al 2,8 %) saldría por unos {fmt(cuota)} € al mes."),
+        ])
         otros = " · ".join(f'<a href="../{slug(o)}/">{esc(o)}</a>' for o, *_ in rows if o != d)
         body = f"""<h1>Vivir en {esc(d)} ({esc(c["n"])}): precio, alquiler y habitación</h1>
 <p>{esc(d)} es {"el <b>distrito más caro</b>" if i == 0 else ("el <b>distrito más asequible</b>" if i == n - 1 else f"el <b>{i+1}º distrito más caro</b>")} de {n} en {esc(c["n"])}{"" if i in (0, n - 1) else ": " + tier}. {"Comprar cuesta lo mismo que la media de la ciudad" if round(abs(vs)) == 0 else f'Comprar cuesta un {dec(abs(vs),0)} % {"más" if vs >= 0 else "menos"} que la media de la ciudad'}{" (dato estimado)" if es else ""}.</p>
@@ -158,12 +197,13 @@ for ck, c in C.items():
 <div class="k"><small>Habitación en piso compartido</small><b>≈ {fmt(room)} €/mes</b><small>Media de la ciudad: {fmt(c["hab"])} €/mes</small></div>
 <div class="k"><small>Hipoteca de ese piso (80 %, 30 años, 2,8 %)</small><b>≈ {fmt(cuota)} €/mes</b><small>Rentabilidad bruta si se alquila: {dec(yld)} %</small></div></div>
 <div class="card"><b>Lo que debes saber</b><p>{esc(consejo)} El impuesto de compra de segunda mano {esc(en_ccaa(c["ccaa"]))} es del {str(c["itp"]).replace(".", ",")} % (tipo general).</p></div>
+{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
         open(F(ck, sd, "index.html"), "w", encoding="utf-8").write(page(
             tit_distrito(d, c['n']),
             desc_corta(f"{d} ({c['n']}): {fmt(s)} €/m² en venta, {dec(r)} €/m² de alquiler y habitación por unos {fmt(room)} €.", " Cuánto necesitas para comprar o alquilar."),
-            f"{ck}/{sd}/", body, [("Vivible", "../../"), (c["n"], "../"), (d, None)]))
+            f"{ck}/{sd}/", body, [("Vivible", "../../"), (c["n"], "../"), (d, None)], dq_ld))
         urls.append(BASE + f"{ck}/{sd}/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)

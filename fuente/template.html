@@ -181,16 +181,16 @@ const norm=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,
 function hav(a,b){const R=6371,r=Math.PI/180,dl=(b[0]-a[0])*r,dn=(b[1]-a[1])*r,x=Math.sin(dl/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x));}
 const walkMin=km=>Math.max(1,Math.round(km*1.25*1000/80));
 const score=v=>Math.max(1,Math.min(10,v));
-const dist=km=>km<1?Math.round(km*20)*50+" m":dec(km)+" km";
+const dist=km=>{const m=Math.max(50,Math.round(km*20)*50);return m<1000?m+" m":dec(km)+" km";};
 
 // ---------- prices
 function dPrice(ck,d){
-  const c=C[ck];let p=c.d[d];let est=false;
-  if(!p)return {s:c.venta,r:c.alquiler,est:true,city:true};
+  const c=C[ck];let p=c.d[d];let es=false,er=false;
+  if(!p)return {s:c.venta,r:c.alquiler,est:false,es:false,er:false,city:true};
   let [s,r]=p;
-  if(s==null){s=c.venta*Math.pow(r/c.alquiler,1.5);est=true;}
-  if(r==null){r=c.alquiler*Math.pow(s/c.venta,.5);est=true;}
-  return {s,r,est,city:false};
+  if(s==null){s=c.venta*Math.pow(r/c.alquiler,1.5);es=true;}
+  if(r==null){r=c.alquiler*Math.pow(s/c.venta,.5);er=true;}
+  return {s,r,est:es||er,es,er,city:false};
 }
 const roomBase=(ck,d)=>{const p=dPrice(ck,d);return Math.round(C[ck].hab*Math.pow(p.r/C[ck].alquiler,.8)/5)*5;};
 
@@ -380,7 +380,7 @@ async function environment(pt,ck){
 async function commute(pt,w0){
   const q=$("#trabajo").value.trim();if(!q)return null;
   try{let p=await geocode(/,/.test(q)?q:q+", "+C[state.ck].n);if(!p)return {n:q,err:true};
-    const km=hav(pt,p);return {n:q,km,min:km<1.2?walkMin(km):Math.round(Math.min(w0,15)+4+km*2.7+(km>4?5:0)+6)};}
+    const km=hav(pt,p);if(km>60)return {n:q,far:true,km};return {n:q,km,min:km<1.2?walkMin(km):Math.round(Math.min(w0,15)+4+km*2.7+(km>4?5:0)+6)};}
   catch(e){return {n:q,err:true};}
 }
 
@@ -404,7 +404,7 @@ function valuation(f,ck,d){
   if(f.anio<1960&&f.estado!=="reformado"&&f.estado!=="nuevo")add(-.03,"Edificio antiguo");
   k=Math.min(1.45,Math.max(.6,k));
   const p=dPrice(ck,d);
-  return {k,why,sale:p.s*k*f.m2,rent:p.r*k*f.m2*(f.m2<45?1.04:1),baseS:p.s,baseR:p.r,est:p.est,city:p.city};
+  return {k,why,sale:p.s*k*f.m2,rent:p.r*k*f.m2*(f.m2<45?1.04:1),baseS:p.s,baseR:p.r,est:p.est,es:p.es,er:p.er,city:p.city};
 }
 function verdict(dev,fem){
   if(dev===null)return ["Sin precio","pw",6.5];
@@ -455,7 +455,7 @@ async function analyze(){
   const work=pt?await commute(pt,w0):null;
   btn.disabled=false;btn.textContent="Ver informe";
   const es=envScores(env,f,pt);
-  if(work&&!work.err){if(work.min>45)es.tr=score(es.tr-1.5);else if(work.min<=25)es.tr=score(es.tr+.5);}
+  if(work&&!work.err&&!work.far){if(work.min>45)es.tr=score(es.tr-1.5);else if(work.min<=25)es.tr=score(es.tr+.5);}
   const r={f,ck,d,env,work,es};
   if(f.op==="habitacion")roomReport(r);else flatReport(r);
   saveHash();
@@ -543,7 +543,7 @@ function render(x){
   <div class="row2"><div class="box"><div class="l">${op==="venta"?"Valor estimado":room?"Precio razonable":"Alquiler razonable"}</div><div class="big">${eur(x.est)}${mo}</div><div class="l">Horquilla: ${eur(lo)} – ${eur(hi)}</div></div>
   <div class="box"><div class="l">Lo que piden</div><div class="big">${f.precio?eur(f.precio)+mo:"—"}</div>${x.dev!==null?`<div class="l">${Math.round(x.dev*100)===0?"Igual que":(x.dev>0?"+":"−")+Math.abs(Math.round(x.dev*100))+" % frente a"} la estimación</div>`:'<div class="l">Pon el precio para compararlo</div>'}</div></div><div class="kv" style="margin-top:12px">`;
   if(room)h+=`<div>Habitación media en ${d||c.n}</div><div>${eur(x.base)}/mes</div><div>Media de ${c.n}</div><div>${eur(c.hab)}/mes</div>`;
-  else{h+=`<div>Precio medio en ${d||c.n}${x.v.est?" (estimado)":""}</div><div>${op==="venta"?fmt(x.v.baseS)+" €/m²":dec(x.v.baseR)+" €/m²/mes"}</div>`+(f.precio?`<div>Este piso</div><div>${op==="venta"?fmt(f.precio/f.m2)+" €/m²":dec(f.precio/f.m2)+" €/m²/mes"}</div>`:"")+`<div>Media de ${c.n}</div><div>${op==="venta"?fmt(c.venta)+" €/m²":dec(c.alquiler)+" €/m²/mes"}</div>`;}
+  else{h+=`<div>Precio medio en ${d||c.n}${(op==="venta"?x.v.es:x.v.er)?" (estimado)":""}</div><div>${op==="venta"?fmt(x.v.baseS)+" €/m²":dec(x.v.baseR)+" €/m²/mes"}</div>`+(f.precio?`<div>Este piso</div><div>${op==="venta"?fmt(f.precio/f.m2)+" €/m²":dec(f.precio/f.m2)+" €/m²/mes"}</div>`:"")+`<div>Media de ${c.n}</div><div>${op==="venta"?fmt(c.venta)+" €/m²":dec(c.alquiler)+" €/m²/mes"}</div>`;}
   h+=`</div>`;
   if(x.v.why.length)h+=`<ul class="pc">`+x.v.why.map(w=>`<li class="${w[1]>0?"p":"c"}">${w[0]}: ${w[1]>0?"+":""}${Math.round(w[1]*100)} %</li>`).join("")+`</ul>`;
   if(x.dev!==null&&x.dev<-.18)h+=room?`<p class="note">⚠️ Mucho más barata que lo normal: desconfía si te piden pagar la fianza antes de verla o sin contrato. Es la estafa más común.</p>`:`<p class="note">⚠️ Un precio muy por debajo del mercado suele tener explicación: ocupación, nuda propiedad, cargas, derramas o un error en los metros. Pregunta antes de ir.</p>`;
@@ -556,7 +556,7 @@ function render(x){
   // transport
   if(env){h+=`<section class="card"><h2>🚇 Transporte</h2><p class="hint">Estaciones a menos de 1,2 km y tiempo andando (estimado).</p>`+
     (env.st.length?env.st.map(s=>`<div class="st"><span>${s.n} <span class="ln">${s.typ}</span>${(s.l||[]).map(l=>`<span class="ln">${l}</span>`).join("")}</span><b>${walkMin(s.km)} min</b></div>`).join(""):`<p class="hint">No hay estaciones de metro, tranvía ni tren a menos de 1,2 km: dependerás del autobús o del coche.</p>`)+
-    `<div class="kv" style="margin-top:10px">${env.bus!=null?`<div>Paradas de autobús a menos de 400 m</div><div>${env.bus}</div>`:""}${work?work.err?`<div>Al trabajo</div><div>no encontré «${work.n}»</div>`:`<div>Al trabajo (${work.n})</div><div>≈ ${work.min} min</div>`:""}</div><p class="note">Tiempo al trabajo aproximado: andando + espera + trayecto + transbordos.</p></section>`;}
+    `<div class="kv" style="margin-top:10px">${env.bus!=null?`<div>Paradas de autobús a menos de 400 m</div><div>${env.bus}</div>`:""}${work?work.err?`<div>Al trabajo</div><div>no encontré «${work.n}»</div>`:work.far?`<div>Al trabajo (${work.n})</div><div>a ${fmt(work.km)} km: demasiado lejos para ir cada día</div>`:`<div>Al trabajo (${work.n})</div><div>≈ ${work.min} min</div>`:""}</div><p class="note">Tiempo al trabajo aproximado: andando + espera + trayecto + transbordos.</p></section>`;}
   else if(!state.pt)h+=`<section class="card noprint"><h2>📍 Falta el punto exacto</h2><p class="hint">Este informe usa la media del distrito. Si escribes la dirección o tocas en el mapa, te digo también el metro más cercano, el tiempo al trabajo, los supermercados, los parques y el ruido de la calle.</p><button class="btn2" id="toMap">Marcar el piso en el mapa</button></section>`;
   else h+=`<section class="card"><h2>🚇 Transporte y servicios</h2><p class="hint">No he podido consultar ahora los datos de la zona (OpenStreetMap no responde). Vuelve a pulsar «Ver informe» en un rato.</p></section>`;
   // services

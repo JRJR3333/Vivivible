@@ -23,10 +23,10 @@ def esc(s): return html.escape(s, quote=True)
 
 def dprice(c, d):
     s, r = c["d"][d]
-    est = False
-    if s is None: s = c["venta"] * (r / c["alquiler"]) ** 1.5; est = True
-    if r is None: r = c["alquiler"] * (s / c["venta"]) ** .5; est = True
-    return s, r, est
+    es = er = False
+    if s is None: s = c["venta"] * (r / c["alquiler"]) ** 1.5; es = True
+    if r is None: r = c["alquiler"] * (s / c["venta"]) ** .5; er = True
+    return s, r, es, er
 
 FAV = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f6f54'/%3E%3Cpath d='M8 16l8-7 8 7v8h-5v-5h-6v5H8z' fill='%23fff'/%3E%3C/svg%3E"
 HEADX = f'<link rel="icon" href="{FAV}"><meta name="theme-color" content="#1f6f54"><meta property="og:type" content="website"><meta property="og:site_name" content="Vivible"><meta property="og:locale" content="es_ES"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="{BASE}assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Vivible: ¿se vive bien en ese piso?">\n'
@@ -71,10 +71,11 @@ for ck, c in C.items():
     n = len(rows)
     os.makedirs(F(ck), exist_ok=True)
     # city page
-    tr = "".join(f'<tr><td><a href="{slug(d)}/">{esc(d)}</a></td><td>{fmt(s)} €/m²</td><td>{dec(r)} €/m²</td></tr>' for d, s, r, e in rows)
+    tr = "".join(f'<tr><td><a href="{slug(d)}/">{esc(d)}</a></td><td>{fmt(s)} €/m²{"*" if es else ""}</td><td>{dec(r)} €/m²{"*" if er else ""}</td></tr>' for d, s, r, es, er in rows)
+    nota = '<p class="m">* Estimado a partir del otro precio del distrito: idealista no publica ese dato.</p>' if any(x[3] or x[4] for x in rows) else ""
     body = f"""<h1>Vivir en {esc(c["n"])}: precio por distritos ({esc(c["mes"])})</h1>
 <p>Comprar en {esc(c["n"])} cuesta de media <b>{fmt(c["venta"])} €/m²</b> y alquilar <b>{dec(c["alquiler"])} €/m² al mes</b>. Una habitación en piso compartido ronda los <b>{fmt(c["hab"])} € al mes</b>. Estos son los {n} distritos, del más caro al más barato.</p>
-<div class="card"><table><tr><th>Distrito</th><th>Venta</th><th>Alquiler/mes</th></tr>{tr}</table></div>
+<div class="card"><table><tr><th>Distrito</th><th>Venta</th><th>Alquiler/mes</th></tr>{tr}</table>{nota}</div>
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)}</div>"""
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
@@ -83,7 +84,7 @@ for ck, c in C.items():
         f"{ck}/", body, [("Vivible", "../"), (c["n"], None)]))
     urls.append(BASE + ck + "/")
     # district pages
-    for i, (d, s, r, est) in enumerate(rows):
+    for i, (d, s, r, es, er) in enumerate(rows):
         sd = slug(d); os.makedirs(F(ck, sd), exist_ok=True)
         vs = (s / c["venta"] - 1) * 100
         tier = "de los más caros" if i < n / 3 else ("de precio medio" if i < 2 * n / 3 else "de los más asequibles")
@@ -99,9 +100,9 @@ for ck, c in C.items():
         }[tier]
         otros = " · ".join(f'<a href="../{slug(o)}/">{esc(o)}</a>' for o, *_ in rows if o != d)
         body = f"""<h1>Vivir en {esc(d)} ({esc(c["n"])}): precio, alquiler y habitación</h1>
-<p>{esc(d)} es el <b>{i+1}º distrito más caro</b> de {n} en {esc(c["n"])}: {tier}. Comprar cuesta un {dec(abs(vs),0)} % {"más" if vs >= 0 else "menos"} que la media de la ciudad{" (dato estimado)" if est else ""}.</p>
-<div class="g"><div class="k"><small>Comprar</small><b>{fmt(s)} €/m²</b><small>Media de {esc(c["n"])}: {fmt(c["venta"])} €/m²</small></div>
-<div class="k"><small>Alquilar</small><b>{dec(r)} €/m²/mes</b><small>Media: {dec(c["alquiler"])} €/m²/mes</small></div>
+<p>{esc(d)} es el <b>{i+1}º distrito más caro</b> de {n} en {esc(c["n"])}: {tier}. {"Comprar cuesta lo mismo que la media de la ciudad" if round(abs(vs)) == 0 else f'Comprar cuesta un {dec(abs(vs),0)} % {"más" if vs >= 0 else "menos"} que la media de la ciudad'}{" (dato estimado)" if es else ""}.</p>
+<div class="g"><div class="k"><small>Comprar{" (estimado)" if es else ""}</small><b>{fmt(s)} €/m²</b><small>Media de {esc(c["n"])}: {fmt(c["venta"])} €/m²</small></div>
+<div class="k"><small>Alquilar{" (estimado)" if er else ""}</small><b>{dec(r)} €/m²/mes</b><small>Media: {dec(c["alquiler"])} €/m²/mes</small></div>
 <div class="k"><small>Piso de 70 m² en venta</small><b>≈ {fmt(buy70)} €</b><small>Ahorros necesarios: ≈ {fmt(ahorro)} €</small></div>
 <div class="k"><small>Piso de 70 m² en alquiler</small><b>≈ {fmt(rent70)} €/mes</b><small>Ingresos recomendados: ≈ {fmt(rent70/.33)} €/mes</small></div>
 <div class="k"><small>Habitación en piso compartido</small><b>≈ {fmt(room)} €/mes</b><small>Media de la ciudad: {fmt(c["hab"])} €</small></div>

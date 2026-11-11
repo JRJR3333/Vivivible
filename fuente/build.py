@@ -34,21 +34,31 @@ HEADX = f'<link rel="icon" href="{FAV}"><meta name="theme-color" content="#1f6f5
 meses = sorted({c["mes"] for c in C.values()})
 mes_txt = "julio–octubre 2026"
 
-# ---------- index.html
-ciudades_links = "".join(f'<a href="{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items())
-t = open(F("fuente", "template.html"), encoding="utf-8").read()
-idx = (t.replace("__PRECIOS__", json.dumps(P, ensure_ascii=False, separators=(",", ":")))
-        .replace("__MADRID__", MAD).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", ciudades_links))
-open(F("index.html"), "w", encoding="utf-8").write(idx)
+# ---------- núcleo común: assets/vivible.js, assets/vivible.css y datos.json
+# Todos los formatos (web, conversación y los que vengan) cargan estos mismos ficheros.
+import hashlib
+rd = lambda *p: open(F(*p), encoding="utf-8").read()
+PJ = json.dumps(P, ensure_ascii=False, separators=(",", ":"))
+core = (rd("fuente", "nucleo", "nucleo.js").replace("__PRECIOS__", PJ).replace("__MADRID__", MAD)
+        + "\n" + rd("fuente", "nucleo", "informe.js") + rd("fuente", "nucleo", "exportar.js"))
+css = rd("fuente", "nucleo", "base.css")
+open(F("assets", "vivible.js"), "w", encoding="utf-8").write(core)
+open(F("assets", "vivible.css"), "w", encoding="utf-8").write(css)
+open(F("datos.json"), "w", encoding="utf-8").write(PJ)  # los mismos precios, para apps o bots que no usen el JS
+V = hashlib.md5((core + css).encode("utf-8")).hexdigest()[:8]
 
-# ---------- chat/index.html: la misma web en formato conversación (enlace para enviar por WhatsApp)
-tc = open(F("fuente", "template_chat.html"), encoding="utf-8").read()
-ciudades_chat = "".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items())
-chat = (tc.replace('href="assets/', 'href="../assets/').replace('src="assets/', 'src="../assets/')
-        .replace("__PRECIOS__", json.dumps(P, ensure_ascii=False, separators=(",", ":")))
-        .replace("__MADRID__", MAD).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", ciudades_chat))
-os.makedirs(F("chat"), exist_ok=True)
-open(F("chat", "index.html"), "w", encoding="utf-8").write(chat)
+# ---------- formatos: cada uno es solo pantalla (fuente/formatos/<nombre>.html)
+# nombre del fichero -> carpeta donde se publica ("" = portada)
+FORMATOS = {"web": "", "chat": "chat"}
+for nombre, carpeta in FORMATOS.items():
+    pre = "../" if carpeta else ""
+    t = rd("fuente", "formatos", nombre + ".html")
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items())
+    if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
+    t = t.replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
+    assert "__" not in re.sub(r"window\.__viv|__aranaRes", "", t), "queda un marcador sin sustituir en " + nombre
+    if carpeta: os.makedirs(F(carpeta), exist_ok=True)
+    open(F(carpeta, "index.html") if carpeta else F("index.html"), "w", encoding="utf-8").write(t)
 
 # ---------- static pages
 CSS = """body{margin:0;background:#f6f3ee;color:#1d2321;font:16px/1.6 Inter,system-ui,sans-serif}.w{max-width:760px;margin:0 auto;padding:20px 16px 60px}

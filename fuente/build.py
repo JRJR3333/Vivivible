@@ -65,7 +65,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items())
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -85,7 +85,7 @@ a{color:#1f6f54}h1{font:700 30px/1.15 Fraunces,Georgia,serif;margin:10px 0}.b{di
 .card{background:#fff;border:1px solid #e4dfd6;border-radius:16px;padding:18px;margin-top:16px}.g{display:grid;grid-template-columns:1fr 1fr;gap:12px}.k{background:#faf8f4;border:1px solid #e4dfd6;border-radius:12px;padding:12px}
 .k small{display:block;color:#5f6b66;font-size:12px}.k b{font:700 24px Fraunces,serif}.cta{display:block;text-align:center;background:#1f6f54;color:#fff;text-decoration:none;font-weight:700;padding:15px;border-radius:12px;margin-top:18px}
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;border-top:1px solid #f1ede6;text-align:left}td:last-child,th:last-child{text-align:right}.m{color:#5f6b66;font-size:13px}.card.m a{display:inline-block;min-height:44px;line-height:44px;padding:0 2px}
-.faq h2{font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px}.faq h3{font-size:16px;margin:14px 0 2px}.faq p{margin:0}
+.cmp td+td,.cmp th+th{white-space:nowrap}@media(max-width:480px){.cmp{font-size:13px}.cmp td,.cmp th{padding:7px 2px}.card:has(.cmp){padding:14px 10px}}.faq h2{font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px}.faq h3{font-size:16px;margin:14px 0 2px}.faq p{margin:0}
 @media(max-width:480px){.g{grid-template-columns:1fr}h1{font-size:26px}}"""
 
 def tit_distrito(d, cn):
@@ -155,7 +155,7 @@ for ck, c in C.items():
 <div class="card"><table><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² en cada distrito de {esc(c["n"])} ({esc(c["mes"])})</caption><tr><th scope="col">Distrito</th><th scope="col">Venta</th><th scope="col">Alquiler/mes</th></tr>{tr}</table>{nota}</div>
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
-<div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)}</div>"""
+<div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>"""
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
         f"Vivir en {c['n']}: precio de la vivienda por distritos (2026) | Vivible",
         f"Precio medio de compra, alquiler y habitación en los {n} distritos de {c['n']}. Compara barrios y analiza un piso gratis.",
@@ -206,6 +206,31 @@ for ck, c in C.items():
             f"{ck}/{sd}/", body, [("Vivible", "../../"), (c["n"], "../"), (d, None)], dq_ld))
         urls.append(BASE + f"{ck}/{sd}/")
 
+# ---------- comparativa de ciudades (precios/): venta, alquiler, habitación e impuesto de compra
+cs = sorted(C.items(), key=lambda kc: -kc[1]["venta"])
+tr = "".join(f'<tr><td><a href="../{k}/">{esc(c["n"])}</a></td><td>{fmt(c["venta"])} €</td><td>{dec(c["alquiler"])} €</td><td>{fmt(c["hab"])} €</td><td>{str(c["itp"]).replace(".", ",")} %</td></tr>' for k, c in cs)
+car, bar = cs[0][1], cs[-1][1]
+hb = min(C.values(), key=lambda c: c["hab"]); hc = max(C.values(), key=lambda c: c["hab"])
+q_html, q_ld = faq([
+    ("¿Cuál es la ciudad más cara para comprar piso?",
+     f"De estas 10, {car['n']}: {fmt(car['venta'])} €/m² de media, unos {fmt(car['venta'] * 70)} € por un piso de 70 m². La más barata es {bar['n']}, con {fmt(bar['venta'])} €/m² (unos {fmt(bar['venta'] * 70)} €)."),
+    ("¿Dónde es más barato alquilar una habitación?",
+     f"En {hb['n']}, por unos {fmt(hb['hab'])} € al mes de media. La más cara es {hc['n']}, con unos {fmt(hc['hab'])} € al mes."),
+    ("¿Qué impuesto se paga al comprar un piso de segunda mano?",
+     "El impuesto de transmisiones patrimoniales (ITP), que fija cada comunidad: " + ", ".join(f"{cc} {str(t).replace('.', ',')} %" for cc, t in sorted({c["ccaa"]: c["itp"] for c in C.values()}.items(), key=lambda x: x[1])) + " (tipo general; hay rebajas para jóvenes y familias en algunas comunidades)."),
+])
+body = f"""<h1>Precio de la vivienda en 10 ciudades de España ({esc(mes_txt)})</h1>
+<p>Comprar, alquilar o compartir piso no cuesta lo mismo en {esc(car["n"])} que en {esc(bar["n"])}. Esta tabla compara el precio medio de las 10 ciudades de Vivible, de la más cara a la más barata para comprar.</p>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio: venta y alquiler por m², habitación al mes e impuesto de compra de segunda mano</caption><tr><th scope="col">Ciudad</th><th scope="col">Venta m²</th><th scope="col">Alquiler m²</th><th scope="col">Habitación</th><th scope="col">ITP</th></tr>{tr}</table></div>
+{q_html}
+<a class="cta" href="../">Analiza un piso concreto gratis</a>"""
+os.makedirs(F("precios"), exist_ok=True)
+open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
+    "Precio de la vivienda por ciudad (2026): compra, alquiler y habitación",
+    desc_corta(f"Compara el precio medio de compra, alquiler y habitación en {', '.join(c['n'] for c in list(C.values())[:-1])} y {list(C.values())[-1]['n']}.", " Y el impuesto de compra de cada comunidad."),
+    "precios/", body, [("Vivible", "../"), ("Precios por ciudad", None)], q_ld))
+urls.insert(1, BASE + "precios/")
+
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())
 open(F("404.html"), "w", encoding="utf-8").write(f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -213,7 +238,7 @@ open(F("404.html"), "w", encoding="utf-8").write(f"""<!DOCTYPE html><html lang="
 <style>{CSS}</style></head><body><div class="w"><main><h1>Esta página no existe</h1>
 <p>Puede que el enlace esté mal copiado o que la página haya cambiado de dirección.</p>
 <a class="cta" href="{BASE}">Analiza un piso gratis</a>
-<div class="card m" style="margin-top:20px"><b>Precios por ciudad:</b> {ciud}</div></main></div></body></html>""")
+<div class="card m" style="margin-top:20px"><b>Precios por ciudad:</b> {ciud} · <a href="{BASE}precios/">Comparar las 10</a></div></main></div></body></html>""")
 
 open(F("sitemap.xml"), "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
     "".join(f"<url><loc>{u}</loc><lastmod>{P['actualizado']}</lastmod></url>\n" for u in urls) + "</urlset>\n")

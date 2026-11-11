@@ -13,7 +13,7 @@ const selC=$("#ciudad"),selD=$("#distrito");
 selC.innerHTML=Object.entries(C).map(([k,c])=>`<option value="${k}">${c.n}</option>`).join("");
 function fillD(ck){selD.innerHTML=`<option value="">Media de la ciudad</option>`+Object.keys(C[ck].d).sort((a,b)=>a.localeCompare(b,"es")).map(d=>`<option>${d}</option>`).join("");}
 function setCity(ck,keepView){state.ck=ck;selC.value=ck;fillD(ck);state.d="";if(!keepView&&map)map.setView(C[ck].centro,13);}
-selC.onchange=()=>{state.media=true;setCity(selC.value);state.pt=null;marker&&marker.remove();marker=null;where();};
+selC.onchange=()=>{state.media=true;setCity(selC.value);state.pt=null;marker&&marker.remove();marker=null;where();liveUpdate();};
 selD.onchange=()=>{state.d=selD.value;state.media=true;where();liveUpdate();};
 function where(){const c=C[state.ck];$("#where").innerHTML=state.pt?`📍 ${state.auto?esc(state.auto)+" · ":""}${esc(state.d)||"distrito sin identificar"} <small>· ${c.n}</small>`:(state.d?`📍 ${esc(state.d)} <small>· ${c.n} (sin punto exacto)</small>`:state.media?`📍 Media de ${c.n} <small>(sin punto exacto)</small>`:"");}
 

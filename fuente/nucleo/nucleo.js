@@ -86,8 +86,8 @@ function parseAd(t){
   else{const big=ms.filter(m=>m.n>=15&&m.n<=600),c=big.find(m=>m.c)||big.sort((a,b)=>b.n-a.n)[0];if(c){out.m2=c.n;got.push("m²");}}
   let m;
   if(/\bestudio\b/.test(L)&&!room)out.hab=0;
-  m=L.match(/(\d)\s*(?:habs?\b\.?|habitaci[oó]n(?:es)?|dormitorios?)/);if(m&&!room&&+m[1]>0){out.hab=Math.min(5,+m[1]);got.push("habitaciones");}
-  m=L.match(/(\d)\s*baños?/);if(m){out.ban=Math.min(3,+m[1]);got.push("baños");}
+  m=L.match(/(?<![\w².,])(\d)\s*(?:habs?\b\.?|habitaci[oó]n(?:es)?|dormitorios?)/);if(m&&!room&&+m[1]>0){out.hab=Math.min(5,+m[1]);got.push("habitaciones");}
+  m=L.match(/(?<![\w².,])(\d)\s*baños?/);if(m){out.ban=Math.min(3,+m[1]);got.push("baños");}
   // --- planta
   const ORD={primera:1,primer:1,segunda:2,segundo:2,tercera:3,tercer:3,cuarta:4,cuarto:4,quinta:5,quinto:5,sexta:6,sexto:6,septima:6,octava:6,novena:6,decima:6};
   if(/semis[oó]tano/.test(L))out.planta=-1;else if(/[aá]tico/.test(L))out.planta=99;else if(/\bbajo\b(?! cubierta)|planta baja/.test(L))out.planta=0;
@@ -108,7 +108,7 @@ function parseAd(t){
   m=L.match(/(?:gastos de )?comunidad[^0-9\n]{0,20}(\d{1,4})\s*€/);if(m){out.com=+m[1];got.push("comunidad");}
   if(/baño privado|ba[nñ]o propio|ba[nñ]o en suite/.test(L))out.rban="priv";
   if(/gastos incluidos|suministros incluidos/.test(L))out.gastos="inc";
-  m=L.match(/(\d)\s*(?:compa[nñ]eros|inquilinos|personas)/);if(m){out.pers=Math.min(6,+m[1]+(/compa[nñ]eros/.test(m[0])?1:0));}
+  m=L.match(/(?<![\w².,])(\d)\s*(?:compa[nñ]eros|inquilinos|personas)/);if(m){out.pers=Math.min(6,+m[1]+(/compa[nñ]eros/.test(m[0])?1:0));}
   m=T.match(/(?:en |, )((?:calle|c\/|avenida|avda\.?|paseo|plaza|pza\.?|camino|ronda|glorieta|traves[ií]a|carrer|passeig|avinguda|kalea)\s+(?!tranquil|peatonal|principal|comercial|de garaje|mar[ií]tim|sin salida|muy |con |sin )[^,\n·|.;]{2,60}?(?:,?\s*(?:n[ºo°]\s*)?\d{1,4}(?![\d.]|\s*(?:€|eur|m²|m2|hab)))?)(?=\s*(?:[,\n·|.;]|$))/i);
   if(m){out.dir=m[1].trim();got.push("dirección");}
   // ciudad: fuera de la dirección («avenida de Madrid» no es Madrid); si hay varias, la última
@@ -347,7 +347,9 @@ async function informe(f,lugar,trabajo){
   const r={f,ck,d:C[ck].d[d]?d:"",pt:pt||null,auto:lugar.auto||"",env,work,es};
   const x=f.op==="habitacion"?roomReport(r):flatReport(r);
   const c=C[ck];x.room=!!x.room;
-  x.tot=x.parts.reduce((s,p)=>s+p[1]*p[2],0);
+  // Sin datos de la zona (sin punto exacto u OpenStreetMap caído) no se puntúan transporte ni servicios: la nota sale de lo que sí se sabe.
+  if(!env)x.parts=x.parts.filter(p=>p[0]!=="Transporte"&&p[0]!=="Servicios y verde");
+  x.tot=x.parts.reduce((s,p)=>s+p[1]*p[2],0)/x.parts.reduce((s,p)=>s+p[2],0);
   x.tv=x.tot>=7.5?(x.room?"Buena habitación 👍":"Se vive bien aquí 👍"):x.tot>=6?"Está bien, con matices":"Piénsatelo dos veces";
   x.place=(x.auto?x.auto+", ":"")+(d||"")+(d?", ":"")+c.n;
   x.sum=`${dec(x.tot)}/10 · ${x.tv.replace(/ 👍/,"")} · ${x.title} · ${x.place}${f.precio?` · ${eur(f.precio)}${f.op==="venta"?"":"/mes"}`:""}`;

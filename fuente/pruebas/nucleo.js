@@ -36,6 +36,8 @@ global.fetch = async (url, o) => {
     ["Piso en venta en avenida de Madrid, 150, Delicias, Zaragoza. 150.000 € 70 m² 3 hab", { ck: "zaragoza", d: "Delicias" }],
     ["Piso en venta en La Latina, Madrid. 60 m², 380.000 €. Bajo cubierta con mucho encanto", { d: "Centro", planta: undefined }],
     ["Habitación en piso compartido en Benimaclet, Valencia. 9 m², 350 €/mes", { op: "habitacion", rm2: 9 }],
+    ["Alquiler piso 3 dormitorios Bilbao Indautxu 1.250€/mes 95 m2 baño", { ban: undefined, hab: 3, m2: 95 }],
+    ["Venta piso 80 m2 dormitorio principal con vestidor, 2 baños. Sevilla 200.000 €", { hab: undefined, ban: 2 }],
   ];
   for (const [t, esp] of AN) { const o = V.parseAd(t).out; for (const [k, v] of Object.entries(esp)) assert.strictEqual(o[k], v, `«${t.slice(0, 40)}…» ${k}: ${o[k]} ≠ ${v}`); }
   assert.strictEqual(V.matchDistrict("malaga", ["Oeste"]), ""); assert.strictEqual(V.matchDistrict("barcelona", ["!!!"]), "");
@@ -59,6 +61,9 @@ global.fetch = async (url, o) => {
   assert.strictEqual((await V.informe({ op: "venta", precio: 900, m2: 75 }, lugar)).error, "precioBajo");
   assert.strictEqual((await V.informe({ op: "venta" }, { ck: "madrid", d: "", pt: null })).error, "lugar");
   assert(!(await V.informe({ op: "venta" }, { ck: "murcia", d: "", pt: null, media: true })).error);
+  // sin punto exacto no se puntúan transporte ni servicios (antes salía «Transporte 3» y hundía la nota)
+  const sp = await V.informe({ op: "alquiler", precio: 1400, m2: 70, hab: 2 }, { ck: "madrid", d: "Salamanca", pt: null });
+  assert(!sp.parts.some(p => p[0] === "Transporte" || p[0] === "Servicios y verde") && sp.tot >= 6, "sin punto: " + sp.tot);
   assert.strictEqual(V.modoPorPrecio("venta", 1300), "alquiler");
   console.log("núcleo OK");
 })().catch(e => { console.error(e); process.exit(1); });

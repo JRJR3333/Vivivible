@@ -94,19 +94,21 @@ function parseAd(t){
   // --- planta
   const ORD={primera:1,primer:1,segunda:2,segundo:2,tercera:3,tercer:3,cuarta:4,cuarto:4,quinta:5,quinto:5,sexta:6,sexto:6,septima:6,octava:6,novena:6,decima:6};
   if(/semis[oó]tano/.test(L))out.planta=-1;else if(/(?<![a-záéíóúüñ])(?:sobre-?)?[aá]tico/.test(L))out.planta=99;else if(/\bbajo\b(?! (cubierta|consumo|precio|coste|mantenimiento|demanda))|planta baja/.test(L))out.planta=0;
-  else{m=L.match(/planta\s*:?\s*(\d{1,2})(?!\d)|(?<![\d.,])(\d{1,2})\s*[ºªo°a]?\s*planta(?!s)|(?<![\d.,])(\d{1,2})\s*[ºª°]\s*piso\b|\bpiso\s*(\d{1,2})\s*[ºª°]/);if(m)out.planta=Math.min(6,+(m[1]||m[2]||m[3]||m[4]));
-    else{m=norm(L).match(/\b(primera?|segund[ao]|tercera?|cuart[ao]|quint[ao]|sext[ao]|septima|octava|novena|decima)\s+planta(?!s)/);if(m)out.planta=ORD[m[1]];}}
+  else{m=L.match(/planta\s*:?\s*(\d{1,2})(?!\d)|(?<![\d.,])(\d{1,2})\s*[ºªo°a]?\s*planta(?!s)|(?<![\d.,])(\d{1,2})\s*(?:[ºª°]|er|o)\s*piso\b|\bpiso\s*(\d{1,2})\s*[ºª°]/);if(m)out.planta=Math.min(6,+(m[1]||m[2]||m[3]||m[4]));
+    else{m=norm(L).match(/\b(primera?|primer|segund[ao]|tercera?|tercer|cuart[ao]|quint[ao]|sext[ao]|septima|octava|novena|decima)\s+(?:planta(?!s)|piso\b)/);if(m)out.planta=ORD[m[1]];}}
   if(out.planta!=null)got.push("planta");
   if(/sin ascensor|no (tiene|dispone de|hay|cuenta con) ascensor|ascensor\s*:\s*no\b/.test(L)){out.asc=0;got.push("ascensor");}else if(/ascensor/.test(L)){out.asc=1;got.push("ascensor");}
-  if(/\binterior\b/.test(L)){out.ext=0;}else if(/\bexterior\b/.test(L)){out.ext=1;}
+  // extras: «sin terraza», «no dispone de aire acondicionado», «sin terraza ni balcón»… cuentan como que no lo tiene
+  const EX=w=>{const np=(L.match(new RegExp(w,"g"))||[]).length;if(!np)return null;const nn=(L.match(new RegExp("(?:\\bsin|\\bni|\\bno(?: (?:tiene|dispone de|hay|cuenta con))?)\\s+(?:(?:una?|de)\\s+)?(?:"+w+")","g"))||[]).length;return np>nn?1:0;};
+  if(/\binterior\b/.test(L)){out.ext=0;}else{const e=EX("\\bexterior\\b");if(e!=null)out.ext=e;}
   if(/a reformar|para reformar|(?<!no )necesita reforma/.test(L))out.estado="reformar";else if(/(?<!alquilar )obra nueva(?!\s*\n)|a estrenar/.test(L))out.estado="nuevo";else if(/reformad[oa]|reci[eé]n reformad/.test(L))out.estado="reformado";else if(/buen estado|segunda mano/.test(L))out.estado="bueno";
   if(out.estado)got.push("estado");
   m=L.match(/(?:construid[oa] en|a[nñ]o de construcci[oó]n:?|del a[nñ]o)\s*(1[89]\d\d|20\d\d)/);if(m){const y=+m[1];out.anio=y<1950?1940:y<1970?1960:y<1980?1975:y<2000?1990:y<2015?2005:2020;got.push("año");}
-  m=L.match(/orientaci[oó]n\s*(sur|norte|este|oeste)/);if(m){out.ori={sur:"S",norte:"N",este:"E",oeste:"O"}[m[1]];got.push("orientación");}
-  if(/terraza|balc[oó]n/.test(L))out.ter=1;
+  m=L.match(/orientaci[oó]n\s*:?\s*(sur|norte|este|oeste)/);if(m){out.ori={sur:"S",norte:"N",este:"E",oeste:"O"}[m[1]];got.push("orientación");}
+  {const e=EX("terraza|balc[oó]n");if(e!=null)out.ter=e;}
   if(/garaje incluid|plaza de garaje incluid|parking incluid/.test(L))out.gar=1;
-  if(/trastero/.test(L))out.tra=1;
-  if(/aire acondicionado|climatizaci/.test(L))out.aa=1;
+  {const e=EX("trastero");if(e!=null)out.tra=e;}
+  {const e=EX("aire acondicionado|climatizaci");if(e!=null)out.aa=e;}
   if(/calefacci[oó]n central/.test(L))out.cal="cen";else if(/no dispone de calefacci|sin calefacci/.test(L))out.cal="no";else if(/calefacci[oó]n/.test(L))out.cal="ind";
   m=L.match(/(?:gastos de )?comunidad[^0-9\n]{0,20}(\d{1,4})\s*€/);if(m){out.com=+m[1];got.push("comunidad");}
   if(/baño privado|ba[nñ]o propio|ba[nñ]o en suite/.test(L))out.rban="priv";else if(room&&out.ban>=1)out.rban=out.ban>=2?"2":"1";

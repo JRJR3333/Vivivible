@@ -22,6 +22,16 @@ global.fetch = async (url, o) => {
   assert.strictEqual(V.parseAd("Habitación en piso compartido en Gràcia, Barcelona. 450 € al mes, 12 m2").out.op, "habitacion");
   // 2b. anuncios difíciles (auditoría del 2026-11-11): [texto, lo que debe salir]
   const AN = [
+    // extras negados y planta como «cuarto piso» / «3er piso» (2026-11-11)
+    ["Piso en venta en Barcelona. 2 habitaciones. 75m2. 395.000€. Ascensor. Sin aire acondicionado.", { aa: 0, asc: 1 }],
+    ["Piso en alquiler en Valencia. 1.000 € al mes. 70 m2. Sin terraza.", { ter: 0 }],
+    ["Piso en venta en Madrid. 300.000 €. 80 m². Sin trastero. Con terraza y aire acondicionado.", { tra: 0, ter: 1, aa: 1 }],
+    ["Piso en venta en Sevilla. 200.000 €. 80 m². No dispone de aire acondicionado. No tiene terraza ni balcón.", { aa: 0, ter: 0 }],
+    ["Piso en venta en Sevilla. 200.000 €. 80 m². Sin terraza, pero con balcón a la calle.", { ter: 1 }],
+    ["Piso en venta en Bilbao. 250.000 €. 80 m². Cuarto piso sin ascensor.", { planta: 4, asc: 0 }],
+    ["Piso en venta en Barcelona. 350.000 €. 80 m². 2 habitaciones. 3er piso sin ascensor.", { planta: 3 }],
+    ["Piso en alquiler en Madrid. 1.200 €/mes. 80 m2, segundo piso exterior", { planta: 2, ext: 1 }],
+    ["Piso en venta en Málaga. 300.000 €. 85 m². Orientación: Sur. Exterior", { ori: "S", ext: 1, planta: undefined }],
     ["Piso en venta en calle de Alcalá, 200, Salamanca, Madrid\n320.000 € 350.000 € 9%\n75 m² 2 hab.", { op: "venta", precio: 320000, d: "Salamanca" }],
     ["Piso en alquiler en Ruzafa, Valencia. Renta 1.300 €/mes. Gastos de comunidad 180 € a cargo del inquilino. 80 m²", { op: "alquiler", precio: 1300, m2: 80 }],
     ["Venta piso Eixample Barcelona 450.000,00 € 85 m2 3 dormitorios", { precio: 450000, hab: 3 }],

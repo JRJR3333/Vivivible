@@ -36,6 +36,10 @@ global.fetch = async (url, o) => {
     ["Piso en venta en avenida de Madrid, 150, Delicias, Zaragoza. 150.000 € 70 m² 3 hab", { ck: "zaragoza", d: "Delicias" }],
     ["Piso en venta en La Latina, Madrid. 60 m², 380.000 €. Bajo cubierta con mucho encanto", { d: "Centro", planta: undefined }],
     ["Habitación en piso compartido en Benimaclet, Valencia. 9 m², 350 €/mes", { op: "habitacion", rm2: 9 }],
+    ["Piso en alquiler en Gran Vía, Madrid. 1.500 €/mes. 60 m². 1 habitación. Sin ascensor, 4º piso", { planta: 4, asc: 0 }],
+    ["Venta piso 3 habitaciones en Ruzafa, Valencia, 250.000 €", { planta: undefined, hab: 3 }],
+    ["Habitación en piso compartido en Lavapiés, Madrid, 450 €/mes. 3 personas en el piso, 2 baños", { op: "habitacion", rban: "2", pers: 3 }],
+    ["Habitación con baño privado en piso de 4 personas, 2 baños. Málaga 500 €/mes", { op: "habitacion", rban: "priv" }],
     ["Alquiler piso 3 dormitorios Bilbao Indautxu 1.250€/mes 95 m2 baño", { ban: undefined, hab: 3, m2: 95 }],
     ["Venta piso 80 m2 dormitorio principal con vestidor, 2 baños. Sevilla 200.000 €", { hab: undefined, ban: 2 }],
   ];

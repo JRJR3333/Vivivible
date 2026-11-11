@@ -65,7 +65,7 @@ function parseAd(t){
   const T=t.replace(/ /g," "),L=T.toLowerCase(),out={},got=[];
   const num=s=>+String(s).replace(/[.\s]/g,"").replace(",",".");
   // --- qué es: manda el titular («piso en alquiler», «habitación en…»), no las palabras sueltas del menú del portal
-  const roomH=/habitaci[oó]n (en|de|para)[^.\n]{0,25}(piso|vivienda) compartid|alquiler de habitaci[oó]n\b|habitaci[oó]n en alquiler|(alquilo|se alquila|alquiler)\s+(una\s+)?habitaci[oó]n\b/.test(L);
+  const roomH=/habitaci[oó]n (en|de|para)[^.\n]{0,25}(piso|vivienda) compartid|alquiler de habitaci[oó]n\b|habitaci[oó]n en alquiler|(alquilo|se alquila|alquiler)\s+(una\s+)?habitaci[oó]n\b|^\s*habitaci[oó]n\b|habitaci[oó]n[^.\n]{0,40}\ben piso (de \d\s*(personas|compa)|compartid)/.test(L);
   const rentH=/(piso|[aá]tico|estudio|apartamento|d[uú]plex|loft|casa|chalet|vivienda)\s+(en|de)\s+alquiler|alquiler de (piso|[aá]tico|estudio|apartamento|d[uú]plex|loft|casa|chalet|vivienda)|se alquila|alquilo\b/.test(L);
   const saleH=/(piso|[aá]tico|estudio|apartamento|d[uú]plex|loft|casa|chalet|vivienda)\s+en\s+venta|\ben venta\b|se vende|vendo\b|venta (de )?(piso|[aá]tico|estudio|apartamento)/.test(L);
   const mes=/€\s*\/\s*mes|euros?\s*\/\s*mes|al mes|\/mes|mensual/.test(L);
@@ -91,7 +91,7 @@ function parseAd(t){
   // --- planta
   const ORD={primera:1,primer:1,segunda:2,segundo:2,tercera:3,tercer:3,cuarta:4,cuarto:4,quinta:5,quinto:5,sexta:6,sexto:6,septima:6,octava:6,novena:6,decima:6};
   if(/semis[oó]tano/.test(L))out.planta=-1;else if(/[aá]tico/.test(L))out.planta=99;else if(/\bbajo\b(?! cubierta)|planta baja/.test(L))out.planta=0;
-  else{m=L.match(/planta\s*(\d{1,2})(?!\d)|(?<![\d.,])(\d{1,2})\s*[ºªo°a]?\s*planta(?!s)/);if(m)out.planta=Math.min(6,+(m[1]||m[2]));
+  else{m=L.match(/planta\s*(\d{1,2})(?!\d)|(?<![\d.,])(\d{1,2})\s*[ºªo°a]?\s*planta(?!s)|(?<![\d.,])(\d{1,2})\s*[ºª°]\s*piso\b|\bpiso\s*(\d{1,2})\s*[ºª°]/);if(m)out.planta=Math.min(6,+(m[1]||m[2]||m[3]||m[4]));
     else{m=norm(L).match(/\b(primera?|segund[ao]|tercera?|cuart[ao]|quint[ao]|sext[ao]|septima|octava|novena|decima)\s+planta(?!s)/);if(m)out.planta=ORD[m[1]];}}
   if(out.planta!=null)got.push("planta");
   if(/sin ascensor|no (tiene|dispone de|hay|cuenta con) ascensor/.test(L)){out.asc=0;got.push("ascensor");}else if(/ascensor/.test(L)){out.asc=1;got.push("ascensor");}
@@ -106,7 +106,7 @@ function parseAd(t){
   if(/aire acondicionado|climatizaci/.test(L))out.aa=1;
   if(/calefacci[oó]n central/.test(L))out.cal="cen";else if(/no dispone de calefacci|sin calefacci/.test(L))out.cal="no";else if(/calefacci[oó]n/.test(L))out.cal="ind";
   m=L.match(/(?:gastos de )?comunidad[^0-9\n]{0,20}(\d{1,4})\s*€/);if(m){out.com=+m[1];got.push("comunidad");}
-  if(/baño privado|ba[nñ]o propio|ba[nñ]o en suite/.test(L))out.rban="priv";
+  if(/baño privado|ba[nñ]o propio|ba[nñ]o en suite/.test(L))out.rban="priv";else if(room&&out.ban>=1)out.rban=out.ban>=2?"2":"1";
   if(/gastos incluidos|suministros incluidos/.test(L))out.gastos="inc";
   m=L.match(/(?<![\w².,])(\d)\s*(?:compa[nñ]eros|inquilinos|personas)/);if(m){out.pers=Math.min(6,+m[1]+(/compa[nñ]eros/.test(m[0])?1:0));}
   m=T.match(/(?:en |, )((?:calle|c\/|avenida|avda\.?|paseo|plaza|pza\.?|camino|ronda|glorieta|traves[ií]a|carrer|passeig|avinguda|kalea)\s+(?!tranquil|peatonal|principal|comercial|de garaje|mar[ií]tim|sin salida|muy |con |sin )[^,\n·|.;]{2,60}?(?:,?\s*(?:n[ºo°]\s*)?\d{1,4}(?![\d.]|\s*(?:€|eur|m²|m2|hab)))?)(?=\s*(?:[,\n·|.;]|$))/i);

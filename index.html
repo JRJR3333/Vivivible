@@ -473,17 +473,18 @@ function envScores(env,f,pt){
   return {tr:score(tr),ent:score(ent),q:score(q),pros,cons,info};
 }
 let busy=false,again=false;
-async function analyze(quiet){
-  if(busy){again=true;return;}
+async function analyze(quiet,typing){
+  if(busy){again=[quiet,typing];return;}
   const err=$("#err");err.textContent="";
   let notes=[];
-  {const p=+$("#precio").value||0;
+  if(!typing){const p=+$("#precio").value||0;
     if(state.op==="venta"&&p>0&&p<5000){setOp(p<900?"habitacion":"alquiler");notes.push(`${eur(p)} parece un precio al mes: lo he tratado como ${state.op==="habitacion"?"habitación":"alquiler"}.`);}
     else if(state.op!=="venta"&&p>=20000){setOp("venta");notes.push(`${eur(p)} parece un precio de venta: lo he tratado como compra.`);}}
   const f=readForm(),ck=state.ck,d=state.d;
   if(!state.pt&&!d){if(!quiet)err.textContent="Dinos dónde está el piso (paso 1): dirección, mapa o distrito.";return;}
   if(f.op!=="habitacion"&&!f.m2){f.m2=M2HAB[f.hab]||75;f.m2est=true;}
   if(f.op==="habitacion"&&!f.rm2){f.rm2=10;f.rm2est=true;}
+  if(typing&&((f.op!=="habitacion"&&(f.m2<15||f.m2>600))||(f.op==="habitacion"&&(f.rm2<4||f.rm2>40))||(f.op==="venta"&&f.precio>0&&f.precio<30000)||(f.op!=="venta"&&f.precio>=20000)))return;
   if(f.op!=="habitacion"&&(f.m2<15||f.m2>600)){err.textContent="Revisa los metros del piso (paso 3): entre 15 y 600 m².";return;}
   if(f.op==="habitacion"&&(f.rm2<4||f.rm2>40)){err.textContent="Revisa los m² de la habitación (paso 3): entre 4 y 40 m².";return;}
   if(f.op==="venta"&&f.precio>0&&f.precio<30000){err.textContent=`${eur(f.precio)} es muy poco para comprar un piso. Si es un alquiler, elige «Alquilar piso» en el paso 2; si es una venta, escribe el precio entero sin puntos (p. ej. 320000).`;$("#precio").focus();return;}
@@ -502,11 +503,12 @@ async function analyze(quiet){
   if(notes.length)$("#res").insertAdjacentHTML("afterbegin",`<p class="note" role="status">↺ ${notes.join(" ")}</p>`);
   state.done=true;saveHash();
   try{localStorage.setItem("viv.trabajo",$("#trabajo").value.trim());localStorage.setItem("viv.op",state.op);}catch(e){}
-  if(again){again=false;analyze(true);}
+  if(again){const a=again;again=false;analyze(...a);}
 }
 // tras el primer informe, cualquier cambio lo actualiza solo
 let liveT;function liveUpdate(){if(!state.done)return;clearTimeout(liveT);liveT=setTimeout(()=>analyze(true),500);}
 document.querySelectorAll("main input:not(#dir),main select,.wrap input:not(#dir):not(#anuncio),.wrap select").forEach(el=>{if(el.id==="ciudad")return;el.addEventListener("change",liveUpdate);});
+["precio","m2","rm2","com"].forEach(id=>{const el=$("#"+id);if(el)el.addEventListener("input",()=>{if(!state.done)return;clearTimeout(liveT);liveT=setTimeout(()=>analyze(true,true),800);});});
 $("#op").addEventListener("click",liveUpdate);$("#extras").addEventListener("click",liveUpdate);
 function flatReport(r){
   const {f,ck,d,es}=r;const pros=[...es.pros],cons=[...es.cons],info=[...es.info];
@@ -575,13 +577,14 @@ function roomReport(r){
 }
 
 // ---------- render
-function ring(v,c){return `<div class="ring" style="--p:${v*10};--c:${c}"><div>${dec(v)}<small>sobre 10</small></div></div>`;}
+function ring(v,c){return `<div class="ring" role="img" aria-label="Nota ${dec(v)} sobre 10" style="--p:${v*10};--c:${c}"><div>${dec(v)}<small>sobre 10</small></div></div>`;}
 const barCol=v=>v>=7.5?"#1f7a4d":v>=5.5?"#d39b3a":"#b23b3b";
 function render(x){
   const {f,ck,d,env,work}=x,c=C[ck],op=f.op,room=!!x.room;
   const tot=x.parts.reduce((s,p)=>s+p[1]*p[2],0);
   const tv=tot>=7.5?(room?"Buena habitación 👍":"Se vive bien aquí 👍"):tot>=6?"Está bien, con matices":"Piénsatelo dos veces";
   const place=(state.auto?state.auto+", ":"")+(d||"")+(d?", ":"")+c.n;
+  state.sum=`${dec(tot)}/10 · ${tv.replace(/ 👍/,"")} · ${x.title} · ${place}${f.precio?` · ${eur(f.precio)}${op==="venta"?"":"/mes"}`:""}`;
   let h=`<section class="card"><div class="score">${ring(tot,barCol(tot))}<div><p class="verdict">${tv}</p><div style="color:var(--mute);font-size:14px">${x.title} · ${place}</div>${x.dev!==null?`<div style="margin-top:8px"><span class="pill ${x.cls}">${x.ver}</span></div>`:""}</div></div><div class="bars">`+
     x.parts.map(p=>`<div class="bar"><span>${p[0]}</span><div class="t"><b style="width:${p[1]*10}%;background:${barCol(p[1])}"></b></div><span>${dec(p[1])}</span></div>`).join("")+`</div>
     <div class="actions noprint" style="margin-top:14px"><button class="btn2" id="pdf">Guardar en PDF</button><button class="btn2" id="share">Compartir informe</button></div><div id="shareMsg" class="ok noprint" role="status" aria-live="polite"></div></section>`;
@@ -635,8 +638,9 @@ function saveHash(){
 }
 async function share(){
   saveHash();const url=location.href,m=$("#shareMsg");
-  try{if(navigator.share){await navigator.share({title:"Informe Vivible",url});return;}}catch(e){}
-  try{await navigator.clipboard.writeText(url);m.textContent="Enlace copiado: pégalo donde quieras.";}catch(e){m.textContent=url;}
+  const txt=(state.sum?state.sum+"\n":"")+"Analizado con Vivible:";
+  try{if(navigator.share){await navigator.share({title:"Informe Vivible",text:txt,url});return;}}catch(e){}
+  try{await navigator.clipboard.writeText(txt+" "+url);m.textContent="Enlace copiado: pégalo donde quieras.";}catch(e){m.textContent=url;}
 }
 function restore(){
   const h=location.hash.slice(1);if(!h)return;

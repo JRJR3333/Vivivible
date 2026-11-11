@@ -300,7 +300,7 @@ for ck, c in C.items():
 <div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² por distritos, del más barato al más caro: alquiler al mes y sueldo neto recomendado (alquiler ≤ 33 %)</caption><tr><th scope="col">Distrito</th><th scope="col">Alquiler</th><th scope="col">Sueldo neto</th></tr>{tr}</table>{nota}</div>
 {sq_html}
 <a class="cta" href="../../#c={ck}&op=alquiler">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "sueldo-para-alquilar"), exist_ok=True)
     open(F(ck, "sueldo-para-alquilar", "index.html"), "w", encoding="utf-8").write(page(
         f"Cuánto hay que ganar para alquilar en {c['n']} (2026)",
@@ -513,7 +513,7 @@ for ck, c in C.items():
 <p class="m">Cuota sin seguros. Si ya pagas otros préstamos, el banco los suma a la cuota. Cifras orientativas.</p></div>
 {pq_html}
 <a class="cta" href="../../#c={ck}&op=venta">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "sueldo-para-comprar"), exist_ok=True)
     open(F(ck, "sueldo-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
         f"Cuánto hay que ganar para comprar un piso en {c['n']} (2026)",
@@ -557,6 +557,7 @@ body = f"""<h1>Precio de la vivienda en 10 ciudades de España ({esc(mes_txt)})<
 <p class="m">Cifras orientativas con precios medios. El detalle por distritos está en la guía de cada ciudad.</p></div>
 {q_html}
 <a class="cta" href="../">Analiza un piso concreto gratis</a>
+<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a></div>
 <div class="card m"><b>Guías por ciudad</b>{guias}</div>"""
 os.makedirs(F("precios"), exist_ok=True)
 open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
@@ -564,6 +565,53 @@ open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Compara el precio medio de compra, alquiler y habitación en {', '.join(c['n'] for c in list(C.values())[:-1])} y {list(C.values())[-1]['n']}.", " Y el impuesto de compra de cada comunidad."),
     "precios/", body, [("Vivible", "../"), ("Precios por ciudad", None)], q_ld))
 urls.insert(1, BASE + "precios/")
+
+# ---------- ¿qué piso puedo pagar con mi sueldo? (sueldo/): «cuánto puedo pagar de alquiler si gano 1.500», «qué hipoteca puedo pagar con 2.000 euros»;
+# las mismas reglas que las guías (alquiler ≤ 33 %, cuota ≤ 30 %, hipoteca del 80 % a ANOS años al TIN) aplicadas al revés: del sueldo al piso
+SUELDOS = [1000, 1200, 1500, 1800, 2000, 2500, 3000]
+def precio_max(sueldo):  # precio del piso cuya cuota (80 % financiado) es el 30 % del sueldo
+    return sueldo * ESC / cuota(1)
+SB = [1200, 1500, 2000, 2500]
+tr = "".join(f"<tr><td>{fmt(s)} €</td><td>{fmt(s * ESF)} €</td><td>{fmt(s * ESC)} €</td><td>{fmt(round(precio_max(s), -3))} €</td></tr>" for s in SUELDOS)
+ra = sorted(C.items(), key=lambda kc: kc[1]["alquiler"])
+tra = "".join(f'<tr><td><a href="../{k}/sueldo-para-alquilar/">{esc(c["n"])}</a></td>' + "".join(f"<td>{fmt(s * ESF / c['alquiler'])} m²</td>" for s in SB) + "</tr>" for k, c in ra)
+rv = sorted(C.items(), key=lambda kc: kc[1]["venta"])
+trv = "".join(f'<tr><td><a href="../{k}/sueldo-para-comprar/">{esc(c["n"])}</a></td>' + "".join(f"<td>{fmt(precio_max(s) / c['venta'])} m²</td>" for s in SB) + "</tr>" for k, c in rv)
+cab = '<tr><th scope="col">Ciudad</th>' + "".join(f'<th scope="col">{fmt(s)} €</th>' for s in SB) + "</tr>"
+mb, mc = ra[0][1], ra[-1][1]
+bdc = min(((d, dprice(mc, d)[1]) for d in mc["d"]), key=lambda x: x[1])
+s15 = 1500
+sq_html, sq_ld = faq([
+    ("¿Cuánto puedo pagar de alquiler si gano 1.500 € al mes?",
+     f"Lo recomendable es que el alquiler no pase del 33 % de lo que ganas: con 1.500 € netos, unos {fmt(1500 * ESF)} € al mes. Con 1.200 €, unos {fmt(1200 * ESF)} €; con 2.000 €, unos {fmt(2000 * ESF)} €."),
+    ("¿Qué hipoteca puedo pagar con 2.000 € al mes?",
+     f"Si la cuota no pasa del 30 % del sueldo, unos {fmt(2000 * ESC)} € al mes. Con una hipoteca del 80 % a {ANOS} años al 2,8 %, eso da para un piso de unos {fmt(round(precio_max(2000), -3))} €, y harían falta además la entrada del 20 % y los impuestos y gastos de compra."),
+    (f"¿Dónde me llega para más metros de alquiler con {fmt(s15)} €?",
+     f"De estas 10 ciudades, en {mb['n']}: unos {fmt(s15 * ESF / mb['alquiler'])} m² al precio medio. En {mc['n']}, solo unos {fmt(s15 * ESF / mc['alquiler'])} m². "
+     f"Dentro de cada ciudad cambia mucho: en {bdc[0]}, el distrito más barato para alquilar de {mc['n']}, unos {fmt(s15 * ESF / bdc[1])} m²."),
+    ("¿Cuánto tengo que ganar para alquilar solo?",
+     f"Para un piso de {M2A} m² al precio medio, entre unos {fmt(mb['alquiler'] * M2A / ESF)} € netos al mes en {mb['n']} y unos {fmt(mc['alquiler'] * M2A / ESF)} € en {mc['n']}. Si no llegas, compartir piso sale bastante más barato: cada ciudad tiene su guía de habitaciones."),
+])
+body = f"""<h1>¿Qué piso puedo pagar con mi sueldo? ({esc(mes_txt)})</h1>
+<p>La regla más usada: que el alquiler no pase del 33 % de lo que ganas y la hipoteca, del 30 %. Aquí tienes cuánto da cada sueldo neto y para cuántos metros llega en cada ciudad, con los precios medios de idealista.</p>
+<div class="g"><div class="k"><small>Con 1.500 € netos, alquiler de hasta</small><b>≈ {fmt(1500 * ESF)} €/mes</b></div>
+<div class="k"><small>Con 2.000 € netos, piso de hasta</small><b>≈ {fmt(round(precio_max(2000), -3))} €</b><small>Hipoteca del 80 %</small></div></div>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Sueldo neto al mes, alquiler máximo (33 %), cuota de hipoteca máxima (30 %) y precio del piso que permite esa cuota (hipoteca del 80 % a {ANOS} años al 2,8 %)</caption><tr><th scope="col">Sueldo</th><th scope="col">Alquiler</th><th scope="col">Cuota</th><th scope="col">Piso</th></tr>{tr}</table>
+<p class="m">Para comprar hace falta además ahorrar la entrada (20 %) y el impuesto y los gastos, que cambian según la comunidad: lo tienes en la guía «gastos de compra» de cada ciudad.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">¿Para cuántos metros de alquiler te llega?</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Metros que puedes alquilar al precio medio de cada ciudad según tu sueldo neto (alquiler ≤ 33 %), de la ciudad más barata a la más cara</caption>{cab}{tra}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">¿Para cuántos metros te llega si compras?</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Metros que puedes comprar al precio medio de cada ciudad según tu sueldo neto (cuota ≤ 30 %, hipoteca del 80 % a {ANOS} años al 2,8 %), de la más barata a la más cara</caption>{cab}{trv}</table>
+<p class="m">Cifras orientativas con precios medios; dentro de cada ciudad hay distritos mucho más baratos y más caros. El detalle está en la guía de cada ciudad.</p></div>
+{sq_html}
+<a class="cta" href="../">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
+<div class="card m"><b>Más guías:</b> <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/">{esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("sueldo"), exist_ok=True)
+open(F("sueldo", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Qué piso puedo pagar con mi sueldo? Alquiler e hipoteca (2026)",
+    desc_corta(f"Con 1.500 € netos, alquiler de hasta {fmt(1500 * ESF)} €; con 2.000 €, piso de hasta {fmt(round(precio_max(2000), -3))} €. Metros que te llegan en 10 ciudades.", " Alquiler e hipoteca."),
+    "sueldo/", body, [("Vivible", "../"), ("Qué piso puedo pagar", None)], sq_ld))
+urls.insert(2, BASE + "sueldo/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

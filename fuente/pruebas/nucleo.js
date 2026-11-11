@@ -49,6 +49,8 @@ global.fetch = async (url, o) => {
     ["Piso en venta en Madrid, 250.000 €, 70 m². Planta: 2ª. Ascensor: No", { planta: 2, asc: 0 }],
     ["Ático en venta con terraza en Madrid, 400.000 €, 90 m²", { planta: 99 }],
     ["Sobreático en venta en Madrid, 890.000 €, 120 m²", { planta: 99 }],
+    ["Piso en venta en Salamanca, Madrid, 1,2 millones de euros, 180 m²", { op: "venta", precio: 1200000 }],
+    ["Ático en venta en Sarrià, Barcelona. 2.5 M€. 220 m2", { op: "venta", precio: 2500000 }],
     ["Piso bajo exterior en venta en Madrid, 200.000 €, 60 m²", { planta: 0 }],
   ];
   for (const [t, esp] of AN) { const o = V.parseAd(t).out; for (const [k, v] of Object.entries(esp)) assert.strictEqual(o[k], v, `«${t.slice(0, 40)}…» ${k}: ${o[k]} ≠ ${v}`); }

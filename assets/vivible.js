@@ -72,7 +72,10 @@ function parseAd(t){
   out.op=roomH?"habitacion":rentH&&!saleH?"alquiler":saleH&&!rentH?"venta":mes||(/alquiler|alquila/.test(L)&&!/\bventa\b/.test(L))?"alquiler":"venta";
   // --- precio: fuera comunidad, fianza, IBI y precios tachados; el primero que tenga sentido
   const prices=[...T.matchAll(/(?<![\d.,])(\d{1,3}(?:\.\d{3})+|\d{1,3}(?: \d{3})+|\d{3,7})(?:,\d{1,2})?\s*(?:€|eur)/gi)]
-    .filter(m=>!/(?<![a-záéíóúñ])(comunidad|fianza|ibi|gastos|antes|dep[oó]sito|garant[ií]a)(?![a-záéíóúñ])[^\d\n]{0,25}$/i.test(T.slice(Math.max(0,m.index-40),m.index))).map(m=>num(m[1]));
+    .filter(m=>!/(?<![a-záéíóúñ])(comunidad|fianza|ibi|gastos|antes|dep[oó]sito|garant[ií]a)(?![a-záéíóúñ])[^\d\n]{0,25}$/i.test(T.slice(Math.max(0,m.index-40),m.index))).map(m=>[m.index,num(m[1])])
+    // «1,2 millones de euros», «1.5 M€»
+    .concat([...T.matchAll(/(?<![\d.,])(\d{1,2}(?:[.,]\d{1,3})?)\s*(?:millones|mill\.?|M)\s*(?:de\s*)?(?:€|eur)/gi)].map(m=>[m.index,Math.round(parseFloat(m[1].replace(",","."))*1e6)]))
+    .sort((a,b)=>a[0]-b[0]).map(m=>m[1]);
   const okP={venta:p=>p>=30000,alquiler:p=>p>=300&&p<20000,habitacion:p=>p>=150&&p<=2000};
   let precio=prices.find(okP[out.op]);
   if(precio==null&&prices.length&&!roomH){const alt=modoPorPrecio(out.op,prices[0]);if(alt&&alt!=="habitacion"&&okP[alt](prices[0])){out.op=alt;precio=prices[0];}}

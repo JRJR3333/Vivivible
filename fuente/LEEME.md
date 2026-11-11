@@ -21,7 +21,7 @@ fuente/
   build.py            ← lo genera todo
 ```
 
-`python3 fuente/build.py` genera: `assets/vivible.js` (motor + datos), `assets/vivible-ficha.js`, `assets/vivible.css`, `datos.json` (los precios, para quien no use el JS), una página por formato, las páginas de ciudad y distrito, `sitemap.xml` y `robots.txt`.
+`python3 fuente/build.py` genera: `assets/vivible.js` (motor + datos), `assets/vivible-ficha.js`, `assets/vivible.css`, `datos.json` (los precios, para quien no use el JS), una página por formato, las páginas de ciudad y distrito, `sitemap.xml`, `robots.txt` y `404.html` (la página de «no existe» que GitHub Pages sirve en cualquier enlace roto).
 
 ## Reglas
 - Un cálculo, un texto del informe o un dato se cambia **una sola vez**, en `nucleo/` o en `precios.json`. Nunca dentro de un formato.

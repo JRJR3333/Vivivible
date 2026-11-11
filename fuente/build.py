@@ -64,6 +64,13 @@ for nombre, carpeta in FORMATOS.items():
     links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items())
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
+    if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
+        ldw = json.dumps({"@context": "https://schema.org", "@type": "WebApplication", "name": "Vivible", "url": BASE,
+            "inLanguage": "es-ES", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web",
+            "description": "Valora gratis un piso en venta o alquiler, o una habitación: precio, transporte, ruido y servicios de la zona.",
+            "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
+            "areaServed": [{"@type": "City", "name": c["n"]} for c in C.values()]}, ensure_ascii=False).replace("</", "<\\/")
+        t = t.replace("</head>", f'<script type="application/ld+json">{ldw}</script>\n</head>', 1)
     assert "__" not in t.replace("window.__viv", ""), "queda un marcador sin sustituir en " + nombre
     if carpeta: os.makedirs(F(carpeta), exist_ok=True)
     open(F(carpeta, "index.html") if carpeta else F("index.html"), "w", encoding="utf-8").write(t)
@@ -81,6 +88,11 @@ def tit_distrito(d, cn):
     if len(t) > 65: t = t.replace(" | Vivible", "")
     if len(t) > 65: t = t.replace(" y alquiler", "")
     return t
+
+
+def desc_corta(base, cola):
+    # Google corta las descripciones de más de ~160 caracteres: la coletilla solo va si cabe
+    return base + cola if len(base + cola) <= 160 else base
 
 
 def page(title, desc, path, body, crumbs):
@@ -146,9 +158,18 @@ for ck, c in C.items():
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
         open(F(ck, sd, "index.html"), "w", encoding="utf-8").write(page(
             tit_distrito(d, c['n']),
-            f"{d} ({c['n']}): {fmt(s)} €/m² en venta, {dec(r)} €/m² de alquiler y habitación por unos {fmt(room)} €. Cuánto necesitas para comprar o alquilar.",
+            desc_corta(f"{d} ({c['n']}): {fmt(s)} €/m² en venta, {dec(r)} €/m² de alquiler y habitación por unos {fmt(room)} €.", " Cuánto necesitas para comprar o alquilar."),
             f"{ck}/{sd}/", body, [("Vivible", "../../"), (c["n"], "../"), (d, None)]))
         urls.append(BASE + f"{ck}/{sd}/")
+
+# ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
+ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())
+open(F("404.html"), "w", encoding="utf-8").write(f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Página no encontrada | Vivible</title><meta name="robots" content="noindex"><link rel="icon" href="{FAV}"><meta name="theme-color" content="#1f6f54">
+<style>{CSS}</style></head><body><div class="w"><main><h1>Esta página no existe</h1>
+<p>Puede que el enlace esté mal copiado o que la página haya cambiado de dirección.</p>
+<a class="cta" href="{BASE}">Analiza un piso gratis</a>
+<div class="card m" style="margin-top:20px"><b>Precios por ciudad:</b> {ciud}</div></main></div></body></html>""")
 
 open(F("sitemap.xml"), "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
     "".join(f"<url><loc>{u}</loc><lastmod>{P['actualizado']}</lastmod></url>\n" for u in urls) + "</urlset>\n")

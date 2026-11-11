@@ -4,7 +4,7 @@ Web estática publicada con GitHub Pages desde la rama `master` (raíz): https:/
 
 ## Cómo se monta
 - Todo se genera con `python3 fuente/build.py` desde la raíz: `index.html`, `chat/index.html`, una página por ciudad (`<ciudad>/`), una por distrito (`<ciudad>/<distrito>/`), `sitemap.xml` y `robots.txt`.
-- Nunca se editan a mano los ficheros generados (`index.html`, `chat/`, carpetas de ciudad, `assets/vivible.js`, `assets/vivible-ficha.js`, `assets/vivible.css`, `datos.json`, `sitemap.xml`, `robots.txt`): se cambia algo de `fuente/` y se vuelve a generar.
+- Nunca se editan a mano los ficheros generados (`index.html`, `chat/`, carpetas de ciudad, `assets/vivible.js`, `assets/vivible-ficha.js`, `assets/vivible.css`, `datos.json`, `sitemap.xml`, `robots.txt`, `404.html`): se cambia algo de `fuente/` y se vuelve a generar.
 - `fuente/precios.json`: por ciudad, venta €/m² y alquiler €/m²/mes por distrito (idealista), precio medio de habitación, ITP/AJD de la comunidad y centro del mapa. `null` = sin dato (la web lo estima).
 - `fuente/data.json`: barrios de Madrid (polígonos, para saber el distrito exacto) y estaciones de metro de Madrid (respaldo si OpenStreetMap no responde). `fuente/prep.py` lo genera.
 - `assets/leaflet/`: mapa (Leaflet 1.9.4, BSD-2). En el navegador se usan Nominatim (direcciones) y Overpass (transporte, comercios, colegios, parques, ruido).

@@ -79,41 +79,6 @@ footer a{color:var(--mute)}
 details summary{cursor:pointer;font-weight:600;font-size:14px}
 .dirrow{flex-wrap:wrap}.dirrow input{flex:1 1 180px;min-width:0}@media(max-width:520px){#aqui{flex-basis:100%}}
 .mas{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}.mas summary{color:var(--acc)}
-/* conversación */
-.chat{margin-top:18px;display:flex;flex-direction:column;gap:10px}
-.msg{display:flex;gap:8px;align-items:flex-end;max-width:100%;animation:pop .32s cubic-bezier(.2,.9,.3,1.2) both}
-.msg .av{width:30px;height:30px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font:700 14px Fraunces,serif;flex:none}
-.msg .b{background:var(--card);border:1px solid var(--line);border-radius:18px 18px 18px 6px;padding:10px 14px;font-size:15px;max-width:min(560px,calc(100% - 38px))}
-.msg.me{justify-content:flex-end}
-.msg.me .b{background:var(--acc);border-color:var(--acc);color:#fff;border-radius:18px 18px 6px 18px;white-space:pre-line}
-.msg.gap{margin-left:38px}
-.msg .b p{margin:0}.msg .b p+p{margin-top:6px}
-.typing .b{display:flex;gap:4px;padding:14px 16px}
-.typing i{width:7px;height:7px;border-radius:50%;background:#a9b3ae;animation:blink 1s infinite}
-.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
-.ask{margin-left:38px;display:flex;flex-direction:column;gap:8px;animation:pop .32s ease both}
-.qr{display:flex;flex-wrap:wrap;gap:8px}
-.qr button{border:1.5px solid var(--acc);background:#fff;color:var(--acc);border-radius:99px;padding:9px 15px;font:600 14px Inter;cursor:pointer;transition:transform .12s,background .12s}
-.qr button:hover{background:var(--acc2)}.qr button:active{transform:scale(.95)}
-.qr button.main{background:var(--acc);color:#fff}
-.comp{display:flex;gap:8px;align-items:flex-end;background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:6px 6px 6px 14px;transition:border-color .15s,box-shadow .15s}
-.comp:focus-within{border-color:var(--acc);box-shadow:0 0 0 4px var(--acc2)}
-.comp textarea,.comp input{border:0;outline:0!important;padding:8px 0;min-height:0;resize:none;background:transparent;font-size:16px}
-.comp textarea{max-height:160px;height:40px;line-height:24px;white-space:pre-wrap}.comp textarea::placeholder,.comp input::placeholder{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.comp .send{width:40px;height:40px;border-radius:50%;border:0;background:var(--acc);color:#fff;font-size:18px;cursor:pointer;flex:none;transition:transform .12s}
-.comp .send:active{transform:scale(.9)}
-.comp .unit{color:var(--mute);font-weight:600;padding:8px 6px 8px 0;flex:none}
-.mapb{width:100%;max-width:560px}.mapb #map{height:280px}
-.ficha h3{font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);margin:20px 0 8px}
-.ficha h3:first-of-type{margin-top:8px}
-.ficha #map{margin-bottom:4px}
-.flash{animation:flash 1s ease}
-@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
-@keyframes blink{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
-@keyframes flash{from{box-shadow:0 0 0 4px var(--acc)}to{box-shadow:0 0 0 0 transparent}}
-#res .card{animation:pop .45s ease both}
-#res .card:nth-child(2){animation-delay:.08s}#res .card:nth-child(3){animation-delay:.16s}#res .card:nth-child(4){animation-delay:.24s}#res .card:nth-child(n+5){animation-delay:.3s}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 @media(max-width:480px){.bar{grid-template-columns:96px 1fr 30px}header h1{font-size:28px}.row2{grid-template-columns:1fr}#map{height:260px}}
 @media print{body{background:#fff}.noprint,.leaflet-container{display:none!important}.card{break-inside:avoid;border-color:#ccc}#res{display:block!important}}
 </style>
@@ -123,30 +88,41 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
 <header>
   <span class="badge">Gratis · 10 ciudades de España</span>
   <h1>¿Se vive bien en <span>ese piso</span>?</h1>
-  <p>Antes de ir a ver un piso o una habitación, pregúntame: precio justo, transporte, ruido y servicios de la zona.</p>
+  <p>Para comprar, alquilar un piso o una habitación. Pega el anuncio y el informe sale solo: si está bien de precio, cómo es y qué tal se vive en la zona. Antes de ir a verlo.</p>
+  <p class="noprint" style="font-size:13px;margin-top:6px">¿Mejor que te pregunte paso a paso? <a href="chat/" style="color:var(--acc);font-weight:600">Pruébalo en modo conversación 💬</a></p>
 </header>
 
-<div id="chat" class="chat noprint" aria-live="polite"></div>
+<section class="card noprint">
+  <h2><span class="step">0</span>Pega el anuncio <small style="font-weight:400;color:var(--mute)">(lo más rápido)</small></h2>
+  <p class="hint">Abre el anuncio (Idealista, Fotocasa, Habitaclia…), copia todo su texto y pégalo aquí. No tienes que rellenar nada más: el informe sale solo.</p>
+  <textarea id="anuncio" placeholder="Piso en venta en calle de Fuencarral, 120 · 320.000 € · 75 m² construidos · 2 hab. · 1 baño · Planta 3ª exterior con ascensor…"></textarea>
+  <div class="row" style="margin-top:8px"><button class="btn2" id="rellenar">Leer el anuncio</button></div>
+  <div id="anuncioMsg" class="ok" role="status" aria-live="polite"></div>
+</section>
 
-<div id="res"></div>
-
-<section class="card ficha noprint" id="ficha" hidden>
-  <h2>✏️ Los datos del piso</h2>
-  <p class="hint">Cambia lo que quieras: el informe se actualiza al momento.</p>
-  <h3>Dónde está</h3>
+<section class="card">
+  <h2><span class="step">1</span>¿Dónde está?</h2>
+  <p class="hint">Escribe la dirección, toca en el mapa o, si estás delante del piso, pulsa «Estoy aquí».</p>
   <div class="row dirrow noprint" style="margin-bottom:10px"><input id="dir" type="text" placeholder="Calle y número, ciudad" autocomplete="street-address"><button class="btn2" id="buscar">Buscar</button><button class="btn2" id="aqui" title="Usar mi ubicación">📍 Estoy aquí</button></div>
   <div class="err noprint" id="dirErr" style="margin:-4px 0 8px" role="status" aria-live="polite"></div>
-  <div id="mapHome"><div id="map"></div></div>
+  <div id="map" class="noprint"></div>
   <div class="grid">
     <div><label for="ciudad">Ciudad</label><select id="ciudad"></select></div>
     <div><label for="distrito">Distrito</label><select id="distrito"></select></div>
   </div>
   <div class="where" id="where"></div>
-  <h3>Qué buscas</h3>
+</section>
+
+<section class="card">
+  <h2><span class="step">2</span>¿Qué buscas?</h2>
+  <p class="hint">Si pones un precio de alquiler en «Comprar» (o al revés), lo cambio yo.</p>
   <div class="seg" id="op" role="group" aria-label="Qué buscas"><button data-v="venta" class="on" aria-pressed="true">Comprar</button><button data-v="alquiler" aria-pressed="false">Alquilar piso</button><button data-v="habitacion" aria-pressed="false">Habitación</button></div>
   <label for="precio" id="precioLbl">Precio que piden (€)</label>
   <input id="precio" type="number" inputmode="numeric" placeholder="p. ej. 320000">
-  <h3 id="t3">El piso</h3>
+</section>
+
+<section class="card">
+  <h2><span class="step">3</span><span id="t3">El piso</span></h2>
   <div id="roomFields" style="display:none"><div class="grid">
     <div><label for="rm2">m² de la habitación</label><input id="rm2" type="number" inputmode="numeric" placeholder="10"></div>
     <div><label for="pers">Personas en el piso (contigo)</label><select id="pers"><option>2</option><option selected>3</option><option>4</option><option>5</option><option value="6">6 o más</option></select></div>
@@ -181,16 +157,17 @@ details summary{cursor:pointer;font-weight:600;font-size:14px}
     <div><label for="calle">La calle es…</label><select id="calle"><option value="tranq">Tranquila</option><option value="normal" selected>Normal</option><option value="ruido">Avenida / ruidosa</option><option value="peat">Peatonal</option></select></div>
     <div class="po"><label for="com">Comunidad (€/mes)</label><input id="com" type="number" inputmode="numeric" placeholder="60"></div>
   </div></details>
-  <h3>Dónde trabajas o estudias</h3>
+</section>
+
+<section class="card">
+  <h2><span class="step">4</span>¿Dónde trabajas o estudias? <small style="font-weight:400;color:var(--mute)">(opcional)</small></h2>
   <input id="trabajo" type="text" placeholder="Dirección o lugar, p. ej. Nuevos Ministerios, Madrid">
-  <h3>¿Otro anuncio?</h3>
-  <textarea id="anuncio" placeholder="Piso en venta en calle de Fuencarral, 120 · 320.000 € · 75 m² construidos · 2 hab. · 1 baño · Planta 3ª exterior con ascensor…"></textarea>
-  <div class="row" style="margin-top:8px"><button class="btn2" id="rellenar">Leer el anuncio</button></div>
-  <div id="anuncioMsg" class="ok" role="status" aria-live="polite"></div>
-  <button class="go" id="go">Ver informe</button>
+  <p class="hint" style="margin:6px 0 0">Lo recuerdo para la próxima vez. Cuando veas el informe, si cambias cualquier dato se actualiza solo.</p>
+  <button class="go noprint" id="go">Ver informe</button>
   <div class="err" id="err" role="alert"></div>
 </section>
 
+<div id="res"></div>
 
 <footer>
   <b>Cómo calculamos.</b> Precios medios por distrito de idealista (__MESES__) ajustados por planta, estado, ascensor, orientación y extras. Habitaciones: precio medio de cada ciudad. Transporte, comercios, colegios, parques y ruido: OpenStreetMap (Overpass) en un radio de hasta 1,2 km; direcciones con Nominatim. Impuestos: tipo general de cada comunidad autónoma. Los tiempos son estimaciones.<br>
@@ -240,7 +217,7 @@ let map=null,marker=null;
 try{
   map=L.map("map",{scrollWheelZoom:false}).setView(C.madrid.centro,12);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
-  map.on("click",async e=>{await setPoint(e.latlng.lat,e.latlng.lng,true);if(state.pt){liveUpdate();if(state.onPick){const f=state.onPick;state.onPick=null;f();}}else if(state.onPickErr)state.onPickErr($("#dirErr").textContent);});
+  map.on("click",async e=>{await setPoint(e.latlng.lat,e.latlng.lng,true);if(state.pt)liveUpdate();});
 }catch(e){$("#map").style.display="none";}
 function placeMarker(lat,lon){if(!map)return;if(marker)marker.setLatLng([lat,lon]);else marker=L.marker([lat,lon]).addTo(map);}
 
@@ -351,33 +328,23 @@ function parseAd(t){
   return {out,got};
 }
 let lastAd="";
-// lee el anuncio y rellena la ficha; devuelve qué ha pasado
-async function applyAd(t){
-  t=t.trim();
-  if(/^https?:\/\/\S+$/.test(t))return {kind:"url"};
-  if(t.length<20)return {kind:"corto"};
+async function readAd(auto){
+  const t=$("#anuncio").value.trim(),msg=$("#anuncioMsg");
+  if(auto&&t===lastAd)return;lastAd=t;
+  if(/^https?:\/\/\S+$/.test(t)){msg.className="err";msg.textContent="Los portales no dejan leer sus enlaces desde otra web. Abre el anuncio, copia su texto (mantén pulsado → Seleccionar todo → Copiar) y pégalo aquí.";return;}
+  if(t.length<20){if(!auto){msg.className="err";msg.textContent="Pega el texto del anuncio primero.";}return;}
   const {out,got}=parseAd(t);
-  if(got.length<=1)return {kind:"poco"};
   setOp(out.op);
   const setV=(id,v)=>{if(v!=null)$("#"+id).value=v;};
   setV("precio",out.precio);setV("m2",out.m2);setV("hab",out.hab);setV("ban",out.ban);setV("planta",out.planta);setV("estado",out.estado);setV("anio",out.anio);setV("ori",out.ori);setV("cal",out.cal);setV("com",out.com);setV("rm2",out.rm2);setV("rban",out.rban);setV("gastos",out.gastos);setV("pers",out.pers);
   for(const k of ["asc","ext","ter","gar","tra","aa"])if(out[k]!=null)setEx(k,out[k]);
   if(out.ck&&out.ck!==state.ck)setCity(out.ck);
   if(out.d&&C[state.ck].d[out.d]){state.d=out.d;selD.value=out.d;where();}
+  if(got.length<=1){msg.className="err";msg.textContent="No he sacado casi nada del texto. ¿Has copiado el anuncio entero? Si no, dime al menos dónde está (paso 1).";return;}
+  msg.className="ok";msg.textContent="He leído: "+got.join(", ")+".";
   if(out.dir){$("#dir").value=out.dir+", "+C[state.ck].n;lastDir=$("#dir").value;await buscarDir0();}
-  return {kind:"ok",out,got};
-}
-const AD_URL="Los portales no dejan leer sus enlaces desde otra web. Abre el anuncio, copia su texto (mantén pulsado → Seleccionar todo → Copiar) y pégamelo.";
-async function readAd(auto){
-  const t=$("#anuncio").value.trim(),msg=$("#anuncioMsg");
-  if(auto&&t===lastAd)return;lastAd=t;
-  const r=await applyAd(t);
-  if(r.kind==="url"){msg.className="err";msg.textContent=AD_URL;return;}
-  if(r.kind==="corto"){if(!auto){msg.className="err";msg.textContent="Pega el texto del anuncio primero.";}return;}
-  if(r.kind==="poco"){msg.className="err";msg.textContent="No he sacado casi nada del texto. ¿Has copiado el anuncio entero?";return;}
-  msg.className="ok";msg.textContent="He leído: "+r.got.join(", ")+".";
-  if(state.pt||state.d){await analyze();}
-  else msg.textContent+=" Me falta dónde está: escribe la dirección o toca en el mapa.";
+  if(state.pt||state.d){msg.textContent+=" Aquí tienes el informe; si algo no cuadra, cámbialo y se actualiza.";await analyze();}
+  else{msg.textContent+=" Solo me falta dónde está: escribe la dirección o toca en el mapa.";$("#dir").closest(".card").scrollIntoView({behavior:"smooth",block:"start"});}
 }
 $("#rellenar").onclick=()=>readAd(false);
 $("#anuncio").addEventListener("paste",()=>setTimeout(()=>readAd(true),50));
@@ -661,7 +628,7 @@ function render(x){
   const res=$("#res");res.innerHTML=h;res.style.display="block";if(!x.quiet)res.scrollIntoView({behavior:"smooth",block:"start"});
   $("#pdf").onclick=()=>{try{window.print();}catch(e){}};
   $("#share").onclick=share;
-  const tm=$("#toMap");if(tm)tm.onclick=()=>{openFicha();$("#dir").scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>$("#dir").focus({preventScroll:true}),400);};
+  const tm=$("#toMap");if(tm)tm.onclick=()=>{$("#dir").closest(".card").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>$("#dir").focus({preventScroll:true}),400);};
 }
 
 // ---------- share & restore
@@ -688,141 +655,10 @@ function restore(){
       where();analyze();}catch(e){}return;}
   if(q.c&&C[q.c]){setCity(q.c);if(q.d&&C[q.c].d[q.d]){state.d=q.d;selD.value=q.d;where();}if(q.op)setOp(q.op);}
 }
-// ---------- conversación
-const chatEl=$("#chat"),sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const RM=matchMedia("(prefers-reduced-motion: reduce)").matches,FINE=matchMedia("(pointer:fine)").matches;
-const escH=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const known={op:false,precio:false,hab:false};
-function scrollEnd(el){const r=el.getBoundingClientRect();if(r.bottom>innerHeight-16)window.scrollBy({top:r.bottom-innerHeight+48,behavior:RM?"auto":"smooth"});}
-async function bot(html,wait){
-  const m=document.createElement("div");m.className="msg typing";m.innerHTML='<div class="av" aria-hidden="true">V</div><div class="b"><i></i><i></i><i></i></div>';
-  const prev=chatEl.lastElementChild;if(prev&&prev.classList.contains("bot")){prev.querySelector(".av").style.visibility="hidden";}
-  chatEl.appendChild(m);scrollEnd(m);
-  await sleep(RM?0:(wait!=null?wait:Math.min(900,280+html.length*5)));
-  m.className="msg bot";m.querySelector(".b").innerHTML=html;scrollEnd(m);return m;
-}
-function me(text){const m=document.createElement("div");m.className="msg me";m.innerHTML=`<div class="b">${escH(text)}</div>`;chatEl.appendChild(m);scrollEnd(m);}
-function ask({chips=[],input=null}){
-  return new Promise(res=>{
-    chatEl.querySelectorAll(".ask").forEach(a=>a.remove());
-    const a=document.createElement("div");a.className="ask";
-    if(input){
-      const c=document.createElement("div");c.className="comp";
-      const f=document.createElement(input.multi?"textarea":"input");
-      if(input.multi)f.rows=1;else{f.type="text";if(input.num){f.inputMode="numeric";f.autocomplete="off";}}
-      f.placeholder=input.ph||"";f.setAttribute("aria-label",input.label||input.ph||"Respuesta");
-      c.appendChild(f);
-      if(input.unit){const u=document.createElement("span");u.className="unit";u.textContent=input.unit;c.appendChild(u);}
-      const b=document.createElement("button");b.className="send";b.type="button";b.setAttribute("aria-label","Enviar");b.textContent="➤";c.appendChild(b);
-      const send=()=>{const v=f.value.trim();if(!v){f.focus();return;}a.remove();res({text:v});};
-      b.onclick=send;f.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}});
-      if(input.multi){const grow=()=>{f.style.height="auto";f.style.height=Math.min(160,f.scrollHeight)+"px";};f.addEventListener("input",grow);
-        f.addEventListener("paste",()=>setTimeout(()=>{grow();const v=f.value.trim();if(v.length>=60||/^https?:\/\/\S+$/.test(v))send();},60));}
-      a.appendChild(c);
-      if(input.focus!==false)setTimeout(()=>f.focus({preventScroll:true}),60);
-    }
-    if(chips.length){const q=document.createElement("div");q.className="qr";
-      chips.forEach(ch=>{const b=document.createElement("button");b.type="button";b.textContent=ch.t;if(ch.main)b.className="main";b.onclick=()=>{a.remove();res({v:ch.v,t:ch.t});};q.appendChild(b);});
-      a.appendChild(q);}
-    chatEl.appendChild(a);scrollEnd(a);
-  });
-}
-const looksAd=t=>/^https?:\/\//.test(t)||t.length>=90||(t.length>=40&&(/\n/.test(t)||/€|m²|m2\b|\bhab\b|habitaci|dormitorio/i.test(t)));
-function placeTxt(){return (state.auto?state.auto+", ":"")+(state.d?state.d+", ":"")+C[state.ck].n;}
-function adSummary(o){const p=[{venta:"Compra",alquiler:"Alquiler",habitacion:"Habitación"}[o.op]];
-  if(o.precio)p.push(eur(o.precio)+(o.op==="venta"?"":"/mes"));
-  if(o.op==="habitacion"){if(o.rm2)p.push(o.rm2+" m²");}else{if(o.hab!=null)p.push(o.hab?o.hab+" hab.":"estudio");if(o.m2)p.push(o.m2+" m²");}
-  if(o.planta!=null)p.push(o.planta===99?"ático":o.planta===0?"bajo":o.planta===-1?"semisótano":o.planta+"ª planta");
-  if(o.asc===1)p.push("con ascensor");else if(o.asc===0)p.push("sin ascensor");
-  return p.join(" · ");}
-function geoHere(){return new Promise(res=>{if(!navigator.geolocation)return res(null);navigator.geolocation.getCurrentPosition(g=>res([g.coords.latitude,g.coords.longitude]),()=>res(null),{enableHighAccuracy:true,timeout:10000});});}
-function mapHome(){const m=$("#map");if(!m.closest("#mapHome"))$("#mapHome").appendChild(m);setTimeout(()=>map&&map.invalidateSize(),60);}
-function openFicha(){$("#ficha").hidden=false;mapHome();}
-async function askWhere(intro){
-  if(intro)await bot(intro);
-  const chips=[{t:"📍 Estoy aquí",v:"aqui"},{t:"🗺️ Elegir en el mapa",v:"mapa"}];
-  if(state.d&&!state.pt)chips.push({t:"Usar la media de "+state.d,v:"media"});
-  chips.push({t:"✏️ Prefiero rellenarlo yo",v:"ficha"});
-  const r=await ask({input:{multi:true,ph:"Pega el anuncio o la calle…",label:"Anuncio o dirección",focus:FINE},chips});
-  if(r.v==="ficha"){me(r.t);openFicha();await bot("Perfecto. Rellena lo que sepas en la ficha y pulsa «Ver informe» 👇");$("#ficha").scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});return false;}
-  if(r.v==="media"){me(r.t);return true;}
-  if(r.v==="aqui"){me(r.t);const b=await bot("Buscando dónde estás…",200);const p=await geoHere();
-    if(!p){b.querySelector(".b").textContent="No he podido saber dónde estás (puede que no hayas dado permiso).";return askWhere("¿Me escribes la calle o lo marcas en el mapa?");}
-    map&&map.setView(p,16);await setPoint(p[0],p[1]);
-    if(!state.pt){b.querySelector(".b").textContent=$("#dirErr").textContent||"Ahí no puedo ayudarte.";return askWhere("¿Me dices otra dirección?");}
-    b.remove();return true;}
-  if(r.v==="mapa"){me(r.t);const b=await bot("<p>Toca en el mapa donde está el piso 👇</p><p class='pickErr err' style='margin:0'></p>",200);
-    const bb=b.querySelector(".b");bb.classList.add("mapb");bb.appendChild($("#map"));
-    setTimeout(()=>{if(map){map.invalidateSize();map.setView(state.pt||C[state.ck].centro,state.pt?16:12);}scrollEnd(b);},80);
-    await new Promise(res=>{state.onPick=res;state.onPickErr=t=>{bb.querySelector(".pickErr").textContent=t;};});
-    state.onPickErr=null;mapHome();bb.classList.remove("mapb");bb.innerHTML="Toca en el mapa donde está el piso 👇";return true;}
-  const t=r.text;
-  if(looksAd(t)){me(t.length>140?t.slice(0,140).trim()+"…":t);
-    const x=await applyAd(t);
-    if(x.kind==="url")return askWhere(AD_URL);
-    if(x.kind!=="ok")return askWhere("No he sacado casi nada de ese texto. ¿Has copiado el anuncio entero? Si no, dime la calle.");
-    known.op=true;known.precio=x.out.precio!=null;known.hab=x.out.hab!=null||x.out.m2!=null;
-    await bot("Leído ✓ <b>"+escH(adSummary(x.out))+"</b>");
-    if(state.pt||state.d)return true;
-    return askWhere("No veo la dirección en el anuncio. ¿Dónde está? Escribe la calle o márcalo en el mapa.");}
-  me(t);$("#dir").value=t;lastDir=t;await buscarDir0();
-  if(state.pt)return true;
-  return askWhere(escH($("#dirErr").textContent||"No encuentro esa dirección.")+(/,/.test(t)?"":" Prueba a añadir la ciudad («calle, número, ciudad»)."));
-}
-async function askPrice(){
-  const v=state.op==="venta";
-  await bot(v?"¿Cuánto piden?":"¿Cuánto piden al mes?");
-  const r=await ask({input:{num:true,ph:v?"320.000":state.op==="alquiler"?"1.400":"550",unit:v?"€":"€/mes",label:"Precio"},chips:[{t:"No lo sé",v:"skip"}]});
-  const n=r.text?+r.text.replace(/[.\s€]/g,"").replace(",",".")||0:0;
-  if(!n){me(r.text||"No lo sé");$("#precio").value="";return;}
-  me(eur(n)+(v?"":"/mes"));$("#precio").value=Math.round(n);
-}
-async function askRest(){
-  await bot("📍 "+escH(placeTxt())+(state.pt?"":" <small>(media del distrito)</small>"),300);
-  if(!known.op){await bot("¿Qué buscas?");
-    const r=await ask({chips:[{t:"🏠 Comprar",v:"venta"},{t:"🔑 Alquilar piso",v:"alquiler"},{t:"🛏️ Habitación",v:"habitacion"}]});me(r.t);setOp(r.v);}
-  if(!known.precio)await askPrice();
-  if(!known.hab&&state.op!=="habitacion"){await bot("¿Cuántas habitaciones tiene?");
-    const r=await ask({chips:[{t:"Estudio",v:0},{t:"1",v:1},{t:"2",v:2},{t:"3",v:3},{t:"4",v:4},{t:"5 o más",v:5}]});me(r.t);$("#hab").value=r.v;}
-  if(state.pt){const w=$("#trabajo").value.trim();
-    if(!w){await bot("¿Dónde trabajas o estudias? Te digo cuánto tardarías.");
-      const r=await ask({input:{ph:"p. ej. Nuevos Ministerios",label:"Trabajo o estudios"},chips:[{t:"Saltar",v:"skip"}]});
-      if(r.v==="skip")me("Saltar");else{me(r.text);$("#trabajo").value=r.text;}}
-    else await bot("Calculo el trayecto a <b>"+escH(w)+"</b>, como la otra vez.",300);}
-  return go();
-}
-async function go(){
-  const b=await bot("Analizando la zona… 🔎",250);
-  await analyze(true);
-  const e=$("#err").textContent;
-  if(e){b.querySelector(".b").textContent=e;$("#err").textContent="";
-    if(/precio|comprar/i.test(e)){await askPrice();return go();}
-    openFicha();$("#ficha").scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});return;}
-  b.querySelector(".b").textContent="Aquí tienes 👇";
-  await done(b);
-}
-async function done(anchor){
-  openFicha();
-  const m=await bot("Si algo no cuadra, cámbialo en «Los datos del piso», debajo del informe: se actualiza al momento.",0);
-  const q=document.createElement("div");q.className="ask";q.innerHTML='<div class="qr"><button type="button" id="cAdj">✏️ Ajustar datos</button><button type="button" id="cNew">🔄 Otro piso</button></div>';
-  chatEl.appendChild(q);
-  $("#cAdj").onclick=()=>{const f=$("#ficha");f.scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});f.classList.remove("flash");void f.offsetWidth;f.classList.add("flash");};
-  $("#cNew").onclick=()=>{location.href=location.pathname;};
-  (anchor||m).scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});
-}
-async function startChat(){
-  const h=location.hash;
-  if(/^#s=/.test(h)){await bot("Este es el informe que te han compartido. Puedes cambiar cualquier dato y se recalcula 👇",200);return done();}
-  if(/[#&]op=/.test(h))known.op=true;
-  await bot(state.d?`¡Hola! 👋 Veo que miras pisos en <b>${escH(state.d)}</b> (${C[state.ck].n}). Pégame el anuncio o dime la calle y te digo qué tal.`
-    :"¡Hola! 👋 Pégame el anuncio del piso (Idealista, Fotocasa…) o dime dónde está, y te digo si está bien de precio y qué tal se vive.",450);
-  if(await askWhere())await askRest();
-}
 setCity("madrid",true);
 $("#go").onclick=()=>analyze(false);
 try{const t=localStorage.getItem("viv.trabajo"),o=localStorage.getItem("viv.op");if(t)$("#trabajo").value=t;if(o&&["venta","alquiler","habitacion"].includes(o))setOp(o);}catch(e){}
 restore();
-startChat();
 window.__viv={parseAd,matchDistrict,dPrice,roomBase,classify,state};
 </script>
 </body>

@@ -3,7 +3,7 @@
 Web estática publicada con GitHub Pages desde la rama `master` (raíz): https://jrjr3333.github.io/Vivivible/ . Proyecto «Ganar Dinero» de Juan. Gratis por ahora (sin anuncios ni afiliados).
 
 ## Cómo se monta
-- Todo se genera con `python3 fuente/build.py` desde la raíz: `index.html`, una página por ciudad (`<ciudad>/`), una por distrito (`<ciudad>/<distrito>/`), `sitemap.xml` y `robots.txt`.
+- Todo se genera con `python3 fuente/build.py` desde la raíz: `index.html`, `chat/index.html`, una página por ciudad (`<ciudad>/`), una por distrito (`<ciudad>/<distrito>/`), `sitemap.xml` y `robots.txt`.
 - Nunca se editan a mano los ficheros generados: se cambia `fuente/template.html` o `fuente/precios.json` y se vuelve a generar.
 - `fuente/precios.json`: por ciudad, venta €/m² y alquiler €/m²/mes por distrito (idealista), precio medio de habitación, ITP/AJD de la comunidad y centro del mapa. `null` = sin dato (la web lo estima).
 - `fuente/data.json`: barrios de Madrid (polígonos, para saber el distrito exacto) y estaciones de metro de Madrid (respaldo si OpenStreetMap no responde). `fuente/prep.py` lo genera.
@@ -20,7 +20,7 @@ Web estática publicada con GitHub Pages desde la rama `master` (raíz): https:/
 
 ## Principio de diseño (lo pidió Juan, 2026-11-11)
 - Que el usuario rellene lo menos posible y que todo sea intuitivo y automático. Solo es obligatorio decir dónde está el piso; lo demás se deduce del anuncio pegado, se supone con valores razonables (avisándolo en el informe) o va plegado en «Más detalles (opcional)».
-- Formato de conversación (Juan lo eligió el 2026-11-11): la portada es un chat (`startChat`, `askWhere`, `askRest`, `go` en `fuente/template.html`) que solo pregunta lo que falta, con botones y una caja para pegar el anuncio o la calle. La ficha completa (`#ficha`) sigue debajo para ajustar datos; el chat escribe en sus campos y usa `analyze()`, así que los cálculos no dependen del chat. No volver a un formulario.
+- Dos formatos (decisión de Juan, 2026-11-11): la portada (`fuente/template.html` → `index.html`) es la web normal por pasos, que Juan prefiere para web y app. El formato conversación (`fuente/template_chat.html` → `chat/index.html`, funciones `startChat`, `askWhere`, `askRest`, `go`) se guarda como enlace para enviar por WhatsApp. No se cambia uno por otro. Un cambio en los cálculos o en el informe se hace en las dos plantillas y se prueban las dos.
 - Pegar el anuncio genera el informe solo, y tras el primer informe cualquier cambio lo actualiza al momento. No añadir campos obligatorios ni pasos extra.
 
 ## Antes de publicar

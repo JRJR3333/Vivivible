@@ -41,6 +41,15 @@ idx = (t.replace("__PRECIOS__", json.dumps(P, ensure_ascii=False, separators=(",
         .replace("__MADRID__", MAD).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", ciudades_links))
 open(F("index.html"), "w", encoding="utf-8").write(idx)
 
+# ---------- chat/index.html: la misma web en formato conversación (enlace para enviar por WhatsApp)
+tc = open(F("fuente", "template_chat.html"), encoding="utf-8").read()
+ciudades_chat = "".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items())
+chat = (tc.replace('href="assets/', 'href="../assets/').replace('src="assets/', 'src="../assets/')
+        .replace("__PRECIOS__", json.dumps(P, ensure_ascii=False, separators=(",", ":")))
+        .replace("__MADRID__", MAD).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", ciudades_chat))
+os.makedirs(F("chat"), exist_ok=True)
+open(F("chat", "index.html"), "w", encoding="utf-8").write(chat)
+
 # ---------- static pages
 CSS = """body{margin:0;background:#f6f3ee;color:#1d2321;font:16px/1.6 Inter,system-ui,sans-serif}.w{max-width:760px;margin:0 auto;padding:20px 16px 60px}
 a{color:#1f6f54}h1{font:700 30px/1.15 Fraunces,Georgia,serif;margin:10px 0}.b{display:inline-block;font-size:12px;font-weight:600;color:#1f6f54;background:#e8f2ec;padding:3px 10px;border-radius:99px;text-decoration:none}

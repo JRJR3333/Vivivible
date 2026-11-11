@@ -18,6 +18,10 @@ Web estática publicada con GitHub Pages desde la rama `master` (raíz): https:/
 - La tarea programada de Claude «Vivible: ciclo auditor-desarrollador» se lanza cada 6 horas y sigue `.ciclo/INSTRUCCIONES.md`. Lo hecho queda en `.ciclo/historial.md`.
 - Alternativa manual: `.github/workflows/ciclo.yml` (solo a mano; necesita el secreto `CLAUDE_CODE_OAUTH_TOKEN` o `ANTHROPIC_API_KEY`).
 
+## Principio de diseño (lo pidió Juan, 2026-11-11)
+- Que el usuario rellene lo menos posible y que todo sea intuitivo y automático. Solo es obligatorio decir dónde está el piso; lo demás se deduce del anuncio pegado, se supone con valores razonables (avisándolo en el informe) o va plegado en «Más detalles (opcional)».
+- Pegar el anuncio genera el informe solo, y tras el primer informe cualquier cambio lo actualiza al momento. No añadir campos obligatorios ni pasos extra.
+
 ## Antes de publicar
 - `python3 fuente/build.py` sin errores y `node --check` del script de `index.html`.
 - Probar en un navegador (simulando Nominatim y Overpass): los tres modos, pegar anuncio, búsqueda por dirección en al menos dos ciudades, informe, enlace para compartir y una página de distrito.

@@ -468,7 +468,7 @@ for ck, c in C.items():
 <p class="m">La hipoteca no incluye seguros, IBI ni comunidad; el alquiler, tampoco gastos. Cifras orientativas, no una recomendación de inversión.</p></div>
 {oq_html}
 <a class="cta" href="../../#c={ck}">¿Has visto un piso? Analízalo gratis</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../rentabilidad/">Rentabilidad del alquiler en 10 ciudades</a></div>"""
     os.makedirs(F(ck, "comprar-o-alquilar"), exist_ok=True)
     open(F(ck, "comprar-o-alquilar", "index.html"), "w", encoding="utf-8").write(page(
         f"¿Comprar o alquilar en {c['n']}? Hipoteca vs alquiler 2026",
@@ -557,7 +557,7 @@ body = f"""<h1>Precio de la vivienda en 10 ciudades de España ({esc(mes_txt)})<
 <p class="m">Cifras orientativas con precios medios. El detalle por distritos está en la guía de cada ciudad.</p></div>
 {q_html}
 <a class="cta" href="../">Analiza un piso concreto gratis</a>
-<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a></div>
+<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a></div>
 <div class="card m"><b>Guías por ciudad</b>{guias}</div>"""
 os.makedirs(F("precios"), exist_ok=True)
 open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
@@ -784,6 +784,54 @@ open(F("gastos-de-compra", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Calcula el ITP o el IVA, la notaría y el ahorro para comprar un piso. Con 200.000 € de segunda mano, de {fmt(E200[gb][2])} € a {fmt(E200[gc][2])} € según la comunidad.", ""),
     "gastos-de-compra/", body, [("Vivible", "../"), ("Gastos de comprar", None)], gc_ld))
 urls.insert(5, BASE + "gastos-de-compra/")
+
+# ---------- rentabilidad del alquiler (rentabilidad/): «rentabilidad alquiler por ciudades», «dónde es más rentable comprar para alquilar»;
+# rentabilidad bruta = alquiler de un año / precio de compra (la misma que las guías «comprar o alquilar»); en el ranking de distritos
+# solo entran los que tienen los dos precios publicados (los estimados saldrían de nuestra propia fórmula, no del mercado)
+rc = sorted(C.items(), key=lambda kc: -(kc[1]["alquiler"] * 12 / kc[1]["venta"]))
+rb_c = lambda c: c["alquiler"] * 12 / c["venta"] * 100
+trc = "".join(f'<tr><td><a href="../{k}/comprar-o-alquilar/">{esc(c["n"])}</a></td><td>{fmt(c["venta"] * M2A)} €</td><td>{fmt(c["alquiler"] * M2A)} €</td><td><b>{dec(rb_c(c))} %</b></td></tr>' for k, c in rc)
+rdis = []
+for ck, c in C.items():
+    for d, (s, r) in c["d"].items():
+        if s is not None and r is not None: rdis.append((r * 12 / s * 100, d, ck, c["n"], s * M2A, r * M2A))
+rdis.sort(key=lambda x: -x[0])
+NTOP = 15
+fila_d = lambda x: f'<tr><td><a href="../{x[2]}/{slug(x[1])}/">{esc(x[1])}</a> <span class="m">({esc(x[3])})</span></td><td>{fmt(x[4])} €</td><td>{fmt(x[5])} €</td><td><b>{dec(x[0])} %</b></td></tr>'
+trt, trb = "".join(fila_d(x) for x in rdis[:NTOP]), "".join(fila_d(x) for x in rdis[::-1][:10])
+nest = sum(len(c["d"]) for c in C.values()) - len(rdis)
+cmx, cmn = rc[0][1], rc[-1][1]
+rt_html, rt_ld = faq([
+    ("¿En qué ciudad es más rentable comprar un piso para alquilarlo?",
+     f"De estas 10, en {cmx['n']}: un piso medio de {M2A} m² cuesta unos {fmt(cmx['venta'] * M2A)} € y se alquila por unos {fmt(cmx['alquiler'] * M2A)} € al mes, una rentabilidad bruta del {dec(rb_c(cmx))} %. "
+     f"La más baja es {cmn['n']}, con un {dec(rb_c(cmn))} %."),
+    ("¿Qué distritos dan más rentabilidad al alquilar?",
+     "Con los precios medios publicados, " + ", ".join(f"{x[1]} ({x[3]}, {dec(x[0])} %)" for x in rdis[:3]) + ". Suelen ser barrios con pisos más baratos, donde el alquiler pesa más en proporción al precio."),
+    ("¿Cómo se calcula la rentabilidad bruta de un alquiler?",
+     "Se divide lo que se cobra de alquiler en un año entre lo que cuesta el piso y se multiplica por 100. Por ejemplo, un piso de 200.000 € alquilado a 900 € al mes da 10.800 € al año: un 5,4 % bruto."),
+    ("¿Qué gastos hay que restar para saber la rentabilidad real?",
+     "La rentabilidad bruta no descuenta nada. Para la real (neta) hay que restar el impuesto y los gastos de la compra, el IBI, la comunidad, el seguro, las reparaciones, los meses en que el piso esté vacío y el IRPF de lo que cobres. Por eso la neta suele quedar bastante por debajo."),
+])
+body = f"""<h1>Rentabilidad del alquiler en España por ciudades y distritos (2026)</h1>
+<p>¿Cuánto renta un piso alquilado? Comparamos la rentabilidad bruta (alquiler de un año entre el precio de compra) en las 10 ciudades de Vivible y en sus distritos, con los precios medios de idealista ({esc(mes_txt)}).</p>
+<div class="g"><div class="k"><small>Ciudad más rentable</small><b>{dec(rb_c(cmx))} %</b><small>{esc(cmx["n"])}</small></div>
+<div class="k"><small>Ciudad menos rentable</small><b>{dec(rb_c(cmn))} %</b><small>{esc(cmn["n"])}</small></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Por ciudades</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso medio de {M2A} m²: precio de compra, alquiler al mes y rentabilidad bruta, de la ciudad más rentable a la menos</caption><tr><th scope="col">Ciudad</th><th scope="col">Precio</th><th scope="col">Alquiler</th><th scope="col">Rentab.</th></tr>{trc}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Los {NTOP} distritos más rentables</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² en cada distrito: precio, alquiler al mes y rentabilidad bruta</caption><tr><th scope="col">Distrito</th><th scope="col">Precio</th><th scope="col">Alquiler</th><th scope="col">Rentab.</th></tr>{trt}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Los 10 distritos menos rentables</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m²: precio, alquiler al mes y rentabilidad bruta, del menos rentable hacia arriba</caption><tr><th scope="col">Distrito</th><th scope="col">Precio</th><th scope="col">Alquiler</th><th scope="col">Rentab.</th></tr>{trb}</table>
+<p class="m">Solo entran los {len(rdis)} distritos con precio de venta y de alquiler publicados ({nest} quedan fuera porque idealista no da uno de los dos). Rentabilidad bruta: no descuenta impuestos ni gastos. Cifras orientativas, no una recomendación de inversión.</p></div>
+{rt_html}
+<a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../precios/">Comparar las 10 ciudades</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · """ + " · ".join(f'<a href="../{k}/comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("rentabilidad"), exist_ok=True)
+open(F("rentabilidad", "index.html"), "w", encoding="utf-8").write(page(
+    "Rentabilidad del alquiler por ciudades y distritos (2026)",
+    desc_corta(f"Rentabilidad bruta de alquilar un piso en 10 ciudades: del {dec(rb_c(cmx))} % de {cmx['n']} al {dec(rb_c(cmn))} % de {cmn['n']}.", " Y los distritos más y menos rentables."),
+    "rentabilidad/", body, [("Vivible", "../"), ("Rentabilidad del alquiler", None)], rt_ld))
+urls.insert(6, BASE + "rentabilidad/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

@@ -69,7 +69,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -260,7 +260,7 @@ for ck, c in C.items():
 <p class="m">«Notaría y más»: notaría, registro y gestoría (≈ 1,5 % del precio) y tasación (≈ {TAS} €). Tipos generales; puede haber rebajas según tu edad o tu familia.</p></div>
 {gq_html}
 <a class="cta" href="../../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
-<div class="card m"><b>Precios en {esc(c["n"])}:</b> <a href="../">Por distritos</a> · <a href="../venta/">Precio por tamaño</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Precios en {esc(c["n"])}:</b> <a href="../">Por distritos</a> · <a href="../venta/">Precio por tamaño</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../gastos-de-compra/">Calculadora de gastos</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "gastos-de-compra"), exist_ok=True)
     open(F(ck, "gastos-de-compra", "index.html"), "w", encoding="utf-8").write(page(
         f"Gastos de comprar un piso en {c['n']} (2026): ITP e impuestos",
@@ -557,7 +557,7 @@ body = f"""<h1>Precio de la vivienda en 10 ciudades de España ({esc(mes_txt)})<
 <p class="m">Cifras orientativas con precios medios. El detalle por distritos está en la guía de cada ciudad.</p></div>
 {q_html}
 <a class="cta" href="../">Analiza un piso concreto gratis</a>
-<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-alquiler/">Dinero para entrar de alquiler</a></div>
+<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a></div>
 <div class="card m"><b>Guías por ciudad</b>{guias}</div>"""
 os.makedirs(F("precios"), exist_ok=True)
 open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
@@ -662,7 +662,7 @@ body = f"""<h1>Cuota de la hipoteca: cuánto pagarás al mes (2026)</h1>
 <p class="m">El banco suele prestar hasta el 80 % del precio: el 20 % restante, el impuesto y los gastos los pones tú. Lo tienes por distritos en la guía de cada ciudad.</p></div>
 {hq_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Gastos de comprar en {esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
+<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Gastos de comprar en {esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
 <style>#calc input{{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}#calc label{{display:block}}</style>
 <script>(function(){{var f=function(n){{return String(Math.round(n)).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}};function c(){{var tv=document.getElementById("ht").value,q=+document.getElementById("hq").value,a=+document.getElementById("ha").value,t=+tv/1200,r=document.getElementById("hr"),s=document.getElementById("hs");
 if(tv===""||!(q>0&&a>0&&a<=50&&t>=0&&t<1)){{r.textContent="—";s.textContent="Revisa los datos";return}}var n=a*12,m=t?q*t/(1-Math.pow(1+t,-n)):q/n;r.textContent="≈ "+f(m)+" €";s.textContent="Ganar ≈ "+f(m/{ESC})+" € netos · intereses "+f(m*n-q)+" €"}}
@@ -721,6 +721,69 @@ open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Al firmar se paga el primer mes y un mes de fianza, y hasta dos de garantía. Para un piso medio, de {fmt(ab['alquiler'] * M2A * 2)} € en {ab['n']} a {fmt(ac['alquiler'] * M2A * 4)} € en {ac['n']}.", ""),
     "gastos-de-alquiler/", body, [("Vivible", "../"), ("Dinero para alquilar", None)], ga_ld))
 urls.insert(4, BASE + "gastos-de-alquiler/")
+
+# ---------- gastos de comprar (gastos-de-compra/): «calculadora gastos compra vivienda», «cuánto dinero necesito para comprar un piso»,
+# «impuestos al comprar una vivienda»; las mismas fórmulas que las guías de gastos de compra de cada ciudad (gastos(), NOT, TAS, cuota())
+assert "gastos-de-compra" not in C
+rg = sorted(C.items(), key=lambda kc: gastos(kc[1]["venta"] * M2A, kc[1])[2])
+trg = "".join(f'<tr><td><a href="../{k}/gastos-de-compra/">{esc(c["n"])}</a></td><td>{pct(c["itp"])} %</td><td>{fmt(c["venta"] * M2A)} €</td><td>{fmt(gastos(c["venta"] * M2A, c)[0])} €</td><td><b>{fmt(gastos(c["venta"] * M2A, c)[2])} €</b></td></tr>' for k, c in rg)
+cc = sorted({c["ccaa"]: c for c in C.values()}.values(), key=lambda c: c["itp"])
+trc = "".join(f'<tr><td>{esc(c["ccaa"])}</td><td>{pct(c["itp"])} %</td><td>10 % + {pct(c["ajd"])} %</td></tr>' for c in cc)
+E200 = {k: gastos(200000, c) for k, c in C.items()}
+gb, gc = min(C, key=lambda k: E200[k][0]), max(C, key=lambda k: E200[k][0])
+gmad = gastos(200000, C["madrid"]) if "madrid" in C else E200[gb]
+GJS = json.dumps({k: [c["n"], c["ccaa"], c["itp"], c["ajd"], round(c["venta"] * M2A, -3)] for k, c in C.items()}, ensure_ascii=False).replace("</", "<\\/")
+opts = "".join(f'<option value="{k}">{esc(c["n"])} ({esc(c["ccaa"])})</option>' for k, c in C.items())
+k0 = next(iter(C)); c0 = C[k0]; p0 = round(c0["venta"] * M2A, -3); g0 = gastos(p0, c0)
+gc_html, gc_ld = faq([
+    ("¿Cuánto dinero necesito para comprar un piso?",
+     "Normalmente el 20 % del precio de entrada (el banco suele prestar como mucho el 80 %), más el impuesto de compra y unos gastos de notaría, registro, gestoría y tasación. "
+     f"Para un piso de 200.000 € de segunda mano, entre {fmt(E200[gb][2])} € {en_ccaa(C[gb]['ccaa'])} y {fmt(E200[gc][2])} € {en_ccaa(C[gc]['ccaa'])}."),
+    ("¿Qué impuestos se pagan al comprar una vivienda?",
+     "Si es de segunda mano, el impuesto de transmisiones patrimoniales (ITP), que fija cada comunidad. Si es nueva (la primera venta, de la constructora), el 10 % de IVA y el impuesto de actos jurídicos documentados (AJD) de la comunidad."),
+    ("¿Cuánto son los gastos de notaría, registro y gestoría?",
+     f"Como orientación, alrededor del 1,5 % del precio entre los tres, más unos {TAS} € de tasación si pides hipoteca. Para un piso de 200.000 €, unos {fmt(200000 * NOT + TAS)} €."),
+    ("¿Cuánto cuesta comprar un piso de 200.000 €?",
+     f"De segunda mano, el impuesto va de {fmt(E200[gb][0])} € ({C[gb]['ccaa']}, {pct(C[gb]['itp'])} %) a {fmt(E200[gc][0])} € ({C[gc]['ccaa']}, {pct(C[gc]['itp'])} %). Con la entrada del 20 % y los gastos, necesitarás ahorrar entre {fmt(E200[gb][2])} € y {fmt(E200[gc][2])} €."),
+    ("¿Los gastos de compra entran en la hipoteca?",
+     "Normalmente no: el banco presta un porcentaje del precio (o de la tasación, si es menor) y los impuestos y gastos los pagas con tus ahorros. Desde 2019 los gastos de la escritura de la hipoteca los paga el banco."),
+])
+body = f"""<h1>Gastos de comprar un piso: calculadora de impuestos y ahorro (2026)</h1>
+<p>Al precio del piso hay que sumarle el impuesto de compra, que depende de la comunidad y de si el piso es nuevo o de segunda mano, y los gastos de notaría, registro, gestoría y tasación. Además, el banco suele prestar como mucho el 80 %, así que la entrada también sale de tus ahorros. Calcula cuánto necesitas:</p>
+<div class="card"><form id="calc" onsubmit="return false"><b>Calcula los gastos de tu compra</b>
+<div class="g" style="margin-top:10px"><label class="m">Precio del piso (€)<input id="gp" type="number" inputmode="numeric" min="1000" step="1000" value="{p0}"></label>
+<label class="m">Ciudad<select id="gk">{opts}</select></label>
+<label class="m">Tipo de piso<select id="gn"><option value="0">Segunda mano (ITP)</option><option value="1">Obra nueva (IVA y AJD)</option></select></label>
+<label class="m">Entrada (%)<input id="ge" type="number" inputmode="numeric" min="0" max="100" step="5" value="20"></label></div>
+<div class="g" style="margin-top:12px" aria-live="polite"><div class="k"><small id="gil">Impuesto (ITP {pct(c0["itp"])} %)</small><b id="gi">{fmt(g0[0])} €</b></div>
+<div class="k"><small>Notaría, registro, gestoría y tasación</small><b id="go">{fmt(g0[1])} €</b></div>
+<div class="k"><small>Ahorro total necesario</small><b id="gt">{fmt(g0[2])} €</b><small id="gts">Entrada, impuesto y gastos</small></div>
+<div class="k"><small>Hipoteca (30 años, 2,8 %)</small><b id="gh">{fmt(cuota(p0))} €/mes</b><small id="ghs">Préstamo del 80 %</small></div></div></form>
+<p class="m">El precio de partida es el de un piso medio de {M2A} m² en la ciudad elegida. Tipos generales de cada comunidad; algunas los rebajan a jóvenes, familias numerosas o pisos baratos.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Ahorro para comprar el piso medio, por ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de segunda mano de {M2A} m² al precio medio de cada ciudad ({esc(mes_txt)}): ITP de la comunidad, impuesto y ahorro total con el 20 % de entrada, de menos a más</caption><tr><th scope="col">Ciudad</th><th scope="col">ITP</th><th scope="col">Piso</th><th scope="col">Impuesto</th><th scope="col">Ahorro</th></tr>{trg}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Impuestos por comunidad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Tipo general del ITP (segunda mano) y de IVA más AJD (obra nueva) en las comunidades de las ciudades de Vivible</caption><tr><th scope="col">Comunidad</th><th scope="col">Segunda mano</th><th scope="col">Obra nueva</th></tr>{trc}</table>
+<p class="m">Tipos generales: revisa en la web de tu comunidad si tienes derecho a uno reducido antes de firmar.</p></div>
+{gc_html}
+<a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Gastos de comprar en {esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
+<style>#calc input,#calc select{{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}#calc label{{display:block}}</style>
+<script>(function(){{var D={GJS},$=function(i){{return document.getElementById(i)}},f=function(n){{return String(Math.round(n)).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}},pc=function(x){{return String(x).replace(".",",")}},ult="{k0}";
+function c(){{var c=D[$("gk").value],nu=$("gn").value==="1",pv=$("gp").value,ev=$("ge").value,p=+pv,e=+ev/100;if(!c)return;
+$("gil").textContent=nu?"Impuesto (IVA 10 % y AJD "+pc(c[3])+" %)":"Impuesto (ITP "+pc(c[2])+" %)";
+if(pv===""||ev===""||!(p>0&&e>=0&&e<=1)){{["gi","go","gt","gh"].forEach(function(i){{$(i).textContent="—"}});$("gts").textContent="Revisa los datos";return}}
+var im=p*(nu?10+c[3]:c[2])/100,ot=p*{NOT}+{TAS},t=p*e+im+ot,q=p*(1-e),i={TIN}/12,m=q>0?q*i/(1-Math.pow(1+i,-{ANOS * 12})):0;
+$("gi").textContent=f(im)+" €";$("go").textContent=f(ot)+" €";$("gt").textContent=f(t)+" €";$("gts").textContent="Entrada ("+f(p*e)+" €), impuesto y gastos";
+$("gh").textContent=f(m)+" €/mes";$("ghs").textContent="Préstamo de "+f(q)+" €"}}
+$("gk").addEventListener("change",function(){{var a=D[ult],b=D[$("gk").value];if(a&&b&&+$("gp").value===a[4])$("gp").value=b[4];ult=$("gk").value;c()}});
+["gp","gn","ge"].forEach(function(i){{$(i).addEventListener("input",c);$(i).addEventListener("change",c)}});c()}})()</script>"""
+os.makedirs(F("gastos-de-compra"), exist_ok=True)
+open(F("gastos-de-compra", "index.html"), "w", encoding="utf-8").write(page(
+    "Gastos de comprar un piso: calculadora de impuestos y ahorro (2026)",
+    desc_corta(f"Calcula el ITP o el IVA, la notaría y el ahorro para comprar un piso. Con 200.000 € de segunda mano, de {fmt(E200[gb][2])} € a {fmt(E200[gc][2])} € según la comunidad.", ""),
+    "gastos-de-compra/", body, [("Vivible", "../"), ("Gastos de comprar", None)], gc_ld))
+urls.insert(5, BASE + "gastos-de-compra/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

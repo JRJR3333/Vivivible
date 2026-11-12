@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -211,7 +211,7 @@ for ck, c in C.items():
 <div class="card"><table><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² en cada distrito de {esc(c["n"])} ({esc(c["mes"])})</caption><tr><th scope="col">Distrito</th><th scope="col">Venta</th><th scope="col">Alquiler/mes</th></tr>{tr}</table>{nota}</div>
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
-<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a></div>
+<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
@@ -268,7 +268,7 @@ for ck, c in C.items():
 <div class="card"><b>Lo que debes saber</b><p>{esc(consejo)} El impuesto de compra de segunda mano {esc(en_ccaa(c["ccaa"]))} es del {str(c["itp"]).replace(".", ",")} % (tipo general).</p></div>
 {bar_html}{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
-<div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a></div>
+<div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="../../pasos-para-comprar/">Pasos para comprar un piso</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../../devolver-fianza/">Cuándo te devuelven la fianza</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
@@ -321,7 +321,7 @@ for ck, c in C.items():
 <p class="m">«Notaría y más»: notaría, registro y gestoría (≈ 1,5 % del precio) y tasación (≈ {TAS} €). Tipos generales; puede haber rebajas según tu edad o tu familia.</p></div>
 {gq_html}
 <a class="cta" href="../../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
-<div class="card m"><b>Precios en {esc(c["n"])}:</b> <a href="../">Por distritos</a> · <a href="../venta/">Precio por tamaño</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../gastos-de-compra/">Calculadora de gastos</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Precios en {esc(c["n"])}:</b> <a href="../">Por distritos</a> · <a href="../venta/">Precio por tamaño</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../gastos-de-compra/">Calculadora de gastos</a> · <a href="../../pasos-para-comprar/">Pasos para comprar</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "gastos-de-compra"), exist_ok=True)
     open(F(ck, "gastos-de-compra", "index.html"), "w", encoding="utf-8").write(page(
         f"Gastos de comprar un piso en {c['n']} (2026): ITP e impuestos",
@@ -1322,7 +1322,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {vi_html}
 <a class="cta" href="../">¿Te ha gustado el piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("visitar-un-piso"), exist_ok=True)
 open(F("visitar-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Qué mirar al visitar un piso: lista para alquilar o comprar",
@@ -1744,6 +1744,95 @@ open(F("como-calculamos", "index.html"), "w", encoding="utf-8").write(page(
     "De dónde salen los precios por distrito, la habitación, los impuestos, la hipoteca y el sueldo recomendado de Vivible, y qué datos son estimados.",
     "como-calculamos/", body, [("Vivible", "../"), ("Cómo calculamos", None)], cm_ld))
 urls.append(BASE + "como-calculamos/")
+
+# ---------- pasos para comprar un piso (pasos-para-comprar/): «pasos para comprar un piso», «cómo comprar un piso paso a paso»,
+# «qué es el contrato de arras», «cuánto se paga en las arras»; lista de pasos para marcar en el móvil y, por ciudad, cuánto dinero
+# sale de tus ahorros en las arras y en la firma (mismas cifras que gastos-de-compra/: gastos(), M2A y precios.json)
+assert "pasos-para-comprar" not in C
+ARR = .10  # señal de arras habitual (no es obligatoria: se pacta)
+PAS = [
+    ("1. Antes de buscar", [
+        "Calcula cuánto puedes pagar: la cuota de la hipoteca no debería pasar de un tercio de lo que ganas.",
+        "Junta los ahorros: el banco suele prestar como mucho el 80 % del precio, así que pagas tú el 20 % más los impuestos y los gastos (alrededor de un 30 % en total).",
+        "Pide a dos o tres bancos un estudio previo de la hipoteca para saber cuánto te prestarían.",
+    ]),
+    ("2. Buscar y elegir el piso", [
+        "Compara el precio con lo que cuesta el m² en su distrito antes de hacer una oferta.",
+        "Visita el piso con calma y vuelve a otra hora: humedades, ruido, luz, edificio y barrio.",
+        "Pide la nota simple del Registro de la Propiedad: quién es el dueño y si tiene hipotecas o embargos.",
+        "Pide el certificado de deudas con la comunidad, el último recibo del IBI y el certificado energético.",
+    ]),
+    ("3. Oferta y contrato de arras", [
+        "Haz la oferta por escrito y negocia: el precio del anuncio no es el definitivo.",
+        "Firma un contrato de arras con la señal pactada (suele ser un 10 %) y una fecha límite para firmar ante notario.",
+        "Mejor arras penitenciales: si te echas atrás pierdes la señal; si se echa atrás el vendedor, te devuelve el doble.",
+        "Si dependes de la hipoteca, intenta que el contrato diga qué pasa si el banco no te la concede.",
+    ]),
+    ("4. La hipoteca", [
+        "El banco tasa el piso (la tasación la pagas tú) y presta sobre el precio o la tasación, el más bajo de los dos.",
+        "Compara ofertas: tipo fijo o variable, comisiones y productos que te obligan a contratar (seguros, nómina).",
+        "El banco te da la oferta vinculante (FEIN) al menos 10 días antes de firmar: léela con calma.",
+        "Antes de firmar vas al notario, gratis, para que te explique la hipoteca y resuelva tus dudas.",
+    ]),
+    ("5. La firma ante notario", [
+        "Se firman a la vez la compraventa y la hipoteca. Lleva el DNI y lo que te pida el notario o el banco.",
+        "Pagas el resto del precio (normalmente con un cheque o transferencia del banco) y te dan las llaves.",
+        "Comprueba antes que el piso está como lo viste y que no quedan deudas de comunidad.",
+    ]),
+    ("6. Después de firmar", [
+        "Paga el impuesto de compra (ITP o IVA y AJD) en el plazo de tu comunidad; suele encargarse la gestoría.",
+        "Inscribe la escritura en el Registro de la Propiedad a tu nombre.",
+        "Cambia a tu nombre la luz, el agua, el gas e internet, y avisa a la comunidad de vecinos.",
+        "Domicilia el IBI: desde el año siguiente lo pagas tú.",
+    ]),
+]
+npas = sum(len(xs) for _, xs in PAS)
+def pc_fila(k, c):
+    med = c["venta"] * M2A
+    imp, otros, tot = gastos(med, c)
+    sen = med * ARR
+    return f'<tr><td><a href="../{k}/gastos-de-compra/">{esc(c["n"])}</a></td><td>{fmt(med)} €</td><td>{fmt(sen)} €</td><td>{fmt(tot - sen)} €</td><td><b>{fmt(tot)} €</b></td></tr>'
+mad = C.get("madrid") or next(iter(C.values()))
+mm = mad["venta"] * M2A; mi, mo, mt = gastos(mm, mad)
+pc_html, pc_ld = faq([
+    ("¿Cuáles son los pasos para comprar un piso?",
+     "Calcular cuánto puedes pagar y juntar los ahorros, buscar el piso y revisar sus papeles (nota simple, deudas de comunidad), hacer una oferta y firmar el contrato de arras, conseguir la hipoteca, firmar ante notario y, después, pagar el impuesto de compra, inscribir el piso en el Registro y cambiar los suministros a tu nombre."),
+    ("¿Qué es el contrato de arras?",
+     "Es el contrato que firmas al reservar el piso: pagas una señal (suele ser un 10 % del precio, pero se pacta) y fijáis una fecha para firmar ante notario. En las arras penitenciales, si el comprador se echa atrás pierde la señal y si se echa atrás el vendedor devuelve el doble."),
+    ("¿Cuánto tiempo se tarda en comprar un piso?",
+     "Desde que firmas las arras hasta la firma ante notario suelen pasar entre uno y tres meses: es el tiempo que necesita el banco para tasar el piso y aprobar la hipoteca, más los 10 días que la ley te da para leer la oferta vinculante."),
+    ("¿Cuánto dinero necesito para comprar un piso?",
+     f"Alrededor de un 30 % del precio: el 20 % que no cubre la hipoteca, el impuesto de compra y los gastos de notaría, registro, gestoría y tasación. En {mad['n']}, un piso medio de {M2A} m² (unos {fmt(mm)} €) pide unos {fmt(mt)} € de ahorros."),
+    ("¿Quién paga la plusvalía y el IBI al comprar un piso?",
+     "La plusvalía municipal la paga quien vende. El IBI del año de la compra lo paga quien era dueño el 1 de enero, aunque es habitual pactar repartirlo según los meses; desde el año siguiente lo pagas tú."),
+])
+ps_lis = "".join(f'<div class="card"><h2 class="vh">{esc(t)}</h2>' + "".join(
+    f'<label class="vc"><input type="checkbox" data-k="{i}-{j}"><span>{esc(x)}</span></label>' for j, x in enumerate(xs)) + "</div>" for i, (t, xs) in enumerate(PAS))
+body = f"""<h1>Pasos para comprar un piso (2026): de los ahorros a las llaves</h1>
+<p>Comprar un piso lleva unos meses y varios papeles. Aquí tienes los {npas} pasos en orden, para marcar en el móvil a medida que avanzas, y cuánto dinero sale de tus ahorros en cada momento en las 10 ciudades. Lo que marques se queda guardado en este móvil.</p>
+<div class="card" id="vp" aria-live="polite"><b id="vn">0 de {npas} hechos</b><div class="vb"><i id="vi"></i></div>
+<button type="button" id="vr" class="vbt">Empezar de nuevo</button></div>
+{ps_lis}
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Dinero de tus ahorros para un piso medio de {M2A} m² de segunda mano: la señal de arras (un {pctx(ARR)} %) y lo que pagas al firmar (el resto de la entrada del 20 %, el ITP y los gastos)</caption><tr><th scope="col">Ciudad</th><th scope="col">Precio</th><th scope="col">Arras</th><th scope="col">En la firma</th><th scope="col">Total</th></tr>{"".join(pc_fila(k, c) for k, c in C.items())}</table>
+<p class="m">El resto del precio lo paga la hipoteca. Precios medios de idealista; impuesto: tipo general de cada comunidad. <a href="../como-calculamos/">Cómo calculamos</a>.</p></div>
+<style>.vh{{font:700 19px/1.2 Fraunces,Georgia,serif;margin:0 0 6px}}.vc{{display:flex;gap:10px;align-items:flex-start;padding:9px 0;min-height:44px;box-sizing:border-box;border-top:1px solid #f1ede6;cursor:pointer}}.vc input{{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#1f6f54}}.vc input:checked+span{{color:#5f6b66;text-decoration:line-through}}
+.vb{{height:8px;background:#efebe4;border-radius:99px;margin:8px 0 10px;overflow:hidden}}.vb i{{display:block;height:100%;width:0;background:#1f6f54}}.vbt{{font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer}}
+#vp{{position:sticky;top:0;z-index:1}}</style>
+<script>(function(){{var K="vivible.compra",cs=[].slice.call(document.querySelectorAll(".vc input")),s={{}};
+try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
+function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" hechos";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
+function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
+cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
+document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
+{pc_html}
+<a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("pasos-para-comprar"), exist_ok=True)
+open(F("pasos-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
+    "Pasos para comprar un piso: arras, hipoteca, notario y gastos",
+    desc_corta(f"Los {npas} pasos para comprar un piso en orden, del ahorro a las llaves: nota simple, arras, hipoteca, notario e impuestos, y cuánto pagas en cada momento.", " Gratis."),
+    "pasos-para-comprar/", body, [("Vivible", "../"), ("Pasos para comprar", None)], pc_ld))
+urls.insert(15, BASE + "pasos-para-comprar/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

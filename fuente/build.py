@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -212,7 +212,7 @@ for ck, c in C.items():
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
@@ -269,7 +269,7 @@ for ck, c in C.items():
 {bar_html}{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
@@ -895,7 +895,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -1322,13 +1322,105 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {vi_html}
 <a class="cta" href="../">¿Te ha gustado el piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("visitar-un-piso"), exist_ok=True)
 open(F("visitar-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Qué mirar al visitar un piso: lista para alquilar o comprar",
     desc_corta(f"Lista de {nvis} puntos para revisar en la visita: humedades, ruido, luz, edificio, gastos y papeles. Márcala en el móvil mientras ves el piso.", " Gratis."),
     "visitar-un-piso/", body, [("Vivible", "../"), ("Visitar un piso", None)], vi_ld))
 urls.insert(10, BASE + "visitar-un-piso/")
+
+# ---------- papeles para alquilar (papeles-para-alquilar/): «qué papeles piden para alquilar un piso», «documentos para alquilar
+# un piso», «requisitos para alquilar»; lista para marcar lo que ya tienes, lo que te debe dar el propietario y lo que no te pueden
+# pedir (LAU y Ley 12/2023, como gastos-de-alquiler/); sueldo que suelen pedir con la regla de las guías (alquiler ≤ 33 %)
+assert "papeles-para-alquilar" not in C
+PAP = [
+    ("Quién eres", [
+        "DNI o NIE en vigor (de cada persona que vaya a firmar el contrato).",
+        "Un teléfono y un correo donde localizarte.",
+    ]),
+    ("Si trabajas por cuenta ajena", [
+        "Las últimas nóminas (lo habitual es que pidan las tres últimas).",
+        "El contrato de trabajo. Si es indefinido, dilo: es lo que más tranquiliza al propietario.",
+        "El informe de vida laboral (se descarga gratis en la web de la Seguridad Social).",
+    ]),
+    ("Si eres autónomo", [
+        "La última declaración de la renta.",
+        "Los últimos pagos trimestrales a Hacienda (IVA e IRPF).",
+        "El informe de vida laboral o el alta como autónomo.",
+    ]),
+    ("Si estudias o aún no tienes ingresos fijos", [
+        "La matrícula o la carta de la universidad, si eres estudiante.",
+        "Un avalista: alguien que se compromete a pagar si tú no pagas, con sus propias nóminas o declaración de la renta.",
+        "Si no tienes avalista, pregunta si aceptan un aval bancario o varios meses pagados por adelantado (cuidado: en contratos de vivienda la garantía adicional no puede pasar de dos meses).",
+    ]),
+    ("Lo que ayuda a que te elijan", [
+        "Una carta o contacto de tu casero anterior que diga que pagabas a tiempo.",
+        "Un justificante de ahorros o la última declaración de la renta, aunque tengas nómina.",
+        "Tenerlo todo en PDF en el móvil para mandarlo el mismo día de la visita.",
+    ]),
+]
+PAP_PROP = [
+    "El contrato por escrito, con la duración, el precio, cómo se actualiza y quién paga cada gasto.",
+    "El certificado de eficiencia energética: es obligatorio para alquilar.",
+    "El justificante de la fianza: en muchas comunidades el propietario debe depositarla en un organismo de la comunidad autónoma.",
+    "Un recibo de cada pago, si no pagas por transferencia.",
+    "Un inventario con fotos de los muebles y del estado del piso al entrar (pídelo o hazlo tú y mándaselo).",
+]
+PAP_NO = [
+    "Pagar los honorarios de la inmobiliaria o los gastos de hacer el contrato: corren a cargo del propietario (Ley 12/2023).",
+    "Una fianza distinta de un mes de alquiler en un piso para vivir.",
+    "Más de dos meses de garantía adicional en contratos de hasta cinco años (siete si el propietario es una empresa).",
+]
+npap = sum(len(xs) for _, xs in PAP)
+rp = sorted(C.items(), key=lambda kc: kc[1]["alquiler"])
+trp = "".join(f'<tr><td><a href="../{k}/sueldo-para-alquilar/">{esc(c["n"])}</a></td><td>{fmt(c["alquiler"] * M2A)} €</td><td><b>{fmt(c["alquiler"] * M2A / ESF)} €</b></td></tr>' for k, c in rp)
+pb, pc = rp[0][1], rp[-1][1]
+pa_html, pa_ld = faq([
+    ("¿Qué papeles piden para alquilar un piso?",
+     "Lo normal es el DNI o NIE y algo que demuestre que puedes pagar: las últimas nóminas y el contrato de trabajo, o la declaración de la renta y los pagos trimestrales si eres autónomo. Muchos propietarios piden también la vida laboral, y si no tienes ingresos fijos, un avalista."),
+    ("¿Cuánto tengo que ganar para que me alquilen un piso?",
+     f"Muchos propietarios piden que el alquiler no pase de un tercio de lo que ganas en neto. Para un piso medio de {M2A} m², son unos {fmt(pb['alquiler'] * M2A / ESF)} € netos al mes en {pb['n']} y unos {fmt(pc['alquiler'] * M2A / ESF)} € en {pc['n']}. Si alquiláis entre dos, se suelen sumar los dos sueldos."),
+    ("¿Qué es un avalista y cuándo lo piden?",
+     "Es una persona (a menudo un familiar) que firma que pagará el alquiler si tú no lo haces. Lo suelen pedir a estudiantes, a quien acaba de empezar a trabajar o a quien tiene un contrato temporal. El avalista tiene que demostrar sus propios ingresos."),
+    ("¿Qué documentos me tiene que dar el propietario?",
+     "El contrato por escrito, el certificado de eficiencia energética (obligatorio para alquilar) y un justificante de cada pago si no pagas por transferencia. En muchas comunidades debe depositar la fianza en un organismo autonómico: puedes pedirle el justificante."),
+    ("¿Me pueden cobrar la inmobiliaria por alquilar?",
+     "No. Desde la Ley 12/2023, de vivienda, los honorarios de la inmobiliaria y los gastos de hacer el contrato los paga el propietario. Al firmar solo pagas el primer mes, la fianza de un mes y, si te la piden, una garantía adicional de hasta dos meses."),
+])
+lip = "".join(f'<div class="card"><h2 class="vh">{esc(t)}</h2>' + "".join(
+    f'<label class="vc"><input type="checkbox" data-k="{i}-{j}"><span>{esc(x)}</span></label>' for j, x in enumerate(xs)) + "</div>" for i, (t, xs) in enumerate(PAP))
+body = f"""<h1>Qué papeles piden para alquilar un piso: lista de documentos</h1>
+<p>En las ciudades con más demanda, el piso se lo queda quien manda antes los papeles. Ten esta lista a mano y marca lo que ya tienes preparado: {npap} documentos según trabajes, seas autónomo o estudies. Lo que marques se queda guardado en este móvil. Debajo tienes lo que te tiene que dar el propietario y lo que no te pueden pedir.</p>
+<div class="card" id="vp" aria-live="polite"><b id="vn">0 de {npap} preparados</b><div class="vb"><i id="vi"></i></div>
+<button type="button" id="vr" class="vbt">Empezar de nuevo</button></div>
+{lip}
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo que te tiene que dar el propietario</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">{"".join(f"<li>{esc(x)}</li>" for x in PAP_PROP)}</ul></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo que no te pueden pedir</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">{"".join(f"<li>{esc(x)}</li>" for x in PAP_NO)}</ul>
+<p class="m">Cuánto dinero hay que tener al firmar, ciudad por ciudad: <a href="../gastos-de-alquiler/">dinero para alquilar un piso</a>.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cuánto suelen pedir que ganes</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² al alquiler medio de cada ciudad ({esc(mes_txt)}) y sueldo neto al mes para que el alquiler no pase de un tercio, la regla que usan muchos propietarios</caption><tr><th scope="col">Ciudad</th><th scope="col">Alquiler</th><th scope="col">Sueldo neto</th></tr>{trp}</table>
+<p class="m">Es una referencia: cada propietario decide. Si el piso cuesta otra cifra, calcula la tuya en <a href="../sueldo/">qué piso puedo pagar con mi sueldo</a>.</p></div>
+<style>.vh{{font:700 19px/1.2 Fraunces,Georgia,serif;margin:0 0 6px}}.vc{{display:flex;gap:10px;align-items:flex-start;padding:9px 0;min-height:44px;box-sizing:border-box;border-top:1px solid #f1ede6;cursor:pointer}}.vc input{{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#1f6f54}}.vc input:checked+span{{color:#5f6b66;text-decoration:line-through}}
+.vb{{height:8px;background:#efebe4;border-radius:99px;margin:8px 0 10px;overflow:hidden}}.vb i{{display:block;height:100%;width:0;background:#1f6f54}}.vbt{{font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer}}
+#vp{{position:sticky;top:0;z-index:1}}</style>
+<script>(function(){{var K="vivible.papeles",cs=[].slice.call(document.querySelectorAll(".vc input")),s={{}};
+try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
+function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" preparados";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
+function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
+cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
+document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
+{pa_html}
+<a class="cta" href="../">¿Ya tienes un piso en mente? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("papeles-para-alquilar"), exist_ok=True)
+open(F("papeles-para-alquilar", "index.html"), "w", encoding="utf-8").write(page(
+    "Qué papeles piden para alquilar un piso: lista de documentos",
+    desc_corta(f"Documentos para alquilar un piso si trabajas, eres autónomo o estudias, lo que te debe dar el propietario y lo que no te pueden pedir. Lista para marcar en el móvil.", ""),
+    "papeles-para-alquilar/", body, [("Vivible", "../"), ("Papeles para alquilar", None)], pa_ld))
+urls.insert(11, BASE + "papeles-para-alquilar/")
 
 # ---------- cómo calculamos (como-calculamos/): de dónde salen los datos y qué fórmulas usa cada guía, para que quien
 # lee una cifra sepa cuánto fiarse de ella (y Google vea las fuentes). Todo sale de precios.json y de las constantes de arriba.

@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -212,7 +212,7 @@ for ck, c in C.items():
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
@@ -269,7 +269,7 @@ for ck, c in C.items():
 {bar_html}{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
@@ -895,7 +895,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -1414,13 +1414,92 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pa_html}
 <a class="cta" href="../">¿Ya tienes un piso en mente? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("papeles-para-alquilar"), exist_ok=True)
 open(F("papeles-para-alquilar", "index.html"), "w", encoding="utf-8").write(page(
     "Qué papeles piden para alquilar un piso: lista de documentos",
     desc_corta(f"Documentos para alquilar un piso si trabajas, eres autónomo o estudias, lo que te debe dar el propietario y lo que no te pueden pedir. Lista para marcar en el móvil.", ""),
     "papeles-para-alquilar/", body, [("Vivible", "../"), ("Papeles para alquilar", None)], pa_ld))
 urls.insert(11, BASE + "papeles-para-alquilar/")
+
+# ---------- contrato de alquiler (contrato-de-alquiler/): «cuánto dura un contrato de alquiler», «qué debe incluir un contrato
+# de alquiler», «puedo irme antes de que acabe el contrato»; plazos de la Ley de Arrendamientos Urbanos (LAU, tras el RDL 7/2019 y la
+# Ley 12/2023) y calculadora de fechas (fin de la prórroga obligatoria y desde cuándo puedes irte). Sin cifras inventadas: solo plazos de la ley.
+assert "contrato-de-alquiler" not in C
+CON = [
+    ("Quiénes firman y qué se alquila", "Nombre y DNI o NIE de propietario e inquilinos, la dirección del piso y lo que entra (trastero, garaje, muebles)."),
+    ("La duración", "La fecha de inicio y cuánto dura. Aunque ponga un año, en un piso para vivir puedes quedarte hasta cinco (siete si el propietario es una empresa)."),
+    ("El precio y cómo se paga", "Cuánto pagas al mes, qué día y de qué forma. Mejor por transferencia: queda justificante de cada pago."),
+    ("Si sube el precio y cómo", "La renta solo puede subir una vez al año y solo si el contrato lo dice. Mira qué índice usa para la subida."),
+    ("La fianza y la garantía", "La fianza es un mes de alquiler. Si piden garantía adicional, que conste cuánto es: como mucho dos meses en contratos de hasta cinco o siete años."),
+    ("Quién paga cada gasto", "Comunidad, IBI, basuras, luz, agua, gas e internet. Si te toca pagar la comunidad o el IBI, el contrato tiene que decir cuánto es al año."),
+    ("El estado del piso al entrar", "Un inventario con fotos de los muebles y de cómo está el piso. Es lo que evita discusiones con la fianza al irte."),
+    ("Mascotas, obras y subalquiler", "Lo que se permite y lo que no. Para subalquilar o traspasar el contrato hace falta el permiso por escrito del propietario."),
+    ("Si el propietario puede recuperar el piso", "Solo puede pedirlo para vivir él o un familiar directo antes de los cinco años si el contrato lo dice expresamente, y siempre después del primer año."),
+]
+PLZ = [
+    ("Duración mínima garantizada", "5 años", "7 si el propietario es una empresa. Cada año el contrato se renueva solo, salvo que tú avises con 30 días de antelación de que te vas."),
+    ("Prórroga después", "Hasta 3 años más", "Año a año, si nadie avisa: el propietario, con 4 meses de antelación; tú, con 2 meses."),
+    ("Irte antes de tiempo", "Desde los 6 meses", "Avisando con 30 días. El contrato puede fijar una indemnización de un mes por cada año que quede (la parte proporcional si es menos)."),
+    ("Subida del alquiler", "Una vez al año", "Solo si el contrato lo dice, en la fecha en que se cumple cada año de contrato."),
+    ("Si venden el piso", "Sigues dentro", "El nuevo dueño tiene que respetar tu contrato durante los cinco (o siete) años."),
+]
+nco = len(CON)
+co_html, co_ld = faq([
+    ("¿Cuánto dura un contrato de alquiler de vivienda?",
+     "Lo que pactéis, pero si es menos de cinco años se renueva solo cada año hasta llegar a cinco (siete si el propietario es una empresa), salvo que tú avises con 30 días de que te vas. Después, si nadie avisa, se alarga año a año hasta tres años más."),
+    ("¿Me pueden echar cuando acabe el primer año?",
+     "No, si es tu vivienda habitual. El contrato se renueva solo hasta los cinco años (siete si el propietario es una empresa). La única excepción es que el propietario necesite el piso para vivir él o un familiar directo, que el contrato lo diga expresamente y que te avise con al menos dos meses."),
+    ("¿Puedo irme antes de que acabe el contrato?",
+     "Sí, a partir de los seis meses, avisando con 30 días de antelación. Si el contrato lo dice, tendrás que pagar una indemnización de un mes de alquiler por cada año que quede, o la parte proporcional."),
+    ("¿Cuánto me pueden subir el alquiler?",
+     "Solo una vez al año y solo si el contrato incluye la subida, con el índice que diga. Si el contrato no dice nada de actualizar la renta, el precio no sube durante el contrato."),
+    ("¿Quién paga las reparaciones del piso?",
+     "Las reparaciones necesarias para que el piso se pueda habitar las paga el propietario. Las pequeñas reparaciones por el desgaste del uso normal (un grifo que gotea, un enchufe) las pagas tú."),
+    ("¿Qué pasa si venden el piso que tengo alquilado?",
+     "Que el nuevo dueño se subroga en el contrato: tiene que respetarlo hasta que se cumplan los cinco años (siete si el antiguo propietario era una empresa), con el mismo precio y condiciones."),
+])
+lic = "".join(f'<label class="vc"><input type="checkbox" data-k="{i}"><span><b>{esc(t)}.</b> {esc(x)}</span></label>' for i, (t, x) in enumerate(CON))
+tpl = "".join(f'<tr><td style="text-align:left;white-space:normal">{esc(a)}</td><td><b>{esc(b)}</b></td><td style="text-align:left;white-space:normal" class="m">{esc(x)}</td></tr>' for a, b, x in PLZ)
+body = f"""<h1>Contrato de alquiler: cuánto dura y qué debe incluir</h1>
+<p>Antes de firmar, comprueba que el contrato tiene todo lo importante y conoce los plazos que marca la ley para un piso en el que vas a vivir. Pon la fecha de tu contrato y te decimos hasta cuándo puedes quedarte y desde cuándo puedes irte.</p>
+<div class="card" id="cf"><b>¿Hasta cuándo dura mi contrato?</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px"><label class="m" style="flex:1 1 150px">Empezó el<br><input type="date" id="cd" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px"></label>
+<label class="m" style="flex:1 1 150px">El propietario es<br><select id="ct" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff"><option value="5">Una persona</option><option value="7">Una empresa</option></select></label></div>
+<div id="cr" aria-live="polite" class="m">Elige la fecha en que empezó (o empezará) el contrato.</div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Los plazos que marca la ley</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Contratos de vivienda habitual firmados desde marzo de 2019 (Ley de Arrendamientos Urbanos)</caption><tr><th scope="col" style="text-align:left">Qué</th><th scope="col">Plazo</th><th scope="col" style="text-align:left">Detalle</th></tr>{tpl}</table>
+<p class="m">Si alquilas una habitación o un piso de temporada (por estudios o trabajo, menos de un año), estos plazos no se aplican igual: manda lo que firmes, así que léelo con calma.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Qué debe incluir el contrato</h2>
+<div class="card" id="vp" aria-live="polite"><b id="vn">0 de {nco} revisados</b><div class="vb"><i id="vi"></i></div>
+<button type="button" id="vr" class="vbt">Empezar de nuevo</button></div>
+<div class="card">{lic}</div>
+<p class="m">Lo que tienes que tener preparado tú: <a href="../papeles-para-alquilar/">papeles que piden para alquilar</a>. Lo que pagas al firmar: <a href="../gastos-de-alquiler/">fianza y garantía por ciudad</a>.</p>
+<style>.vc{{display:flex;gap:10px;align-items:flex-start;padding:9px 0;min-height:44px;box-sizing:border-box;border-top:1px solid #f1ede6;cursor:pointer}}.vc:first-child{{border-top:0}}.vc input{{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#1f6f54}}.vc input:checked+span{{color:#5f6b66}}
+.vb{{height:8px;background:#efebe4;border-radius:99px;margin:8px 0 10px;overflow:hidden}}.vb i{{display:block;height:100%;width:0;background:#1f6f54}}.vbt{{font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer}}
+#cr b{{color:#1d2321}}</style>
+<script>(function(){{var K="vivible.contrato",cs=[].slice.call(document.querySelectorAll(".vc input")),s={{}};
+try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
+function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" revisados";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
+function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
+cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
+document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta();
+var M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],d=document.getElementById("cd"),t=document.getElementById("ct"),r=document.getElementById("cr");
+function mas(f,a,m){{var x=new Date(f.getFullYear()+a,f.getMonth()+m,1),u=new Date(x.getFullYear(),x.getMonth()+1,0).getDate();x.setDate(Math.min(f.getDate(),u));return x}}
+function txt(x){{return x.getDate()+" de "+M[x.getMonth()]+" de "+x.getFullYear()}}
+function calc(){{var v=/^(\\d{{4}})-(\\d{{2}})-(\\d{{2}})$/.exec(d.value||"");if(!v){{r.textContent="Elige la fecha en que empezó (o empezará) el contrato.";return}}
+var f=new Date(+v[1],v[2]-1,+v[3]),n=+t.value,fin=mas(f,n,0),pr=mas(f,n+3,0),ir=mas(f,0,6),av=mas(fin,0,-4);
+r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años). Si nadie avisa antes, se alarga año a año hasta el <b>"+txt(pr)+"</b>; para no renovar, el propietario tiene que avisarte antes del "+txt(av)+".<br>Puedes irte desde el <b>"+txt(ir)+"</b> avisando con 30 días."}}
+d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
+{co_html}
+<a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
+open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
+    "Contrato de alquiler: cuánto dura y qué debe incluir",
+    desc_corta("Duración del contrato de alquiler (5 o 7 años y prórroga), cuándo puedes irte, subidas y qué debe incluir. Calcula las fechas de tu contrato.", " Gratis."),
+    "contrato-de-alquiler/", body, [("Vivible", "../"), ("Contrato de alquiler", None)], co_ld))
+urls.insert(12, BASE + "contrato-de-alquiler/")
 
 # ---------- cómo calculamos (como-calculamos/): de dónde salen los datos y qué fórmulas usa cada guía, para que quien
 # lee una cifra sepa cuánto fiarse de ella (y Google vea las fuentes). Todo sale de precios.json y de las constantes de arriba.

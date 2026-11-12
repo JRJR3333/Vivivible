@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -213,7 +213,7 @@ for ck, c in C.items():
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a></div>
-<div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
+<div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
 <div class="card m"><b>¿Dudas entre {esc(c["n"])} y otra ciudad?</b> {" · ".join(f'<a href="../comparar/{par(ck, k2)}/">{esc(c["n"])} o {esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)}</div>"""
@@ -270,7 +270,7 @@ for ck, c in C.items():
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a></div>
-<div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
+<div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
         open(F(ck, sd, "index.html"), "w", encoding="utf-8").write(page(
@@ -534,7 +534,7 @@ for ck, c in C.items():
 <p class="m">Habitación estimada a partir de la media de {esc(c["n"])} y del alquiler de cada distrito. Precios sin gastos. Cifras orientativas.</p></div>
 {hq_html}
 <a class="cta" href="../../#c={ck}&op=habitacion">¿Has visto una habitación? Analízala gratis</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "habitacion"), exist_ok=True)
     open(F(ck, "habitacion", "index.html"), "w", encoding="utf-8").write(page(
         f"Precio de una habitación en {c['n']} por distritos (2026)",
@@ -1500,6 +1500,74 @@ open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta("Duración del contrato de alquiler (5 o 7 años y prórroga), cuándo puedes irte, subidas y qué debe incluir. Calcula las fechas de tu contrato.", " Gratis."),
     "contrato-de-alquiler/", body, [("Vivible", "../"), ("Contrato de alquiler", None)], co_ld))
 urls.insert(12, BASE + "contrato-de-alquiler/")
+
+# ---------- repartir el alquiler (repartir-alquiler/): «cómo repartir el alquiler de un piso compartido», «calculadora dividir
+# alquiler por habitaciones», «quién paga más en un piso compartido». Calculadora (mitad a partes iguales por las zonas comunes y
+# mitad según los metros de cada habitación, con un extra por baño propio o balcón; los gastos a partes iguales) y tabla por
+# ciudad con la habitación media y el piso de 3 dormitorios entero (precios.json). El método es una propuesta, no una cifra de mercado.
+assert "repartir-alquiler" not in C
+M2T = 90
+tr_r = "".join(f'<tr><td><a href="../{k}/habitacion/">{esc(c["n"])}</a></td><td><b>{fmt(c["hab"])} €</b></td><td>{fmt(c["alquiler"] * M2T)} €</td><td>{fmt(c["alquiler"] * M2T / 3)} €</td></tr>' for k, c in sorted(C.items(), key=lambda kc: kc[1]["hab"]))
+mb = min(C.values(), key=lambda c: c["hab"]); mc = max(C.values(), key=lambda c: c["hab"])
+inp = "font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff"
+ra_html, ra_ld = faq([
+    ("¿Cómo se reparte el alquiler en un piso compartido?",
+     "Lo más justo suele ser pagar a partes iguales lo que todos usáis (cocina, salón, baño común, pasillo) y repartir el resto según el tamaño de cada habitación. Con esta calculadora la mitad del alquiler se reparte a partes iguales y la otra mitad según los metros, con un extra para quien tiene baño propio o balcón."),
+    ("¿Quien tiene la habitación más grande paga más?",
+     "Es lo habitual: tiene más espacio solo para él. Si las habitaciones son muy parecidas, pagar lo mismo es más sencillo; si una es claramente mayor, tiene baño propio o da a la calle, lo normal es que pague algo más."),
+    ("¿Cómo se reparten la luz, el agua e internet?",
+     "Normalmente a partes iguales, porque todos los usáis. Si alguien pasa mucho más tiempo en casa o tiene aparatos que gastan mucho (un radiador, por ejemplo), podéis acordar que ponga algo más."),
+    ("¿Tenemos que firmar todos el contrato?",
+     "Es lo más seguro: así todos tenéis los derechos de inquilino. Mira si el contrato dice que respondéis «solidariamente»: entonces el propietario puede reclamar a cualquiera de vosotros el alquiler entero si alguien deja de pagar."),
+    ("¿Cuánto cuesta una habitación en piso compartido?",
+     f"Depende mucho de la ciudad: de media, desde unos {fmt(mb['hab'])} € al mes en {mb['n']} hasta unos {fmt(mc['hab'])} € en {mc['n']}, sin gastos."),
+])
+body = f"""<h1>Cómo repartir el alquiler de un piso compartido: calculadora</h1>
+<p>Si compartís piso y las habitaciones no son iguales, pagar lo mismo no siempre es justo. Escribe el alquiler y los metros de cada habitación: la calculadora reparte a partes iguales las zonas comunes y el resto según el tamaño, y te da lo que paga cada uno para enviarlo al grupo.</p>
+<div class="card" id="rf"><b>Vuestro piso</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px"><label class="m" style="flex:1 1 150px">Alquiler al mes (€)<br><input type="number" inputmode="decimal" min="0" id="ra" value="1200" style="{inp}"></label>
+<label class="m" style="flex:1 1 150px">Gastos al mes (€, opcional)<br><input type="number" inputmode="decimal" min="0" id="rg" placeholder="Luz, agua, internet" style="{inp}"></label></div>
+<div id="rh"></div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px"><button type="button" id="rmas" class="vbt">+ Añadir habitación</button><button type="button" id="rmen" class="vbt">− Quitar la última</button></div></div>
+<div class="card" aria-live="polite"><b>Lo que paga cada uno</b><div id="rr" class="m" style="margin-top:6px"></div>
+<a id="rw" class="vbt" style="display:inline-flex;align-items:center;text-decoration:none;margin-top:10px" target="_blank" rel="noopener">Enviar el reparto por WhatsApp</a></div>
+<p class="m">Cómo se calcula: la mitad del alquiler se reparte a partes iguales (cocina, salón, baño común) y la otra mitad según los metros de cada habitación; el baño propio suma un 15 % a sus metros y el balcón o la ventana a la calle, un 5 %. Los gastos van a partes iguales. Es una propuesta: lo importante es que todos estéis de acuerdo.</p>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Habitación o piso entero entre tres, por ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Habitación media al mes frente a un piso de {M2T} m² (3 dormitorios) alquilado entero y dividido entre tres, sin gastos</caption><tr><th scope="col">Ciudad</th><th scope="col">Habitación</th><th scope="col">Piso de {M2T} m²</th><th scope="col">Entre 3</th></tr>{tr_r}</table>
+<p class="m">Habitación: precio medio de cada ciudad. Piso: alquiler medio por m² de la ciudad × {M2T} m². Cifras orientativas (<a href="../como-calculamos/">cómo calculamos</a>).</p></div>
+<style>.vbt{{font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer}}
+.rhb{{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid #f1ede6}}.rhb input[type=text]{{flex:1 1 130px}}.rhb input[type=number]{{flex:0 0 90px;width:90px}}
+.rhb label{{display:flex;gap:6px;align-items:center;min-height:44px;cursor:pointer}}.rhb input[type=checkbox]{{width:22px;height:22px;margin:0;accent-color:#1f6f54}}
+#rr table{{width:100%;border-collapse:collapse}}#rr td{{padding:6px 4px;border-top:1px solid #f1ede6;text-align:right}}#rr td:first-child{{text-align:left}}#rr b{{color:#1d2321}}</style>
+<script>(function(){{var H=document.getElementById("rh"),A=document.getElementById("ra"),G=document.getElementById("rg"),R=document.getElementById("rr"),W=document.getElementById("rw"),IN="{inp}";
+var D=[14,11,9];
+function eur(x){{return Math.round(x).toLocaleString("es-ES")+" €"}}
+function fila(n,m){{var d=document.createElement("div");d.className="rhb";
+d.innerHTML='<input type="text" maxlength="30" aria-label="Nombre" style="'+IN+'"><input type="number" inputmode="decimal" min="1" aria-label="Metros" style="'+IN+'"><span class="m">m²</span><label class="m"><input type="checkbox" data-t="b">Baño propio</label><label class="m"><input type="checkbox" data-t="e">Balcón o exterior</label>';
+var i=d.querySelectorAll("input");i[0].value="Habitación "+n;i[1].value=m;H.appendChild(d)}}
+function calc(){{var fs=[].slice.call(H.querySelectorAll(".rhb")),a=Math.max(0,+A.value||0),g=Math.max(0,+G.value||0),n=fs.length,p=[],t=0;
+fs.forEach(function(f){{var i=f.querySelectorAll("input"),m=Math.max(0,+i[1].value||0),w=m*(1+(i[2].checked?.15:0)+(i[3].checked?.05:0));p.push({{n:(i[0].value||"").trim()||"Habitación",w:w}});t+=w}});
+if(!a||!n){{R.textContent="Escribe el alquiler y al menos una habitación.";W.style.display="none";return}}
+var tb=document.createElement("table"),tx="Reparto del alquiler ("+eur(a)+(g?" + "+eur(g)+" de gastos":"")+"):";
+var hd=tb.insertRow();["","Alquiler",g?"Con gastos":""].forEach(function(s){{var c=hd.insertCell();c.textContent=s}});
+p.forEach(function(x){{var al=a/2/n+(t?a/2*x.w/t:a/2/n),r=tb.insertRow(),c=r.insertCell();c.textContent=x.n;c=r.insertCell();c.textContent=eur(al);c=r.insertCell();
+var b=document.createElement("b");b.textContent=g?eur(al+g/n):"";c.appendChild(b);if(!g){{r.cells[1].innerHTML="";var bb=document.createElement("b");bb.textContent=eur(al);r.cells[1].appendChild(bb)}}
+tx+="\\n· "+x.n+": "+eur(al+g/n)}});
+R.innerHTML="";R.appendChild(tb);var q=document.createElement("p");q.textContent="A partes iguales serían "+eur((a+g)/n)+" cada uno.";R.appendChild(q);
+W.style.display="";W.href="https://wa.me/?text="+encodeURIComponent(tx+"\\nCalculado con Vivible: "+location.href.split("#")[0])}}
+D.forEach(function(m,i){{fila(i+1,m)}});
+document.getElementById("rmas").addEventListener("click",function(){{var n=H.children.length;if(n<8){{fila(n+1,10);calc()}}}});
+document.getElementById("rmen").addEventListener("click",function(){{if(H.children.length>1){{H.removeChild(H.lastChild);calc()}}}});
+document.getElementById("rf").addEventListener("input",calc);document.getElementById("rf").addEventListener("change",calc);calc()}})();</script>
+{ra_html}
+<a class="cta" href="../">¿Has visto una habitación? Comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("repartir-alquiler"), exist_ok=True)
+open(F("repartir-alquiler", "index.html"), "w", encoding="utf-8").write(page(
+    "Cómo repartir el alquiler de un piso compartido: calculadora",
+    desc_corta("Calcula cuánto paga cada uno en un piso compartido según los metros de su habitación, el baño propio y el balcón, y envía el reparto por WhatsApp.", " Gratis."),
+    "repartir-alquiler/", body, [("Vivible", "../"), ("Repartir el alquiler", None)], ra_ld))
+urls.insert(13, BASE + "repartir-alquiler/")
 
 # ---------- cómo calculamos (como-calculamos/): de dónde salen los datos y qué fórmulas usa cada guía, para que quien
 # lee una cifra sepa cuánto fiarse de ella (y Google vea las fuentes). Todo sale de precios.json y de las constantes de arriba.

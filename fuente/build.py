@@ -39,7 +39,25 @@ for _b in json.loads(MAD)["barrios"]:
 BARRIOS["Vicálvaro"] = ["Casco Histórico de Vicálvaro", "Valdebernardo", "Valderrivas", "El Cañaveral"]
 BARRIOS["Villa de Vallecas"] = ["Casco Histórico de Vallecas", "Santa Eugenia", "Ensanche de Vallecas"]
 assert sum(map(len, BARRIOS.values())) == 131 and set(BARRIOS) == set(C["madrid"]["d"]), "barrios de Madrid: faltan o sobran"
-def y_lista(xs): return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " y " + xs[-1]
+# los 73 barrios oficiales de Barcelona (Ajuntament de Barcelona, división de 2006), por distrito
+BARRIOS_BCN = {
+    "Ciutat Vella": ["El Raval", "Barri Gòtic", "La Barceloneta", "Sant Pere, Santa Caterina i la Ribera"],
+    "Eixample": ["Fort Pienc", "Sagrada Família", "Dreta de l'Eixample", "Antiga Esquerra de l'Eixample", "Nova Esquerra de l'Eixample", "Sant Antoni"],
+    "Sants-Montjuïc": ["El Poble-sec", "La Marina del Prat Vermell", "La Marina de Port", "La Font de la Guatlla", "Hostafrancs", "La Bordeta", "Sants-Badal", "Sants"],
+    "Les Corts": ["Les Corts", "La Maternitat i Sant Ramon", "Pedralbes"],
+    "Sarrià-Sant Gervasi": ["Vallvidrera, el Tibidabo i les Planes", "Sarrià", "Les Tres Torres", "Sant Gervasi-la Bonanova", "Sant Gervasi-Galvany", "El Putxet i el Farró"],
+    "Gràcia": ["Vallcarca i els Penitents", "El Coll", "La Salut", "Vila de Gràcia", "Camp d'en Grassot i Gràcia Nova"],
+    "Horta-Guinardó": ["El Baix Guinardó", "Can Baró", "El Guinardó", "La Font d'en Fargues", "El Carmel", "La Teixonera", "Sant Genís dels Agudells", "Montbau", "La Vall d'Hebron", "La Clota", "Horta"],
+    "Nou Barris": ["Vilapicina i la Torre Llobeta", "Porta", "El Turó de la Peira", "Can Peguera", "La Guineueta", "Canyelles", "Les Roquetes", "Verdun", "La Prosperitat", "La Trinitat Nova", "Torre Baró", "Ciutat Meridiana", "Vallbona"],
+    "Sant Andreu": ["La Trinitat Vella", "Baró de Viver", "El Bon Pastor", "Sant Andreu", "La Sagrera", "El Congrés i els Indians", "Navas"],
+    "Sant Martí": ["El Camp de l'Arpa del Clot", "El Clot", "El Parc i la Llacuna del Poblenou", "La Vila Olímpica del Poblenou", "El Poblenou", "Diagonal Mar i el Front Marítim del Poblenou", "El Besòs i el Maresme", "Provençals del Poblenou", "Sant Martí de Provençals", "La Verneda i la Pau"],
+}
+assert sum(map(len, BARRIOS_BCN.values())) == 73 and set(BARRIOS_BCN) == set(C["barcelona"]["d"]), "barrios de Barcelona: faltan o sobran"
+BAR = {"madrid": BARRIOS, "barcelona": BARRIOS_BCN}  # ciudades con barrios oficiales en la web
+def coma(xs): return any("," in re.sub(r"\(.*?\)", "", x) for x in xs)  # algún nombre lleva coma («Sant Pere, Santa Caterina i la Ribera»)
+def y_lista(xs):  # con «;» si algún nombre lleva coma
+    sep = "; " if coma(xs) else ", "
+    return xs[0] if len(xs) == 1 else sep.join(xs[:-1]) + " y " + xs[-1]
 
 def hab_d(c, r):
     # habitación en un distrito: media de la ciudad ajustada por lo caro que es su alquiler (la misma fórmula en todas las páginas)
@@ -173,9 +191,10 @@ for ck, c in C.items():
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>"""
-    if ck == "madrid":  # «en qué distrito está <barrio>»: muchos anuncios dicen el barrio y no el distrito
-        body = body.replace("\n" + fq_html, "\n" + '<div class="card"><h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px">Barrios de Madrid por distrito</h2><p class="m" style="margin:0 0 6px">Los anuncios suelen decir el barrio: búscalo aquí para saber en qué distrito está.</p><table>'
-            + "".join(f'<tr><td><a href="{slug(d)}/">{esc(d)}</a></td><td style="text-align:left">{esc(", ".join(BARRIOS[d]))}</td></tr>' for d, *_ in rows) + "</table></div>\n" + fq_html, 1)
+    if ck in BAR:  # «en qué distrito está <barrio>»: muchos anuncios dicen el barrio y no el distrito
+        BB = BAR[ck]
+        body = body.replace("\n" + fq_html, "\n" + f'<div class="card"><h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px">Barrios de {esc(c["n"])} por distrito</h2><p class="m" style="margin:0 0 6px">Los anuncios suelen decir el barrio: búscalo aquí para saber en qué distrito está.</p><table>'
+            + "".join(f'<tr><td><a href="{slug(d)}/">{esc(d)}</a></td><td style="text-align:left">{esc(("; " if coma(BB[d]) else ", ").join(BB[d]))}</td></tr>' for d, *_ in rows) + "</table></div>\n" + fq_html, 1)
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
         f"Vivir en {c['n']}: precio de la vivienda por distritos (2026) | Vivible",
         f"Precio medio de compra, alquiler y habitación en los {n} distritos de {c['n']}. Compara barrios y analiza un piso gratis.",
@@ -206,10 +225,10 @@ for ck, c in C.items():
              f"Un piso de 70 m² cuesta unos {fmt(buy70)} €{' (estimado)' if es else ''}. Necesitas ahorrado unos {fmt(ahorro)} €: el 20 % de entrada ({fmt(buy70 * .2)} €), "
              f"el {str(c['itp']).replace('.', ',')} % de impuesto de compra de segunda mano {en_ccaa(c['ccaa'])} ({fmt(buy70 * c['itp'] / 100)} €) y unos {fmt(buy70 * .015 + 400)} € de notaría, registro, gestoría y tasación. "
              f"La hipoteca del resto (30 años al 2,8 %) saldría por unos {fmt(cuota)} € al mes."),
-        ] + ([(f"¿Qué barrios hay en {d}?", f"{d} tiene {len(BARRIOS[d])} barrios: {y_lista(BARRIOS[d])}.")] if ck == "madrid" else []))
+        ] + ([(f"¿Qué barrios hay en {d}?", f"{d} tiene {len(BAR[ck][d])} barrios: {y_lista(BAR[ck][d])}.")] if ck in BAR else []))
         bar_html = ""
-        if ck == "madrid":
-            bs = BARRIOS[d]
+        if ck in BAR:
+            bs = BAR[ck][d]
             bar_html = f'<div class="card"><b>Barrios de {esc(d)}</b><p>{esc(d)} tiene {len(bs)} barrios: {esc(y_lista(bs))}. Si el anuncio dice uno de ellos, el piso está en este distrito.</p></div>\n'
         otros = " · ".join(f'<a href="../{slug(o)}/">{esc(o)}</a>' for o, *_ in rows if o != d)
         body = f"""<h1>Vivir en {esc(d)} ({esc(c["n"])}): precio, alquiler y habitación</h1>

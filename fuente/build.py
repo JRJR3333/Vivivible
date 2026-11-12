@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -1826,13 +1826,85 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pc_html}
 <a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("pasos-para-comprar"), exist_ok=True)
 open(F("pasos-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
     "Pasos para comprar un piso: arras, hipoteca, notario y gastos",
     desc_corta(f"Los {npas} pasos para comprar un piso en orden, del ahorro a las llaves: nota simple, arras, hipoteca, notario e impuestos, y cuánto pagas en cada momento.", " Gratis."),
     "pasos-para-comprar/", body, [("Vivible", "../"), ("Pasos para comprar", None)], pc_ld))
 urls.insert(15, BASE + "pasos-para-comprar/")
+
+# ---------- vender un piso (vender-un-piso/): «cuánto pago a Hacienda al vender un piso», «IRPF venta vivienda», «ganancia
+# patrimonial venta piso», «quién paga la plusvalía». Calculadora con la escala del ahorro del IRPF (2025 en adelante, Ley 7/2024:
+# 19 % hasta 6.000 €, 21 % hasta 50.000, 23 % hasta 200.000, 27 % hasta 300.000 y 30 % desde ahí) aplicada solo a esta ganancia;
+# exenciones por reinversión en vivienda habitual y mayores de 65 (LIRPF art. 33.4 y 38). Precio medio por ciudad: precios.json.
+assert "vender-un-piso" not in C
+TRA = [(6000, .19), (50000, .21), (200000, .23), (300000, .27), (None, .30)]
+def irpf_ahorro(g):
+    t, ant = 0, 0
+    for lim, p in TRA:
+        tope = g if lim is None else min(g, lim)
+        if tope > ant: t += (tope - ant) * p
+        ant = lim if lim is not None else ant
+        if lim is None or g <= lim: break
+    return t
+assert irpf_ahorro(6000) == 1140 and round(irpf_ahorro(50000)) == 1140 + 9240
+ej_g = 60000; ej_t = irpf_ahorro(ej_g)
+tv = "".join(f'<tr><td><a href="../{k}/venta/">{esc(c["n"])}</a></td><td>{fmt(c["venta"])} €</td><td><b>{fmt(c["venta"] * M2A)} €</b></td></tr>' for k, c in sorted(C.items(), key=lambda kc: -kc[1]["venta"]))
+tt = "".join(f'<tr><td>{"Desde " + fmt(TRA[i-1][0]) + " €" if lim is None else ("Hasta " + fmt(lim) + " €" if i == 0 else fmt(TRA[i-1][0]) + " a " + fmt(lim) + " €")}</td><td><b>{round(p*100)} %</b></td></tr>' for i, (lim, p) in enumerate(TRA))
+ve_html, ve_ld = faq([
+    ("¿Cuánto se paga a Hacienda por vender un piso?",
+     f"Se paga IRPF solo por lo que ganas: la diferencia entre lo que te pagan (menos los gastos de la venta) y lo que te costó (con los impuestos y gastos de la compra y las obras de mejora). Esa ganancia tributa del 19 % al 30 % por tramos. Por ejemplo, con {fmt(ej_g)} € de ganancia pagas unos {fmt(ej_t)} €."),
+    ("¿Cuándo no hay que pagar IRPF al vender un piso?",
+     "Si vendes tu vivienda habitual y reinviertes el dinero en otra vivienda habitual en dos años, la ganancia reinvertida no paga. Tampoco pagas si tienes 65 años o más y vendes tu vivienda habitual, ni si vendes por menos de lo que te costó (entonces tienes una pérdida)."),
+    ("¿Qué gastos se pueden restar al vender un piso?",
+     "Del precio de compra puedes sumar el impuesto que pagaste (ITP o IVA y AJD), notaría, registro, gestoría y las obras de mejora con factura. Del precio de venta puedes restar la comisión de la inmobiliaria, el certificado energético y la plusvalía municipal. Si el piso estuvo alquilado, hay que restar lo que se amortizó."),
+    ("¿Quién paga la plusvalía municipal al vender un piso?",
+     "La paga quien vende, al ayuntamiento, normalmente en 30 días hábiles desde la firma. Depende del valor catastral del suelo y de los años que lo has tenido, y no se paga si has vendido sin ganancia."),
+    ("¿Cuándo se paga el IRPF de la venta de un piso?",
+     "En la declaración de la renta del año siguiente a la venta. Hacienda no te lo retiene al vender, así que conviene guardar ese dinero aparte."),
+])
+body = f"""<h1>¿Cuánto pago a Hacienda al vender un piso? Calculadora 2026</h1>
+<p>Al vender un piso solo pagas IRPF por lo que <b>ganas</b>, no por el precio entero. Pon lo que te costó y por cuánto lo vendes y te decimos la ganancia, cuánto le toca a Hacienda y lo que te queda.</p>
+<div class="card" id="vc"><b>Calcula el IRPF de tu venta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 150px">Lo compré por (€)<br><input type="number" id="vq" inputmode="decimal" min="0" step="1000" placeholder="Por ejemplo, 180000" class="vin"></label>
+<label class="m" style="flex:1 1 150px">Impuestos, gastos y obras de la compra (€)<br><input type="number" id="vg" inputmode="decimal" min="0" step="100" placeholder="Vacío = 10 %" class="vin"></label>
+<label class="m" style="flex:1 1 150px">Lo vendo por (€)<br><input type="number" id="vv" inputmode="decimal" min="0" step="1000" placeholder="Por ejemplo, 250000" class="vin"></label>
+<label class="m" style="flex:1 1 150px">Gastos de la venta (€)<br><input type="number" id="vx" inputmode="decimal" min="0" step="100" placeholder="Agencia…" class="vin"></label></div>
+<div id="vr" aria-live="polite" class="m">Escribe el precio de compra y el de venta.</div></div>
+<style>.vin{{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px}}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cuánto se paga por la ganancia</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Escala del ahorro del IRPF (estatal y autonómica juntas) desde 2025. Cada tramo de la ganancia paga su porcentaje.</caption><tr><th scope="col">Ganancia</th><th scope="col">Tipo</th></tr>{tt}</table>
+<p class="m">Si en el mismo año tienes otras ganancias o intereses, se suman y pueden subir de tramo. Es una estimación: la cifra exacta te la da la declaración de la renta.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cuándo no pagas</h2>
+<div class="card"><ul style="margin:0;padding-left:20px"><li><b>Reinviertes en tu nueva casa:</b> si vendes tu vivienda habitual y metes el dinero en otra vivienda habitual en los dos años siguientes (o los dos anteriores), esa parte no paga.</li>
+<li><b>Tienes 65 años o más</b> y vendes tu vivienda habitual.</li>
+<li><b>Vendes sin ganar:</b> si te costó más de lo que te pagan, no hay IRPF y la pérdida puede compensar otras ganancias.</li></ul>
+<p class="m">Vivienda habitual: donde has vivido al menos tres años seguidos (o hasta ahora, si la vendes por una causa que lo justifique).</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cuánto vale hoy un piso en cada ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio de venta por m² y de un piso de {M2A} m² ({esc(mes_txt)}, idealista)</caption><tr><th scope="col">Ciudad</th><th scope="col">€/m²</th><th scope="col">Piso de {M2A} m²</th></tr>{tv}</table>
+<p class="m">Cada ciudad por distritos en su página. <a href="../como-calculamos/">Cómo calculamos</a>.</p></div>
+<script>(function(){{var T=[[6000,.19],[50000,.21],[200000,.23],[300000,.27],[1/0,.30]];
+function n(id){{var v=parseFloat((document.getElementById(id).value||"").replace(",","."));return v>0?v:0}}
+function eur(x){{return Math.round(x).toString().replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")+" €"}}
+function irpf(g){{var t=0,a=0;for(var i=0;i<T.length;i++){{var l=T[i][0];if(g>a)t+=(Math.min(g,l)-a)*T[i][1];a=l;if(g<=l)break}}return t}}
+var r=document.getElementById("vr");
+function calc(){{var q=n("vq"),v=n("vv");if(!q||!v){{r.textContent="Escribe el precio de compra y el de venta.";return}}
+var gv=(document.getElementById("vg").value||"").trim(),g=gv===""?q*.10:n("vg"),x=n("vx"),c=q+g,s=v-x,ga=s-c,h;
+var p="Te costó <b>"+eur(c)+"</b>"+(gv===""?" (contamos un 10 % de impuestos y gastos de la compra)":"")+" y recibes <b>"+eur(s)+"</b> después de los gastos de la venta. ";
+if(ga<=0){{r.innerHTML=p+"No hay ganancia, así que <b>no pagas IRPF</b>"+(ga<0?" y la pérdida de "+eur(-ga)+" puede compensar otras ganancias del año":"")+".";return}}
+h=irpf(ga);r.innerHTML=p+"Ganas <b>"+eur(ga)+"</b>: a Hacienda le tocan unos <b>"+eur(h)+"</b> ("+(h*100/ga).toFixed(1).replace(".",",")+" % de la ganancia) y te quedan <b>"+eur(s-h)+"</b>. Si es tu vivienda habitual y reinviertes en otra, o tienes 65 años o más, puede que no pagues nada."}}
+["vq","vg","vv","vx"].forEach(function(i){{document.getElementById(i).addEventListener("input",calc)}});calc()}})();</script>
+{ve_html}
+<a class="cta" href="../">¿Vas a comprar otro? Comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("vender-un-piso"), exist_ok=True)
+open(F("vender-un-piso", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Cuánto pago a Hacienda al vender un piso? Calculadora IRPF 2026",
+    desc_corta("Calcula el IRPF de vender un piso: la ganancia tributa del 19 % al 30 %. Qué gastos restar, cuándo no se paga (reinversión, mayores de 65) y la plusvalía.", " Gratis."),
+    "vender-un-piso/", body, [("Vivible", "../"), ("Vender un piso", None)], ve_ld))
+urls.insert(16, BASE + "vender-un-piso/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

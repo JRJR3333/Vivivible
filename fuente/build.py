@@ -1,7 +1,7 @@
 """Genera la web de Vivible: index.html, páginas por ciudad y distrito, sitemap.xml y robots.txt.
 Uso (desde la raíz del repositorio):  python3 fuente/build.py
 """
-import json, os, re, unicodedata, html
+import json, math, os, re, unicodedata, html
 from urllib.parse import quote
 
 BASE = "https://jrjr3333.github.io/Vivivible/"
@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -625,7 +625,7 @@ for ck, c in C.items():
 <p class="m">Cuota sin seguros. Si ya pagas otros préstamos, el banco los suma a la cuota. Cifras orientativas.</p></div>
 {pq_html}
 <a class="cta" href="../../#c={ck}&op=venta">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../comprar-con-presupuesto/">Qué comprar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../comprar-con-presupuesto/">Qué comprar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "sueldo-para-comprar"), exist_ok=True)
     open(F(ck, "sueldo-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
         f"Cuánto hay que ganar para comprar un piso en {c['n']} (2026)",
@@ -669,7 +669,7 @@ for ck, c in C.items():
 <p class="m">Ahorros: el 20 % que no financia el banco, el {pct(c["itp"])} % de ITP {esc(en_ccaa(c["ccaa"]))} y notaría, registro, gestoría y tasación. Cuota sin seguros.</p></div>
 {cq_html}
 <a class="cta" href="../../#c={ck}&op=venta">¿Has visto un piso en venta? Comprueba si su precio es justo</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../venta/">Precio de compra por tamaño</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../alquilar-con-presupuesto/">Qué alquilar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a></div>
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../venta/">Precio de compra por tamaño</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../alquilar-con-presupuesto/">Qué alquilar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a></div>
 <style>#pres input{{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}#pres label{{display:block}}</style>
 <script>(function(){{var D={D},V={v},M={M2D},E={ESC},T={c["itp"]},N="{c['n']}",i=document.getElementById("pv"),o=document.getElementById("pr"),f=function(n){{return String(Math.round(n)).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}};
 function q(p){{var k={TIN}/12;return p*.8*k/(1-Math.pow(1+k,-{ANOS * 12}))}}
@@ -1568,6 +1568,73 @@ open(F("repartir-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta("Calcula cuánto paga cada uno en un piso compartido según los metros de su habitación, el baño propio y el balcón, y envía el reparto por WhatsApp.", " Gratis."),
     "repartir-alquiler/", body, [("Vivible", "../"), ("Repartir el alquiler", None)], ra_ld))
 urls.insert(13, BASE + "repartir-alquiler/")
+
+# ---------- ahorrar para comprar (ahorrar-para-comprar/): «cuánto tiempo se tarda en ahorrar para comprar un piso», «cuánto hay
+# que ahorrar para la entrada de un piso en <ciudad>». Ahorros con gastos() (20 % de entrada, ITP, NOT y TAS: las mismas cifras que
+# gastos-de-compra/ y sueldo-para-comprar/) para el piso medio de M2A m² y el del distrito más barato; tiempo = ahorros ÷ lo que apartas al mes,
+# sin intereses ni subidas de precio. Calculadora con lo que ahorras al mes y lo que ya tienes.
+assert "ahorrar-para-comprar" not in C
+AHM = [300, 500, 800]
+def tiempo(m):
+    m = max(0, math.ceil(m))
+    a, r = divmod(m, 12)
+    if not m: return "ya lo tienes"
+    t = (f"{a} año{'s' if a != 1 else ''}" if a else "") + (" y " if a and r else "") + (f"{r} mes{'es' if r != 1 else ''}" if r else "")
+    return t
+fil = []
+for k, c in C.items():
+    pubs = [d for d in c["d"] if not dprice(c, d)[2]] or list(c["d"])  # distrito más barato con precio publicado, como barrios-baratos/
+    bd = min(pubs, key=lambda d: dprice(c, d)[0])
+    pm, pb = c["venta"] * M2A, dprice(c, bd)[0] * M2A
+    fil.append((k, c, gastos(pm, c)[2], bd, gastos(pb, c)[2], pm, pb))
+fil.sort(key=lambda x: x[2])
+tr_a = "".join(f'<tr><td><a href="../{k}/sueldo-para-comprar/">{esc(c["n"])}</a></td><td>{fmt(a)} €</td>' + "".join(f"<td>{dec(a / m / 12)}</td>" for m in AHM) + "</tr>" for k, c, a, *_ in fil)
+fb, fc = fil[0], fil[-1]
+mad = next(x for x in fil if x[0] == "madrid") if "madrid" in C else fc
+DA = json.dumps([[c["n"], k, round(a), bd, round(ab)] for k, c, a, bd, ab, *_ in fil], ensure_ascii=False).replace("</", "<\\/")
+ah_html, ah_ld = faq([
+    ("¿Cuánto hay que ahorrar para comprar un piso?",
+     f"Lo normal es tener ahorrado entre un {round(20 + min(c['itp'] for c in C.values()) + NOT * 100)} % y un {round(20 + max(c['itp'] for c in C.values()) + NOT * 100)} % del precio: el 20 % de entrada que no financia el banco, el impuesto de compra (entre el {pct(min(c['itp'] for c in C.values()))} % y el {pct(max(c['itp'] for c in C.values()))} % de ITP según la comunidad, si es de segunda mano) y alrededor de un {dec(NOT * 100)} % de notaría, registro y gestoría más la tasación. "
+     f"Para un piso medio de {M2A} m², desde unos {fmt(fb[2])} € en {fb[1]['n']} hasta unos {fmt(fc[2])} € en {fc[1]['n']}."),
+    ("¿Cuánto tiempo se tarda en ahorrar para comprar un piso?",
+     f"Ahorrando 500 € al mes, juntar lo necesario para un piso medio de {M2A} m² lleva {tiempo(fb[2] / 500)} en {fb[1]['n']} y {tiempo(fc[2] / 500)} en {fc[1]['n']}. "
+     f"En el distrito más barato de cada ciudad se tarda menos; por ejemplo, {tiempo(fb[4] / 500)} en {fb[3]} ({fb[1]['n']})."),
+    (f"¿Cuánto hay que ahorrar para comprar un piso en {mad[1]['n']}?",
+     f"Para un piso medio de {M2A} m² (unos {fmt(mad[5])} €), unos {fmt(mad[2])} €. En {mad[3]}, el distrito más barato, unos {fmt(mad[4])} € (piso de unos {fmt(mad[6])} €). "
+     f"Con 500 € al mes, {tiempo(mad[2] / 500)} y {tiempo(mad[4] / 500)} respectivamente."),
+    ("¿Se puede comprar un piso sin tener el 20 % ahorrado?",
+     "Para la primera vivienda de jóvenes y familias con hijos hay avales públicos que permiten que el banco financie hasta el 95 %: pregunta en tu banco o en tu comunidad. Aun así necesitas tener ahorrado el impuesto de compra y los gastos, que el banco no presta."),
+    ("¿Cómo puedo tardar menos en ahorrar la entrada?",
+     "Comprar entre dos reduce el tiempo a la mitad; mirar en los distritos más baratos baja mucho la cifra; y algunas comunidades rebajan el impuesto de compra a jóvenes o familias numerosas. Un piso algo más pequeño también cuenta: cada 10 m² menos es un 14 % menos de ahorros en un piso de 70 m²."),
+])
+body = f"""<h1>¿Cuánto tiempo tardo en ahorrar para comprar un piso? Calculadora</h1>
+<p>Para comprar con hipoteca necesitas tener ahorrado el 20 % del precio más el impuesto y los gastos. Escribe cuánto puedes apartar al mes y lo que ya tienes, y verás cuánto tardarías en juntarlo en cada ciudad, para un piso medio de {M2A} m² y para uno en el distrito más barato.</p>
+<div class="card"><form id="ahf" onsubmit="return false" style="display:flex;flex-wrap:wrap;gap:10px"><label class="m" style="flex:1 1 150px"><b>Ahorro al mes (€)</b><input id="ahm" type="number" inputmode="numeric" min="0" step="50" value="500"></label>
+<label class="m" style="flex:1 1 150px"><b>Ya tengo ahorrado (€)</b><input id="ahy" type="number" inputmode="numeric" min="0" step="1000" placeholder="0"></label></form>
+<div id="ahr" aria-live="polite" class="m" style="margin-top:10px"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Años ahorrando para un piso medio, por ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Ahorros necesarios para un piso de {M2A} m² de segunda mano al precio medio de cada ciudad y años que se tarda en juntarlos ahorrando 300, 500 u 800 € al mes</caption><tr><th scope="col">Ciudad</th><th scope="col">Ahorros</th>""" + "".join(f'<th scope="col">{m} €/mes<br>(años)</th>' for m in AHM) + f"""</tr>{tr_a}</table>
+<p class="m">Ahorros: 20 % de entrada, ITP de la comunidad y notaría, registro, gestoría y tasación (<a href="../como-calculamos/">cómo calculamos</a>). Sin contar lo que rinda el dinero ahorrado ni lo que suban los precios mientras tanto. Cifras orientativas.</p></div>
+{ah_html}
+<a class="cta" href="../#op=venta">¿Has visto un piso en venta? Comprueba si su precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · """ + " · ".join(f'<a href="../{k}/comprar-con-presupuesto/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
+<style>#ahf input{{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}
+#ahr table{{width:100%;border-collapse:collapse}}#ahr td,#ahr th{{padding:6px 4px;border-top:1px solid #f1ede6;text-align:right;vertical-align:top}}#ahr td:first-child,#ahr th:first-child{{text-align:left}}#ahr small{{display:block}}</style>
+<script>(function(){{var D={DA},m=document.getElementById("ahm"),y=document.getElementById("ahy"),o=document.getElementById("ahr");
+function f(n){{return String(Math.round(n)).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}}
+function t(x){{x=Math.max(0,Math.ceil(x-1e-9));if(!x)return"ya lo tienes";var a=Math.floor(x/12),r=x%12;return(a?a+(a==1?" año":" años"):"")+(a&&r?" y ":"")+(r?r+(r==1?" mes":" meses"):"")}}
+function c(){{var a=+m.value||0,h=Math.max(0,+y.value||0);o.innerHTML="";if(a<0||a>100000||h>10000000){{o.textContent="Escribe cuánto ahorras al mes, por ejemplo 500.";return}}
+var tb=document.createElement("table"),r=tb.insertRow();["Ciudad","Piso medio","Distrito más barato"].forEach(function(s){{var e=document.createElement("th");e.scope="col";e.textContent=s;r.appendChild(e)}});
+D.forEach(function(d){{var r=tb.insertRow(),e=r.insertCell();e.textContent=d[0];[[d[2],""],[d[4],d[3]]].forEach(function(p){{var e=r.insertCell(),b=document.createElement("b"),s=document.createElement("small"),fal=Math.max(0,p[0]-h);
+b.textContent=fal<=0?"ya lo tienes":a>0?t(fal/a):"—";e.appendChild(b);s.textContent=f(p[0])+" €"+(p[1]?" · "+p[1]:"");e.appendChild(s)}})}});
+o.appendChild(tb);if(!(a>0))o.insertAdjacentHTML("afterbegin","<p>Escribe cuánto ahorras al mes para ver el tiempo.</p>")}}
+m.addEventListener("input",c);y.addEventListener("input",c);c()}})()</script>"""
+os.makedirs(F("ahorrar-para-comprar"), exist_ok=True)
+open(F("ahorrar-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Cuánto tiempo tardo en ahorrar para comprar un piso? Calculadora",
+    desc_corta(f"Ahorros para comprar un piso de {M2A} m²: desde {fmt(fb[2])} € en {fb[1]['n']} hasta {fmt(fc[2])} € en {fc[1]['n']}. Calcula en cuánto tiempo los juntas.", " Gratis."),
+    "ahorrar-para-comprar/", body, [("Vivible", "../"), ("Ahorrar para comprar", None)], ah_ld))
+urls.insert(14, BASE + "ahorrar-para-comprar/")
 
 # ---------- cómo calculamos (como-calculamos/): de dónde salen los datos y qué fórmulas usa cada guía, para que quien
 # lee una cifra sepa cuánto fiarse de ella (y Google vea las fuentes). Todo sale de precios.json y de las constantes de arriba.

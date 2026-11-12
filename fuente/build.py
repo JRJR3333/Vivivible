@@ -489,7 +489,7 @@ for ck, c in C.items():
 <p class="m">Precio medio por m² de cada distrito multiplicado por los metros. Un piso concreto puede costar más o menos según su estado, planta y calle.</p></div>
 {vq_html}
 <a class="cta" href="../../#c={ck}&op=venta">¿Has visto un piso en venta? Comprueba si su precio es justo</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../comprar-con-presupuesto/">Qué comprar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a> · <a href="../../barrios-caros/">Barrios más caros</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../comprar-con-presupuesto/">Qué comprar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a> · <a href="../../precio-metro-cuadrado/?c={ck}">Precio por m²</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a> · <a href="../../barrios-caros/">Barrios más caros</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "venta"), exist_ok=True)
     open(F(ck, "venta", "index.html"), "w", encoding="utf-8").write(page(
         f"Precio de la vivienda en {c['n']} por distritos (2026)",
@@ -1954,13 +1954,64 @@ var q=new URLSearchParams(location.search);if(V[q.get("c")])k.value=q.get("c");d
 k.addEventListener("change",function(){{dis();calc()}});d.addEventListener("change",calc);m.addEventListener("input",calc);calc()}})();</script>
 {vm_html}
 <a class="cta" href="../">¿Has visto un anuncio? Comprueba si su precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../vender-un-piso/">Cuánto pago a Hacienda al vender</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../precio-metro-cuadrado/">Precio por metro cuadrado</a> · <a href="../vender-un-piso/">Cuánto pago a Hacienda al vender</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("cuanto-vale-mi-piso"), exist_ok=True)
 open(F("cuanto-vale-mi-piso", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto vale mi piso? Calculadora gratis por distritos (2026)",
     desc_corta("Calcula cuánto vale tu piso con el precio medio por m² de tu distrito en 10 ciudades, y cuánto cobrarías de alquiler. Sin registro.", " Gratis."),
     "cuanto-vale-mi-piso/", body, [("Vivible", "../"), ("¿Cuánto vale mi piso?", None)], vm_ld))
 urls.insert(17, BASE + "cuanto-vale-mi-piso/")
+
+# ---------- Precio por metro cuadrado (precio-metro-cuadrado/): «calcular precio metro cuadrado piso», «precio m2 vivienda».
+# Solo precios.json (VM, el mismo dato por distrito que cuanto-vale-mi-piso/): divide precio entre metros y lo compara con la media del distrito.
+assert "precio-metro-cuadrado" not in C
+tpm = "".join(f'<tr><td><a href="../{k}/">{esc(c["n"])}</a></td><td><b>{fmt(c["venta"])} €/m²</b></td><td>{dec(c["alquiler"])} €/m² al mes</td></tr>' for k, c in sorted(C.items(), key=lambda kc: -kc[1]["venta"]))
+pm_html, pm_ld = faq([
+    ("¿Cómo se calcula el precio por metro cuadrado?",
+     "Divide el precio del piso entre sus metros cuadrados. Por ejemplo, un piso de 240.000 € con 80 m² sale a 3.000 €/m². En alquiler es igual: 1.200 € al mes entre 80 m² son 15 €/m² al mes."),
+    ("¿Qué metros uso, los útiles o los construidos?",
+     "Los anuncios suelen dar los metros construidos (incluyen paredes y, a veces, parte de las zonas comunes), y los precios medios por m² también se calculan así. Si el anuncio solo da los útiles, el precio por m² te saldrá algo más alto de lo que es."),
+    (f"¿Cuál es el precio medio del metro cuadrado en {mx['n']}?",
+     f"Según idealista ({mes_txt}), {fmt(mx['venta'])} €/m² en venta y {dec(mx['alquiler'])} €/m² al mes en alquiler. En {mn['n']}, la más barata de las 10 ciudades, {fmt(mn['venta'])} €/m² en venta. Cada distrito cambia mucho: elígelo en la calculadora."),
+    ("¿Un precio por m² más alto que la media es caro?",
+     "No siempre. Un piso reformado, exterior, con ascensor o terraza suele estar por encima de la media; uno que necesita obra, por debajo. Si está más de un 15 % por encima y no tiene nada especial, merece la pena negociar."),
+])
+body = f"""<h1>Precio por metro cuadrado: calcúlalo y compáralo</h1>
+<p>Escribe el precio y los metros del piso que has visto. Te decimos cuánto sale el <b>metro cuadrado</b> y si está por encima o por debajo de la media de su distrito, en venta o en alquiler.</p>
+<div class="card" id="pc"><b>Calcula el precio por m²</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 130px">¿Venta o alquiler?<br><select id="po" class="vin"><option value="1">Venta</option><option value="2">Alquiler (al mes)</option></select></label>
+<label class="m" style="flex:1 1 130px">Precio (€)<br><input type="number" id="pp" inputmode="decimal" min="1" step="1" placeholder="Por ejemplo, 240000" class="vin"></label>
+<label class="m" style="flex:1 1 110px">Metros (m²)<br><input type="number" id="pm" inputmode="decimal" min="10" max="1000" step="1" placeholder="Por ejemplo, 80" class="vin"></label>
+<label class="m" style="flex:1 1 140px">Ciudad<br><select id="pk" class="vin"></select></label>
+<label class="m" style="flex:1 1 180px">Distrito<br><select id="pd" class="vin"></select></label></div>
+<div id="pr" aria-live="polite" class="m">Escribe el precio y los metros.</div></div>
+<style>.vin{{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Precio medio del metro cuadrado por ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² en los anuncios ({esc(mes_txt)}, idealista)</caption><tr><th scope="col">Ciudad</th><th scope="col">Venta</th><th scope="col">Alquiler</th></tr>{tpm}</table>
+<p class="m">Cada distrito en la página de su ciudad. <a href="../como-calculamos/">Cómo calculamos</a>.</p></div>
+<script>(function(){{var V={VMJ};
+var o=document.getElementById("po"),p=document.getElementById("pp"),m=document.getElementById("pm"),k=document.getElementById("pk"),d=document.getElementById("pd"),r=document.getElementById("pr");
+function num(x,dd){{return x.toFixed(dd).replace(".",",").replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}}
+function esc(s){{return String(s).replace(/[&<>"']/g,function(c){{return"&#"+c.charCodeAt(0)+";"}})}}
+Object.keys(V).forEach(function(c){{k.add(new Option(V[c][0],c))}});
+function dis(sel){{d.innerHTML="";V[k.value][1].forEach(function(x){{d.add(new Option(x[0],x[4]))}});if(sel)d.value=sel;if(d.selectedIndex<0)d.selectedIndex=0}}
+function calc(){{var al=o.value==="2",pr=parseFloat((p.value||"").replace(",",".")),t=parseFloat((m.value||"").replace(",",".")),c=V[k.value],x=c[1][d.selectedIndex];
+if(!(pr>0&&t>=10&&t<=1000)){{r.textContent="Escribe el precio y los metros.";return}}
+var u=pr/t,med=al?x[2]:x[1],dd=al?1:0,ud=al?" €/m² al mes":" €/m²",dif=Math.round((u/med-1)*100);
+var v=Math.abs(dif)<=5?"está <b>en la media</b> del distrito":dif>0?"está un <b>"+dif+" % por encima</b> de la media del distrito":"está un <b>"+(-dif)+" % por debajo</b> de la media del distrito";
+r.innerHTML="Sale a <b>"+num(u,dd)+ud+"</b>. La media en "+esc(x[0])+" ("+esc(c[0])+") es "+num(med,dd)+ud+": "+v+"."+(dif>15?" Si no tiene nada especial (reforma, terraza, vistas), hay margen para negociar.":"")+(x[3]?" <i>idealista no publica todos los precios de este distrito: parte de la media es una estimación.</i>":"")+" <a href=\\"../"+k.value+"/"+x[4]+"/\\">Ver precios de "+esc(x[0])+"</a>"}}
+var q=new URLSearchParams(location.search);if(V[q.get("c")])k.value=q.get("c");dis(q.get("d"));
+[o,p,m,d].forEach(function(e){{e.addEventListener("input",calc);e.addEventListener("change",calc)}});k.addEventListener("change",function(){{dis();calc()}});calc()}})();</script>
+{pm_html}
+<a class="cta" href="../">Pega el anuncio y te decimos si su precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("precio-metro-cuadrado"), exist_ok=True)
+open(F("precio-metro-cuadrado", "index.html"), "w", encoding="utf-8").write(page(
+    "Precio por metro cuadrado: calculadora y media por distrito (2026)",
+    desc_corta("Calcula el precio por m² de un piso en venta o alquiler y compáralo con la media de su distrito en 10 ciudades (datos de idealista).", " Gratis."),
+    "precio-metro-cuadrado/", body, [("Vivible", "../"), ("Precio por metro cuadrado", None)], pm_ld))
+urls.insert(18, BASE + "precio-metro-cuadrado/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

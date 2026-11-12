@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -140,7 +140,7 @@ a{color:#1f6f54}h1{font:700 30px/1.15 Fraunces,Georgia,serif;margin:10px 0}.b{di
 .card{background:#fff;border:1px solid #e4dfd6;border-radius:16px;padding:18px;margin-top:16px}.g{display:grid;grid-template-columns:1fr 1fr;gap:12px}.k{background:#faf8f4;border:1px solid #e4dfd6;border-radius:12px;padding:12px}
 .k small{display:block;color:#5f6b66;font-size:12px}.k b{font:700 24px Fraunces,serif}.cta{display:block;text-align:center;background:#1f6f54;color:#fff;text-decoration:none;font-weight:700;padding:15px;border-radius:12px;margin-top:18px}
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;border-top:1px solid #f1ede6;text-align:left}td:last-child,th:last-child{text-align:right}.m{color:#5f6b66;font-size:13px}.card.m a{display:inline-block;min-height:44px;line-height:44px;padding:0 2px}
-.cmp td+td,.cmp th+th{white-space:nowrap}@media(max-width:480px){.cmp{font-size:13px}.cmp td,.cmp th{padding:7px 2px}.card:has(.cmp){padding:14px 10px}}.faq h2{font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px}.faq h3{font-size:16px;margin:14px 0 2px}.faq p{margin:0}
+.cmp td+td,.cmp th+th{white-space:nowrap}@media(max-width:480px){.cmp{font-size:13px}.cmp td,.cmp th{padding:7px 2px}.card:has(.cmp){padding:14px 10px}}.faq h2{font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px}.faq h3{font-size:16px;margin:14px 0 2px}.faq p{margin:0}footer.m a{display:inline-block;min-height:44px;line-height:44px}
 @media(max-width:480px){.g{grid-template-columns:1fr}h1{font-size:26px}}"""
 
 def tit_distrito(d, cn):
@@ -179,7 +179,7 @@ def page(title, desc, path, body, crumbs, extra_ld=None):
 <script type="application/ld+json">{ld}</script>{f'<script type="application/ld+json">{extra_ld}</script>' if extra_ld else ""}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>{CSS}</style></head><body><div class="w"><nav class="m" aria-label="Migas de pan">{bc}</nav><main>{body}</main>
-<footer class="m" style="margin-top:28px">Datos: precios medios de idealista ({esc(mes_txt)}); habitaciones: precio medio de la ciudad. Estimaciones orientativas, no tasaciones oficiales. Hecho por <a href="{"../" * path.count("/")}">Vivible</a>.</footer></div></body></html>"""
+<footer class="m" style="margin-top:28px">Datos: precios medios de idealista ({esc(mes_txt)}); habitaciones: precio medio de la ciudad. Estimaciones orientativas, no tasaciones oficiales: <a href="{"../" * path.count("/")}como-calculamos/">cómo calculamos</a>. Hecho por <a href="{"../" * path.count("/")}">Vivible</a>.</footer></div></body></html>"""
 
 urls = [BASE]
 for ck, c in C.items():
@@ -1314,6 +1314,45 @@ open(F("visitar-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Lista de {nvis} puntos para revisar en la visita: humedades, ruido, luz, edificio, gastos y papeles. Márcala en el móvil mientras ves el piso.", " Gratis."),
     "visitar-un-piso/", body, [("Vivible", "../"), ("Visitar un piso", None)], vi_ld))
 urls.insert(10, BASE + "visitar-un-piso/")
+
+# ---------- cómo calculamos (como-calculamos/): de dónde salen los datos y qué fórmulas usa cada guía, para que quien
+# lee una cifra sepa cuánto fiarse de ella (y Google vea las fuentes). Todo sale de precios.json y de las constantes de arriba.
+assert "como-calculamos" not in C
+pctx = lambda x: dec(x * 100, 1).rstrip("0").rstrip(",")
+def n_pub(c, i): return sum(v[i] is not None for v in c["d"].values())
+tr_m = "".join(f'<tr><td><a href="../{k}/">{esc(c["n"])}</a></td><td style="text-align:left;white-space:normal">{esc(c["mes"])}</td><td>{len(c["d"])}</td><td>{n_pub(c, 0)}</td><td>{n_pub(c, 1)}</td></tr>' for k, c in C.items())
+nd = sum(len(c["d"]) for c in C.values()); nv = sum(n_pub(c, 0) for c in C.values()); na = sum(n_pub(c, 1) for c in C.values())
+MET = [
+    ("Precio por m² de cada distrito", f"Es el precio medio que publica idealista para ese distrito (venta en €/m² y alquiler en €/m² al mes), con el mes de cada ciudad que ves en la tabla. Cuando idealista no publica uno de los dos, lo estimamos a partir del otro y de la media de la ciudad, y lo marcamos con * o «estimado»."),
+    ("Habitación", f"Precio medio de una habitación en piso compartido de cada ciudad. En cada distrito lo ajustamos según lo caro que es allí el alquiler respecto a la media de la ciudad, y redondeamos a 5 €."),
+    ("Ahorros para comprar", f"El {pctx(1 - .8)} % de entrada, el impuesto de compra (ITP de la comunidad si es de segunda mano; 10 % de IVA más AJD si es nueva) y alrededor de un {pctx(NOT)} % más {fmt(TAS)} € de notaría, registro, gestoría y tasación."),
+    ("Hipoteca", f"Préstamo del 80 % del precio a {ANOS} años con un tipo fijo del {pctx(TIN)} % y cuota constante (sistema francés). Tu banco puede ofrecerte otro tipo: en la calculadora de la hipoteca puedes cambiarlo."),
+    ("Sueldo recomendado", f"Para alquilar, que el alquiler no pase del {pctx(ESF)} % de lo que ganas al mes (en habitación, sumando unos {fmt(GHAB)} € de gastos). Para comprar, que la cuota de la hipoteca no pase del {pctx(ESC)} % en las guías; el informe de un piso concreto admite hasta el 33 %. Hablamos siempre de sueldo neto."),
+    ("Piso tipo", f"Para comparar ciudades y distritos usamos un piso de {M2A} m², que suele tener 2 dormitorios; un estudio, 40 m²; y uno de 3 dormitorios, 90 m²."),
+    ("Rentabilidad del alquiler", "Rentabilidad bruta: lo que se cobraría de alquiler en un año dividido entre el precio de compra, sin restar impuestos, comunidad, IBI, seguros ni meses vacíos."),
+    ("Análisis de un piso concreto", "Cuando pegas un anuncio o escribes una dirección, comparamos el precio con la media del distrito según los metros y lo que ofrece el piso, y buscamos en OpenStreetMap el transporte, los comercios, los colegios, los parques y el ruido de la zona. Si OpenStreetMap no responde, el informe lo dice y la nota no cuenta esos datos."),
+]
+mt_html = "".join(f'<h3 style="font-size:16px;margin:14px 0 2px">{esc(t)}</h3><p style="margin:0">{esc(x)}</p>' for t, x in MET)
+cm_html, cm_ld = faq([
+    ("¿De dónde salen los precios de Vivible?", f"De los precios medios por distrito que publica idealista ({mes_txt}) y del precio medio de una habitación en cada ciudad. Los impuestos de compra son el tipo general de cada comunidad autónoma."),
+    ("¿Cada cuánto se actualizan los datos?", f"Revisamos los precios cada mes; la última revisión es del {int(P['actualizado'][8:])} de {MESES[int(P['actualizado'][5:7]) - 1]} de {P['actualizado'][:4]}. El mes de los datos de cada ciudad aparece en su página."),
+    ("¿Es una tasación oficial?", "No. Son estimaciones orientativas con precios medios: sirven para saber si un piso está caro o barato y cuánto dinero necesitas, pero no sustituyen a una tasación ni al consejo de tu banco o tu gestor."),
+    ("¿Qué significa «estimado»?", f"Que idealista no publica ese precio para ese distrito y lo calculamos a partir del otro precio del distrito y de la media de la ciudad. De los {nd} distritos, {nv} tienen precio de venta publicado y {na} de alquiler."),
+])
+body = f"""<h1>Cómo calculamos: de dónde salen los datos de Vivible</h1>
+<p>Todas las cifras de Vivible salen de los mismos datos, en la portada y en cada guía. Aquí tienes de dónde vienen y cómo se calculan, para que sepas cuánto fiarte de cada número.</p>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Mes de los precios de idealista y distritos con precio publicado en cada ciudad (el resto se estima)</caption><tr><th scope="col">Ciudad</th><th scope="col" style="text-align:left">Datos de</th><th scope="col">Distritos</th><th scope="col">Venta</th><th scope="col">Alquiler</th></tr>{tr_m}</table>
+<p class="m">Habitaciones: precio medio de idealista (2.º trimestre de 2026); en Valencia, Sevilla, Alicante, Zaragoza y Murcia, media de idealista, Spotahome y Brains. Impuesto de compra: tipo general de cada comunidad (algunas tienen rebajas para jóvenes o familias). Barrios de Madrid, Barcelona y Valencia: división oficial de cada ayuntamiento.</p></div>
+<div class="card"><h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px">Las fórmulas</h2>{mt_html}</div>
+{cm_html}
+<a class="cta" href="../">Analiza un piso concreto gratis</a>
+<div class="card m"><b>Guías:</b> <a href="../precios/">Comparar las 10 ciudades</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../sueldo/">Qué piso puedo pagar</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a></div>"""
+os.makedirs(F("como-calculamos"), exist_ok=True)
+open(F("como-calculamos", "index.html"), "w", encoding="utf-8").write(page(
+    "Cómo calculamos: fuentes y fórmulas de Vivible",
+    "De dónde salen los precios por distrito, la habitación, los impuestos, la hipoteca y el sueldo recomendado de Vivible, y qué datos son estimados.",
+    "como-calculamos/", body, [("Vivible", "../"), ("Cómo calculamos", None)], cm_ld))
+urls.append(BASE + "como-calculamos/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

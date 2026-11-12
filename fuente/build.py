@@ -338,7 +338,7 @@ for ck, c in C.items():
 <p class="m">Precio medio por m² de cada distrito multiplicado por los metros. Un piso concreto puede costar más o menos según su estado, planta y calle.</p></div>
 {aq_html}
 <a class="cta" href="../../#c={ck}&op=alquiler">¿Has visto un piso de alquiler? Comprueba si su precio es justo</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "alquiler"), exist_ok=True)
     open(F(ck, "alquiler", "index.html"), "w", encoding="utf-8").write(page(
         f"Precio del alquiler en {c['n']} por distritos (2026)",
@@ -377,7 +377,7 @@ for ck, c in C.items():
 <p class="m">Precio medio por m² de cada distrito multiplicado por los metros. Un piso concreto puede costar más o menos según su estado, planta y calle.</p></div>
 {vq_html}
 <a class="cta" href="../../#c={ck}&op=venta">¿Has visto un piso en venta? Comprueba si su precio es justo</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "venta"), exist_ok=True)
     open(F(ck, "venta", "index.html"), "w", encoding="utf-8").write(page(
         f"Precio de la vivienda en {c['n']} por distritos (2026)",
@@ -557,7 +557,7 @@ body = f"""<h1>Precio de la vivienda en 10 ciudades de España ({esc(mes_txt)})<
 <p class="m">Cifras orientativas con precios medios. El detalle por distritos está en la guía de cada ciudad.</p></div>
 {q_html}
 <a class="cta" href="../">Analiza un piso concreto gratis</a>
-<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a></div>
+<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../barrios-baratos/">Barrios más baratos</a></div>
 <div class="card m"><b>Guías por ciudad</b>{guias}</div>"""
 os.makedirs(F("precios"), exist_ok=True)
 open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
@@ -825,13 +825,62 @@ body = f"""<h1>Rentabilidad del alquiler en España por ciudades y distritos (20
 <p class="m">Solo entran los {len(rdis)} distritos con precio de venta y de alquiler publicados ({nest} quedan fuera porque idealista no da uno de los dos). Rentabilidad bruta: no descuenta impuestos ni gastos. Cifras orientativas, no una recomendación de inversión.</p></div>
 {rt_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../precios/">Comparar las 10 ciudades</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · """ + " · ".join(f'<a href="../{k}/comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../precios/">Comparar las 10 ciudades</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · """ + " · ".join(f'<a href="../{k}/comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("rentabilidad"), exist_ok=True)
 open(F("rentabilidad", "index.html"), "w", encoding="utf-8").write(page(
     "Rentabilidad del alquiler por ciudades y distritos (2026)",
     desc_corta(f"Rentabilidad bruta de alquilar un piso en 10 ciudades: del {dec(rb_c(cmx))} % de {cmx['n']} al {dec(rb_c(cmn))} % de {cmn['n']}.", " Y los distritos más y menos rentables."),
     "rentabilidad/", body, [("Vivible", "../"), ("Rentabilidad del alquiler", None)], rt_ld))
 urls.insert(6, BASE + "rentabilidad/")
+
+# ---------- barrios más baratos (barrios-baratos/): «barrios más baratos para alquilar en España», «distrito más barato de <ciudad>»;
+# solo distritos con el precio publicado por idealista (los estimados saldrían de nuestra propia fórmula); piso de M2A m² como en las demás guías
+assert "barrios-baratos" not in C
+NBB = 15
+pub_r = sorted(((r, d, ck, c["n"]) for ck, c in C.items() for d, (s_, r) in c["d"].items() if r is not None), key=lambda x: x[0])
+pub_s = sorted(((s_, d, ck, c["n"]) for ck, c in C.items() for d, (s_, r) in c["d"].items() if s_ is not None), key=lambda x: x[0])
+fila_bb = lambda x, ud, mes: f'<tr><td><a href="../{x[2]}/{slug(x[1])}/">{esc(x[1])}</a> <span class="m">({esc(x[3])})</span></td><td>{dec(x[0]) if mes else fmt(x[0])} €</td><td><b>{fmt(x[0] * M2A)} €{ud}</b></td></tr>'
+tbr = "".join(fila_bb(x, "", True) for x in pub_r[:NBB])
+tbs = "".join(fila_bb(x, "", False) for x in pub_s[:NBB])
+por_c = []
+for ck, c in C.items():
+    rr = [x for x in pub_r if x[2] == ck]; ss = [x for x in pub_s if x[2] == ck]
+    por_c.append((ck, c, rr[0] if rr else None, ss[0] if ss else None))
+celda = lambda x, mes: (f'<a href="../{x[2]}/{slug(x[1])}/">{esc(x[1])}</a><br><span class="m">{fmt(x[0] * M2A)} €{"/mes" if mes else ""}</span>' if x else '<span class="m">Sin dato</span>')
+tbc = "".join(f'<tr><td><a href="../{ck}/">{esc(c["n"])}</a></td><td style="white-space:normal">{celda(r_, True)}</td><td style="white-space:normal">{celda(s_, False)}</td></tr>' for ck, c, r_, s_ in por_c)
+r0, s0 = pub_r[0], pub_s[0]
+bb_html, bb_ld = faq([
+    ("¿Cuál es el barrio más barato para alquilar en una gran ciudad de España?",
+     f"De los {len(pub_r)} distritos con alquiler publicado en estas 10 ciudades, {r0[1]} ({r0[3]}): {dec(r0[0])} € por m² al mes, unos {fmt(r0[0] * M2A)} € por un piso de {M2A} m². "
+     "Le siguen " + ", ".join(f"{x[1]} ({x[3]}, {dec(x[0])} €/m²)" for x in pub_r[1:3]) + "."),
+    ("¿Dónde es más barato comprar un piso en una gran ciudad?",
+     f"En {s0[1]} ({s0[3]}): {fmt(s0[0])} € por m², unos {fmt(s0[0] * M2A)} € por un piso de {M2A} m². "
+     "Le siguen " + ", ".join(f"{x[1]} ({x[3]}, {fmt(x[0])} €/m²)" for x in pub_s[1:3]) + "."),
+    ("¿Cuál es el distrito más barato de cada ciudad para alquilar?",
+     "; ".join(f"{c['n']}: {r_[1]} ({dec(r_[0])} €/m²)" for ck, c, r_, s_ in por_c if r_) + "."),
+    ("¿Por qué hay tanta diferencia de precio entre barrios?",
+     "Influyen la distancia al centro, el transporte, los servicios, la antigüedad de los edificios y la demanda. Un barrio barato puede compensar si tienes buen transporte al trabajo: compruébalo antes de decidir."),
+])
+body = f"""<h1>Los barrios más baratos para alquilar y comprar en España (2026)</h1>
+<p>¿Dónde sale más barato vivir en las grandes ciudades? Ordenamos los distritos de las 10 ciudades de Vivible por precio del alquiler y de la compra, con los precios medios de idealista ({esc(mes_txt)}), para un piso de {M2A} m² (unos 2 dormitorios).</p>
+<div class="g"><div class="k"><small>Más barato para alquilar</small><b>{fmt(r0[0] * M2A)} €/mes</b><small>{esc(r0[1])} ({esc(r0[3])})</small></div>
+<div class="k"><small>Más barato para comprar</small><b>{fmt(s0[0] * M2A)} €</b><small>{esc(s0[1])} ({esc(s0[3])})</small></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Los {NBB} más baratos para alquilar</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Alquiler medio por m² al mes y lo que cuesta al mes un piso de {M2A} m², del más barato hacia arriba</caption><tr><th scope="col">Distrito</th><th scope="col">€/m² al mes</th><th scope="col">{M2A} m² al mes</th></tr>{tbr}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Los {NBB} más baratos para comprar</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² y lo que cuesta un piso de {M2A} m², del más barato hacia arriba</caption><tr><th scope="col">Distrito</th><th scope="col">€/m²</th><th scope="col">Piso de {M2A} m²</th></tr>{tbs}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">El más barato de cada ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Distrito con el alquiler y con el precio de compra más bajos de cada ciudad, para un piso de {M2A} m²</caption><tr><th scope="col">Ciudad</th><th scope="col">Para alquilar</th><th scope="col">Para comprar</th></tr>{tbc}</table>
+<p class="m">Solo entran los distritos con precio publicado por idealista ({len(pub_r)} con alquiler y {len(pub_s)} con venta). Un piso concreto puede costar más o menos según su estado, planta y calle.</p></div>
+{bb_html}
+<a class="cta" href="../">¿Has visto un piso en un barrio barato? Comprueba su precio, transporte y ruido</a>
+<div class="card m"><b>Más guías:</b> <a href="../precios/">Comparar las 10 ciudades</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a> · <a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("barrios-baratos"), exist_ok=True)
+open(F("barrios-baratos", "index.html"), "w", encoding="utf-8").write(page(
+    "Barrios más baratos para alquilar y comprar en España (2026)",
+    desc_corta(f"Los distritos más baratos de 10 ciudades: alquilar desde {fmt(r0[0] * M2A)} €/mes en {r0[1]} ({r0[3]}) y comprar desde {fmt(s0[0] * M2A)} € en {s0[1]} ({s0[3]}).", " Y el más barato de cada ciudad."),
+    "barrios-baratos/", body, [("Vivible", "../"), ("Barrios más baratos", None)], bb_ld))
+urls.insert(7, BASE + "barrios-baratos/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

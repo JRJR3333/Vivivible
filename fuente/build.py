@@ -211,7 +211,7 @@ for ck, c in C.items():
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
@@ -360,7 +360,7 @@ for ck, c in C.items():
 <div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² por distritos, del más barato al más caro: alquiler al mes y sueldo neto recomendado (alquiler ≤ 33 %)</caption><tr><th scope="col">Distrito</th><th scope="col">Alquiler</th><th scope="col">Sueldo neto</th></tr>{tr}</table>{nota}</div>
 {sq_html}
 <a class="cta" href="../../#c={ck}&op=alquiler">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../alquilar-con-presupuesto/">Qué alquilar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "sueldo-para-alquilar"), exist_ok=True)
     open(F(ck, "sueldo-para-alquilar", "index.html"), "w", encoding="utf-8").write(page(
         f"Cuánto hay que ganar para alquilar en {c['n']} (2026)",
@@ -398,13 +398,64 @@ for ck, c in C.items():
 <p class="m">Precio medio por m² de cada distrito multiplicado por los metros. Un piso concreto puede costar más o menos según su estado, planta y calle.</p></div>
 {aq_html}
 <a class="cta" href="../../#c={ck}&op=alquiler">¿Has visto un piso de alquiler? Comprueba si su precio es justo</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a> · <a href="../../barrios-caros/">Barrios más caros</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../alquilar-con-presupuesto/">Qué alquilar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a> · <a href="../../barrios-caros/">Barrios más caros</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "alquiler"), exist_ok=True)
     open(F(ck, "alquiler", "index.html"), "w", encoding="utf-8").write(page(
         f"Precio del alquiler en {c['n']} por distritos (2026)",
         desc_corta(f"Alquiler en {c['n']}: {dec(r)} €/m² al mes. Estudio ≈ {fmt(r * 40)} €, 2 dormitorios ≈ {fmt(r * M2A)} € y 3 ≈ {fmt(r * 90)} €.", " Por distritos, del más barato al más caro."),
         f"{ck}/alquiler/", body, [("Vivible", "../../"), (c["n"], "../"), ("Alquiler", None)], aq_ld))
     urls.append(BASE + f"{ck}/alquiler/")
+
+# ---------- alquilar con tu presupuesto (<ciudad>/alquilar-con-presupuesto/): «qué puedo alquilar en <ciudad> con 1.000 euros»,
+# «cuántos metros puedo alquilar con 800 €»: metros que da cada presupuesto con el €/m² de cada distrito (las mismas cifras que alquiler/)
+PRES, M2D = [600, 800, 1000, 1200, 1500], 60  # presupuestos al mes y metros mínimos que se cuentan como «piso de 2 dormitorios»
+for ck, c in C.items():
+    assert "alquilar-con-presupuesto" not in [slug(d) for d in c["d"]]
+    rows = sorted(((d, dprice(c, d)[1], dprice(c, d)[3]) for d in c["d"]), key=lambda x: x[1])
+    r, hab = c["alquiler"], c["hab"]
+    bar, car = rows[0], rows[-1]
+    tr = "".join(f'<tr><td><a href="../{slug(d)}/">{esc(d)}</a>{"*" if e else ""}</td>' + "".join(f"<td>{round(p / x)}</td>" for p in PRES) + "</tr>" for d, x, e in rows)
+    nota = '<p class="m">* Alquiler estimado a partir del precio de venta del distrito: idealista no publica ese dato.</p>' if any(e for *_, e in rows) else ""
+    def caben(p): return [d for d, x, _ in rows if p / x >= M2D]
+    def resp(p):
+        ds = caben(p)
+        t = (f"Con {fmt(p)} € al mes, en {c['n']} da de media para unos {round(p / r)} m²: desde unos {round(p / car[1])} m² en {car[0]} hasta unos {round(p / bar[1])} m² en {bar[0]}. ")
+        if len(ds) == len(rows): t += f"Para un piso de 2 dormitorios (unos {M2D} m²) llega en todos los distritos."
+        elif ds: t += f"Para un piso de 2 dormitorios (unos {M2D} m²) llega en {len(ds)} de los {len(rows)} distritos: {y_lista(ds) if len(ds) <= 6 else ('; ' if coma(ds[:6]) else ', ').join(ds[:6]) + f' y {len(ds) - 6} más'}."
+        else: t += f"No llega para un piso de 2 dormitorios (unos {M2D} m²) en ningún distrito" + (f"; una habitación (unos {fmt(hab)} €) sí." if hab <= p else ".")
+        return t + f" Para pagarlo sin apuros conviene ganar unos {fmt(p / ESF)} € netos."
+    pq_html, pq_ld = faq([(f"¿Qué piso puedo alquilar en {c['n']} con {fmt(p)} €?", resp(p)) for p in PRES[1:4]] + [
+        (f"¿Cuánto hace falta para alquilar un piso de 2 dormitorios en {c['n']}?",
+         f"Un piso de {M2D} m² cuesta unos {fmt(bar[1] * M2D)} € al mes en {bar[0]}, el distrito más barato, y unos {fmt(car[1] * M2D)} € en {car[0]}, el más caro. "
+         f"Si no llegas, una habitación en piso compartido cuesta de media unos {fmt(hab)} € al mes."),
+    ])
+    D = json.dumps([[d, round(x, 2), slug(d)] for d, x, _ in rows], ensure_ascii=False).replace("</", "<\\/")
+    p0 = 1000
+    body = f"""<h1>¿Qué piso puedo alquilar en {esc(c["n"])} con mi presupuesto? (2026)</h1>
+<p>Con el alquiler medio de cada distrito ({dec(r)} €/m² al mes en toda la ciudad, {esc(c["mes"])}), esto es lo que da tu dinero en {esc(c["n"])}: cuántos metros cuadrados puedes alquilar en cada distrito con 600, 800, 1.000, 1.200 o 1.500 € al mes. Escribe tu presupuesto para verlo con tu cifra.</p>
+<div class="card"><form id="pres" onsubmit="return false"><label class="m"><b>Tu presupuesto al mes (€)</b><input id="pv" type="number" inputmode="numeric" min="100" step="50" value="{p0}"></label></form>
+<p id="pr" aria-live="polite" style="margin:10px 0 0">{esc(resp(p0))}</p></div>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Metros cuadrados que puedes alquilar en cada distrito de {esc(c["n"])} según lo que pagues al mes, del distrito más barato al más caro</caption><tr><th scope="col">Distrito</th>""" + "".join(f'<th scope="col">{fmt(p)} €</th>' for p in PRES) + f"""</tr>{tr}</table>{nota}
+<p class="m">Metros = presupuesto ÷ alquiler medio por m² del distrito. Un piso de 2 dormitorios suele tener {M2D}–70 m²; un estudio, unos 40. Un piso concreto puede costar más o menos según su estado, planta y calle.</p></div>
+<div class="g" style="margin-top:16px"><div class="k"><small>Habitación en {esc(c["n"])}</small><b>≈ {fmt(hab)} €/mes</b><small><a href="../habitacion/">Por distritos</a></small></div>
+<div class="k"><small>Piso de {M2D} m² más barato</small><b>≈ {fmt(bar[1] * M2D)} €/mes</b><small>En {esc(bar[0])}</small></div></div>
+{pq_html}
+<a class="cta" href="../../#c={ck}&op=alquiler">¿Has visto un piso de alquiler? Comprueba si su precio es justo</a>
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../">Precios por distritos</a> · <a href="../../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a></div>
+<style>#pres input{{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}#pres label{{display:block}}</style>
+<script>(function(){{var D={D},R={r},H={hab},M={M2D},E={ESF},N="{c['n']}",i=document.getElementById("pv"),o=document.getElementById("pr"),f=function(n){{return String(Math.round(n)).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}};
+function y(a){{return a.length<2?a.join(""):a.slice(0,-1).join(a.some(function(s){{return s.indexOf(",")>=0}})?"; ":", ")+" y "+a[a.length-1]}}
+function c(){{var p=+i.value;if(!(p>=100&&p<=100000)){{o.textContent="Escribe una cantidad al mes, por ejemplo 900.";return}}var b=D[0],z=D[D.length-1],ds=D.filter(function(x){{return p/x[1]>=M}}).map(function(x){{return x[0]}});
+var t="Con "+f(p)+" € al mes, en "+N+" da de media para unos "+f(p/R)+" m²: desde unos "+f(p/z[1])+" m² en "+z[0]+" hasta unos "+f(p/b[1])+" m² en "+b[0]+". ";
+t+=ds.length==D.length?"Para un piso de 2 dormitorios (unos "+M+" m²) llega en todos los distritos.":ds.length?"Para un piso de 2 dormitorios (unos "+M+" m²) llega en "+ds.length+" de los "+D.length+" distritos: "+(ds.length>6?ds.slice(0,6).join(ds.slice(0,6).some(function(s){{return s.indexOf(",")>=0}})?"; ":", ")+" y "+(ds.length-6)+" más":y(ds))+".":"No llega para un piso de 2 dormitorios (unos "+M+" m²) en ningún distrito"+(H<=p?"; una habitación (unos "+f(H)+" €) sí.":".");
+o.textContent=t+" Para pagarlo sin apuros conviene ganar unos "+f(p/E)+" € netos."}}
+i.addEventListener("input",c);c()}})()</script>"""
+    os.makedirs(F(ck, "alquilar-con-presupuesto"), exist_ok=True)
+    open(F(ck, "alquilar-con-presupuesto", "index.html"), "w", encoding="utf-8").write(page(
+        f"¿Qué piso puedo alquilar en {c['n']} con mi presupuesto? (2026)",
+        desc_corta(f"Con 1.000 € al mes en {c['n']}: unos {round(1000 / r)} m² de media, hasta {round(1000 / bar[1])} m² en {bar[0]}. Metros por distrito con 600 a 1.500 €.", " Calculadora."),
+        f"{ck}/alquilar-con-presupuesto/", body, [("Vivible", "../../"), (c["n"], "../"), ("Alquilar con tu presupuesto", None)], pq_ld))
+    urls.append(BASE + f"{ck}/alquilar-con-presupuesto/")
 
 # ---------- precio de venta por ciudad (<ciudad>/venta/): «precio vivienda <ciudad> por distritos», «cuánto cuesta un piso en <ciudad>»;
 # precio de un estudio (40 m²), un piso de 2 dormitorios (70 m²) y uno de 3 (90 m²) con el €/m² de venta de cada distrito; gastos con gastos()

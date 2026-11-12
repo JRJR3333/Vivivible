@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -147,6 +147,7 @@ def tit_distrito(d, cn):
     t = f"{d}, {cn}: precio por m² y alquiler 2026 | Vivible"
     if len(t) > 65: t = t.replace(" | Vivible", "")
     if len(t) > 65: t = t.replace(" y alquiler", "")
+    if len(t) > 65: t = t.replace(" 2026", "")
     return t
 
 
@@ -213,7 +214,7 @@ for ck, c in C.items():
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
-<div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a></div>
+<div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
 <div class="card m"><b>¿Dudas entre {esc(c["n"])} y otra ciudad?</b> {" · ".join(f'<a href="../comparar/{par(ck, k2)}/">{esc(c["n"])} o {esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)}</div>"""
     if ck in BAR:  # «en qué distrito está <barrio>»: muchos anuncios dicen el barrio y no el distrito
@@ -221,7 +222,7 @@ for ck, c in C.items():
         body = body.replace("\n" + fq_html, "\n" + f'<div class="card"><h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px">Barrios de {esc(c["n"])} por distrito</h2><p class="m" style="margin:0 0 6px">Los anuncios suelen decir el barrio: búscalo aquí para saber en qué distrito está, o usa el <a href="../barrios/">buscador de barrios</a>.</p><table>'
             + "".join(f'<tr><td><a href="{slug(d)}/">{esc(d)}</a></td><td style="text-align:left">{esc(("; " if coma(BB[d]) else ", ").join(BB[d]))}</td></tr>' for d, *_ in rows) + "</table></div>\n" + fq_html, 1)
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
-        f"Vivir en {c['n']}: precio de la vivienda por distritos (2026) | Vivible",
+        (lambda t: t if len(t) <= 65 else t.replace(" | Vivible", ""))(f"Vivir en {c['n']}: precio de la vivienda por distritos (2026) | Vivible"),
         f"Precio medio de compra, alquiler y habitación en los {n} distritos de {c['n']}. Compara barrios y analiza un piso gratis.",
         f"{ck}/", body, [("Vivible", "../"), (c["n"], None)], fq_ld))
     urls.append(BASE + ck + "/")
@@ -270,7 +271,7 @@ for ck, c in C.items():
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
-<div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a></div>
+<div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
         open(F(ck, sd, "index.html"), "w", encoding="utf-8").write(page(
             tit_distrito(d, c['n']),
@@ -879,7 +880,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -1225,6 +1226,94 @@ open(F("barrios", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Busca entre los {nbt} barrios de {ciu_b}: en qué distrito está cada uno y cuánto cuesta alquilar y comprar allí.", " Gratis."),
     "barrios/", body, [("Vivible", "../"), ("Barrios", None)], br_ld))
 urls.insert(9, BASE + "barrios/")
+
+# ---------- qué mirar al visitar un piso (visitar-un-piso/): «qué mirar al ver un piso», «qué revisar al visitar un piso de alquiler»,
+# «preguntas al visitar un piso»; lista para marcar en el móvil durante la visita (sin cifras: solo consejos y papeles que pide la ley)
+assert "visitar-un-piso" not in C
+VIS = [
+    ("El edificio y el portal", [
+        "¿Tiene ascensor? Si no, ¿te importa subir esa altura con la compra o una maleta?",
+        "Estado de la fachada, la escalera y el portal: grietas, humedades, limpieza.",
+        "Pregunta si hay obras o derramas aprobadas en la comunidad (arreglo de fachada, ascensor, tejado).",
+        "¿Hay portero, trastero o plaza de garaje? ¿Entran en el precio?",
+    ]),
+    ("Luz, ruido y temperatura", [
+        "¿Es exterior o interior? Mira a qué da cada ventana y cuántas horas de sol entran.",
+        "Cierra las ventanas y escucha: tráfico, bares, vecinos, ascensor o tuberías.",
+        "Ventanas: doble cristal y que cierren bien. Influye mucho en el ruido y en la factura.",
+        "Calefacción y aire acondicionado: de qué tipo son y si funcionan. Pide la etiqueta energética.",
+    ]),
+    ("Humedades e instalaciones", [
+        "Busca manchas, moho o pintura reciente en techos, esquinas, detrás de muebles y en el baño.",
+        "Abre los grifos y la ducha: presión del agua y cuánto tarda en salir caliente.",
+        "Cuadro eléctrico y enchufes: que no sean muy antiguos y que haya en cada habitación.",
+        "Cobertura del móvil y si llega fibra al edificio.",
+    ]),
+    ("Cocina, baño y dormitorios", [
+        "Electrodomésticos: cuáles se quedan, su estado y si funcionan (enciende la placa y el horno).",
+        "Baño: ventilación (ventana o extractor), sanitarios y juntas sin moho.",
+        "Mide o calcula si caben tus muebles: cama, sofá, mesa de trabajo.",
+        "Armarios y sitio para guardar cosas.",
+    ]),
+    ("El barrio", [
+        "Ve a otra hora del día (y de noche) para ver el ambiente y el ruido de la calle.",
+        "Cuánto tardas al trabajo o a clase en transporte público, y a qué hora pasa el último.",
+        "Supermercado, farmacia, centro de salud y colegio cerca.",
+        "Aparcamiento en la calle si tienes coche.",
+    ]),
+    ("Si vas a alquilar", [
+        "Pregunta qué gastos pagas tú además del alquiler: comunidad, agua, luz, gas, internet, basuras.",
+        "Fianza: un mes por ley. Garantía adicional: como mucho dos meses más.",
+        "Los honorarios de la inmobiliaria los paga el propietario, no tú (Ley 12/2023).",
+        "Pide el contrato antes de firmar: duración, subidas del precio y quién arregla qué.",
+        "Haz fotos con fecha de cómo está todo al entrar: te servirán para recuperar la fianza.",
+    ]),
+    ("Si vas a comprar", [
+        "Pide la nota simple del Registro de la Propiedad: quién es el dueño y si tiene hipotecas o embargos.",
+        "Pide el certificado de estar al día con la comunidad y el último recibo del IBI.",
+        "Pregunta por la inspección técnica del edificio (ITE o IEE) si el edificio es antiguo.",
+        "Pide el certificado de eficiencia energética: es obligatorio para vender.",
+        "Comprueba que los metros del anuncio coinciden con los de la nota simple o el catastro.",
+    ]),
+]
+nvis = sum(len(xs) for _, xs in VIS)
+vi_html, vi_ld = faq([
+    ("¿Qué hay que mirar al visitar un piso?",
+     "Lo más importante es lo que luego cuesta arreglar o no se puede cambiar: humedades, ruido, luz natural, el estado del edificio (y si hay derramas), las ventanas, la calefacción y el transporte hasta tu trabajo. Ve a otra hora del día para ver el barrio."),
+    ("¿Qué preguntar al visitar un piso de alquiler?",
+     "Qué gastos pagas tú además del alquiler, cuánto piden de fianza y garantía, cuánto dura el contrato y cómo sube el precio, qué muebles y electrodomésticos se quedan y quién paga las averías."),
+    ("¿Qué papeles hay que pedir al comprar un piso?",
+     "La nota simple del Registro (dueño y cargas como hipotecas o embargos), el certificado de deudas con la comunidad, el último recibo del IBI, el certificado de eficiencia energética y, si el edificio es antiguo, la inspección técnica del edificio."),
+    ("¿Cómo saber si un piso tiene humedades?",
+     "Mira techos, esquinas, detrás de los muebles, el baño y los marcos de las ventanas. Las manchas oscuras, el moho, el olor a cerrado o la pintura muy reciente en un solo trozo de pared son señales de aviso."),
+    ("¿Cómo saber si el precio del piso es justo?",
+     "Compáralo con lo que cuesta el m² en su distrito. En Vivible puedes pegar el anuncio y te dice si el precio está por encima o por debajo de su zona, y cómo es el transporte, el ruido y los servicios cerca."),
+])
+lis = "".join(f'<div class="card"><h2 class="vh">{esc(t)}</h2>' + "".join(
+    f'<label class="vc"><input type="checkbox" data-k="{i}-{j}"><span>{esc(x)}</span></label>' for j, x in enumerate(xs)) + "</div>" for i, (t, xs) in enumerate(VIS))
+body = f"""<h1>Qué mirar al visitar un piso: lista para comprobar</h1>
+<p>Una visita dura poco y con los nervios se olvidan cosas. Abre esta lista en el móvil y ve marcando lo que revisas: {nvis} puntos para un piso en alquiler o en venta, también si buscas habitación. Lo que marques se queda guardado en este móvil.</p>
+<div class="card" id="vp" aria-live="polite"><b id="vn">0 de {nvis} revisados</b><div class="vb"><i id="vi"></i></div>
+<button type="button" id="vr" class="vbt">Empezar otra visita</button></div>
+{lis}
+<style>.vh{{font:700 19px/1.2 Fraunces,Georgia,serif;margin:0 0 6px}}.vc{{display:flex;gap:10px;align-items:flex-start;padding:9px 0;min-height:44px;box-sizing:border-box;border-top:1px solid #f1ede6;cursor:pointer}}.vc input{{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#1f6f54}}.vc input:checked+span{{color:#5f6b66;text-decoration:line-through}}
+.vb{{height:8px;background:#efebe4;border-radius:99px;margin:8px 0 10px;overflow:hidden}}.vb i{{display:block;height:100%;width:0;background:#1f6f54}}.vbt{{font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer}}
+#vp{{position:sticky;top:0;z-index:1}}</style>
+<script>(function(){{var K="vivible.visita",cs=[].slice.call(document.querySelectorAll(".vc input")),s={{}};
+try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
+function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" revisados";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
+function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
+cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
+document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
+{vi_html}
+<a class="cta" href="../">¿Te ha gustado el piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("visitar-un-piso"), exist_ok=True)
+open(F("visitar-un-piso", "index.html"), "w", encoding="utf-8").write(page(
+    "Qué mirar al visitar un piso: lista para alquilar o comprar",
+    desc_corta(f"Lista de {nvis} puntos para revisar en la visita: humedades, ruido, luz, edificio, gastos y papeles. Márcala en el móvil mientras ves el piso.", " Gratis."),
+    "visitar-un-piso/", body, [("Vivible", "../"), ("Visitar un piso", None)], vi_ld))
+urls.insert(10, BASE + "visitar-un-piso/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

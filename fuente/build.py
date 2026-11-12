@@ -53,7 +53,28 @@ BARRIOS_BCN = {
     "Sant Martí": ["El Camp de l'Arpa del Clot", "El Clot", "El Parc i la Llacuna del Poblenou", "La Vila Olímpica del Poblenou", "El Poblenou", "Diagonal Mar i el Front Marítim del Poblenou", "El Besòs i el Maresme", "Provençals del Poblenou", "Sant Martí de Provençals", "La Verneda i la Pau"],
 }
 assert sum(map(len, BARRIOS_BCN.values())) == 73 and set(BARRIOS_BCN) == set(C["barcelona"]["d"]), "barrios de Barcelona: faltan o sobran"
-BAR = {"madrid": BARRIOS, "barcelona": BARRIOS_BCN}  # ciudades con barrios oficiales en la web
+# barrios oficiales de València (Ajuntament, 87 en 19 distritos) de los 16 distritos urbanos que hay en precios.json;
+# los «Pobles del Nord / de l'Oest / del Sud» (17 barrios) no tienen página porque idealista no publica su precio
+BARRIOS_VLC = {
+    "Ciutat Vella": ["La Seu", "La Xerea", "El Carme", "El Pilar", "El Mercat", "Sant Francesc"],
+    "L'Eixample": ["Russafa", "El Pla del Remei", "Gran Via"],
+    "Extramurs": ["El Botànic", "La Roqueta", "La Petxina", "Arrancapins"],
+    "Campanar": ["Campanar", "Les Tendetes", "El Calvari", "Sant Pau"],
+    "La Saïdia": ["Marxalenes", "Morvedre", "Trinitat", "Tormos", "Sant Antoni"],
+    "El Pla del Real": ["Exposició", "Mestalla", "Jaume Roig", "Ciutat Universitària"],
+    "L'Olivereta": ["Nou Moles", "Soternes", "Tres Forques", "La Fontsanta", "La Llum"],
+    "Patraix": ["Patraix", "Sant Isidre", "Vara de Quart", "Safranar", "Favara"],
+    "Jesús": ["La Raiosa", "L'Hort de Senabre", "La Creu Coberta", "Sant Marcel·lí", "Camí Reial"],
+    "Quatre Carreres": ["Montolivet", "En Corts", "Malilla", "La Font de Sant Lluís", "Na Rovella", "La Punta", "Ciutat de les Arts i de les Ciències"],
+    "Poblats Marítims": ["El Grau", "El Cabanyal-El Canyamelar", "La Malva-rosa", "Beteró", "Natzaret"],
+    "Camins al Grau": ["Aiora", "Albors", "La Creu del Grau", "Camí Fondo", "Penya-roja"],
+    "Algirós": ["L'Illa Perduda", "Ciutat Jardí", "L'Amistat", "La Bega Baixa", "La Carrasca"],
+    "Benimaclet": ["Benimaclet", "Camí de Vera"],
+    "Rascanya": ["Orriols", "Torrefiel", "Sant Llorenç"],
+    "Benicalap": ["Benicalap", "Ciutat Fallera"],
+}
+assert sum(map(len, BARRIOS_VLC.values())) == 70 and set(BARRIOS_VLC) == set(C["valencia"]["d"]), "barrios de València: faltan o sobran"
+BAR = {"madrid": BARRIOS, "barcelona": BARRIOS_BCN, "valencia": BARRIOS_VLC}  # ciudades con barrios oficiales en la web
 # comparar dos ciudades (comparar/<a>-o-<b>/): el orden de los nombres es el de precios.json, así hay una sola página por pareja
 def par(a, b):
     ks = list(C); a, b = sorted((a, b), key=ks.index); return f"{a}-o-{b}"

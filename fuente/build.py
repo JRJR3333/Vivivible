@@ -260,7 +260,7 @@ for ck, c in C.items():
 <p class="m">«Notaría y más»: notaría, registro y gestoría (≈ 1,5 % del precio) y tasación (≈ {TAS} €). Tipos generales; puede haber rebajas según tu edad o tu familia.</p></div>
 {gq_html}
 <a class="cta" href="../../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
-<div class="card m"><b>Precios en {esc(c["n"])}:</b> <a href="../">Por distritos</a> · <a href="../venta/">Precio por tamaño</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Precios en {esc(c["n"])}:</b> <a href="../">Por distritos</a> · <a href="../venta/">Precio por tamaño</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "gastos-de-compra"), exist_ok=True)
     open(F(ck, "gastos-de-compra", "index.html"), "w", encoding="utf-8").write(page(
         f"Gastos de comprar un piso en {c['n']} (2026): ITP e impuestos",
@@ -300,7 +300,7 @@ for ck, c in C.items():
 <div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² por distritos, del más barato al más caro: alquiler al mes y sueldo neto recomendado (alquiler ≤ 33 %)</caption><tr><th scope="col">Distrito</th><th scope="col">Alquiler</th><th scope="col">Sueldo neto</th></tr>{tr}</table>{nota}</div>
 {sq_html}
 <a class="cta" href="../../#c={ck}&op=alquiler">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "sueldo-para-alquilar"), exist_ok=True)
     open(F(ck, "sueldo-para-alquilar", "index.html"), "w", encoding="utf-8").write(page(
         f"Cuánto hay que ganar para alquilar en {c['n']} (2026)",
@@ -468,7 +468,7 @@ for ck, c in C.items():
 <p class="m">La hipoteca no incluye seguros, IBI ni comunidad; el alquiler, tampoco gastos. Cifras orientativas, no una recomendación de inversión.</p></div>
 {oq_html}
 <a class="cta" href="../../#c={ck}">¿Has visto un piso? Analízalo gratis</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a></div>"""
     os.makedirs(F(ck, "comprar-o-alquilar"), exist_ok=True)
     open(F(ck, "comprar-o-alquilar", "index.html"), "w", encoding="utf-8").write(page(
         f"¿Comprar o alquilar en {c['n']}? Hipoteca vs alquiler 2026",
@@ -513,7 +513,7 @@ for ck, c in C.items():
 <p class="m">Cuota sin seguros. Si ya pagas otros préstamos, el banco los suma a la cuota. Cifras orientativas.</p></div>
 {pq_html}
 <a class="cta" href="../../#c={ck}&op=venta">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../venta/">Precio de compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "sueldo-para-comprar"), exist_ok=True)
     open(F(ck, "sueldo-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
         f"Cuánto hay que ganar para comprar un piso en {c['n']} (2026)",
@@ -557,7 +557,7 @@ body = f"""<h1>Precio de la vivienda en 10 ciudades de España ({esc(mes_txt)})<
 <p class="m">Cifras orientativas con precios medios. El detalle por distritos está en la guía de cada ciudad.</p></div>
 {q_html}
 <a class="cta" href="../">Analiza un piso concreto gratis</a>
-<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a></div>
+<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a></div>
 <div class="card m"><b>Guías por ciudad</b>{guias}</div>"""
 os.makedirs(F("precios"), exist_ok=True)
 open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
@@ -605,13 +605,74 @@ body = f"""<h1>¿Qué piso puedo pagar con mi sueldo? ({esc(mes_txt)})</h1>
 <p class="m">Cifras orientativas con precios medios; dentro de cada ciudad hay distritos mucho más baratos y más caros. El detalle está en la guía de cada ciudad.</p></div>
 {sq_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más guías:</b> <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/">{esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/">{esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("sueldo"), exist_ok=True)
 open(F("sueldo", "index.html"), "w", encoding="utf-8").write(page(
     "¿Qué piso puedo pagar con mi sueldo? Alquiler e hipoteca (2026)",
     desc_corta(f"Con 1.500 € netos, alquiler de hasta {fmt(1500 * ESF)} €; con 2.000 €, piso de hasta {fmt(round(precio_max(2000), -3))} €. Metros que te llegan en 10 ciudades.", " Alquiler e hipoteca."),
     "sueldo/", body, [("Vivible", "../"), ("Qué piso puedo pagar", None)], sq_ld))
 urls.insert(2, BASE + "sueldo/")
+
+# ---------- cuota de la hipoteca (hipoteca/): «cuota hipoteca 150.000 euros», «cuánto se paga al mes por una hipoteca de 200.000»;
+# préstamo francés al TIN y ANOS de las guías (2,8 %, 30 años); los otros tipos y plazos son ejemplos de cálculo, no ofertas de bancos
+def cuota_p(prestamo, tin=TIN, anos=ANOS):
+    i = tin / 12; return prestamo * i / (1 - (1 + i) ** -(anos * 12))
+PRESTAMOS = [100000, 120000, 150000, 180000, 200000, 250000, 300000, 350000, 400000]
+PLAZOS = [20, 25, 30]
+TIPOS = [.02, .025, .028, .03, .035, .04]
+pc = lambda t: dec(t * 100, 1 if round(t * 1000) % 10 else 0)
+th1 = '<tr><th scope="col">Hipoteca</th>' + "".join(f'<th scope="col">{a} años</th>' for a in PLAZOS) + "</tr>"
+tr1 = "".join(f"<tr><td>{fmt(h)} €</td>" + "".join(f"<td>{fmt(cuota_p(h, anos=a))} €</td>" for a in PLAZOS) + "</tr>" for h in PRESTAMOS)
+tr2 = "".join(f"<tr><td>{fmt(h)} €</td><td>{fmt(cuota_p(h) * ANOS * 12 - h)} €</td><td><b>{fmt(cuota_p(h) / ESC)} €</b></td></tr>" for h in PRESTAMOS)
+tr3 = "".join(f"<tr><td>{pc(t)} %</td><td>{fmt(cuota_p(100000, t, 25))} €</td><td>{fmt(cuota_p(100000, t, 30))} €</td></tr>" for t in TIPOS)
+rc = sorted(C.items(), key=lambda kc: kc[1]["venta"])
+tr4 = "".join(f'<tr><td><a href="../{k}/sueldo-para-comprar/">{esc(c["n"])}</a></td><td>{fmt(c["venta"] * M2A)} €</td><td>{fmt(cuota(c["venta"] * M2A))} €</td></tr>' for k, c in rc)
+h150, h200 = cuota_p(150000), cuota_p(200000)
+i25, i30 = cuota_p(200000, anos=25) * 300 - 200000, cuota_p(200000) * 360 - 200000
+hq_html, hq_ld = faq([
+    ("¿Cuánto se paga al mes por una hipoteca de 150.000 €?",
+     f"A {ANOS} años al 2,8 %, unos {fmt(h150)} € al mes. A 25 años, unos {fmt(cuota_p(150000, anos=25))} €, y a 20 años, unos {fmt(cuota_p(150000, anos=20))} €. La cuota no incluye los seguros que suele pedir el banco."),
+    ("¿Cuánto se paga al mes por una hipoteca de 200.000 €?",
+     f"A {ANOS} años al 2,8 %, unos {fmt(h200)} € al mes; a 25 años, unos {fmt(cuota_p(200000, anos=25))} €. Si el tipo fuera del 3,5 %, la cuota a {ANOS} años subiría a unos {fmt(cuota_p(200000, .035))} €."),
+    ("¿Cuánto hay que ganar para una hipoteca de 200.000 €?",
+     f"Si la cuota no debe pasar del 30 % de lo que ganas, unos {fmt(h200 / ESC)} € netos al mes con una hipoteca a {ANOS} años al 2,8 % (unos {fmt(h200 / ESC2)} € si el banco acepta el 35 %). Entre dos, la mitad cada uno."),
+    ("¿Es mejor la hipoteca a 25 o a 30 años?",
+     f"A {ANOS} años la cuota es más baja, pero pagas más intereses. Con 200.000 € al 2,8 %: a 25 años pagas unos {fmt(cuota_p(200000, anos=25))} € al mes y {fmt(i25)} € de intereses en total; a 30 años, unos {fmt(h200)} € al mes y {fmt(i30)} € de intereses."),
+    ("¿Qué no incluye la cuota de la hipoteca?",
+     "Los seguros (el de hogar es obligatorio y el banco suele ofrecer el de vida), el IBI y la comunidad. Además, al comprar hay que pagar la entrada (normalmente el 20 %), el impuesto de compra y los gastos de notaría, registro y gestoría."),
+])
+body = f"""<h1>Cuota de la hipoteca: cuánto pagarás al mes (2026)</h1>
+<p>Lo que pagas cada mes depende de cuánto te prestan, a cuántos años y a qué tipo de interés. Aquí tienes la cuota de las hipotecas más comunes, los intereses que pagarás en total y lo que tendrías que ganar. Los cálculos usan un tipo fijo del 2,8 %, el mismo que el resto de guías de Vivible; abajo puedes poner el tuyo.</p>
+<div class="g"><div class="k"><small>Hipoteca de 150.000 € a {ANOS} años</small><b>≈ {fmt(h150)} €/mes</b><small>Al 2,8 %</small></div>
+<div class="k"><small>Hipoteca de 200.000 € a {ANOS} años</small><b>≈ {fmt(h200)} €/mes</b><small>Ganar ≈ {fmt(h200 / ESC)} € netos</small></div></div>
+<div class="card"><form id="calc" onsubmit="return false"><b>Calcula tu cuota</b>
+<div class="g" style="margin-top:10px"><label class="m">Lo que te prestan (€)<input id="hq" type="number" inputmode="numeric" min="1000" step="1000" value="150000"></label>
+<label class="m">Años<input id="ha" type="number" inputmode="numeric" min="1" max="40" value="{ANOS}"></label>
+<label class="m">Tipo de interés (%)<input id="ht" type="number" inputmode="decimal" min="0" max="15" step="0.05" value="2.8"></label>
+<div class="k" aria-live="polite"><small>Cuota al mes</small><b id="hr">≈ {fmt(h150)} €</b><small id="hs">Ganar ≈ {fmt(h150 / ESC)} € netos</small></div></div></form></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cuota al mes según el plazo</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Cuota mensual de una hipoteca a tipo fijo del 2,8 % según lo que te prestan y los años (sin seguros)</caption>{th1}{tr1}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Intereses en total y sueldo necesario</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Hipoteca a {ANOS} años al 2,8 %: intereses que pagas en total y sueldo neto al mes para que la cuota no pase del 30 %</caption><tr><th scope="col">Hipoteca</th><th scope="col">Intereses</th><th scope="col">Sueldo neto</th></tr>{tr2}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Si tu tipo de interés es otro</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Cuota al mes por cada 100.000 € prestados según el tipo de interés (ejemplos de cálculo, no ofertas de bancos)</caption><tr><th scope="col">Tipo</th><th scope="col">25 años</th><th scope="col">30 años</th></tr>{tr3}</table>
+<p class="m">Para otra cantidad, multiplica: una hipoteca de 250.000 € paga 2,5 veces la cuota de 100.000 €.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">La hipoteca del piso medio en cada ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² al precio medio de cada ciudad ({esc(mes_txt)}) y su cuota con una hipoteca del 80 % a {ANOS} años al 2,8 %</caption><tr><th scope="col">Ciudad</th><th scope="col">Piso</th><th scope="col">Cuota</th></tr>{tr4}</table>
+<p class="m">El banco suele prestar hasta el 80 % del precio: el 20 % restante, el impuesto y los gastos los pones tú. Lo tienes por distritos en la guía de cada ciudad.</p></div>
+{hq_html}
+<a class="cta" href="../">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
+<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Gastos de comprar en {esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
+<style>#calc input{{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}#calc label{{display:block}}</style>
+<script>(function(){{var f=function(n){{return String(Math.round(n)).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}};function c(){{var tv=document.getElementById("ht").value,q=+document.getElementById("hq").value,a=+document.getElementById("ha").value,t=+tv/1200,r=document.getElementById("hr"),s=document.getElementById("hs");
+if(tv===""||!(q>0&&a>0&&a<=50&&t>=0&&t<1)){{r.textContent="—";s.textContent="Revisa los datos";return}}var n=a*12,m=t?q*t/(1-Math.pow(1+t,-n)):q/n;r.textContent="≈ "+f(m)+" €";s.textContent="Ganar ≈ "+f(m/{ESC})+" € netos · intereses "+f(m*n-q)+" €"}}
+["hq","ha","ht"].forEach(function(i){{document.getElementById(i).addEventListener("input",c)}});c()}})()</script>"""
+os.makedirs(F("hipoteca"), exist_ok=True)
+open(F("hipoteca", "index.html"), "w", encoding="utf-8").write(page(
+    "Cuota de la hipoteca: cuánto pagarás al mes (calculadora 2026)",
+    desc_corta(f"Hipoteca de 150.000 € a {ANOS} años: ≈ {fmt(h150)} €/mes; de 200.000 €: ≈ {fmt(h200)} €. Cuotas a 20, 25 y 30 años, intereses y sueldo necesario.", " Calculadora."),
+    "hipoteca/", body, [("Vivible", "../"), ("Cuota de la hipoteca", None)], hq_ld))
+urls.insert(3, BASE + "hipoteca/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

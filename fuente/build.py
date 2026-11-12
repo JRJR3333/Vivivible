@@ -489,7 +489,7 @@ for ck, c in C.items():
 <p class="m">Precio medio por m² de cada distrito multiplicado por los metros. Un piso concreto puede costar más o menos según su estado, planta y calle.</p></div>
 {vq_html}
 <a class="cta" href="../../#c={ck}&op=venta">¿Has visto un piso en venta? Comprueba si su precio es justo</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../comprar-con-presupuesto/">Qué comprar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a> · <a href="../../barrios-caros/">Barrios más caros</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../comprar-con-presupuesto/">Qué comprar con tu presupuesto</a> · <a href="../">Precios por distritos</a> · <a href="../../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo-para-comprar/">Sueldo para comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../../barrios-baratos/">Barrios más baratos de España</a> · <a href="../../barrios-caros/">Barrios más caros</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "venta"), exist_ok=True)
     open(F(ck, "venta", "index.html"), "w", encoding="utf-8").write(page(
         f"Precio de la vivienda en {c['n']} por distritos (2026)",
@@ -1898,13 +1898,69 @@ h=irpf(ga);r.innerHTML=p+"Ganas <b>"+eur(ga)+"</b>: a Hacienda le tocan unos <b>
 ["vq","vg","vv","vx"].forEach(function(i){{document.getElementById(i).addEventListener("input",calc)}});calc()}})();</script>
 {ve_html}
 <a class="cta" href="../">¿Vas a comprar otro? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("vender-un-piso"), exist_ok=True)
 open(F("vender-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto pago a Hacienda al vender un piso? Calculadora IRPF 2026",
     desc_corta("Calcula el IRPF de vender un piso: la ganancia tributa del 19 % al 30 %. Qué gastos restar, cuándo no se paga (reinversión, mayores de 65) y la plusvalía.", " Gratis."),
     "vender-un-piso/", body, [("Vivible", "../"), ("Vender un piso", None)], ve_ld))
 urls.insert(16, BASE + "vender-un-piso/")
+
+# ---------- ¿Cuánto vale mi piso? (cuanto-vale-mi-piso/): «cuánto vale mi piso», «calcular valor de mi vivienda», «tasar piso gratis».
+# Solo precios.json (precio medio de venta y alquiler por m² del distrito; si idealista no lo publica, la estimación de dprice, avisándolo).
+assert "cuanto-vale-mi-piso" not in C
+VM = {k: [c["n"], [[d, round(s), round(r, 1), int(es or er), slug(d)] for d, (s, r, es, er) in sorted(((d, dprice(c, d)) for d in c["d"]), key=lambda x: x[0])]] for k, c in C.items()}
+VMJ = json.dumps(VM, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+tvm = "".join(f'<tr><td><a href="../{k}/">{esc(c["n"])}</a></td><td>{fmt(c["venta"] * 60)} €</td><td><b>{fmt(c["venta"] * 80)} €</b></td><td>{fmt(c["venta"] * 100)} €</td><td>{fmt(c["alquiler"] * 80)} €/mes</td></tr>' for k, c in sorted(C.items(), key=lambda kc: -kc[1]["venta"]))
+mx = max(C.values(), key=lambda c: c["venta"]); mn = min(C.values(), key=lambda c: c["venta"])
+vm_html, vm_ld = faq([
+    ("¿Cómo sé cuánto vale mi piso?",
+     "Multiplica los metros cuadrados por el precio medio por m² de tu distrito: es lo que piden de media por pisos parecidos al tuyo. Luego ajústalo: suben el precio la planta alta con ascensor, la terraza, la reforma reciente y la luz; lo bajan un bajo interior, no tener ascensor o necesitar obra. La calculadora de arriba hace la cuenta con los datos de tu distrito."),
+    (f"¿Cuánto vale un piso de 80 m² en {mx['n']}?",
+     f"Con el precio medio de {mx['n']} ({fmt(mx['venta'])} €/m², {mes_txt}), un piso de 80 m² vale unos {fmt(mx['venta'] * 80)} €. En {mn['n']}, la más barata de las 10 ciudades, el mismo piso vale unos {fmt(mn['venta'] * 80)} €. En cada distrito cambia mucho: mira el tuyo en la calculadora."),
+    ("¿El precio medio es lo que me pagarán?",
+     "No exactamente: es el precio que se pide en los anuncios. Al final se suele cerrar algo por debajo tras negociar, y el banco del comprador tasará el piso para darle la hipoteca. Úsalo como punto de partida para poner un precio razonable."),
+    ("¿Cuánto podría cobrar si alquilo mi piso?",
+     "Multiplica los metros por el alquiler medio por m² al mes de tu distrito. La calculadora te lo da junto al precio de venta, para que compares vender o alquilar."),
+    ("¿Cuánto me cuesta una tasación oficial?",
+     "Una tasación hecha por una sociedad de tasación homologada la pide el banco cuando hay hipoteca. Si solo quieres orientarte para vender, basta con comparar con el precio medio del distrito y con anuncios de pisos parecidos cerca del tuyo."),
+])
+body = f"""<h1>¿Cuánto vale mi piso? Calcula su precio gratis</h1>
+<p>Elige tu ciudad, tu distrito y los metros. Te decimos cuánto vale tu piso según el <b>precio medio de los pisos en venta</b> en tu distrito y cuánto podrías cobrar si lo alquilas. Sin registrarte y sin dar tu teléfono.</p>
+<div class="card" id="mc"><b>Calcula el valor de tu piso</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 140px">Ciudad<br><select id="mk" class="vin"></select></label>
+<label class="m" style="flex:1 1 180px">Distrito<br><select id="md" class="vin"></select></label>
+<label class="m" style="flex:1 1 110px">Metros (m²)<br><input type="number" id="mm" inputmode="decimal" min="10" max="1000" step="1" placeholder="Por ejemplo, 80" class="vin"></label></div>
+<div id="mr" aria-live="polite" class="m">Escribe los metros de tu piso.</div></div>
+<style>.vin{{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Qué sube y qué baja el precio</h2>
+<div class="card"><ul style="margin:0;padding-left:20px"><li><b>Suben:</b> planta alta con ascensor, exterior y con luz, terraza o balcón, reforma reciente, garaje o trastero incluidos, buen certificado energético.</li>
+<li><b>Bajan:</b> bajo o interior, sin ascensor a partir de un segundo, necesita reforma, mucho ruido, gastos de comunidad altos o una derrama pendiente.</li></ul>
+<p class="m">Compara también con anuncios de pisos parecidos en tu calle: si el tuyo es mejor, puedes pedir algo más que la media; si necesita obra, algo menos.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cuánto vale un piso en cada ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Con el precio medio de venta y de alquiler por m² de cada ciudad ({esc(mes_txt)}, idealista)</caption><tr><th scope="col">Ciudad</th><th scope="col">60 m²</th><th scope="col">80 m²</th><th scope="col">100 m²</th><th scope="col">Alquiler 80 m²</th></tr>{tvm}</table>
+<p class="m">Cada ciudad por distritos en su página. <a href="../como-calculamos/">Cómo calculamos</a>.</p></div>
+<script>(function(){{var V={VMJ};
+var k=document.getElementById("mk"),d=document.getElementById("md"),m=document.getElementById("mm"),r=document.getElementById("mr");
+function eur(x){{return Math.round(x).toString().replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")+" €"}}
+function esc(s){{return String(s).replace(/[&<>"']/g,function(c){{return"&#"+c.charCodeAt(0)+";"}})}}
+Object.keys(V).forEach(function(c){{k.add(new Option(V[c][0],c))}});
+function dis(sel){{d.innerHTML="";V[k.value][1].forEach(function(x){{d.add(new Option(x[0],x[4]))}});if(sel)d.value=sel;if(d.selectedIndex<0)d.selectedIndex=0}}
+function calc(){{var t=parseFloat((m.value||"").replace(",",".")),c=V[k.value],x=c[1][d.selectedIndex];
+if(!(t>=10&&t<=1000)){{r.textContent="Escribe los metros de tu piso.";return}}
+r.innerHTML="Un piso de <b>"+Math.round(t)+" m²</b> en "+esc(x[0])+" ("+esc(c[0])+") vale unos <b>"+eur(t*x[1])+"</b> ("+eur(x[1])+"/m²). Si lo alquilas, podrías cobrar unos <b>"+eur(t*x[2])+" al mes</b>."+(x[3]?" <i>idealista no publica todos los precios de este distrito: parte de la cifra es una estimación a partir de la otra.</i>":"")+" <a href=\\"../"+k.value+"/"+x[4]+"/\\">Ver precios de "+esc(x[0])+"</a>"}}
+var q=new URLSearchParams(location.search);if(V[q.get("c")])k.value=q.get("c");dis(q.get("d"));if(+q.get("m"))m.value=+q.get("m");
+k.addEventListener("change",function(){{dis();calc()}});d.addEventListener("change",calc);m.addEventListener("input",calc);calc()}})();</script>
+{vm_html}
+<a class="cta" href="../">¿Has visto un anuncio? Comprueba si su precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../vender-un-piso/">Cuánto pago a Hacienda al vender</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("cuanto-vale-mi-piso"), exist_ok=True)
+open(F("cuanto-vale-mi-piso", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Cuánto vale mi piso? Calculadora gratis por distritos (2026)",
+    desc_corta("Calcula cuánto vale tu piso con el precio medio por m² de tu distrito en 10 ciudades, y cuánto cobrarías de alquiler. Sin registro.", " Gratis."),
+    "cuanto-vale-mi-piso/", body, [("Vivible", "../"), ("¿Cuánto vale mi piso?", None)], vm_ld))
+urls.insert(17, BASE + "cuanto-vale-mi-piso/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

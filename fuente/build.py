@@ -54,6 +54,9 @@ BARRIOS_BCN = {
 }
 assert sum(map(len, BARRIOS_BCN.values())) == 73 and set(BARRIOS_BCN) == set(C["barcelona"]["d"]), "barrios de Barcelona: faltan o sobran"
 BAR = {"madrid": BARRIOS, "barcelona": BARRIOS_BCN}  # ciudades con barrios oficiales en la web
+# comparar dos ciudades (comparar/<a>-o-<b>/): el orden de los nombres es el de precios.json, así hay una sola página por pareja
+def par(a, b):
+    ks = list(C); a, b = sorted((a, b), key=ks.index); return f"{a}-o-{b}"
 def coma(xs): return any("," in re.sub(r"\(.*?\)", "", x) for x in xs)  # algún nombre lleva coma («Sant Pere, Santa Caterina i la Ribera»)
 def y_lista(xs):  # con «;» si algún nombre lleva coma
     sep = "; " if coma(xs) else ", "
@@ -190,7 +193,8 @@ for ck, c in C.items():
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a></div>
-<div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
+<div class="card m"><b>¿Dudas entre {esc(c["n"])} y otra ciudad?</b> {" · ".join(f'<a href="../comparar/{par(ck, k2)}/">{esc(c["n"])} o {esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)}</div>"""
     if ck in BAR:  # «en qué distrito está <barrio>»: muchos anuncios dicen el barrio y no el distrito
         BB = BAR[ck]
         body = body.replace("\n" + fq_html, "\n" + f'<div class="card"><h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px">Barrios de {esc(c["n"])} por distrito</h2><p class="m" style="margin:0 0 6px">Los anuncios suelen decir el barrio: búscalo aquí para saber en qué distrito está.</p><table>'
@@ -593,6 +597,7 @@ body = f"""<h1>Precio de la vivienda en 10 ciudades de España ({esc(mes_txt)})<
 {q_html}
 <a class="cta" href="../">Analiza un piso concreto gratis</a>
 <div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../barrios-baratos/">Barrios más baratos</a></div>
+<div class="card m"><b>Comparar dos ciudades:</b> <a href="../comparar/">Madrid o Barcelona, Valencia o Málaga… las 45 parejas lado a lado</a></div>
 <div class="card m"><b>Guías por ciudad</b>{guias}</div>"""
 os.makedirs(F("precios"), exist_ok=True)
 open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
@@ -916,6 +921,89 @@ open(F("barrios-baratos", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Los distritos más baratos de 10 ciudades: alquilar desde {fmt(r0[0] * M2A)} €/mes en {r0[1]} ({r0[3]}) y comprar desde {fmt(s0[0] * M2A)} € en {s0[1]} ({s0[3]}).", " Y el más barato de cada ciudad."),
     "barrios-baratos/", body, [("Vivible", "../"), ("Barrios más baratos", None)], bb_ld))
 urls.insert(7, BASE + "barrios-baratos/")
+
+# ---------- comparar dos ciudades (comparar/<a>-o-<b>/ y comparar/): «vivir en Madrid o Barcelona», «Valencia o Málaga para vivir»;
+# las mismas cifras y reglas que /precios/ y las guías de cada ciudad (precios.json, piso de M2A m², alquiler ≤ 33 %, cuota ≤ 30 %)
+def mas_barato(xa, xb, na, nb):  # («Madrid», 18) : dónde es más barato y cuánto (en % sobre la más cara)
+    return (na, (1 - xa / xb) * 100) if xa <= xb else (nb, (1 - xb / xa) * 100)
+def barato_d(c, i):  # distrito más barato (i=0 venta, 1 alquiler) con precio publicado; si no hay, con estimado
+    pub = [d for d in c["d"] if c["d"][d][i] is not None] or list(c["d"])
+    return min(pub, key=lambda d: dprice(c, d)[i])
+H2 = 'style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0"'
+pares = [(ka, kb) for i, ka in enumerate(C) for kb in list(C)[i + 1:]]
+os.makedirs(F("comparar"), exist_ok=True)
+for ka, kb in pares:
+    A, B = C[ka], C[kb]; na, nb = A["n"], B["n"]; sl = par(ka, kb)
+    sa, sb = sueldos(A), sueldos(B)
+    va, vb = A["venta"] * M2A, B["venta"] * M2A
+    ra, rb = A["alquiler"] * M2A, B["alquiler"] * M2A
+    fila = lambda t, x, y: f'<tr><th scope="row" style="font-weight:400">{t}</th><td>{x}</td><td>{y}</td></tr>'
+    dva, dvb, dra, drb = barato_d(A, 0), barato_d(B, 0), barato_d(A, 1), barato_d(B, 1)
+    tb = (f'<tr><th scope="col">Precio medio</th><th scope="col">{esc(na)}</th><th scope="col">{esc(nb)}</th></tr>'
+        + fila("Comprar (m²)", f"{fmt(A['venta'])} €", f"{fmt(B['venta'])} €")
+        + fila(f"Piso de {M2A} m² en venta", f"{fmt(va)} €", f"{fmt(vb)} €")
+        + fila("Alquilar (m² al mes)", f"{dec(A['alquiler'])} €", f"{dec(B['alquiler'])} €")
+        + fila(f"Piso de {M2A} m² en alquiler", f"{fmt(ra)} €/mes", f"{fmt(rb)} €/mes")
+        + fila("Habitación", f"{fmt(A['hab'])} €/mes", f"{fmt(B['hab'])} €/mes")
+        + fila("Impuesto de compra (2ª mano)", f"{pct(A['itp'])} %", f"{pct(B['itp'])} %")
+        + fila(f"Ahorros para comprar el piso de {M2A} m²", f"{fmt(sa[3])} €", f"{fmt(sb[3])} €")
+        + fila(f"Hipoteca de ese piso", f"{fmt(cuota(va))} €/mes", f"{fmt(cuota(vb))} €/mes"))
+    ts = (f'<tr><th scope="col">Sueldo neto al mes</th><th scope="col">{esc(na)}</th><th scope="col">{esc(nb)}</th></tr>'
+        + fila(f"Para alquilar el piso de {M2A} m²", f"{fmt(sa[0])} €", f"{fmt(sb[0])} €")
+        + fila("Para una habitación", f"{fmt(sa[1])} €", f"{fmt(sb[1])} €")
+        + fila(f"Para comprarlo", f"{fmt(sa[2])} €", f"{fmt(sb[2])} €"))
+    td = (f'<tr><th scope="col">Distrito más barato</th><th scope="col">{esc(na)}</th><th scope="col">{esc(nb)}</th></tr>'
+        + fila("Para alquilar", f'<a href="../../{ka}/{slug(dra)}/">{esc(dra)}</a><br>{fmt(dprice(A, dra)[1] * M2A)} €/mes', f'<a href="../../{kb}/{slug(drb)}/">{esc(drb)}</a><br>{fmt(dprice(B, drb)[1] * M2A)} €/mes')
+        + fila("Para comprar", f'<a href="../../{ka}/{slug(dva)}/">{esc(dva)}</a><br>{fmt(dprice(A, dva)[0] * M2A)} €', f'<a href="../../{kb}/{slug(dvb)}/">{esc(dvb)}</a><br>{fmt(dprice(B, dvb)[0] * M2A)} €')).replace("<td>", '<td style="white-space:normal">')  # nombres largos («Casetas - Garrapinillos - Monzalbarba»): que puedan partirse
+    xr, pr = mas_barato(ra, rb, na, nb); xv, pv = mas_barato(va, vb, na, nb); xh, ph = mas_barato(A["hab"], B["hab"], na, nb)
+    def fr(x, p, que, a="o"):  # «alquilar un piso, un 12 % más barato en Barcelona» (por debajo del 2 %, «casi igual»)
+        return f"{que}, casi igual en las dos" if p < 2 else f"{que}, un {dec(p, 0)} % más barat{a} en {x}"
+    resumen = f"{fr(xr, pr, 'Alquilar un piso')}; {fr(xh, ph, 'una habitación', 'a')}, y {fr(xv, pv, 'comprar')}."
+    itp_txt = (f"En {na} y en {nb} el impuesto de compra de segunda mano es el mismo, un {pct(A['itp'])} %" if A["itp"] == B["itp"] else
+        f"El impuesto de compra de segunda mano (ITP) es del {pct(A['itp'])} % {en_ccaa(A['ccaa'])} y del {pct(B['itp'])} % {en_ccaa(B['ccaa'])}")
+    cq_html, cq_ld = faq([
+        (f"¿Es más barato vivir en {na} o en {nb}?",
+         f"En vivienda: {resumen[0].lower() + resumen[1:]} Un piso de {M2A} m² se alquila por unos {fmt(ra)} € al mes en {na} y {fmt(rb)} € en {nb}; comprarlo cuesta unos {fmt(va)} € y {fmt(vb)} €."),
+        (f"¿Cuánto hay que ganar para vivir en {na} o en {nb}?",
+         f"Para alquilar un piso de {M2A} m² sin apuros (alquiler ≤ 33 % del sueldo), unos {fmt(sa[0])} € netos al mes en {na} y {fmt(sb[0])} € en {nb}. "
+         f"Para una habitación, unos {fmt(sa[1])} € y {fmt(sb[1])} €. Para comprarlo con una hipoteca del 80 % a {ANOS} años al 2,8 % (cuota ≤ 30 %), unos {fmt(sa[2])} € y {fmt(sb[2])} €."),
+        (f"¿Dónde se pagan menos impuestos al comprar un piso, en {na} o en {nb}?",
+         f"{itp_txt}. En el piso medio de {M2A} m² son unos {fmt(gastos(va, A)[0])} € en {na} y {fmt(gastos(vb, B)[0])} € en {nb}. En total hay que tener ahorrados unos {fmt(sa[3])} € y {fmt(sb[3])} € (entrada del 20 %, impuesto, notaría y tasación)."),
+        (f"¿Cuál es el distrito más barato de {na} y de {nb}?",
+         f"Para alquilar, {dra} en {na} (unos {fmt(dprice(A, dra)[1] * M2A)} € al mes por {M2A} m²) y {drb} en {nb} ({fmt(dprice(B, drb)[1] * M2A)} €). "
+         f"Para comprar, {dva} en {na} (unos {fmt(dprice(A, dva)[0] * M2A)} €) y {dvb} en {nb} ({fmt(dprice(B, dvb)[0] * M2A)} €)."),
+    ])
+    mas = " · ".join(f'<a href="../{par(ka, k)}/">{esc(na)} o {esc(C[k]["n"])}</a>' for k in C if k not in (ka, kb)) + " · " + " · ".join(f'<a href="../{par(kb, k)}/">{esc(nb)} o {esc(C[k]["n"])}</a>' for k in C if k not in (ka, kb))
+    body = f"""<h1>¿Vivir en {esc(na)} o en {esc(nb)}? Precio de la vivienda comparado ({esc(mes_txt)})</h1>
+<p>{esc(resumen)} Estas son las cifras medias de las dos ciudades, para un piso de {M2A} m² o una habitación en piso compartido.</p>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio de la vivienda en {esc(na)} y {esc(nb)} ({esc(mes_txt)})</caption>{tb}</table></div>
+<h2 {H2}>¿Cuánto hay que ganar en cada una?</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Sueldo neto recomendado: alquiler ≤ 33 % (habitación con gastos), cuota de la hipoteca ≤ 30 % (80 % a {ANOS} años al 2,8 %)</caption>{ts}</table></div>
+<h2 {H2}>El distrito más barato de cada una</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Para un piso de {M2A} m², entre los distritos con precio publicado</caption>{td}</table>
+<p class="m">Cifras orientativas con precios medios: un piso concreto puede costar más o menos según su estado, planta y calle.</p></div>
+{cq_html}
+<a class="cta" href="../../">¿Has visto un piso en {esc(na)} o en {esc(nb)}? Analízalo gratis</a>
+<div class="card m"><b>Más sobre {esc(na)}:</b> <a href="../../{ka}/">Precios por distritos</a> · <a href="../../{ka}/alquiler/">Alquiler</a> · <a href="../../{ka}/venta/">Comprar</a> · <a href="../../{ka}/habitacion/">Habitación</a></div>
+<div class="card m"><b>Más sobre {esc(nb)}:</b> <a href="../../{kb}/">Precios por distritos</a> · <a href="../../{kb}/alquiler/">Alquiler</a> · <a href="../../{kb}/venta/">Comprar</a> · <a href="../../{kb}/habitacion/">Habitación</a></div>
+<div class="card m"><b>Otras comparaciones:</b> {mas} · <a href="../">Todas</a> · <a href="../../precios/">Las 10 ciudades</a></div>"""
+    os.makedirs(F("comparar", sl), exist_ok=True)
+    open(F("comparar", sl, "index.html"), "w", encoding="utf-8").write(page(
+        f"{na} o {nb}: ¿dónde es más barato vivir? (2026)",
+        desc_corta(f"{na} o {nb}: un piso de {M2A} m² se alquila por ≈ {fmt(ra)} € frente a {fmt(rb)} €/mes, y una habitación por {fmt(A['hab'])} € frente a {fmt(B['hab'])} €.", " Compra, impuestos y sueldo."),
+        f"comparar/{sl}/", body, [("Vivible", "../../"), ("Comparar ciudades", "../"), (f"{na} o {nb}", None)], cq_ld))
+    urls.append(BASE + f"comparar/{sl}/")
+lis = "".join(f'<p style="margin:0 0 6px"><b>{esc(c["n"])}:</b> ' + " · ".join(f'<a href="{par(k, k2)}/">{esc(c["n"])} o {esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != k) + "</p>" for k, c in C.items())
+body = f"""<h1>Comparar dos ciudades para vivir: precio de la vivienda ({esc(mes_txt)})</h1>
+<p>¿Dudas entre dos ciudades? Elige la pareja y verás, lado a lado, lo que cuesta alquilar, compartir piso o comprar, el impuesto de compra, el sueldo que hace falta y el distrito más barato de cada una.</p>
+<div class="card m">{lis}</div>
+<a class="cta" href="../">Analiza un piso concreto gratis</a>
+<div class="card m"><b>Más guías:</b> <a href="../precios/">Las 10 ciudades en una tabla</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a></div>"""
+open(F("comparar", "index.html"), "w", encoding="utf-8").write(page(
+    "Comparar ciudades para vivir: precio de la vivienda (2026)",
+    f"Compara dos de estas 10 ciudades: alquiler, habitación, compra, impuestos y sueldo necesario, lado a lado. {len(pares)} comparaciones.",
+    "comparar/", body, [("Vivible", "../"), ("Comparar ciudades", None)]))
+urls.insert(8, BASE + "comparar/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

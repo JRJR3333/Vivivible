@@ -69,7 +69,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -300,7 +300,7 @@ for ck, c in C.items():
 <div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² por distritos, del más barato al más caro: alquiler al mes y sueldo neto recomendado (alquiler ≤ 33 %)</caption><tr><th scope="col">Distrito</th><th scope="col">Alquiler</th><th scope="col">Sueldo neto</th></tr>{tr}</table>{nota}</div>
 {sq_html}
 <a class="cta" href="../../#c={ck}&op=alquiler">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../alquiler/">Alquiler por tamaño</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../habitacion/">Habitación</a> · <a href="../../gastos-de-alquiler/">Dinero para entrar de alquiler</a> · <a href="../../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../../hipoteca/">Cuota de la hipoteca</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "sueldo-para-alquilar"), exist_ok=True)
     open(F(ck, "sueldo-para-alquilar", "index.html"), "w", encoding="utf-8").write(page(
         f"Cuánto hay que ganar para alquilar en {c['n']} (2026)",
@@ -557,7 +557,7 @@ body = f"""<h1>Precio de la vivienda en 10 ciudades de España ({esc(mes_txt)})<
 <p class="m">Cifras orientativas con precios medios. El detalle por distritos está en la guía de cada ciudad.</p></div>
 {q_html}
 <a class="cta" href="../">Analiza un piso concreto gratis</a>
-<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a></div>
+<div class="card m"><b>¿Qué piso puedo pagar con mi sueldo?</b> <a href="../sueldo/">Alquiler e hipoteca según lo que ganas</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-alquiler/">Dinero para entrar de alquiler</a></div>
 <div class="card m"><b>Guías por ciudad</b>{guias}</div>"""
 os.makedirs(F("precios"), exist_ok=True)
 open(F("precios", "index.html"), "w", encoding="utf-8").write(page(
@@ -673,6 +673,54 @@ open(F("hipoteca", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Hipoteca de 150.000 € a {ANOS} años: ≈ {fmt(h150)} €/mes; de 200.000 €: ≈ {fmt(h200)} €. Cuotas a 20, 25 y 30 años, intereses y sueldo necesario.", " Calculadora."),
     "hipoteca/", body, [("Vivible", "../"), ("Cuota de la hipoteca", None)], hq_ld))
 urls.insert(3, BASE + "hipoteca/")
+
+# ---------- dinero para alquilar (gastos-de-alquiler/): «cuánto dinero necesito para alquilar un piso», «fianza alquiler», «garantía adicional»;
+# primer mes + fianza legal de un mes (LAU art. 36) + garantía adicional de hasta dos meses; honorarios de la inmobiliaria a cargo del propietario (Ley 12/2023)
+ra = sorted(C.items(), key=lambda kc: kc[1]["alquiler"])
+tra = "".join(f'<tr><td><a href="../{k}/sueldo-para-alquilar/">{esc(c["n"])}</a></td><td>{fmt(c["alquiler"] * M2A)} €</td><td>{fmt(c["alquiler"] * M2A * 2)} €</td><td><b>{fmt(c["alquiler"] * M2A * 4)} €</b></td></tr>' for k, c in ra)
+rh = sorted(C.items(), key=lambda kc: kc[1]["hab"])
+trh = "".join(f'<tr><td><a href="../{k}/habitacion/">{esc(c["n"])}</a></td><td>{fmt(c["hab"])} €</td><td><b>{fmt(c["hab"] * 2)} €</b></td></tr>' for k, c in rh)
+EJ = [600, 800, 1000, 1200, 1500]
+tre = "".join(f"<tr><td>{fmt(r)} €</td><td>{fmt(r * 2)} €</td><td>{fmt(r * 4)} €</td><td>{fmt(r / ESF)} €</td></tr>" for r in EJ)
+ab, ac = ra[0][1], ra[-1][1]
+ga_html, ga_ld = faq([
+    ("¿Cuánto dinero necesito para alquilar un piso?",
+     "Lo normal es pagar al firmar el primer mes y una fianza de un mes: el doble del alquiler. Si el propietario pide además una garantía adicional (hasta dos meses más), hasta cuatro veces el alquiler. "
+     f"Para un piso medio de {M2A} m², de {fmt(ab['alquiler'] * M2A * 2)} € en {ab['n']} a {fmt(ac['alquiler'] * M2A * 4)} € en {ac['n']}."),
+    ("¿Cuánto es la fianza de un alquiler?",
+     "Para una vivienda, la ley fija una fianza de un mes de alquiler. Te la deben devolver al terminar el contrato, descontando solo lo que se deba o los daños que no sean el desgaste normal."),
+    ("¿Qué es la garantía adicional y cuánto pueden pedir?",
+     "Es un dinero extra, aparte de la fianza, que algunos propietarios piden como seguridad (en efectivo o con un aval bancario). En los contratos de vivienda de hasta cinco años (siete si el propietario es una empresa) no puede pasar de dos meses de alquiler."),
+    ("¿Tengo que pagar a la inmobiliaria si alquilo un piso?",
+     "No. Desde la Ley 12/2023, de vivienda, los honorarios de la inmobiliaria y los gastos de hacer el contrato los paga el propietario, no quien alquila."),
+    ("¿Cuánto dinero necesito para alquilar una habitación?",
+     f"Normalmente el primer mes y un mes de fianza. Con el precio medio de cada ciudad, de unos {fmt(rh[0][1]['hab'] * 2)} € en {rh[0][1]['n']} a unos {fmt(rh[-1][1]['hab'] * 2)} € en {rh[-1][1]['n']}."),
+])
+body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)</h1>
+<p>Antes de entrar a vivir de alquiler hay que tener ahorrado algo más que el primer mes. Aquí tienes qué se paga al firmar, cuánto es en cada ciudad para un piso medio de {M2A} m² y para una habitación, y lo que la ley permite pedir.</p>
+<div class="g"><div class="k"><small>Lo normal al firmar</small><b>2 meses</b><small>Primer mes y fianza de un mes</small></div>
+<div class="k"><small>Como mucho, con garantía</small><b>4 meses</b><small>Más hasta dos meses de garantía adicional</small></div></div>
+<div class="card"><b>Qué se paga al firmar</b><ul style="margin:8px 0 0;padding-left:20px">
+<li><b>El primer mes</b> de alquiler.</li>
+<li><b>La fianza:</b> un mes, obligatoria por ley. Te la devuelven al irte si no hay deudas ni daños.</li>
+<li><b>La garantía adicional</b> (si te la piden): hasta dos meses más, en efectivo o con aval.</li>
+<li><b>La inmobiliaria no la pagas tú:</b> sus honorarios corren a cargo del propietario (Ley 12/2023).</li></ul></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Dinero para entrar en un piso, por ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² al alquiler medio de cada ciudad ({esc(mes_txt)}): alquiler al mes, lo normal al firmar (primer mes y fianza) y el máximo con dos meses de garantía adicional</caption><tr><th scope="col">Ciudad</th><th scope="col">Alquiler</th><th scope="col">Al firmar</th><th scope="col">Máximo</th></tr>{tra}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Dinero para entrar en una habitación</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Habitación al precio medio de cada ciudad: alquiler al mes y lo que se suele pagar al entrar (primer mes y un mes de fianza)</caption><tr><th scope="col">Ciudad</th><th scope="col">Habitación</th><th scope="col">Al entrar</th></tr>{trh}</table></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Según lo que cueste el piso</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Dinero al firmar según el alquiler, y sueldo neto recomendado para que el alquiler no pase del 33 %</caption><tr><th scope="col">Alquiler</th><th scope="col">Al firmar</th><th scope="col">Máximo</th><th scope="col">Sueldo neto</th></tr>{tre}</table>
+<p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
+{ga_html}
+<a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
+open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
+    desc_corta(f"Al firmar se paga el primer mes y un mes de fianza, y hasta dos de garantía. Para un piso medio, de {fmt(ab['alquiler'] * M2A * 2)} € en {ab['n']} a {fmt(ac['alquiler'] * M2A * 4)} € en {ac['n']}.", ""),
+    "gastos-de-alquiler/", body, [("Vivible", "../"), ("Dinero para alquilar", None)], ga_ld))
+urls.insert(4, BASE + "gastos-de-alquiler/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

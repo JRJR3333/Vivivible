@@ -63,7 +63,7 @@ footer a{color:var(--mute)}
 .box .l{font-size:12px;color:var(--mute)}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
 .cities{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.cities a{font-size:13px;color:var(--acc);text-decoration:none;background:var(--acc2);padding:4px 10px;border-radius:99px}
+.cities a{font-size:13px;color:var(--acc);text-decoration:none;background:var(--acc2);padding:4px 12px;border-radius:99px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center}
 details summary{cursor:pointer;font-weight:600;font-size:14px}
 .dirrow{flex-wrap:wrap}.dirrow input{flex:1 1 180px;min-width:0}@media(max-width:520px){#aqui{flex-basis:100%}}
 .mas{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}.mas summary{color:var(--acc);padding:10px 0}

@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -212,7 +212,7 @@ for ck, c in C.items():
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
@@ -269,7 +269,7 @@ for ck, c in C.items():
 {bar_html}{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../../devolver-fianza/">Cuándo te devuelven la fianza</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
@@ -895,7 +895,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -1493,13 +1493,83 @@ r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años)
 d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
 open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de alquiler: cuánto dura y qué debe incluir",
     desc_corta("Duración del contrato de alquiler (5 o 7 años y prórroga), cuándo puedes irte, subidas y qué debe incluir. Calcula las fechas de tu contrato.", " Gratis."),
     "contrato-de-alquiler/", body, [("Vivible", "../"), ("Contrato de alquiler", None)], co_ld))
 urls.insert(12, BASE + "contrato-de-alquiler/")
+
+# ---------- devolver la fianza (devolver-fianza/): «cuándo me devuelven la fianza del alquiler», «plazo devolución fianza»,
+# «qué pueden descontar de la fianza», «el casero no me devuelve la fianza»; LAU art. 36.4 (un mes desde la entrega de llaves;
+# después, el interés legal del dinero), art. 21.4 (pequeñas reparaciones), LEC art. 23 y 31 (sin abogado ni procurador hasta 2.000 €)
+# y LO 1/2025 (antes de demandar, intentar un acuerdo). Cifras por ciudad: las mismas que gastos-de-alquiler/ (precios.json).
+assert "devolver-fianza" not in C
+DSC = [
+    ("Sí pueden descontar", "Alquileres que debas, recibos de luz, agua o gas a tu cargo sin pagar y daños que hayas causado tú (un mueble roto, agujeros de más, una puerta golpeada)."),
+    ("No pueden descontar", "El desgaste normal por vivir en el piso: pintura gastada por el tiempo, roces leves, el uso normal de los electrodomésticos o averías que no son culpa tuya."),
+    ("Tiene que justificarlo", "Cada descuento con su motivo y, si son daños, con presupuesto o factura. No vale quedarse la fianza entera «por si acaso»."),
+]
+PAS = [
+    ("Al irte", "Haz fotos y vídeo con fecha de cada habitación, lee los contadores y entrega las llaves con un documento firmado que diga el día (o por burofax si no quiere firmar)."),
+    ("Pasado un mes", "Si no te la ha devuelto, pídesela por escrito: un burofax con acuse de recibo y copia certificada que diga cuánto reclamas, a qué cuenta y en qué plazo."),
+    ("Si sigue sin pagar", "Desde abril de 2025, antes de demandar hay que intentar un acuerdo y poder demostrarlo: ese burofax con una propuesta sirve. Pide también el justificante del depósito de la fianza en tu comunidad autónoma."),
+    ("En el juzgado", "Hasta 2.000 € puedes reclamar tú mismo en el juzgado de tu partido judicial, con un impreso y sin abogado ni procurador. Le puedes reclamar también el interés legal desde que pasó el mes."),
+]
+rfa = sorted(C.items(), key=lambda kc: kc[1]["alquiler"])
+tfa = "".join(f'<tr><td><a href="../{k}/alquiler/">{esc(c["n"])}</a></td><td>{fmt(c["alquiler"] * M2A)} €</td><td>{fmt(c["hab"])} €</td></tr>' for k, c in rfa)
+fa_html, fa_ld = faq([
+    ("¿Cuánto tarda el propietario en devolver la fianza?",
+     "La ley le da un mes desde que entregas las llaves. Si pasa ese mes sin devolverla, además de la fianza te debe el interés legal del dinero desde ese día."),
+    ("¿Qué me pueden descontar de la fianza?",
+     "Lo que debas (alquiler, recibos a tu cargo) y los daños que hayas causado, justificados. No el desgaste normal de vivir en el piso, como la pintura gastada por los años o el uso normal de los muebles."),
+    ("¿Me tienen que devolver también la garantía adicional?",
+     "Sí. La garantía adicional, si la pagaste, se devuelve igual que la fianza al terminar el contrato, con los mismos descuentos justificados."),
+    ("¿Qué hago si el casero no me devuelve la fianza?",
+     "Reclámasela por escrito con un burofax, proponiendo un plazo para pagar. Si no responde, puedes ir al juzgado: hasta 2.000 € no necesitas abogado ni procurador. Antes de demandar hay que haber intentado un acuerdo, y el burofax sirve para demostrarlo."),
+    ("¿Puedo no pagar el último mes y que se quede la fianza?",
+     "No es buena idea: la fianza no está para pagar el último mes y el propietario podría reclamarte ese mes y además descontar daños. Lo seguro es pagar el último mes y pedir la fianza al entregar las llaves."),
+    ("¿Cuánto es la fianza de un piso de alquiler?",
+     f"Un mes de alquiler, obligatoria por ley en los pisos para vivir. Para el piso medio de {M2A} m², de unos {fmt(rfa[0][1]['alquiler'] * M2A)} € en {rfa[0][1]['n']} a unos {fmt(rfa[-1][1]['alquiler'] * M2A)} € en {rfa[-1][1]['n']}."),
+])
+tds = "".join(f'<tr><td style="text-align:left;white-space:normal"><b>{esc(a)}</b></td><td style="text-align:left;white-space:normal" class="m">{esc(x)}</td></tr>' for a, x in DSC)
+lps = "".join(f'<li><b>{esc(a)}.</b> {esc(x)}</li>' for a, x in PAS)
+body = f"""<h1>¿Cuándo me devuelven la fianza del alquiler?</h1>
+<p>Cuando dejas un piso de alquiler, el propietario tiene <b>un mes desde que le entregas las llaves</b> para devolverte la fianza. Pon el día en que las entregas y te decimos hasta cuándo tiene, qué te puede descontar y qué hacer si no te la devuelve.</p>
+<div class="card" id="ff"><b>¿Hasta cuándo tiene para devolvérmela?</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px"><label class="m" style="flex:1 1 150px">Entregué las llaves el<br><input type="date" id="fd" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px"></label>
+<label class="m" style="flex:1 1 150px">Fianza (€, opcional)<br><input type="number" id="fi" inputmode="decimal" min="0" step="10" placeholder="Por ejemplo, 900" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px"></label></div>
+<div id="fr" aria-live="polite" class="m">Elige el día en que entregaste (o vas a entregar) las llaves.</div></div>
+<div class="g"><div class="k"><small>Plazo para devolverla</small><b>1 mes</b><small>Desde que entregas las llaves</small></div>
+<div class="k"><small>Si se retrasa</small><b>+ intereses</b><small>El interés legal del dinero desde ese día</small></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Qué te pueden descontar y qué no</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Descuentos de la fianza al terminar el contrato (Ley de Arrendamientos Urbanos)</caption>{tds}</table>
+<p class="m">Las pequeñas reparaciones por el uso diario (una bombilla, un grifo que gotea) te tocan a ti mientras vives en el piso; las que hacen falta para que el piso se pueda habitar, al propietario.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Qué hacer si no te la devuelven</h2>
+<div class="card"><ol style="margin:0;padding-left:20px">{lps}</ol></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cuánto es la fianza en cada ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Fianza de un mes para un piso de {M2A} m² y para una habitación, al precio medio de cada ciudad ({esc(mes_txt)})</caption><tr><th scope="col">Ciudad</th><th scope="col">Piso</th><th scope="col">Habitación</th></tr>{tfa}</table>
+<p class="m">Lo que pagas al entrar, con la garantía adicional: <a href="../gastos-de-alquiler/">dinero para alquilar un piso</a>.</p></div>
+<script>(function(){{var M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],d=document.getElementById("fd"),a=document.getElementById("fi"),r=document.getElementById("fr");
+function mas(f,m){{var x=new Date(f.getFullYear(),f.getMonth()+m,1),u=new Date(x.getFullYear(),x.getMonth()+1,0).getDate();x.setDate(Math.min(f.getDate(),u));return x}}
+function txt(x){{return x.getDate()+" de "+M[x.getMonth()]+" de "+x.getFullYear()}}
+function eur(n){{return Math.round(n).toString().replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")+" €"}}
+function calc(){{var v=/^(\\d{{4}})-(\\d{{2}})-(\\d{{2}})$/.exec(d.value||"");if(!v){{r.textContent="Elige el día en que entregaste (o vas a entregar) las llaves.";return}}
+var f=new Date(+v[1],v[2]-1,+v[3]),fin=mas(f,1),h=new Date(),hoy=new Date(h.getFullYear(),h.getMonth(),h.getDate()),dias=Math.round((fin-hoy)/864e5),q=parseFloat((a.value||"").replace(",","."));
+var s="Tiene hasta el <b>"+txt(fin)+"</b> para devolverte la fianza"+(q>0?" (<b>"+eur(q)+"</b>, menos los descuentos que justifique)":"")+". ";
+if(dias>1)s+="Quedan "+dias+" días.";else if(dias===1)s+="Queda 1 día.";else if(dias===0)s+="Hoy es el último día.";else s+="<b>Ya ha pasado el plazo</b> ("+(-dias)+(dias===-1?" día":" días")+"): pídesela por escrito con un burofax; desde el día siguiente al plazo te debe también el interés legal.";
+r.innerHTML=s}}
+d.addEventListener("change",calc);d.addEventListener("input",calc);a.addEventListener("input",calc);calc()}})();</script>
+{fa_html}
+<a class="cta" href="../">¿Buscas otro piso? Comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("devolver-fianza"), exist_ok=True)
+open(F("devolver-fianza", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Cuándo me devuelven la fianza del alquiler? Plazo y descuentos",
+    desc_corta("El propietario tiene un mes desde que entregas las llaves para devolver la fianza. Calcula tu plazo, qué pueden descontar y cómo reclamarla.", " Gratis."),
+    "devolver-fianza/", body, [("Vivible", "../"), ("Devolver la fianza", None)], fa_ld))
+urls.insert(13, BASE + "devolver-fianza/")
 
 # ---------- repartir el alquiler (repartir-alquiler/): «cómo repartir el alquiler de un piso compartido», «calculadora dividir
 # alquiler por habitaciones», «quién paga más en un piso compartido». Calculadora (mitad a partes iguales por las zonas comunes y

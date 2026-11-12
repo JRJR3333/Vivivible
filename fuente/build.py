@@ -746,6 +746,10 @@ trv = "".join(f'<tr><td><a href="../{k}/sueldo-para-comprar/">{esc(c["n"])}</a><
 cab = '<tr><th scope="col">Ciudad</th>' + "".join(f'<th scope="col">{fmt(s)} €</th>' for s in SB) + "</tr>"
 mb, mc = ra[0][1], ra[-1][1]
 bdc = min(((d, dprice(mc, d)[1]) for d in mc["d"]), key=lambda x: x[1])
+def fila_sc(k, c, sv):
+    return f'<tr><td><a href="../{k}/alquilar-con-presupuesto/">{esc(c["n"])}</a></td><td>{fmt(sv * ESF / c["alquiler"])} m²</td><td><a href="../{k}/comprar-con-presupuesto/">{fmt(precio_max(sv) / c["venta"])} m²</a></td></tr>'
+stc = "".join(fila_sc(k, c, 1500) for k, c in ra)
+SCD = json.dumps([[k, c["n"], c["alquiler"], c["venta"]] for k, c in ra], ensure_ascii=False).replace("</", "<\\/")
 s15 = 1500
 sq_html, sq_ld = faq([
     ("¿Cuánto puedo pagar de alquiler si gano 1.500 € al mes?",
@@ -759,9 +763,14 @@ sq_html, sq_ld = faq([
      f"Para un piso de {M2A} m² al precio medio, entre unos {fmt(mb['alquiler'] * M2A / ESF)} € netos al mes en {mb['n']} y unos {fmt(mc['alquiler'] * M2A / ESF)} € en {mc['n']}. Si no llegas, compartir piso sale bastante más barato: cada ciudad tiene su guía de habitaciones."),
 ])
 body = f"""<h1>¿Qué piso puedo pagar con mi sueldo? ({esc(mes_txt)})</h1>
-<p>La regla más usada: que el alquiler no pase del 33 % de lo que ganas y la hipoteca, del 30 %. Aquí tienes cuánto da cada sueldo neto y para cuántos metros llega en cada ciudad, con los precios medios de idealista.</p>
+<p>La regla más usada: que el alquiler no pase del 33 % de lo que ganas y la hipoteca, del 30 %. Escribe tu sueldo neto y verás cuánto alquiler y qué piso puedes pagar y para cuántos metros te llega en cada ciudad, con los precios medios de idealista.</p>
 <div class="g"><div class="k"><small>Con 1.500 € netos, alquiler de hasta</small><b>≈ {fmt(1500 * ESF)} €/mes</b></div>
 <div class="k"><small>Con 2.000 € netos, piso de hasta</small><b>≈ {fmt(round(precio_max(2000), -3))} €</b><small>Hipoteca del 80 %</small></div></div>
+<div class="card"><form id="sc" onsubmit="return false"><label class="m"><b>Calcula con tu sueldo neto al mes (€)</b><input id="sv" type="number" inputmode="numeric" min="300" step="50" value="1500"></label></form>
+<div class="g" style="margin-top:10px" aria-live="polite"><div class="k"><small>Alquiler de hasta (33 %)</small><b id="sa">≈ {fmt(1500 * ESF)} €/mes</b></div>
+<div class="k"><small>Piso para comprar de hasta</small><b id="sp">≈ {fmt(round(precio_max(1500), -3))} €</b><small id="sq">Cuota de hasta {fmt(1500 * ESC)} € (30 %), hipoteca del 80 %</small></div></div>
+<table class="cmp" style="margin-top:12px"><caption class="m" style="text-align:left;padding-bottom:6px">Metros que te llegan con ese sueldo al precio medio de cada ciudad</caption><tr><th scope="col">Ciudad</th><th scope="col">Alquilar</th><th scope="col">Comprar</th></tr><tbody id="st">{stc}</tbody></table>
+<p class="m" style="margin-bottom:0">Si sois dos, suma los dos sueldos netos. Para comprar hace falta además ahorrar la entrada (20 %) y el impuesto y los gastos.</p></div>
 <div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Sueldo neto al mes, alquiler máximo (33 %), cuota de hipoteca máxima (30 %) y precio del piso que permite esa cuota (hipoteca del 80 % a {ANOS} años al 2,8 %)</caption><tr><th scope="col">Sueldo</th><th scope="col">Alquiler</th><th scope="col">Cuota</th><th scope="col">Piso</th></tr>{tr}</table>
 <p class="m">Para comprar hace falta además ahorrar la entrada (20 %) y el impuesto y los gastos, que cambian según la comunidad: lo tienes en la guía «gastos de compra» de cada ciudad.</p></div>
 <h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">¿Para cuántos metros de alquiler te llega?</h2>
@@ -771,10 +780,16 @@ body = f"""<h1>¿Qué piso puedo pagar con mi sueldo? ({esc(mes_txt)})</h1>
 <p class="m">Cifras orientativas con precios medios; dentro de cada ciudad hay distritos mucho más baratos y más caros. El detalle está en la guía de cada ciudad.</p></div>
 {sq_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/">{esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/">{esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
+<style>#sc input{{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}#sc label{{display:block}}#st a{{display:inline-block;min-height:44px;line-height:44px}}</style>
+<script>(function(){{var D={SCD},E={ESF},Q={ESC},P={cuota(1)!r},i=document.getElementById("sv"),f=function(n){{return String(Math.round(n)).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}};
+function c(){{var s=+i.value,a=document.getElementById("sa"),p=document.getElementById("sp"),q=document.getElementById("sq"),t=document.getElementById("st");if(!(s>=300&&s<=100000)){{a.textContent=p.textContent="—";q.textContent="Escribe lo que ganas al mes, por ejemplo 1.600.";return}}
+var m=s*Q/P;a.textContent="≈ "+f(s*E)+" €/mes";p.textContent="≈ "+f(Math.round(m/1000)*1000)+" €";q.textContent="Cuota de hasta "+f(s*Q)+" € (30 %), hipoteca del 80 %";
+t.innerHTML=D.map(function(x){{return '<tr><td><a href="../'+x[0]+'/alquilar-con-presupuesto/">'+x[1]+'</a></td><td>'+f(s*E/x[2])+' m²</td><td><a href="../'+x[0]+'/comprar-con-presupuesto/">'+f(m/x[3])+' m²</a></td></tr>'}}).join("")}}
+i.addEventListener("input",c);c()}})()</script>"""
 os.makedirs(F("sueldo"), exist_ok=True)
 open(F("sueldo", "index.html"), "w", encoding="utf-8").write(page(
-    "¿Qué piso puedo pagar con mi sueldo? Alquiler e hipoteca (2026)",
+    "¿Qué piso puedo pagar con mi sueldo? Calculadora (2026)",
     desc_corta(f"Con 1.500 € netos, alquiler de hasta {fmt(1500 * ESF)} €; con 2.000 €, piso de hasta {fmt(round(precio_max(2000), -3))} €. Metros que te llegan en 10 ciudades.", " Alquiler e hipoteca."),
     "sueldo/", body, [("Vivible", "../"), ("Qué piso puedo pagar", None)], sq_ld))
 urls.insert(2, BASE + "sueldo/")

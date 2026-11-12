@@ -32,6 +32,15 @@ def dprice(c, d):
     if r is None: r = c["alquiler"] * (s / c["venta"]) ** .5; er = True
     return s, r, es, er
 
+# barrios administrativos de Madrid por distrito (de data.json; Vicálvaro y Villa de Vallecas vienen agrupados allí, aquí van los oficiales)
+BARRIOS = {}
+for _b in json.loads(MAD)["barrios"]:
+    BARRIOS.setdefault(_b["d"], []).append({"Fuentelareina": "Fuentelarreina"}.get(_b["n"], _b["n"]))
+BARRIOS["Vicálvaro"] = ["Casco Histórico de Vicálvaro", "Valdebernardo", "Valderrivas", "El Cañaveral"]
+BARRIOS["Villa de Vallecas"] = ["Casco Histórico de Vallecas", "Santa Eugenia", "Ensanche de Vallecas"]
+assert sum(map(len, BARRIOS.values())) == 131 and set(BARRIOS) == set(C["madrid"]["d"]), "barrios de Madrid: faltan o sobran"
+def y_lista(xs): return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " y " + xs[-1]
+
 def hab_d(c, r):
     # habitación en un distrito: media de la ciudad ajustada por lo caro que es su alquiler (la misma fórmula en todas las páginas)
     return round(c["hab"] * (r / c["alquiler"]) ** .8 / 5) * 5
@@ -164,6 +173,9 @@ for ck, c in C.items():
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>"""
+    if ck == "madrid":  # «en qué distrito está <barrio>»: muchos anuncios dicen el barrio y no el distrito
+        body = body.replace("\n" + fq_html, "\n" + '<div class="card"><h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px">Barrios de Madrid por distrito</h2><p class="m" style="margin:0 0 6px">Los anuncios suelen decir el barrio: búscalo aquí para saber en qué distrito está.</p><table>'
+            + "".join(f'<tr><td><a href="{slug(d)}/">{esc(d)}</a></td><td style="text-align:left">{esc(", ".join(BARRIOS[d]))}</td></tr>' for d, *_ in rows) + "</table></div>\n" + fq_html, 1)
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
         f"Vivir en {c['n']}: precio de la vivienda por distritos (2026) | Vivible",
         f"Precio medio de compra, alquiler y habitación en los {n} distritos de {c['n']}. Compara barrios y analiza un piso gratis.",
@@ -194,7 +206,11 @@ for ck, c in C.items():
              f"Un piso de 70 m² cuesta unos {fmt(buy70)} €{' (estimado)' if es else ''}. Necesitas ahorrado unos {fmt(ahorro)} €: el 20 % de entrada ({fmt(buy70 * .2)} €), "
              f"el {str(c['itp']).replace('.', ',')} % de impuesto de compra de segunda mano {en_ccaa(c['ccaa'])} ({fmt(buy70 * c['itp'] / 100)} €) y unos {fmt(buy70 * .015 + 400)} € de notaría, registro, gestoría y tasación. "
              f"La hipoteca del resto (30 años al 2,8 %) saldría por unos {fmt(cuota)} € al mes."),
-        ])
+        ] + ([(f"¿Qué barrios hay en {d}?", f"{d} tiene {len(BARRIOS[d])} barrios: {y_lista(BARRIOS[d])}.")] if ck == "madrid" else []))
+        bar_html = ""
+        if ck == "madrid":
+            bs = BARRIOS[d]
+            bar_html = f'<div class="card"><b>Barrios de {esc(d)}</b><p>{esc(d)} tiene {len(bs)} barrios: {esc(y_lista(bs))}. Si el anuncio dice uno de ellos, el piso está en este distrito.</p></div>\n'
         otros = " · ".join(f'<a href="../{slug(o)}/">{esc(o)}</a>' for o, *_ in rows if o != d)
         body = f"""<h1>Vivir en {esc(d)} ({esc(c["n"])}): precio, alquiler y habitación</h1>
 <p>{esc(d)} es {"el <b>distrito más caro</b>" if i == 0 else ("el <b>distrito más asequible</b>" if i == n - 1 else f"el <b>{i+1}º distrito más caro</b>")} de {n} en {esc(c["n"])}{"" if i in (0, n - 1) else ": " + tier}. {"Comprar cuesta lo mismo que la media de la ciudad" if round(abs(vs)) == 0 else f'Comprar cuesta un {dec(abs(vs),0)} % {"más" if vs >= 0 else "menos"} que la media de la ciudad'}{" (dato estimado)" if es else ""}.</p>
@@ -205,7 +221,7 @@ for ck, c in C.items():
 <div class="k"><small>Habitación en piso compartido</small><b>≈ {fmt(room)} €/mes</b><small>Media de la ciudad: {fmt(c["hab"])} €/mes</small></div>
 <div class="k"><small>Hipoteca de ese piso (80 %, 30 años, 2,8 %)</small><b>≈ {fmt(cuota)} €/mes</b><small>Rentabilidad bruta si se alquila: {dec(yld)} %</small></div></div>
 <div class="card"><b>Lo que debes saber</b><p>{esc(consejo)} El impuesto de compra de segunda mano {esc(en_ccaa(c["ccaa"]))} es del {str(c["itp"]).replace(".", ",")} % (tipo general).</p></div>
-{dq_html}
+{bar_html}{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a></div>

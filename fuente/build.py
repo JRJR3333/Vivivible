@@ -218,7 +218,7 @@ for ck, c in C.items():
 <div class="card m"><b>¿Dudas entre {esc(c["n"])} y otra ciudad?</b> {" · ".join(f'<a href="../comparar/{par(ck, k2)}/">{esc(c["n"])} o {esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)}</div>"""
     if ck in BAR:  # «en qué distrito está <barrio>»: muchos anuncios dicen el barrio y no el distrito
         BB = BAR[ck]
-        body = body.replace("\n" + fq_html, "\n" + f'<div class="card"><h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px">Barrios de {esc(c["n"])} por distrito</h2><p class="m" style="margin:0 0 6px">Los anuncios suelen decir el barrio: búscalo aquí para saber en qué distrito está.</p><table>'
+        body = body.replace("\n" + fq_html, "\n" + f'<div class="card"><h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px">Barrios de {esc(c["n"])} por distrito</h2><p class="m" style="margin:0 0 6px">Los anuncios suelen decir el barrio: búscalo aquí para saber en qué distrito está, o usa el <a href="../barrios/">buscador de barrios</a>.</p><table>'
             + "".join(f'<tr><td><a href="{slug(d)}/">{esc(d)}</a></td><td style="text-align:left">{esc(("; " if coma(BB[d]) else ", ").join(BB[d]))}</td></tr>' for d, *_ in rows) + "</table></div>\n" + fq_html, 1)
     open(F(ck, "index.html"), "w", encoding="utf-8").write(page(
         f"Vivir en {c['n']}: precio de la vivienda por distritos (2026) | Vivible",
@@ -935,7 +935,7 @@ body = f"""<h1>Los barrios más baratos para alquilar y comprar en España (2026
 <p class="m">Solo entran los distritos con precio publicado por idealista ({len(pub_r)} con alquiler y {len(pub_s)} con venta). Un piso concreto puede costar más o menos según su estado, planta y calle.</p></div>
 {bb_html}
 <a class="cta" href="../">¿Has visto un piso en un barrio barato? Comprueba su precio, transporte y ruido</a>
-<div class="card m"><b>Más guías:</b> <a href="../precios/">Comparar las 10 ciudades</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a> · <a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../precios/">Comparar las 10 ciudades</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a> · <a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("barrios-baratos"), exist_ok=True)
 open(F("barrios-baratos", "index.html"), "w", encoding="utf-8").write(page(
     "Barrios más baratos para alquilar y comprar en España (2026)",
@@ -1025,6 +1025,58 @@ open(F("comparar", "index.html"), "w", encoding="utf-8").write(page(
     f"Compara dos de estas 10 ciudades: alquiler, habitación, compra, impuestos y sueldo necesario, lado a lado. {len(pares)} comparaciones.",
     "comparar/", body, [("Vivible", "../"), ("Comparar ciudades", None)]))
 urls.insert(8, BASE + "comparar/")
+
+# ---------- buscador de barrios (barrios/): «en qué distrito está Russafa», «barrios de Madrid», «precio alquiler <barrio>»;
+# cada barrio oficial de BAR con su distrito y el precio medio del distrito (idealista no publica por barrio; ≈ = estimado como en el distrito)
+assert "barrios" not in C
+fil_b, n_b = [], {}
+for ck, BB in BAR.items():
+    c = C[ck]; n_b[ck] = sum(map(len, BB.values()))
+    for d, bs in BB.items():
+        s_, r_, es_, er_ = dprice(c, d)
+        for b in bs: fil_b.append((slug(b), b, d, ck, c["n"], s_, r_, es_, er_))
+fil_b.sort(key=lambda x: (list(BAR).index(x[3]), x[0]))
+def fila_barrio(x):
+    _, b, d, ck, cn, s_, r_, es_, er_ = x
+    q = slug(f"{b} {d} {cn}").replace("-", " ")
+    return (f'<tr data-q="{esc(q)}"><td style="white-space:normal"><b>{esc(b)}</b><br><span class="m">{esc(cn)}</span></td>'
+            f'<td style="white-space:normal"><a href="../{ck}/{slug(d)}/">{esc(d)}</a></td>'
+            f'<td>{"≈ " if er_ else ""}{dec(r_)} €<br><span class="m">{"≈ " if es_ else ""}{fmt(s_)} €</span></td></tr>')
+tbb = "".join(fila_barrio(x) for x in fil_b)
+nbt = len(fil_b)
+ciu_b = " y ".join([", ".join(C[k]["n"] for k in list(BAR)[:-1]), C[list(BAR)[-1]]["n"]])
+br_html, br_ld = faq([
+    ("¿Cuántos barrios hay en " + ciu_b + "?",
+     "; ".join(f"{C[k]['n']} tiene {n_b[k]} barrios oficiales en {len(BB)} distritos" for k, BB in BAR.items())
+     + (". En Valencia no entran los 17 barrios de los Pobles del Nord, de l'Oest y del Sud, que no tienen precio publicado." if "valencia" in BAR else ".")),
+    ("¿Qué diferencia hay entre barrio y distrito?",
+     "El distrito es la división grande del ayuntamiento y cada uno agrupa varios barrios. Los portales publican el precio medio por distrito, así que para saber cuánto cuesta vivir en un barrio hay que mirar el de su distrito."),
+    ("¿Por qué el precio es el del distrito y no el del barrio?",
+     f"Porque idealista publica el precio medio por distrito ({mes_txt}). Dentro de un mismo distrito puede haber calles más caras y más baratas; para un piso concreto, pega su anuncio en Vivible y lo compara con su zona."),
+    ("¿Qué hago si mi barrio no sale?",
+     "Puede que el anuncio use un nombre popular (por ejemplo, la calle o una urbanización). Escribe la dirección en Vivible y te dice el distrito y el precio de la zona."),
+])
+body = f"""<h1>¿En qué distrito está mi barrio? Barrios de {esc(ciu_b)}</h1>
+<p>Los anuncios suelen decir el barrio, pero los precios se publican por distrito. Busca el barrio y verás su distrito y lo que cuesta vivir allí: alquiler medio por m² al mes y precio de compra por m² (idealista, {esc(mes_txt)}).</p>
+<div class="card"><form id="bq" onsubmit="return false"><label class="m" for="bqi"><b style="color:#1d2321">Busca tu barrio</b></label>
+<input id="bqi" type="search" placeholder="Por ejemplo: Russafa, Pacífico, Poblenou" autocomplete="off" enterkeyhint="search"></form>
+<p id="bqn" class="m" aria-live="polite" style="margin:8px 0 0">{nbt} barrios</p></div>
+<div class="card"><table class="cmp" id="bqt"><caption class="m" style="text-align:left;padding-bottom:6px">Barrio, su distrito y el precio medio del distrito: alquiler por m² al mes y, debajo, compra por m². ≈ es estimado.</caption><tr><th scope="col">Barrio</th><th scope="col">Distrito</th><th scope="col">Alquiler / compra</th></tr>{tbb}</table>
+<p id="bq0" class="m" hidden>No encuentro ese barrio. <a href="../">Escribe la dirección en Vivible</a> y te digo su distrito y su precio.</p></div>
+<style>#bqi{{display:block;width:100%;box-sizing:border-box;margin-top:6px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}</style>
+<script>(function(){{var i=document.getElementById("bqi"),rs=[].slice.call(document.querySelectorAll("#bqt tr[data-q]")),n=document.getElementById("bqn"),z=document.getElementById("bq0");
+function nm(s){{return s.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim()}}
+function f(){{var q=nm(i.value),k=0;rs.forEach(function(r){{var v=!q||(" "+r.getAttribute("data-q")).indexOf(" "+q)>=0||r.getAttribute("data-q").indexOf(q)>=0;r.hidden=!v;if(v)k++}});n.textContent=k+(k==1?" barrio":" barrios");z.hidden=k>0}}
+i.addEventListener("input",f);var p=new URLSearchParams(location.search).get("q");if(p){{i.value=p;f()}}}})();</script>
+{br_html}
+<a class="cta" href="../">¿Has visto un piso? Pega el anuncio y te decimos si está bien de precio</a>
+<div class="card m"><b>Barrios por ciudad:</b> """ + " · ".join(f'<a href="../{k}/">Distritos y barrios de {esc(C[k]["n"])}</a>' for k in BAR) + """ · <a href="../barrios-baratos/">Barrios más baratos</a> · <a href="../precios/">Comparar las 10 ciudades</a></div>"""
+os.makedirs(F("barrios"), exist_ok=True)
+open(F("barrios", "index.html"), "w", encoding="utf-8").write(page(
+    f"¿En qué distrito está mi barrio? {ciu_b} (2026)",
+    desc_corta(f"Busca entre los {nbt} barrios de {ciu_b}: en qué distrito está cada uno y cuánto cuesta alquilar y comprar allí.", " Gratis."),
+    "barrios/", body, [("Vivible", "../"), ("Barrios", None)], br_ld))
+urls.insert(9, BASE + "barrios/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -212,7 +212,7 @@ for ck, c in C.items():
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../comprar-o-alquilar/?c={ck}">¿Compensa comprar o alquilar en {esc(c["n"])}?</a> · <a href="../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../estafas-alquiler/">Cómo evitar estafas</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../estafas-alquiler/">Cómo evitar estafas</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
@@ -897,7 +897,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -1495,7 +1495,7 @@ r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años)
 d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
 open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de alquiler: cuánto dura y qué debe incluir",
@@ -1565,7 +1565,7 @@ r.innerHTML=s}}
 d.addEventListener("change",calc);d.addEventListener("input",calc);a.addEventListener("input",calc);calc()}})();</script>
 {fa_html}
 <a class="cta" href="../">¿Buscas otro piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../inventario-piso/">Inventario del piso al entrar y salir</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../inventario-piso/">Inventario del piso al entrar y salir</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("devolver-fianza"), exist_ok=True)
 open(F("devolver-fianza", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuándo me devuelven la fianza del alquiler? Plazo y descuentos",
@@ -2238,7 +2238,7 @@ $("dcp").addEventListener("click",function(){var b=this,ok=function(){b.textCont
 if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,function(){t.select();try{document.execCommand("copy");ok()}catch(e){}});else{t.select();try{document.execCommand("copy");ok()}catch(e){}}});calc()})();</script>""" + f"""
 {dj_html}
 <a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("dejar-el-piso"), exist_ok=True)
 open(F("dejar-el-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Carta para dejar el piso de alquiler: modelo y plazos (2026)",
@@ -2336,7 +2336,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeT
 var u=new URLSearchParams(location.search).get("q");if(u)q.value=u;fil()})();</script>""" + f"""
 {rp_html}
 <a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("reparaciones-alquiler"), exist_ok=True)
 open(F("reparaciones-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Quién paga las reparaciones en un alquiler? Lista 2026",
@@ -2434,7 +2434,7 @@ it.forEach(function(d){d.querySelector("select").value="";d.querySelector("input
 pinta()})();</script>""" + f"""
 {iv_html}
 <a class="cta" href="../">¿Aún buscas piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("inventario-piso"), exist_ok=True)
 open(F("inventario-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Inventario del piso de alquiler: lista para entrar y salir",
@@ -2674,13 +2674,84 @@ var q=new URLSearchParams(location.search);if(+q.get("r"))r.value=+q.get("r");
 [r,ix,p,fi].forEach(function(e){e.addEventListener("input",calc);e.addEventListener("change",calc)});calc()})();</script>
 """ + sa_html + """
 <a class="cta" href="../">¿Buscas otro piso? Analízalo gratis</a>
-<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("subida-alquiler"), exist_ok=True)
 open(F("subida-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto me pueden subir el alquiler? Calculadora IRAV e IPC",
     desc_corta("Calcula cuánto te pueden subir el alquiler este año con el IRAV o el IPC y comprueba si la subida que te piden es legal.", " Gratis."),
     "subida-alquiler/", body, [("Vivible", "../"), ("Subida del alquiler", None)], sa_ld))
 urls.insert(26, BASE + "subida-alquiler/")
+
+# ---------- ¿Quién paga el IBI y la comunidad en un alquiler? (ibi-comunidad-alquiler/): «quién paga el ibi en un alquiler», «quién paga la comunidad alquiler», «honorarios inmobiliaria alquiler quién paga».
+# Sin cifras inventadas: el usuario escribe sus importes. LAU art. 20 (gastos generales y servicios individuales; gestión inmobiliaria a cargo del arrendador desde la Ley 12/2023).
+assert "ibi-comunidad-alquiler" not in C
+ic_html, ic_ld = faq([
+    ("¿Quién paga el IBI en un piso de alquiler?",
+     "El propietario, salvo que el contrato diga por escrito que lo pagas tú y ponga cuánto es al año. Si el contrato no lo dice, o solo dice «los gastos son del inquilino» sin cifra, no te lo pueden cobrar."),
+    ("¿Quién paga la comunidad de vecinos en un alquiler?",
+     "Igual que el IBI: el propietario, salvo pacto por escrito en el contrato con el importe anual. Si ya va incluida en la renta, no te la pueden cobrar aparte. Las derramas por obras extraordinarias (fachada, ascensor nuevo…) son cosa del propietario."),
+    ("¿Me pueden subir la comunidad que pago cada año?",
+     "Durante los primeros 5 años del contrato (7 si el propietario es una empresa), lo que pagas de comunidad y otros gastos generales solo puede subir una vez al año y como mucho el doble de lo que puede subir la renta. Los impuestos, como el IBI o la tasa de basuras, siguen lo que cobre el ayuntamiento."),
+    ("¿Quién paga la inmobiliaria en un alquiler?",
+     "El propietario. Desde la Ley de Vivienda de 2023 los gastos de gestión inmobiliaria y de formalización del contrato son a cargo del arrendador, así que no te pueden cobrar honorarios de agencia por alquilar el piso."),
+    ("¿Quién paga la luz, el agua y el gas?",
+     "Tú, si tienen contador propio: pagas lo que gastas. Lo normal es poner los recibos a tu nombre o pagárselos al propietario con la factura delante. Si el piso no tiene contador individual (por ejemplo, calefacción central), se reparte como diga el contrato."),
+])
+ic_tab = "".join(f"<tr><td>{a}</td><td><b>{b}</b></td></tr>" for a, b in [
+    ("IBI (impuesto del ayuntamiento)", "Propietario, salvo pacto con importe"),
+    ("Comunidad de vecinos", "Propietario, salvo pacto con importe"),
+    ("Tasa de basuras", "Propietario, salvo pacto con importe"),
+    ("Derramas por obras extraordinarias", "Propietario"),
+    ("Luz, agua, gas e internet", "Inquilino (lo que gasta)"),
+    ("Seguro del edificio (continente)", "Propietario"),
+    ("Seguro de tus cosas (contenido)", "Inquilino, si lo quiere"),
+    ("Inmobiliaria y firma del contrato", "Propietario"),
+    ("Pequeñas reparaciones por el uso", "Inquilino"),
+    ("Reparaciones para que el piso siga habitable", "Propietario"),
+])
+body = """<h1>¿Quién paga el IBI y la comunidad en un alquiler?</h1>
+<p>Si alquilas, <b>el IBI, la comunidad y la basura son del propietario</b>, salvo que el contrato diga por escrito que los pagas tú <b>y cuánto son al año</b>. Escribe lo que te piden y te decimos cuánto te cuesta de verdad al mes y si te lo pueden cobrar.</p>
+<div class="card" id="ic"><b>Haz la cuenta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 140px">Alquiler al mes (€)<br><input type="number" id="ir" inputmode="decimal" min="1" step="1" placeholder="900" class="vin"></label>
+<label class="m" style="flex:1 1 140px">Comunidad al mes (€)<br><input type="number" id="ic1" inputmode="decimal" min="0" step="1" placeholder="0" class="vin"></label>
+<label class="m" style="flex:1 1 140px">IBI al año (€)<br><input type="number" id="ii" inputmode="decimal" min="0" step="1" placeholder="0" class="vin"></label>
+<label class="m" style="flex:1 1 140px">Basura al año (€)<br><input type="number" id="ib" inputmode="decimal" min="0" step="1" placeholder="0" class="vin"></label>
+<label class="m" style="flex:1 1 220px">¿El contrato dice que los pagas tú y cuánto son al año?<br><select id="ip" class="vin"><option value="s">Sí, con el importe</option><option value="n">No, o no pone la cifra</option><option value="x">Aún no he firmado</option></select></label></div>
+<div id="io" aria-live="polite" class="m">Escribe el alquiler y lo que te piden de comunidad, IBI o basura.</div></div>
+<style>.vin{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Quién paga cada cosa</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Lo que dice la ley de alquileres (LAU, art. 20) para la vivienda habitual</caption><tr><th scope="col">Gasto</th><th scope="col">Quién paga</th></tr>""" + ic_tab + """</table>
+<p class="m">Más detalle de averías en <a href="../reparaciones-alquiler/">quién paga las reparaciones</a>.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Las reglas, en corto</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>Solo con pacto por escrito y con cifra:</b> el contrato tiene que decir qué gastos pagas tú y su importe anual al firmar. «Los gastos son del inquilino», sin cifra, no basta.</li>
+<li><b>Subidas limitadas:</b> los primeros 5 años (7 si el propietario es una empresa), la comunidad que pagas solo puede subir una vez al año y como mucho el doble de lo que puede subir la renta (mira <a href="../subida-alquiler/">la subida del alquiler</a>). Los impuestos siguen lo que cobre el ayuntamiento.</li>
+<li><b>Pide los recibos:</b> tienes derecho a ver lo que se paga. Si te cobran más de lo que pone el contrato, contesta por escrito.</li>
+<li><b>La inmobiliaria la paga el propietario</b> desde 2023: si te piden honorarios por alquilar, no te corresponde pagarlos.</li>
+<li><b>Antes de firmar</b>, suma estos gastos a la renta para comparar pisos: un alquiler más barato con comunidad aparte puede salir más caro.</li></ul>
+<p class="m" style="margin:8px 0 0">Esto es una orientación, no asesoramiento legal: mira siempre lo que dice tu contrato. Si no hay acuerdo, la oficina de consumo o de vivienda de tu ayuntamiento o comunidad te ayuda gratis.</p></div>
+<script>(function(){var r=document.getElementById("ir"),c=document.getElementById("ic1"),i=document.getElementById("ii"),b=document.getElementById("ib"),p=document.getElementById("ip"),o=document.getElementById("io");
+function eur(v){var n=Math.round(v*100)/100,s=Math.abs(n).toFixed(2).split(".");return(n<0?"-":"")+s[0].replace(/\\B(?=(\\d{3})+(?!\\d))/g,".")+(s[1]=="00"?"":","+s[1])+" €"}
+function f(e){var v=parseFloat((e.value||"").replace(",","."));return v>0&&v<1e6?v:0}
+function calc(){var R=f(r),C=f(c),I=f(i),B=f(b),m=C+(I+B)/12,a=C*12+I+B,h="";
+if(!m){o.innerHTML=R?"Con <b>"+eur(R)+"</b> al mes y sin gastos aparte, el IBI, la comunidad y la basura los paga el propietario. Si el anuncio dice «gastos aparte», pregunta la cifra antes de firmar.":"Escribe el alquiler y lo que te piden de comunidad, IBI o basura.";return}
+h="Estos gastos son <b>"+eur(m)+" al mes</b> ("+eur(a)+" al año)"+(R?": en total pagarías <b>"+eur(R+m)+" al mes</b>, un "+(Math.round(m/R*1000)/10).toString().replace(".",",")+" % más que el alquiler":"")+".<br>";
+if(p.value=="s")h+="<b>Te los pueden cobrar</b>, porque lo dice el contrato con su importe. Comprueba que lo que pagas coincide con esa cifra y pide los recibos si sube."+(C?" La comunidad solo puede subir una vez al año, como mucho el doble de lo que suba la renta (los primeros 5 años, o 7 si el propietario es una empresa).":"");
+else if(p.value=="n")h+="<b>Si el contrato no dice que los pagas tú y cuánto son al año, son del propietario</b>: no te los pueden cobrar aparte. Díselo por escrito (un correo vale) y guarda la respuesta.";
+else h+="<b>Antes de firmar</b>, pide que el contrato diga qué gastos pagas tú y su importe anual. Para comparar pisos, usa el total de "+(R?eur(R+m):"alquiler más gastos")+" al mes.";
+o.innerHTML=h}
+var q=new URLSearchParams(location.search);if(+q.get("r"))r.value=+q.get("r");
+[r,c,i,b,p].forEach(function(e){e.addEventListener("input",calc);e.addEventListener("change",calc)});calc()})();</script>
+""" + ic_html + """
+<a class="cta" href="../">¿Has visto un piso? Analízalo gratis</a>
+<div class="card m"><b>Más guías:</b> <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../estafas-alquiler/">Estafas en el alquiler</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("ibi-comunidad-alquiler"), exist_ok=True)
+open(F("ibi-comunidad-alquiler", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Quién paga el IBI y la comunidad en un alquiler? (2026)",
+    desc_corta("IBI, comunidad, basura, luz o inmobiliaria: quién paga cada gasto en un alquiler y calculadora para saber si te lo pueden cobrar.", " Gratis."),
+    "ibi-comunidad-alquiler/", body, [("Vivible", "../"), ("IBI y comunidad en un alquiler", None)], ic_ld))
+urls.insert(27, BASE + "ibi-comunidad-alquiler/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

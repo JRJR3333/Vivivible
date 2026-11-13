@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -534,7 +534,7 @@ for ck, c in C.items():
 <p class="m">Habitación estimada a partir de la media de {esc(c["n"])} y del alquiler de cada distrito. Precios sin gastos. Cifras orientativas.</p></div>
 {hq_html}
 <a class="cta" href="../../#c={ck}&op=habitacion">¿Has visto una habitación? Analízala gratis</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a> · <a href="../../independizarse/">Cuánto cuesta independizarse</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "habitacion"), exist_ok=True)
     open(F(ck, "habitacion", "index.html"), "w", encoding="utf-8").write(page(
         f"Precio de una habitación en {c['n']} por distritos (2026)",
@@ -895,7 +895,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -1631,7 +1631,7 @@ document.getElementById("rmen").addEventListener("click",function(){{if(H.childr
 document.getElementById("rf").addEventListener("input",calc);document.getElementById("rf").addEventListener("change",calc);calc()}})();</script>
 {ra_html}
 <a class="cta" href="../">¿Has visto una habitación? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("repartir-alquiler"), exist_ok=True)
 open(F("repartir-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Cómo repartir el alquiler de un piso compartido: calculadora",
@@ -2012,6 +2012,71 @@ open(F("precio-metro-cuadrado", "index.html"), "w", encoding="utf-8").write(page
     desc_corta("Calcula el precio por m² de un piso en venta o alquiler y compáralo con la media de su distrito en 10 ciudades (datos de idealista).", " Gratis."),
     "precio-metro-cuadrado/", body, [("Vivible", "../"), ("Precio por metro cuadrado", None)], pm_ld))
 urls.insert(18, BASE + "precio-metro-cuadrado/")
+
+# ---------- ¿Cuánto cuesta independizarse? (independizarse/): «cuánto dinero necesito para independizarme», «cuánto cuesta independizarse en <ciudad>».
+# Solo precios.json y las reglas de las guías: habitación (hab + GHAB de gastos) o estudio de M2E m² (alquiler €/m²); al entrar, primer mes + fianza de un mes
+# (garantía adicional de hasta dos meses más); sueldo neto para que no pase del 33 % (ESF).
+assert "independizarse" not in C
+IND = sorted(C.items(), key=lambda kc: kc[1]["hab"])
+INJ = json.dumps([[k, c["n"], round(c["hab"]), round(c["alquiler"] * M2E)] for k, c in IND], ensure_ascii=False).replace("</", "<\\/")
+tin = "".join(f'<tr><td><a href="../{k}/habitacion/">{esc(c["n"])}</a></td><td>{fmt(c["hab"])} €</td><td>{fmt(c["hab"] * 2)} €</td><td>{fmt((c["hab"] + GHAB) / ESF)} €</td><td>{fmt(c["alquiler"] * M2E)} €</td><td>{fmt(c["alquiler"] * M2E * 2)} €</td><td><b>{fmt(c["alquiler"] * M2E / ESF)} €</b></td></tr>' for k, c in IND)
+ib, ic = IND[0][1], IND[-1][1]
+eb = min(C.values(), key=lambda c: c["alquiler"]); ec = max(C.values(), key=lambda c: c["alquiler"])
+in_html, in_ld = faq([
+    ("¿Cuánto dinero necesito para independizarme?",
+     f"Para entrar, lo normal es pagar el primer mes y un mes de fianza: el doble del alquiler. Una habitación en piso compartido te pide de {fmt(ib['hab'] * 2)} € en {ib['n']} a {fmt(ic['hab'] * 2)} € en {ic['n']}; un estudio de {M2E} m², de {fmt(eb['alquiler'] * M2E * 2)} € en {eb['n']} a {fmt(ec['alquiler'] * M2E * 2)} € en {ec['n']}. "
+     "Si el propietario pide garantía adicional (hasta dos meses más), cuenta con hasta cuatro meses. Suma algo para muebles, menaje y las altas de luz e internet."),
+    ("¿Cuánto tengo que ganar para independizarme?",
+     f"Lo recomendable es que la vivienda no se lleve más del 33 % de lo que cobras al mes. Para una habitación (con unos {GHAB} € de gastos de luz, agua e internet) necesitas de {fmt((ib['hab'] + GHAB) / ESF)} € netos en {ib['n']} a {fmt((ic['hab'] + GHAB) / ESF)} € en {ic['n']}. "
+     f"Para un estudio de {M2E} m², de {fmt(eb['alquiler'] * M2E / ESF)} € en {eb['n']} a {fmt(ec['alquiler'] * M2E / ESF)} € en {ec['n']}."),
+    ("¿Habitación o estudio?",
+     "La habitación es más barata y casi siempre incluye muebles, pero compartes cocina, baño y normas. El estudio te da intimidad, aunque pagas solo el alquiler y los gastos. Si tu sueldo no llega al del estudio en tu ciudad, empezar en una habitación te deja ahorrar para dar el salto."),
+    ("¿Hay ayudas para jóvenes que se independizan?",
+     "Existe el Bono Alquiler Joven y planes de vivienda de cada comunidad, con requisitos de edad e ingresos y plazos que cambian cada año. Consulta la web de vivienda de tu comunidad autónoma antes de firmar."),
+])
+body = f"""<h1>¿Cuánto cuesta independizarse? Habitación o estudio en 10 ciudades</h1>
+<p>Lo que pagas al mes, lo que necesitas para entrar y lo que deberías ganar para irte a vivir solo o a un piso compartido. Con los precios medios de idealista ({esc(mes_txt)}).</p>
+<div class="card" id="ic"><b>¿Dónde me llega con mi sueldo?</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 150px">Lo que cobras al mes, neto (€)<br><input type="number" id="is" inputmode="decimal" min="0" step="50" placeholder="Por ejemplo, 1300" class="vin"></label>
+<label class="m" style="flex:1 1 150px">Ahorros para entrar (€, opcional)<br><input type="number" id="ia" inputmode="decimal" min="0" step="100" placeholder="Por ejemplo, 2000" class="vin"></label></div>
+<div id="ir" aria-live="polite" class="m">Escribe lo que cobras al mes.</div></div>
+<style>.vin{{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}}#ir ul{{margin:6px 0 0;padding-left:20px}}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Habitación o estudio: lo que cuesta en cada ciudad</h2>
+<div class="card" style="overflow-x:auto"><table class="cmp" style="font-size:13px"><caption class="m" style="text-align:left;padding-bottom:6px">Al mes, para entrar (primer mes + fianza) y sueldo neto recomendado (33 %). Estudio de {M2E} m².</caption><tr><th scope="col">Ciudad</th><th scope="col">Habitación</th><th scope="col">Entrar</th><th scope="col">Sueldo</th><th scope="col">Estudio</th><th scope="col">Entrar</th><th scope="col">Sueldo</th></tr>{tin}</table>
+<p class="m">Si te piden garantía adicional, suma hasta dos meses más. Cada ciudad por distritos en su página de habitación. <a href="../como-calculamos/">Cómo calculamos</a>.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Antes de irte, ten en cuenta</h2>
+<div class="card"><ul style="margin:0;padding-left:20px"><li><b>Gastos del mes:</b> en un estudio pagas tú la luz, el agua, el gas e internet; en una habitación se reparten (unos {GHAB} € al mes por persona).</li>
+<li><b>Entrada:</b> primer mes y fianza; la inmobiliaria no te puede cobrar sus honorarios (los paga el propietario).</li>
+<li><b>Colchón:</b> intenta tener ahorrados uno o dos meses de gastos por si surge algo.</li>
+<li><b>Papeles:</b> nóminas, contrato de trabajo o un avalista si estudias. <a href="../papeles-para-alquilar/">Lista completa</a>.</li></ul></div>
+<script>(function(){{var C={INJ},G={GHAB},E={ESF},M={M2E};
+var s=document.getElementById("is"),a=document.getElementById("ia"),r=document.getElementById("ir");
+function eur(x){{return Math.round(x).toString().replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")+" €"}}
+function y(l){{return l.length<2?l.join(""):l.slice(0,-1).join(", ")+" y "+l[l.length-1]}}
+function calc(){{var sv=parseFloat((s.value||"").replace(",",".")),av=parseFloat((a.value||"").replace(",","."));
+if(!(sv>0)){{r.textContent="Escribe lo que cobras al mes.";return}}
+var tope=sv*E,es=[],hb=[],no=[];
+C.forEach(function(c){{if(c[3]<=tope)es.push(['<a href="../'+c[0]+'/alquiler/">'+c[1]+'</a>',c[3]]);else if(c[2]+G<=tope)hb.push(['<a href="../'+c[0]+'/habitacion/">'+c[1]+'</a>',c[2]]);else no.push(c[1])}});
+var h="Con "+eur(sv)+" al mes, lo recomendable es no pasar de <b>"+eur(tope)+"</b> en vivienda.<ul>";
+if(es.length)h+="<li><b>Estudio de "+M+" m²:</b> te llega en "+y(es.map(function(x){{return x[0]}}))+".</li>";
+if(hb.length)h+="<li><b>Habitación:</b> en "+y(hb.map(function(x){{return x[0]}}))+" (el estudio se te iría de presupuesto).</li>";
+if(no.length)h+="<li><b>Justo:</b> en "+y(no)+" incluso una habitación pasa del 33 %.</li>";
+h+="</ul>";
+if(av>0){{var ok=C.filter(function(c){{return c[3]*2<=av}}).length,okh=C.filter(function(c){{return c[2]*2<=av}}).length;
+h+="Con "+eur(av)+" ahorrados cubres la entrada (primer mes + fianza) de un estudio en "+ok+" de las 10 ciudades y de una habitación en "+okh+"."}}
+r.innerHTML=h}}
+var q=new URLSearchParams(location.search);if(+q.get("s"))s.value=+q.get("s");
+[s,a].forEach(function(e){{e.addEventListener("input",calc)}});calc()}})();</script>
+{in_html}
+<a class="cta" href="../">¿Has visto un piso o una habitación? Comprueba si su precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("independizarse"), exist_ok=True)
+open(F("independizarse", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Cuánto cuesta independizarse? Habitación o estudio (2026)",
+    desc_corta(f"Lo que cuesta independizarse en 10 ciudades: habitación desde {fmt(ib['hab'])} € al mes, cuánto necesitas para entrar y cuánto ganar. Con calculadora.", " Gratis."),
+    "independizarse/", body, [("Vivible", "../"), ("Independizarse", None)], in_ld))
+urls.insert(19, BASE + "independizarse/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

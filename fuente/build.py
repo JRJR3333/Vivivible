@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -1900,7 +1900,7 @@ h=irpf(ga);r.innerHTML=p+"Ganas <b>"+eur(ga)+"</b>: a Hacienda le tocan unos <b>
 ["vq","vg","vv","vx"].forEach(function(i){{document.getElementById(i).addEventListener("input",calc)}});calc()}})();</script>
 {ve_html}
 <a class="cta" href="../">¿Vas a comprar otro? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../plusvalia-municipal/">Plusvalía municipal: calculadora</a> · <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("vender-un-piso"), exist_ok=True)
 open(F("vender-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto pago a Hacienda al vender un piso? Calculadora IRPF 2026",
@@ -1956,7 +1956,7 @@ var q=new URLSearchParams(location.search);if(V[q.get("c")])k.value=q.get("c");d
 k.addEventListener("change",function(){{dis();calc()}});d.addEventListener("change",calc);m.addEventListener("input",calc);calc()}})();</script>
 {vm_html}
 <a class="cta" href="../">¿Has visto un anuncio? Comprueba si su precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../precio-metro-cuadrado/">Precio por metro cuadrado</a> · <a href="../vender-un-piso/">Cuánto pago a Hacienda al vender</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../precio-metro-cuadrado/">Precio por metro cuadrado</a> · <a href="../vender-un-piso/">Cuánto pago a Hacienda al vender</a> · <a href="../plusvalia-municipal/">Plusvalía municipal</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("cuanto-vale-mi-piso"), exist_ok=True)
 open(F("cuanto-vale-mi-piso", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto vale mi piso? Calculadora gratis por distritos (2026)",
@@ -3147,6 +3147,75 @@ open(F("certificado-energetico", "index.html"), "w", encoding="utf-8").write(pag
     desc_corta("Si vendes o alquilas un piso necesitas el certificado energético. Quién lo paga, cuánto dura, qué significa cada letra de la A a la G y si caduca el tuyo.", " Gratis."),
     "certificado-energetico/", body, [("Vivible", "../"), ("Certificado energético", None)], ce_ld))
 urls.insert(32, BASE + "certificado-energetico/")
+
+# ---------- Plusvalía municipal (plusvalia-municipal/): «plusvalía municipal calculadora», «quién paga la plusvalía», «plusvalía si vendo con pérdidas».
+# Impuesto sobre el Incremento de Valor de los Terrenos (TRLRHL arts. 104-110, tras el RDL 26/2021): sin ganancia no se paga (art. 104.5);
+# método real = ganancia × (valor catastral del suelo / valor catastral total) × tipo; método objetivo = valor catastral del suelo × coeficiente
+# del ayuntamiento × tipo; se paga el menor (art. 107.5). Tipo como mucho 30 %. Sin coeficientes ni tipos de ciudades inventados: los escribe el usuario.
+assert "plusvalia-municipal" not in C
+def plus_real(pc, pv, vs, vt, tipo):  # cuota con el método real (0 si no hay ganancia)
+    return max(pv - pc, 0) * vs / vt * tipo / 100
+assert abs(plus_real(200000, 260000, 40000, 100000, 30) - 7200) < 1e-6 and plus_real(250000, 240000, 1, 2, 30) == 0
+pm_html, pm_ld = faq([
+    ("¿Quién paga la plusvalía municipal?",
+     "Al vender, quien vende. En una herencia o una donación, quien recibe el piso. Si quien vende no vive en España, la paga el comprador en su lugar, que suele descontarla del precio."),
+    ("¿Se paga plusvalía si vendo un piso con pérdidas?",
+     "No. Desde noviembre de 2021, si vendes por menos de lo que te costó no hay plusvalía. Aun así tienes que presentar la declaración en el ayuntamiento con las escrituras de compra y de venta para demostrarlo. Los gastos (notaría, impuestos, obras) no cuentan para esa comparación."),
+    ("¿Cómo se calcula la plusvalía municipal?",
+     "Hay dos formas y pagas la que salga menos. Con la real, la ganancia de la venta se multiplica por la parte del valor catastral que es suelo y por el tipo del ayuntamiento. Con la objetiva, el valor catastral del suelo se multiplica por un coeficiente que depende de los años que lo has tenido y por el tipo. El tipo lo fija cada ayuntamiento y como mucho es el 30 %."),
+    ("¿Cuánto tiempo tengo para pagar la plusvalía?",
+     "Al vender o donar, 30 días hábiles desde la firma. En una herencia, 6 meses desde el fallecimiento, que se pueden alargar hasta un año si lo pides dentro de esos 6 meses."),
+    ("¿Dónde veo el valor catastral del suelo?",
+     "En el recibo del IBI, que separa el valor del suelo y el de la construcción, o en la Sede Electrónica del Catastro con certificado digital o Cl@ve. En muchos ayuntamientos su web también calcula la plusvalía con tus datos."),
+])
+body = f"""<h1>Plusvalía municipal: calculadora y quién la paga</h1>
+<p>Cuando vendes un piso, el ayuntamiento cobra la <b>plusvalía municipal</b> (el impuesto sobre el incremento de valor de los terrenos). Si vendes por menos de lo que te costó, <b>no se paga</b>. Escribe los precios y los valores catastrales que vienen en el recibo del IBI y te decimos cuánto saldría, como mucho, y qué puedes hacer para pagar menos. No guardamos nada de lo que escribes.</p>
+<div class="card" id="pm"><b>Tus datos</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+{campo("pc", "Lo que te costó (€)", 'inputmode="decimal" placeholder="200000"')}
+{campo("pv", "Precio de venta (€)", 'inputmode="decimal" placeholder="260000"')}
+{campo("vs", "Valor catastral del suelo (€)", 'inputmode="decimal" placeholder="40000"')}
+{campo("vt", "Valor catastral total (€)", 'inputmode="decimal" placeholder="100000"')}</div>
+<details class="m" style="margin:6px 0"><summary style="min-height:44px;display:flex;align-items:center;cursor:pointer">Más detalles (opcional)</summary>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:4px 0">
+{campo("pt", "Tipo de tu ayuntamiento (%)", 'inputmode="decimal" placeholder="30 como mucho"')}
+{campo("pk", "Coeficiente por los años que lo has tenido", 'inputmode="decimal" placeholder="0,15"')}</div>
+<p class="m" style="margin:4px 0">El tipo y el coeficiente están en la ordenanza fiscal de tu ayuntamiento (búscala como «ordenanza plusvalía» y el nombre de tu ciudad). Sin el tipo, calculamos con el 30 %, que es lo máximo que puede cobrar.</p></details>
+<div id="po" aria-live="polite" class="m" style="margin-top:8px"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo básico, en corto</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>Quién paga:</b> quien vende; en herencias y donaciones, quien recibe el piso. Si quien vende no vive en España, la paga el comprador.</li>
+<li><b>Sin ganancia, no se paga:</b> si vendes por menos de lo que te costó (sin contar gastos), no hay plusvalía, pero hay que presentar la declaración con las dos escrituras.</li>
+<li><b>Dos formas de calcularla:</b> la real (sobre la ganancia) y la objetiva (sobre el valor catastral del suelo y los años). Pagas la que salga menos, y puedes pedirla aunque el ayuntamiento te liquide la otra.</li>
+<li><b>El tipo</b> lo pone cada ayuntamiento, como mucho el 30 %. Algunos dan descuentos en herencias entre padres e hijos o cónyuges.</li>
+<li><b>Plazo:</b> 30 días hábiles desde la firma al vender o donar; 6 meses en una herencia (ampliables a un año).</li>
+<li><b>Cuándo no se paga:</b> además de vender sin ganancia, tampoco en el reparto del piso entre cónyuges por divorcio ni en la dación en pago de la vivienda habitual (con condiciones).</li></ul>
+<p class="m" style="margin:8px 0 0">Es una orientación, no asesoramiento fiscal. Muchas notarías y ayuntamientos te calculan la cifra exacta. Además de la plusvalía, la ganancia de vender tributa en el IRPF: calcúlalo en <a href="../vender-un-piso/">vender un piso: IRPF</a>.</p></div>
+<script>""" + r"""(function(){var $=function(i){return document.getElementById(i)},o=$("po");
+function eur(v){return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")+" €"}
+function f(i){var v=parseFloat(($(i).value||"").replace(/\./g,"").replace(",","."));return v>0&&v<1e9?v:0}
+function g(i){var v=parseFloat(($(i).value||"").replace(",","."));return v>0&&v<1e9?v:0}
+function calc(){var pc=f("pc"),pv=f("pv"),vs=f("vs"),vt=f("vt"),t=g("pt"),k=g("pk"),T=t&&t<=30?t:30,h="";
+if(!pc||!pv){o.innerHTML="Escribe lo que te costó el piso y el precio de venta.";return}
+if(pv<=pc){o.innerHTML="<b>No pagas plusvalía:</b> vendes por "+eur(pv)+" y te costó "+eur(pc)+", así que no hay ganancia. Presenta igualmente la declaración en el ayuntamiento con las escrituras de compra y de venta para demostrarlo.";return}
+var G=pv-pc;h="Ganas <b>"+eur(G)+"</b> con la venta, así que sí hay plusvalía.";
+if(!vs||!vt||vs>vt){o.innerHTML=h+" Escribe el valor catastral del suelo y el total"+(vs>vt?" (el del suelo no puede ser mayor que el total)":"")+": vienen en el recibo del IBI.";return}
+var r=G*vs/vt*T/100,ob=k?vs*k*T/100:0;
+h+="<br>Con el <b>método real</b> (la ganancia por la parte de suelo, un "+(Math.round(vs/vt*1000)/10).toString().replace(".",",")+" % del valor catastral) saldrían <b>"+eur(r)+"</b>.";
+if(k){h+="<br>Con el <b>método objetivo</b> (suelo × coeficiente "+String(k).replace(".",",")+") saldrían <b>"+eur(ob)+"</b>.<br><b>Pagas la más baja: "+eur(Math.min(r,ob))+"</b>"+(r<ob?". Pide el método real al presentar la declaración.":".")}
+else h+="<br>Con el método objetivo puede salir menos: escribe el coeficiente de tu ayuntamiento en «Más detalles» y comparamos.";
+h+="<br>"+(t&&t<=30?"Con el tipo del "+String(t).replace(".",",")+" % que has escrito.":(t>30?"El tipo no puede pasar del 30 %: hemos usado el 30 %.":"Calculado con el 30 %, el máximo: con el tipo de tu ayuntamiento puede salir menos."))+" Plazo para pagarla: 30 días hábiles desde la firma.";
+o.innerHTML=h}
+["pc","pv","vs","vt","pt","pk"].forEach(function(i){$(i).addEventListener("input",calc)});calc()})();</script>""" + f"""
+{pm_html}
+<a class="cta" href="../cuanto-vale-mi-piso/">¿Vas a vender? Mira cuánto vale tu piso</a>
+<div class="card m"><b>Más guías:</b> <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../certificado-energetico/">Certificado energético</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("plusvalia-municipal"), exist_ok=True)
+open(F("plusvalia-municipal", "index.html"), "w", encoding="utf-8").write(page(
+    "Plusvalía municipal: calculadora y quién la paga al vender",
+    desc_corta("Calcula la plusvalía municipal al vender un piso: quién la paga, cuándo no se paga (si vendes con pérdidas), método real u objetivo y plazo.", " Gratis."),
+    "plusvalia-municipal/", body, [("Vivible", "../"), ("Plusvalía municipal", None)], pm_ld))
+urls.insert(33, BASE + "plusvalia-municipal/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

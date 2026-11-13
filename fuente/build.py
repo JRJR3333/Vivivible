@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -140,7 +140,7 @@ a{color:#1f6f54}h1{font:700 30px/1.15 Fraunces,Georgia,serif;margin:10px 0}.b{di
 .card{background:#fff;border:1px solid #e4dfd6;border-radius:16px;padding:18px;margin-top:16px}.g{display:grid;grid-template-columns:1fr 1fr;gap:12px}.k{background:#faf8f4;border:1px solid #e4dfd6;border-radius:12px;padding:12px}
 .k small{display:block;color:#5f6b66;font-size:12px}.k b{font:700 24px Fraunces,serif}.cta{display:block;text-align:center;background:#1f6f54;color:#fff;text-decoration:none;font-weight:700;padding:15px;border-radius:12px;margin-top:18px}
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;border-top:1px solid #f1ede6;text-align:left}td:last-child,th:last-child{text-align:right}.m{color:#5f6b66;font-size:13px}.card.m a{display:inline-block;min-height:44px;line-height:44px;padding:0 2px}
-.cmp td+td,.cmp th+th{white-space:nowrap}@media(max-width:480px){.cmp{font-size:13px}.cmp td,.cmp th{padding:7px 2px}.card:has(.cmp){padding:14px 10px}.cmp th+th{white-space:normal}.card:has(>.cmp){overflow-x:auto}}.faq h2{font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px}.faq h3{font-size:16px;margin:14px 0 2px}.faq p{margin:0}footer.m a{display:inline-block;min-height:44px;line-height:44px}
+.cmp td+td,.cmp th+th{white-space:nowrap}.cmp.txt td{white-space:normal}@media(max-width:480px){.cmp{font-size:13px}.cmp td,.cmp th{padding:7px 2px}.card:has(.cmp){padding:14px 10px}.cmp th+th{white-space:normal}.card:has(>.cmp){overflow-x:auto}}.faq h2{font:700 21px/1.2 Fraunces,Georgia,serif;margin:0 0 4px}.faq h3{font-size:16px;margin:14px 0 2px}.faq p{margin:0}footer.m a{display:inline-block;min-height:44px;line-height:44px}
 @media(max-width:480px){.g{grid-template-columns:1fr}h1{font-size:26px}}"""
 
 def tit_distrito(d, cn):
@@ -211,7 +211,7 @@ for ck, c in C.items():
 <div class="card"><table><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² en cada distrito de {esc(c["n"])} ({esc(c["mes"])})</caption><tr><th scope="col">Distrito</th><th scope="col">Venta</th><th scope="col">Alquiler/mes</th></tr>{tr}</table>{nota}</div>
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
-<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../comprar-o-alquilar/?c={ck}">¿Compensa comprar o alquilar en {esc(c["n"])}?</a> · <a href="../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a></div>
+<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../comprar-o-alquilar/?c={ck}">¿Compensa comprar o alquilar en {esc(c["n"])}?</a> · <a href="../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../estafas-alquiler/">Cómo evitar estafas</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
@@ -268,7 +268,7 @@ for ck, c in C.items():
 <div class="card"><b>Lo que debes saber</b><p>{esc(consejo)} El impuesto de compra de segunda mano {esc(en_ccaa(c["ccaa"]))} es del {str(c["itp"]).replace(".", ",")} % (tipo general).</p></div>
 {bar_html}{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
-<div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="../../pasos-para-comprar/">Pasos para comprar un piso</a></div>
+<div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="../../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../../nota-simple/">Nota simple</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../../mudanza/">Lista para la mudanza</a> · <a href="../../estafas-alquiler/">Cómo evitar estafas</a></div>
 <div class="card m"><b>Calculadoras para {esc(d)}:</b> <a href="../../comprar-o-alquilar/?c={ck}&amp;d={sd}">¿Compensa comprar o alquilar en {esc(d)}?</a> · <a href="../../cuanto-vale-mi-piso/?c={ck}&amp;d={sd}">¿Cuánto vale un piso en {esc(d)}?</a> · <a href="../../precio-metro-cuadrado/?c={ck}&amp;d={sd}">¿Está bien de precio por m²?</a> · <a href="../../vender-un-piso/">Cuánto pagas a Hacienda al vender</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a></div>
@@ -1324,7 +1324,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {vi_html}
 <a class="cta" href="../">¿Te ha gustado el piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../estafas-alquiler/">Cómo saber si un anuncio es una estafa</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../estafas-alquiler/">Cómo saber si un anuncio es una estafa</a> · <a href="../nota-simple/">Cómo leer la nota simple</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("visitar-un-piso"), exist_ok=True)
 open(F("visitar-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Qué mirar al visitar un piso: lista para alquilar o comprar",
@@ -1495,7 +1495,7 @@ r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años)
 d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../nota-simple/">Comprobar quién es el dueño: nota simple</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
 open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de alquiler: cuánto dura y qué debe incluir",
@@ -1828,7 +1828,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pc_html}
 <a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../arras/">Contrato de arras</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple: cómo pedirla y leerla</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("pasos-para-comprar"), exist_ok=True)
 open(F("pasos-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
     "Pasos para comprar un piso: arras, hipoteca, notario y gastos",
@@ -2492,7 +2492,7 @@ body = f"""<h1>¿Es una estafa? Cómo saber si un anuncio de alquiler es falso</
 <h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cómo alquilar sin que te timen</h2>
 <div class="card"><ol style="margin:0;padding-left:20px">
 <li><b>Visita el piso en persona</b> (o manda a alguien de confianza) antes de pagar nada.</li>
-<li><b>Comprueba quién es el dueño</b> con una nota simple del Registro de la Propiedad y compárala con el DNI de quien firma.</li>
+<li><b>Comprueba quién es el dueño</b> con una <a href="../nota-simple/">nota simple</a> del Registro de la Propiedad y compárala con el DNI de quien firma.</li>
 <li><b>Busca las fotos en internet</b> (con Google Lens o similar): si salen en otro anuncio de otra ciudad, es falso.</li>
 <li><b>Lee y firma el contrato</b> antes de pagar. Mira qué te piden en nuestra guía del <a href="../contrato-de-alquiler/">contrato de alquiler</a>.</li>
 <li><b>Paga por transferencia</b> a una cuenta española a nombre del propietario, con el concepto escrito, y guarda el justificante.</li>
@@ -2778,14 +2778,14 @@ body = """<h1>Contrato de arras: cuánto se paga y qué pasa si te echas atrás<
 <div id="ao" aria-live="polite" class="m">Escribe el precio del piso.</div></div>
 <style>.vin{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}</style>
 <h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Los tres tipos de arras</h2>
-<div class="card"><table class="cmp"><tr><th scope="col">Tipo</th><th scope="col">Si te echas atrás</th><th scope="col">Si se echa atrás el vendedor</th></tr>
+<div class="card"><table class="cmp txt"><tr><th scope="col">Tipo</th><th scope="col">Si te echas atrás</th><th scope="col">Si se echa atrás el vendedor</th></tr>
 <tr><td><b>Penitenciales</b></td><td>Pierdes la señal</td><td>Te devuelve el doble</td></tr>
 <tr><td><b>Confirmatorias</b></td><td>Te pueden exigir que compres o reclamarte daños</td><td>Puedes exigir que venda o reclamarle daños</td></tr>
 <tr><td><b>Penales</b></td><td>Pierdes la señal y aun así te pueden exigir que compres</td><td>Te devuelve el doble y aun así puedes exigir que venda</td></tr></table>
 <p class="m">Si el contrato no dice qué tipo son, se suelen entender como confirmatorias. Para poder echarte atrás sabiendo lo que pierdes, que ponga <b>«arras penitenciales del artículo 1454 del Código Civil»</b>.</p></div>
 <h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Antes de firmar las arras</h2>
 <div class="card"><ul style="margin:0;padding-left:20px">
-<li><b>Pide la nota simple</b> en el Registro de la Propiedad: que el vendedor sea el dueño y el piso no tenga cargas ni embargos.</li>
+<li><b>Pide la <a href="../nota-simple/">nota simple</a></b> en el Registro de la Propiedad: que el vendedor sea el dueño y el piso no tenga cargas ni embargos.</li>
 <li><b>Ten la hipoteca encaminada</b> o pon una cláusula para recuperar la señal si el banco te la deniega.</li>
 <li><b>Fecha límite</b> para firmar ante notario con margen para la hipoteca y la tasación (suele darse de 1 a 3 meses).</li>
 <li><b>Paga por transferencia</b> y que el contrato diga que la señal se descuenta del precio.</li>
@@ -2895,6 +2895,98 @@ open(F("amortizar-hipoteca", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta("¿Reducir cuota o plazo? Calcula cuánto ahorras al amortizar la hipoteca, la comisión máxima que te cobra el banco y quién paga sus gastos.", " Gratis."),
     "amortizar-hipoteca/", body, [("Vivible", "../"), ("Amortizar la hipoteca", None)], am_ld))
 urls.insert(29, BASE + "amortizar-hipoteca/")
+
+# ---------- Nota simple (nota-simple/): «nota simple», «cómo pedir una nota simple», «cómo leer una nota simple», «cargas de un piso».
+# Sin cifras inventadas (ni precio exacto ni plazos fijos): qué es, cómo pedirla y un comprobador de lo que pone, para comprar o alquilar.
+assert "nota-simple" not in C
+NS = [  # (id, lo que pone la nota simple, nivel: o = normal, a = pregunta, r = cuidado, qué hacer al comprar, qué hacer al alquilar)
+    ("tit", "El titular no es la persona que te vende o te alquila", "r",
+     "No pagues nada hasta saber por qué: solo el dueño (o alguien con un poder notarial) puede vender. Pide el poder o habla con el titular.",
+     "Solo el dueño, o alguien autorizado por escrito, puede alquilarte el piso. Pide la autorización y compara nombres con el DNI: es la estafa más común."),
+    ("var", "Hay varios titulares (por ejemplo, un matrimonio o unos herederos)", "a",
+     "Tienen que firmar todos la venta y las arras. Si falta alguno, la venta se puede bloquear.",
+     "Lo normal es que firmen todos el contrato, o que uno tenga la autorización de los demás."),
+    ("hip", "Hay una hipoteca", "o",
+     "Es habitual. Que el contrato diga que el vendedor la cancela con el dinero de la venta en la misma firma ante notario y que la deuda pendiente no supere el precio.",
+     "Es habitual y no te afecta mientras el dueño pague. Si el banco ejecutara la hipoteca, tu contrato podría no protegerte igual: pide que esté al día."),
+    ("emb", "Hay un embargo (anotación preventiva de embargo)", "r",
+     "Alguien reclama una deuda al dueño con el piso como garantía. No firmes arras sin que el embargo se levante antes o en la misma firma, con el dinero de la venta.",
+     "Si el piso se subasta, el nuevo dueño podría no respetar tu contrato. Mejor buscar otro piso o consultarlo antes de pagar la fianza."),
+    ("dem", "Hay una anotación de demanda o un pleito sobre el piso", "r",
+     "Hay un juicio que puede afectar a quién es el dueño. No compres hasta que se resuelva o lo revise un abogado.",
+     "Hay un juicio sobre el piso: pregunta qué es antes de firmar."),
+    ("usu", "Hay un usufructo (otra persona tiene derecho a usar el piso)", "r",
+     "Si el vendedor solo tiene la nuda propiedad, no podrás vivir en el piso hasta que se extinga el usufructo. Que firme también el usufructuario o que renuncie.",
+     "Quien puede alquilar el piso es el usufructuario, no el nudo propietario: que firme él."),
+    ("cnd", "Hay una condición resolutoria o un derecho de tanteo o retracto", "a",
+     "Puede haber pagos pendientes de una venta anterior o alguien con derecho a comprar antes que tú. Pide que se cancele o que el notario lo explique.",
+     "No suele afectar al alquiler. Si dudas, pregúntalo."),
+    ("vpo", "Es vivienda protegida (VPO)", "a",
+     "Puede tener precio máximo de venta y requisitos para el comprador, y quizá haya que pedir permiso o devolver ayudas. Pregunta en la consejería de vivienda de tu comunidad.",
+     "Puede tener precio máximo de alquiler y requisitos para el inquilino. Pregunta antes de firmar."),
+    ("afe", "Hay una nota de afección fiscal", "o",
+     "Es normal: indica que el piso responde de un impuesto de una compra o herencia anterior. Suele bastar con que el vendedor lo pagara: pídele el justificante.",
+     "Es normal y no te afecta como inquilino."),
+    ("met", "Los metros o la descripción no coinciden con el anuncio", "a",
+     "Compara con el catastro. Si el anuncio tiene más metros, negocia sobre los de verdad; si hay obras sin legalizar (un ático cerrado, una buhardilla), la hipoteca y la tasación irán por lo inscrito.",
+     "Pregunta por qué. Si el anuncio infla los metros, el precio por m² real es más alto."),
+    ("ser", "Hay una servidumbre (de paso, de luces, de vistas…)", "o",
+     "Suele ser algo antiguo y sin importancia en un piso. Pregunta en qué consiste si no lo entiendes.",
+     "No suele afectar al alquiler."),
+]
+ns_html, ns_ld = faq([
+    ("¿Qué es una nota simple?",
+     "Es un resumen que da el Registro de la Propiedad de un piso: quién es el dueño, cómo es el piso según el Registro y si tiene cargas, como hipotecas o embargos. Sirve para saber con quién tratas y qué compras antes de pagar nada."),
+    ("¿Cómo se pide una nota simple?",
+     "Por internet en la sede electrónica del Colegio de Registradores (registradores.org) o en persona en el Registro de la Propiedad que corresponda al piso. Basta con la dirección exacta; si tienes el número de finca registral o el IDUFIR, mejor. Cuesta poco, unos pocos euros, y no hace falta ser el dueño."),
+    ("¿Cuánto tarda en llegar la nota simple?",
+     "Pedida por internet suele llegar por correo electrónico en poco tiempo, normalmente en el mismo día o en uno o dos días hábiles."),
+    ("¿Qué diferencia hay entre la nota simple y el catastro?",
+     "El catastro es de Hacienda y sirve para los impuestos: dice los metros y el valor catastral, pero no quién es el dueño legal ni si hay hipotecas. La nota simple es del Registro de la Propiedad y sí dice el dueño y las cargas. Para comprar o alquilar, la que cuenta es la nota simple."),
+    ("¿Hace falta pedir la nota simple para alquilar un piso?",
+     "No es obligatorio, pero es la mejor forma de comprobar que quien te alquila es el dueño y evitar estafas. Si el nombre no coincide con el DNI de quien firma, no pagues la fianza hasta aclararlo."),
+])
+ns_filas = "".join(
+    f'<label class="nsi"><input type="checkbox" value="{k}"> <span>{esc(t)}</span></label>' for k, t, *_ in NS)
+ns_js = json.dumps({k: [lv, t, c, a] for k, t, lv, c, a in NS}, ensure_ascii=False).replace("</", "<\\/")
+body = """<h1>Nota simple: qué es, cómo pedirla y cómo leerla</h1>
+<p>La nota simple del Registro de la Propiedad te dice <b>quién es el dueño del piso</b> y si tiene <b>hipotecas, embargos u otras cargas</b>. Pídela antes de pagar arras o fianza. Marca lo que pone la tuya y te decimos si es normal o si debes tener cuidado.</p>
+<div class="card" id="nc"><b>Revisa tu nota simple</b>
+<div role="radiogroup" aria-label="Para qué la miras" style="display:flex;gap:8px;margin:10px 0"><label class="nsm"><input type="radio" name="nm" value="c" checked> Voy a comprar</label><label class="nsm"><input type="radio" name="nm" value="a"> Voy a alquilar</label></div>
+<p class="m" style="margin:0 0 6px">Marca lo que aparece en la nota simple:</p>
+<div id="nl">""" + ns_filas + """</div>
+<div id="no" aria-live="polite" class="m" style="margin-top:10px"></div></div>
+<style>.nsi,.nsm{display:flex;align-items:center;gap:10px;min-height:44px;padding:4px 0;cursor:pointer}.nsm{flex:1;justify-content:center;border:1px solid #d6d0c4;border-radius:10px;background:#fff}.nsi input,.nsm input{width:22px;height:22px;flex:none;margin:0}.nsr{border-left:4px solid;padding:6px 10px;margin:8px 0;border-radius:6px;background:#fff}.nsr.r{border-color:#b3261e}.nsr.a{border-color:#c98a00}.nsr.o{border-color:#1f6f54}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cómo pedir la nota simple</h2>
+<div class="card"><ol style="margin:0;padding-left:20px">
+<li><b>Por internet</b>, en la sede electrónica del Colegio de Registradores (<a href="https://www.registradores.org" rel="noopener">registradores.org</a>), o <b>en persona</b> en el Registro de la Propiedad del piso.</li>
+<li>Busca el piso por su <b>dirección exacta</b> (calle, número, piso y puerta). Si tienes el número de finca registral o el IDUFIR, mejor: el vendedor o la inmobiliaria te lo pueden dar.</li>
+<li>Paga la tasa (unos pocos euros) y te llega por correo electrónico. <b>No hace falta ser el dueño</b> ni pedirle permiso.</li></ol>
+<p class="m" style="margin:8px 0 0">Pídela tú, no te fíes de una copia antigua: la nota simple refleja el Registro el día que se emite. Si vas a comprar, pide otra justo antes de firmar en la notaría (el notario también lo comprueba).</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Qué pone una nota simple</h2>
+<div class="card"><table class="cmp txt"><tr><th scope="col">Apartado</th><th scope="col">Qué mirar</th></tr>
+<tr><td><b>Descripción de la finca</b></td><td>Dirección, metros, planta y anejos (trastero, garaje). Compárala con el anuncio.</td></tr>
+<tr><td><b>Titularidad</b></td><td>Quién es el dueño y en qué parte. Debe ser quien te vende o alquila.</td></tr>
+<tr><td><b>Cargas</b></td><td>Hipotecas, embargos, usufructos, servidumbres. «Libre de cargas» o «No hay cargas registradas» es lo ideal.</td></tr>
+<tr><td><b>Documentos pendientes</b></td><td>Si hay algo presentado que aún no se ha inscrito, puede cambiar lo anterior: pregunta qué es.</td></tr></table></div>
+<script>(function(){var D=""" + ns_js + """,L=document.getElementById("nl"),o=document.getElementById("no"),N={r:"Cuidado",a:"Pregunta",o:"Normal"};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function calc(){var m=document.querySelector('input[name=nm]:checked').value=="c"?2:3,v=[].slice.call(L.querySelectorAll("input:checked")).map(function(e){return e.value}),h="",r=0;
+v.sort(function(a,b){return"rao".indexOf(D[a][0])-"rao".indexOf(D[b][0])});
+v.forEach(function(k){var d=D[k];if(d[0]=="r")r++;h+='<div class="nsr '+d[0]+'"><b>'+N[d[0]]+": "+esc(d[1].charAt(0).toLowerCase()+d[1].slice(1))+".</b> "+esc(d[m])+"</div>"});
+if(!v.length)h="Si la nota simple dice que el dueño es quien te "+(m==2?"vende":"alquila")+" y que <b>no hay cargas</b>, vas bien. Marca arriba lo que aparezca y te decimos qué hacer.";
+else h=(r?"<b>Hay "+r+(r>1?" cosas":" cosa")+" que conviene aclarar antes de pagar nada.</b>":"<b>Nada grave</b>, pero revisa esto:")+h;
+o.innerHTML=h+'<p style="margin:8px 0 0">Esto es una orientación, no asesoramiento legal. Si hay algo en rojo, que lo revise un abogado o la notaría.</p>'}
+document.getElementById("nc").addEventListener("change",calc);calc()})();</script>
+""" + ns_html + """
+<a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../estafas-alquiler/">Estafas en el alquiler</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a></div>"""
+os.makedirs(F("nota-simple"), exist_ok=True)
+open(F("nota-simple", "index.html"), "w", encoding="utf-8").write(page(
+    "Nota simple: qué es, cómo pedirla y cómo leerla",
+    desc_corta("Qué es la nota simple del Registro, cómo pedirla por internet y qué significa lo que pone: dueño, hipoteca, embargo o usufructo, para comprar o alquilar.", " Gratis."),
+    "nota-simple/", body, [("Vivible", "../"), ("Nota simple", None)], ns_ld))
+urls.insert(30, BASE + "nota-simple/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

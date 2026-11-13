@@ -1450,6 +1450,8 @@ nco = len(CON)
 co_html, co_ld = faq([
     ("¿Cuánto dura un contrato de alquiler de vivienda?",
      "Lo que pactéis, pero si es menos de cinco años se renueva solo cada año hasta llegar a cinco (siete si el propietario es una empresa), salvo que tú avises con 30 días de que te vas. Después, si nadie avisa, se alarga año a año hasta tres años más."),
+    ("Mi contrato es de antes de 2019, ¿cuánto dura?",
+     "Depende de cuándo lo firmaste. Si fue entre el 6 de junio de 2013 y el 5 de marzo de 2019, dura como mínimo 3 años y después se alarga 1 año más si nadie avisa con 30 días. Si fue entre 1995 y junio de 2013, 5 años y hasta 3 más. Las reglas de 5 años (7 si es una empresa) y 3 de prórroga son para los firmados desde el 6 de marzo de 2019."),
     ("¿Me pueden echar cuando acabe el primer año?",
      "No, si es tu vivienda habitual. El contrato se renueva solo hasta los cinco años (siete si el propietario es una empresa). La única excepción es que el propietario necesite el piso para vivir él o un familiar directo, que el contrato lo diga expresamente y que te avise con al menos dos meses."),
     ("¿Puedo irme antes de que acabe el contrato?",
@@ -1467,10 +1469,12 @@ body = f"""<h1>Contrato de alquiler: cuánto dura y qué debe incluir</h1>
 <p>Antes de firmar, comprueba que el contrato tiene todo lo importante y conoce los plazos que marca la ley para un piso en el que vas a vivir. Pon la fecha de tu contrato y te decimos hasta cuándo puedes quedarte y desde cuándo puedes irte.</p>
 <div class="card" id="cf"><b>¿Hasta cuándo dura mi contrato?</b>
 <div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px"><label class="m" style="flex:1 1 150px">Empezó el<br><input type="date" id="cd" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px"></label>
-<label class="m" style="flex:1 1 150px">El propietario es<br><select id="ct" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff"><option value="5">Una persona</option><option value="7">Una empresa</option></select></label></div>
+<label class="m" style="flex:1 1 150px">El propietario es<br><select id="ct" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff"><option value="5">Una persona</option><option value="7">Una empresa</option></select></label>
+<label class="m" style="flex:1 1 150px">Años que pone el contrato (opcional)<br><input type="text" id="cy" inputmode="decimal" placeholder="1" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px"></label></div>
 <div id="cr" aria-live="polite" class="m">Elige la fecha en que empezó (o empezará) el contrato.</div></div>
 <h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Los plazos que marca la ley</h2>
 <div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Contratos de vivienda habitual firmados desde marzo de 2019 (Ley de Arrendamientos Urbanos)</caption><tr><th scope="col" style="text-align:left">Qué</th><th scope="col">Plazo</th><th scope="col" style="text-align:left">Detalle</th></tr>{tpl}</table>
+<p class="m">¿Firmaste antes? Los contratos del 6 de junio de 2013 al 5 de marzo de 2019 duran 3 años como mínimo (sea persona o empresa) y se alargan 1 año más si nadie avisa con 30 días; los de 1995 a junio de 2013, 5 años y hasta 3 más. La calculadora de arriba lo tiene en cuenta según la fecha.</p>
 <p class="m">Si alquilas una habitación o un piso de temporada (por estudios o trabajo, menos de un año), estos plazos no se aplican igual: manda lo que firmes, así que léelo con calma.</p></div>
 <h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Qué debe incluir el contrato</h2>
 <div class="card" id="vp" aria-live="polite"><b id="vn">0 de {nco} revisados</b><div class="vb"><i id="vi"></i></div>
@@ -1489,10 +1493,22 @@ document.getElementById("vr").addEventListener("click",function(){{if(cs.some(fu
 var M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],d=document.getElementById("cd"),t=document.getElementById("ct"),r=document.getElementById("cr");
 function mas(f,a,m){{var x=new Date(f.getFullYear()+a,f.getMonth()+m,1),u=new Date(x.getFullYear(),x.getMonth()+1,0).getDate();x.setDate(Math.min(f.getDate(),u));return x}}
 function txt(x){{return x.getDate()+" de "+M[x.getMonth()]+" de "+x.getFullYear()}}
+function dia(a,m,x){{return new Date(a,m-1,x)}}
 function calc(){{var v=/^(\\d{{4}})-(\\d{{2}})-(\\d{{2}})$/.exec(d.value||"");if(!v){{r.textContent="Elige la fecha en que empezó (o empezará) el contrato.";return}}
-var f=new Date(+v[1],v[2]-1,+v[3]),n=+t.value,fin=mas(f,n,0),pr=mas(f,n+3,0),ir=mas(f,0,6),av=mas(fin,0,-4);
-r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años). Si nadie avisa antes, se alarga año a año hasta el <b>"+txt(pr)+"</b>; para no renovar, el propietario tiene que avisarte antes del "+txt(av)+".<br>Puedes irte desde el <b>"+txt(ir)+"</b> avisando con 30 días."}}
-d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
+var f=new Date(+v[1],v[2]-1,+v[3]);if(f<dia(1995,1,1)){{r.innerHTML="Los contratos firmados <b>antes de 1995</b> tienen reglas propias (las de la renta antigua): consulta tu caso en la oficina de vivienda de tu comunidad o con un abogado.";return}}
+var rd=f>=dia(2018,12,19)&&f<=dia(2019,1,22),nu=rd||f>=dia(2019,3,6),me=!nu&&f>=dia(2013,6,6),n=nu?+t.value:(me?3:5),ex=me?1:3,
+p=parseFloat((y.value||"").replace(",",".")),pm=p>n&&p<=50?Math.round(p*12):0,fin=pm?mas(f,0,pm):mas(f,n,0),pr=mas(fin,ex,0),ir=mas(f,0,6),av=mas(fin,0,-4),h=new Date();h.setHours(0,0,0,0);
+var q=nu?(rd?"entre el 19 de diciembre de 2018 y el 22 de enero de 2019":"desde el 6 de marzo de 2019"):(me?"entre el 6 de junio de 2013 y el 5 de marzo de 2019":"entre 1995 y el 5 de junio de 2013");
+var o='<span class="m">Reglas de los contratos firmados '+q+'.</span><br>'+"Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+(pm?"lo que pone tu contrato":n+" años"+(me?", sea el propietario una persona o una empresa":""))+"). ";
+o+="Si nadie avisa antes, se alarga año a año hasta el <b>"+txt(pr)+"</b> ("+(ex>1?ex+" años":"1 año")+" más)";
+o+=nu&&!rd?"; para no renovar, el propietario tiene que avisarte antes del "+txt(av)+" y tú, con 2 meses.":(rd?"; mira en tu contrato con cuánta antelación hay que avisar.":"; para no renovar, cualquiera de los dos tiene que avisar con al menos un mes.");
+o+=f>=dia(2013,6,6)?"<br>Puedes irte desde el <b>"+txt(ir)+"</b> avisando con 30 días.":"<br>En los contratos de antes de junio de 2013, irte antes de tiempo depende de lo que diga el contrato.";
+o+="<br><b>Hoy:</b> "+(h<f?"el contrato aún no ha empezado.":h<fin?"estás dentro de la duración mínima.":h<pr?"estás en la prórroga año a año.":"ya han pasado todos los plazos de la ley. Si sigues en el piso sin firmar otro contrato y nadie ha dicho nada, se renueva por meses si pagas cada mes (Código Civil, arts. 1566 y 1581) y se puede terminar avisando; si vais a seguir, mejor firmar un contrato nuevo por escrito.");
+if(nu&&h<pr)o+='<br><span class="m">Si el piso está en una zona de mercado tensionado, al terminar la prórroga puedes pedir hasta 3 años más (Ley 12/2023).</span>';
+r.innerHTML=o}}
+var y=document.getElementById("cy");y.addEventListener("input",calc);
+d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);
+calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
 <div class="card m"><b>Más guías:</b> <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../nota-simple/">Comprobar quién es el dueño: nota simple</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../empadronarse/">Empadronarse en un piso de alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""

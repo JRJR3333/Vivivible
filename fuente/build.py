@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -895,7 +895,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -1493,7 +1493,7 @@ r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años)
 d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
 open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de alquiler: cuánto dura y qué debe incluir",
@@ -1563,7 +1563,7 @@ r.innerHTML=s}}
 d.addEventListener("change",calc);d.addEventListener("input",calc);a.addEventListener("input",calc);calc()}})();</script>
 {fa_html}
 <a class="cta" href="../">¿Buscas otro piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("devolver-fianza"), exist_ok=True)
 open(F("devolver-fianza", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuándo me devuelven la fianza del alquiler? Plazo y descuentos",
@@ -2147,7 +2147,7 @@ function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.g
 function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
 cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
 document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
-<p class="m">¿Dejas un alquiler? Mira <a href="../devolver-fianza/">cuándo te tienen que devolver la fianza</a> y <a href="../contrato-de-alquiler/">cuánto dura tu contrato</a>. ¿Aún buscas casa? <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a>.</p>
+<p class="m">¿Dejas un alquiler? Avisa al propietario con el <a href="../dejar-el-piso/">modelo de carta para dejar el piso</a> y mira <a href="../devolver-fianza/">cuándo te tienen que devolver la fianza</a> y <a href="../contrato-de-alquiler/">cuánto dura tu contrato</a>. ¿Aún buscas casa? <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a>.</p>
 {mu_html}
 <a class="cta" href="../">¿Aún no tienes piso? Pega el anuncio y comprueba si el precio es justo</a>
 <div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
@@ -2157,6 +2157,92 @@ open(F("mudanza", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Checklist de mudanza con {nmud} pasos: avisar al casero, luz, agua e internet, empadronarte, cambiar la dirección en Hacienda y Tráfico y la fianza.", " Gratis."),
     "mudanza/", body, [("Vivible", "../"), ("Mudanza", None)], mu_ld))
 urls.insert(20, BASE + "mudanza/")
+
+# ---------- dejar el piso (dejar-el-piso/): «carta para dejar el piso de alquiler», «modelo carta preaviso alquiler»,
+# «cuánto tiempo antes hay que avisar para dejar un piso». Generador de la carta (solo en el navegador: no se guarda ni se envía nada)
+# con los plazos de la LAU: art. 11 (irte antes, desde los 6 meses y con 30 días), art. 9.1 (no renovar: 30 días antes del fin del
+# contrato o de cada prórroga), art. 10.1 (tras los 5 o 7 años: 2 meses; en la prórroga de hasta 3 años, 1 mes) y art. 36.4 (fianza).
+assert "dejar-el-piso" not in C
+DPZ = [
+    ("Irte antes de que acabe el contrato", "30 días", "Desde los 6 meses. Si el contrato lo dice, puede pedirte un mes de alquiler por cada año que falte (la parte proporcional si es menos)."),
+    ("No renovar al acabar el contrato o una prórroga anual", "30 días antes", "Hasta llegar a los 5 años (7 si el propietario es una empresa). Sin indemnización."),
+    ("Al cumplir los 5 (o 7) años", "2 meses antes", "Si nadie avisa, se alarga año a año hasta 3 años más; en ese tiempo, avisa 1 mes antes de que acabe cada año."),
+]
+dj_html, dj_ld = faq([
+    ("¿Con cuánta antelación tengo que avisar para dejar el piso de alquiler?",
+     "Con 30 días como mínimo, tanto si te vas antes de que acabe el contrato (a partir de los seis meses) como si no quieres renovarlo. Si ya has cumplido los cinco años (siete si el propietario es una empresa), avisa con dos meses."),
+    ("¿Tengo que pagar algo si me voy antes de que acabe el contrato?",
+     "Solo si el contrato lo dice: como mucho, un mes de alquiler por cada año que falte para que acabe el contrato, y la parte proporcional si falta menos de un año. Si el contrato no dice nada, no hay indemnización."),
+    ("¿Puedo irme antes de los seis meses?",
+     "La ley no te deja irte por tu cuenta antes de los seis meses. Lo mejor es pactarlo por escrito con el propietario, por ejemplo buscándole tú un nuevo inquilino."),
+    ("¿Cómo entrego la carta para que tenga validez?",
+     "De forma que quede prueba de la fecha y del contenido: por burofax con acuse de recibo y certificación de contenido, o en mano con una copia que el propietario te firme y feche. Un correo o un WhatsApp sirve si el propietario te contesta confirmando que lo ha recibido."),
+    ("¿Qué pasa con la fianza cuando dejo el piso?",
+     "El propietario tiene un mes desde que le entregas las llaves para devolvértela, descontando solo lo que debas o los daños que hayas causado, justificados. Pásale por escrito la cuenta donde quieres recibirla."),
+])
+tdp = "".join(f'<tr><td style="text-align:left;white-space:normal">{esc(a)}</td><td><b>{esc(b)}</b></td><td style="text-align:left;white-space:normal" class="m">{esc(x)}</td></tr>' for a, b, x in DPZ)
+IN = "font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff"
+def campo(i, et, extra="", tipo="text"):
+    return f'<label class="m" style="flex:1 1 150px">{et}<br><input type="{tipo}" id="{i}" style="{IN}" {extra}></label>'
+body = f"""<h1>Carta para dejar el piso de alquiler: modelo y plazos</h1>
+<p>Para irte de un piso de alquiler tienes que avisar al propietario <b>por escrito y con 30 días de antelación</b> como mínimo. Rellena los datos y te preparamos la carta para copiarla o enviarla, y te avisamos si la fecha no cumple los plazos de la ley. Lo que escribas se queda en tu móvil: no lo guardamos ni lo enviamos a nadie.</p>
+<div class="card" id="dj"><b>Tus datos</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+{campo("dn", "Tu nombre", 'autocomplete="name" placeholder="Nombre y apellidos"')}
+{campo("dp", "Nombre del propietario", 'placeholder="O de la agencia"')}
+{campo("dd", "Dirección del piso", 'autocomplete="street-address" placeholder="Calle, número, piso"')}
+{campo("dc", "Ciudad", 'placeholder="Por ejemplo, Madrid"')}
+{campo("di", "El contrato empezó el", "", "date")}
+{campo("ds", "Dejo el piso el", "", "date")}
+<label class="m" style="flex:1 1 150px">Me voy<br><select id="dm" style="{IN}"><option value="a">Antes de que acabe</option><option value="r">Al acabar (no renuevo)</option></select></label>
+{campo("df", "Fianza (€, opcional)", 'inputmode="decimal" min="0" step="10" placeholder="Por ejemplo, 900"', "number")}
+</div>
+<div id="dr" aria-live="polite" class="m" style="margin:8px 0"></div>
+<label class="m" for="dt">Tu carta (puedes retocarla antes de copiarla)</label>
+<textarea id="dt" rows="16" style="font:15px/1.45 Inter,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:10px;border:1px solid #d6d0c4;border-radius:10px;margin-top:4px;resize:vertical"></textarea>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button type="button" id="dcp" class="vbt">Copiar la carta</button><a id="dwa" class="vbt" target="_blank" rel="noopener">Enviar por WhatsApp</a><a id="dml" class="vbt">Enviar por correo</a></div>
+<p class="m" style="margin-bottom:0">Para que quede prueba, mándala por <b>burofax con acuse de recibo y certificación de contenido</b> o entrégala en mano y pide que te firmen una copia con la fecha.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Con cuánta antelación hay que avisar</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Plazos de la Ley de Arrendamientos Urbanos para un piso en el que vives (contratos desde marzo de 2019)</caption><tr><th scope="col" style="text-align:left">Cuándo te vas</th><th scope="col">Aviso</th><th scope="col" style="text-align:left">Detalle</th></tr>{tdp}</table>
+<p class="m">Si alquilas una habitación o un piso de temporada, manda lo que diga tu contrato. Calcula las fechas de tu contrato en <a href="../contrato-de-alquiler/">cuánto dura un contrato de alquiler</a>.</p></div>
+<style>.vbt{{display:inline-flex;align-items:center;font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer;text-decoration:none;box-sizing:border-box}}#dr b{{color:#1d2321}}#dr .av{{color:#9a3b1c}}</style>
+<script>""" + r"""(function(){var M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],K="vivible.dejar",$=function(i){return document.getElementById(i)},ids=["dn","dp","dd","dc","di","ds","dm","df"],t=$("dt"),r=$("dr"),s={};
+try{s=JSON.parse(localStorage.getItem(K)||"{}")||{}}catch(e){}
+ids.forEach(function(i){if(s[i]!=null)$(i).value=s[i]});
+function mas(f,a,m){var x=new Date(f.getFullYear()+a,f.getMonth()+m,1),u=new Date(x.getFullYear(),x.getMonth()+1,0).getDate();x.setDate(Math.min(f.getDate(),u));return x}
+function fe(v){v=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||"");return v?new Date(+v[1],v[2]-1,+v[3]):null}
+function txt(x){return x.getDate()+" de "+M[x.getMonth()]+" de "+x.getFullYear()}
+function eur(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")+" €"}
+function v(i){return ($(i).value||"").trim()}
+function calc(){var o={};ids.forEach(function(i){o[i]=$(i).value});try{localStorage.setItem(K,JSON.stringify(o))}catch(e){}
+var h=new Date(),hoy=new Date(h.getFullYear(),h.getMonth(),h.getDate()),fi=fe(v("di")),fs=fe(v("ds")),m=v("dm"),q=parseFloat(v("df").replace(",",".")),av=[];
+var sal=fs?"el "+txt(fs):"el [día en que dejas el piso]",dias=fs?Math.round((fs-hoy)/864e5):null;
+if(!fs)av.push("Elige el día en que dejas el piso y te decimos si cumples el plazo.");
+else if(dias<30)av.push('<span class="av"><b>Avisas con '+(dias<0?0:dias)+(dias===1?" día":" días")+'.</b> La ley pide 30 como mínimo: si mandas la carta hoy, la primera fecha que lo cumple es el <b>'+txt(new Date(hoy.getFullYear(),hoy.getMonth(),hoy.getDate()+30))+'</b>. Si quieres irte antes, pacta la fecha por escrito con el propietario.</span>');
+else av.push("Avisas con <b>"+dias+" días</b>: cumples los 30 que pide la ley"+(m==="r"?" (si ya has cumplido los 5 años de contrato, o 7 si el propietario es una empresa, hacen falta 2 meses).":"."));
+if(m==="r"&&fi&&fs&&fs>=mas(fi,5,0)&&dias!=null&&dias<61)av.push('<span class="av">Tu contrato ya tiene 5 años o más: si es el fin de la prórroga obligatoria, hacen falta <b>2 meses</b> de aviso (y 1 mes en cada año de la prórroga de hasta 3 años).</span>');
+if(m==="r")av.push("Esta opción es para irte el día en que acaba el contrato o una de sus prórrogas anuales; si te vas en otra fecha, elige «Antes de que acabe».");
+if(m==="a"){if(fi&&fs&&fs<mas(fi,0,6))av.push('<span class="av"><b>Aún no habrán pasado 6 meses</b> (se cumplen el '+txt(mas(fi,0,6))+'): la ley no te deja irte antes por tu cuenta. Pacta la salida por escrito con el propietario.</span>');
+av.push("Si tu contrato lo dice, puede pedirte un mes de alquiler por cada año que falte para que acabe (la parte proporcional si es menos). Si no dice nada, no pagas indemnización.")}
+r.innerHTML=av.join("<br>");
+var ley=m==="r"?"no renovaré el contrato a su vencimiento, según los artículos 9 y 10 de la Ley de Arrendamientos Urbanos":"desisto del contrato, según el artículo 11 de la Ley de Arrendamientos Urbanos";
+t.value=(v("dc")||"[Ciudad]")+", a "+txt(hoy)+"\n\nA la atención de "+(v("dp")||"[nombre del propietario]")+"\n\nAsunto: aviso de que dejo la vivienda alquilada\n\n"+
+"Yo, "+(v("dn")||"[tu nombre]")+", con DNI o NIE ____________, que tengo alquilada la vivienda situada en "+(v("dd")||"[dirección del piso]")+(fi?" según el contrato firmado el "+txt(fi):"")+", le comunico por escrito"+(dias!=null&&dias>=0?", con "+dias+(dias===1?" día":" días")+" de antelación,":"")+" que dejaré la vivienda "+sal+" y que "+ley+".\n\n"+
+"Le propongo quedar ese día para entregarle las llaves, leer los contadores y revisar juntos el estado de la vivienda. Le ruego que me devuelva la fianza"+(q>0?" de "+eur(q):"")+" en el plazo de un mes desde la entrega de las llaves, como marca el artículo 36.4 de la misma ley, en la cuenta que le indicaré.\n\nAtentamente,\n\n"+(v("dn")||"[tu nombre]")+"\nFirma:";
+enl()}
+function enl(){$("dwa").href="https://wa.me/?text="+encodeURIComponent(t.value);$("dml").href="mailto:?subject="+encodeURIComponent("Aviso de que dejo la vivienda alquilada")+"&body="+encodeURIComponent(t.value)}
+ids.forEach(function(i){$(i).addEventListener("input",calc);$(i).addEventListener("change",calc)});t.addEventListener("input",enl);
+$("dcp").addEventListener("click",function(){var b=this,ok=function(){b.textContent="Copiada";setTimeout(function(){b.textContent="Copiar la carta"},2000)};
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,function(){t.select();try{document.execCommand("copy");ok()}catch(e){}});else{t.select();try{document.execCommand("copy");ok()}catch(e){}}});calc()})();</script>""" + f"""
+{dj_html}
+<a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("dejar-el-piso"), exist_ok=True)
+open(F("dejar-el-piso", "index.html"), "w", encoding="utf-8").write(page(
+    "Carta para dejar el piso de alquiler: modelo y plazos (2026)",
+    desc_corta("Modelo de carta para avisar al propietario de que dejas el piso de alquiler: rellénala y cópiala o envíala. Con cuánta antelación avisar.", " Gratis."),
+    "dejar-el-piso/", body, [("Vivible", "../"), ("Dejar el piso", None)], dj_ld))
+urls.insert(21, BASE + "dejar-el-piso/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

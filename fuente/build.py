@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -211,7 +211,7 @@ for ck, c in C.items():
 <div class="card"><table><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² en cada distrito de {esc(c["n"])} ({esc(c["mes"])})</caption><tr><th scope="col">Distrito</th><th scope="col">Venta</th><th scope="col">Alquiler/mes</th></tr>{tr}</table>{nota}</div>
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
-<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../comprar-o-alquilar/?c={ck}">¿Compensa comprar o alquilar en {esc(c["n"])}?</a> · <a href="../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a></div>
+<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../comprar-o-alquilar/?c={ck}">¿Compensa comprar o alquilar en {esc(c["n"])}?</a> · <a href="../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../estafas-alquiler/">Cómo evitar estafas</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
@@ -1828,7 +1828,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pc_html}
 <a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../arras/">Contrato de arras</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("pasos-para-comprar"), exist_ok=True)
 open(F("pasos-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
     "Pasos para comprar un piso: arras, hipoteca, notario y gastos",
@@ -2752,6 +2752,69 @@ open(F("ibi-comunidad-alquiler", "index.html"), "w", encoding="utf-8").write(pag
     desc_corta("IBI, comunidad, basura, luz o inmobiliaria: quién paga cada gasto en un alquiler y calculadora para saber si te lo pueden cobrar.", " Gratis."),
     "ibi-comunidad-alquiler/", body, [("Vivible", "../"), ("IBI y comunidad en un alquiler", None)], ic_ld))
 urls.insert(27, BASE + "ibi-comunidad-alquiler/")
+
+# ---------- Contrato de arras (arras/): «contrato de arras», «arras penitenciales», «cuánto se paga de arras», «qué pasa si me echo atrás en las arras».
+# Sin cifras inventadas: el usuario escribe el precio; el 10 % es solo el valor de partida habitual (ARR, el mismo de pasos-para-comprar/). Código Civil art. 1454 (penitenciales) y 1124 (confirmatorias).
+assert "arras" not in C
+ar_html, ar_ld = faq([
+    ("¿Qué es el contrato de arras?",
+     "Es el contrato con el que reservas un piso antes de comprarlo: pagas una señal al vendedor y fijáis una fecha límite para firmar la compraventa ante notario. Esa señal se descuenta después del precio."),
+    ("¿Cuánto se paga de arras?",
+     "Lo que pactéis: no hay una cifra fija en la ley. Lo más habitual es un 10 % del precio del piso. Si es más, arriesgas más dinero; si es menos, el vendedor tiene menos que perder si se echa atrás."),
+    ("¿Qué pasa si me echo atrás después de firmar las arras?",
+     "Con arras penitenciales, pierdes la señal y ya está. Con arras confirmatorias o penales, además de perder la señal, el vendedor podría pedirte que cumplas la compra o reclamarte daños. Por eso conviene que el contrato diga claramente que son penitenciales (artículo 1454 del Código Civil)."),
+    ("¿Y si no me dan la hipoteca?",
+     "Si el contrato no dice nada, no tener hipoteca no te libra: pierdes la señal. Para evitarlo, pide la hipoteca antes de firmar las arras o añade una cláusula que diga que te devuelven la señal si el banco te la deniega."),
+    ("¿Qué pasa si el vendedor se echa atrás?",
+     "Con arras penitenciales, te tiene que devolver el doble de la señal: la tuya y otro tanto. Si vende el piso a otra persona, es lo mismo. Pide que se pague por transferencia para que quede constancia."),
+])
+body = """<h1>Contrato de arras: cuánto se paga y qué pasa si te echas atrás</h1>
+<p>Las arras son la <b>señal que pagas para reservar el piso</b> hasta firmar ante notario. Suele ser un <b>10 % del precio</b>, pero se pacta. Escribe el precio y te decimos cuánto adelantas, cuánto pagas después y qué pierdes o recuperas si alguien se echa atrás.</p>
+<div class="card" id="ac"><b>Haz la cuenta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 140px">Precio del piso (€)<br><input type="number" id="ap" inputmode="decimal" min="1" step="1000" placeholder="200000" class="vin"></label>
+<label class="m" style="flex:1 1 120px">Señal (% del precio)<br><input type="number" id="aq" inputmode="decimal" min="0" max="100" step="1" value=\"""" + str(round(ARR * 100)) + """\" class="vin"></label>
+<label class="m" style="flex:1 1 220px">Tipo de arras<br><select id="at" class="vin"><option value="p">Penitenciales (las más habituales)</option><option value="c">Confirmatorias</option><option value="e">Penales</option><option value="x">No lo sé / no lo pone</option></select></label></div>
+<div id="ao" aria-live="polite" class="m">Escribe el precio del piso.</div></div>
+<style>.vin{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Los tres tipos de arras</h2>
+<div class="card"><table class="cmp"><tr><th scope="col">Tipo</th><th scope="col">Si te echas atrás</th><th scope="col">Si se echa atrás el vendedor</th></tr>
+<tr><td><b>Penitenciales</b></td><td>Pierdes la señal</td><td>Te devuelve el doble</td></tr>
+<tr><td><b>Confirmatorias</b></td><td>Te pueden exigir que compres o reclamarte daños</td><td>Puedes exigir que venda o reclamarle daños</td></tr>
+<tr><td><b>Penales</b></td><td>Pierdes la señal y aun así te pueden exigir que compres</td><td>Te devuelve el doble y aun así puedes exigir que venda</td></tr></table>
+<p class="m">Si el contrato no dice qué tipo son, se suelen entender como confirmatorias. Para poder echarte atrás sabiendo lo que pierdes, que ponga <b>«arras penitenciales del artículo 1454 del Código Civil»</b>.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Antes de firmar las arras</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>Pide la nota simple</b> en el Registro de la Propiedad: que el vendedor sea el dueño y el piso no tenga cargas ni embargos.</li>
+<li><b>Ten la hipoteca encaminada</b> o pon una cláusula para recuperar la señal si el banco te la deniega.</li>
+<li><b>Fecha límite</b> para firmar ante notario con margen para la hipoteca y la tasación (suele darse de 1 a 3 meses).</li>
+<li><b>Paga por transferencia</b> y que el contrato diga que la señal se descuenta del precio.</li>
+<li><b>Pide un certificado de la comunidad</b> que diga que no hay deudas, y pregunta por derramas aprobadas.</li>
+<li><b>Cuenta los gastos</b>: además del resto del precio, en la firma pagas el impuesto de compra, notaría, registro y gestoría (mira <a href="../gastos-de-compra/">los gastos de comprar</a>).</li></ul>
+<p class="m" style="margin:8px 0 0">Esto es una orientación, no asesoramiento legal. Si dudas, que un abogado o la notaría revise el contrato antes de pagar la señal.</p></div>
+<script>(function(){var P=document.getElementById("ap"),Q=document.getElementById("aq"),T=document.getElementById("at"),o=document.getElementById("ao");
+function eur(v){var n=Math.round(v),s=Math.abs(n).toFixed(0);return(n<0?"-":"")+s.replace(/\\B(?=(\\d{3})+(?!\\d))/g,".")+" €"}
+function f(e,mx){var v=parseFloat((e.value||"").replace(",","."));return v>0&&v<=mx?v:0}
+function calc(){var p=f(P,1e8),q=f(Q,100),s=p*q/100,h;
+if(!p){o.innerHTML="Escribe el precio del piso.";return}
+if(!s){o.innerHTML="Escribe el porcentaje de la señal (lo habitual es un 10 %).";return}
+h="Pagas <b>"+eur(s)+" de señal</b> al firmar las arras y <b>"+eur(p-s)+"</b> del precio en la notaría, más los impuestos y gastos de la compra.<br>";
+if(T.value=="p")h+="<b>Si te echas atrás</b>, pierdes los "+eur(s)+". <b>Si se echa atrás el vendedor</b>, te devuelve "+eur(2*s)+" (tu señal y otro tanto).";
+else if(T.value=="c")h+="<b>Si te echas atrás</b>, el vendedor puede exigirte que compres o reclamarte daños, que pueden ir más allá de los "+eur(s)+". <b>Si se echa atrás él</b>, puedes exigirle que venda o reclamarle daños.";
+else if(T.value=="e")h+="<b>Si te echas atrás</b>, pierdes los "+eur(s)+" y además te pueden exigir que compres. <b>Si se echa atrás el vendedor</b>, te devuelve "+eur(2*s)+" y aun así puedes exigirle que venda.";
+else h+="<b>Si el contrato no dice qué tipo son, se suelen entender como confirmatorias</b>: echarte atrás puede costarte más que la señal. Pide que ponga «arras penitenciales» antes de firmar: así sabes que como mucho pierdes "+eur(s)+".";
+o.innerHTML=h}
+var q=new URLSearchParams(location.search);if(+q.get("p")>0)P.value=+q.get("p");
+[P,Q,T].forEach(function(e){e.addEventListener("input",calc);e.addEventListener("change",calc)});calc()})();</script>
+""" + ar_html + """
+<a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("arras"), exist_ok=True)
+open(F("arras", "index.html"), "w", encoding="utf-8").write(page(
+    "Contrato de arras: cuánto se paga y qué pasa si te echas atrás",
+    desc_corta("Calcula la señal de arras de tu piso y qué pierdes si te echas atrás: arras penitenciales, confirmatorias y penales, y qué revisar antes de firmar.", " Gratis."),
+    "arras/", body, [("Vivible", "../"), ("Contrato de arras", None)], ar_ld))
+urls.insert(28, BASE + "arras/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

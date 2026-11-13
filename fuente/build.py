@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}prorrateo/">Alquiler prorrateado</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}hipoteca-fija-o-variable/">Hipoteca fija o variable</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}prorrateo/">Alquiler prorrateado</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -845,7 +845,7 @@ body = f"""<h1>Cuota de la hipoteca: cuánto pagarás al mes (2026)</h1>
 <p class="m">El banco suele prestar hasta el 80 % del precio: el 20 % restante, el impuesto y los gastos los pones tú. Lo tienes por distritos en la guía de cada ciudad.</p></div>
 {hq_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más guías:</b> <a href="../amortizar-hipoteca/">Amortizar la hipoteca: ¿cuota o plazo?</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Gastos de comprar en {esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
+<div class="card m"><b>Más guías:</b> <a href="../hipoteca-fija-o-variable/">¿Hipoteca fija o variable?</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca: ¿cuota o plazo?</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Gastos de comprar en {esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
 <style>#calc input{{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}#calc label{{display:block}}</style>
 <script>(function(){{var f=function(n){{return String(Math.round(n)).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}};function c(){{var tv=document.getElementById("ht").value,q=+document.getElementById("hq").value,a=+document.getElementById("ha").value,t=+tv/1200,r=document.getElementById("hr"),s=document.getElementById("hs");
 if(tv===""||!(q>0&&a>0&&a<=50&&t>=0&&t<1)){{r.textContent="—";s.textContent="Revisa los datos";return}}var n=a*12,m=t?q*t/(1-Math.pow(1+t,-n)):q/n;r.textContent="≈ "+f(m)+" €";s.textContent="Ganar ≈ "+f(m/{ESC})+" € netos · intereses "+f(m*n-q)+" €"}}
@@ -2888,7 +2888,7 @@ var q=new URLSearchParams(location.search);if(+q.get("d")>0)D.value=+q.get("d");
 [D,I,N,A,T,Y].forEach(function(e){e.addEventListener("input",calc);e.addEventListener("change",calc)});calc()})();</script>
 """ + am_html + """
 <a class="cta" href="../">¿Buscas piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a> · <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a></div>"""
+<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../hipoteca-fija-o-variable/">¿Hipoteca fija o variable?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a> · <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a></div>"""
 os.makedirs(F("amortizar-hipoteca"), exist_ok=True)
 open(F("amortizar-hipoteca", "index.html"), "w", encoding="utf-8").write(page(
     "Amortizar hipoteca: calculadora de cuota o plazo y comisión",
@@ -3276,6 +3276,68 @@ open(F("prorrateo", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta("Calcula el alquiler prorrateado del primer o último mes y el reparto del IBI por días al vender un piso, con la fecha de entrada o de firma.", " Gratis."),
     "prorrateo/", body, [("Vivible", "../"), ("Prorrateo por días", None)], pr_ld))
 urls.insert(34, BASE + "prorrateo/")
+
+# ---------- Hipoteca fija o variable (hipoteca-fija-o-variable/): «hipoteca fija o variable», «qué hipoteca me conviene», «a partir de qué euríbor compensa la fija».
+# Sin cifras inventadas: el usuario escribe su importe, plazo, interés fijo y diferencial; la tabla muestra la cuota variable con varios euríbor
+# (supuestos, no previsiones). Cambio de variable a fija: Ley 5/2019, art. 23.6 (compensación como mucho del 0,15 % los 3 primeros años; después, nada).
+assert "hipoteca-fija-o-variable" not in C
+def equilibrio(fijo, dif): return fijo - dif  # euríbor por encima del cual la variable sale más cara que la fija (mientras dure)
+assert abs(equilibrio(3, .6) - 2.4) < 1e-9 and abs(_cuota(150000, 3, 300) - _cuota(150000, equilibrio(3, .6) + .6, 300)) < 1e-9
+fv_html, fv_ld = faq([
+    ("¿Qué es mejor, una hipoteca fija o variable?",
+     "Depende de lo que haga el euríbor, y nadie lo sabe. La fija te asegura la misma cuota hasta el final: pagas la tranquilidad. La variable suele empezar más barata, pero la cuota sube si sube el euríbor. Si tu sueldo va justo, la fija te protege; si podrías aguantar una subida de la cuota, la variable puede salir más barata."),
+    ("¿A partir de qué euríbor me conviene la fija?",
+     "Resta el diferencial de la variable al interés de la fija. Por ejemplo, fija al 3 % y variable euríbor + 0,6 %: mientras el euríbor esté por debajo del 2,4 %, la variable paga menos; por encima, más. La calculadora de esta página te lo dice con tus números."),
+    ("¿Qué es una hipoteca mixta?",
+     "Es fija los primeros años (por ejemplo, 5 o 10) y después pasa a variable: euríbor más un diferencial. Sirve para tener una cuota segura al principio, que es cuando más se debe. Para compararla, mira el interés de los años fijos y el diferencial de después."),
+    ("¿Cada cuánto cambia la cuota de una hipoteca variable?",
+     "Lo dice tu contrato: normalmente cada 6 o 12 meses, con el euríbor de ese momento más el diferencial. Entre una revisión y otra la cuota no cambia."),
+    ("¿Puedo pasar mi hipoteca de variable a fija?",
+     "Sí: negociándolo con tu banco (novación) o llevándote la hipoteca a otro banco (subrogación). Por la ley de crédito inmobiliario de 2019, el banco solo puede cobrarte una compensación de como mucho el 0,15 % de lo que debes si lo haces en los 3 primeros años; después, nada. Aparte están los gastos de notaría y registro del cambio."),
+])
+body = f"""<h1>¿Hipoteca fija o variable? Calcula cuál te sale más barata</h1>
+<p>Escribe lo que te piden y lo que te ofrece el banco y te decimos <b>a partir de qué euríbor deja de compensar la variable</b>, y cuánto pagarías al mes con cada una. No guardamos nada de lo que escribes.</p>
+<div class="card" id="fv"><b>Tu oferta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+{campo("vi", "Lo que pides (€)", 'inputmode="decimal" placeholder="150.000"')}
+{campo("va", "Años", 'inputmode="numeric" placeholder="25"')}
+{campo("vf", "Interés de la fija (%)", 'inputmode="decimal" placeholder="3"')}
+{campo("vd", "Variable: euríbor + (%)", 'inputmode="decimal" placeholder="0,6"')}</div>
+<p class="m" style="margin:4px 0 0">Si dejas un campo vacío usamos el número gris de ejemplo. Cámbialos por los de tu oferta.</p>
+<div id="vo" aria-live="polite" style="margin-top:10px"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo básico, en corto</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>Fija:</b> el mismo interés y la misma cuota hasta el final, pase lo que pase con el euríbor.</li>
+<li><b>Variable:</b> euríbor + un diferencial fijo. La cuota se revisa cada 6 o 12 meses: sube si sube el euríbor y baja si baja.</li>
+<li><b>Mixta:</b> fija unos años y después variable. Compárala con los dos datos: el interés de los años fijos y el diferencial de después.</li>
+<li><b>La cuenta clave:</b> interés de la fija − diferencial de la variable = el euríbor a partir del cual la fija sale mejor.</li>
+<li><b>Mira también</b> lo que te obligan a contratar para darte ese interés (seguros, nómina, tarjetas) y súmalo a la cuota.</li></ul>
+<p class="m" style="margin:8px 0 0">Las cuotas con varios euríbor son supuestos para comparar, no previsiones: suponen que el euríbor se queda igual todo el préstamo. Es una orientación; manda lo que diga la oferta del banco (la FEIN).</p></div>
+<script>""" + r"""(function(){var $=function(i){return document.getElementById(i)},F=["vi","va","vf","vd"].map($),o=$("vo");
+function num(e){var s=(e.value||"").trim()||e.placeholder;var v=parseFloat(s.replace(/\.(?=\d{3}(\D|$))/g,"").replace(",","."));return isFinite(v)?v:NaN}
+function eur(v){return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")+" €"}
+function pct(v){var r=Math.round(v*100)/100;return(r+"").replace(".",",")+" %"}
+function cuota(P,r,n){var i=r/1200;return i===0?P/n:P*i/(1-Math.pow(1+i,-n))}
+function calc(){var P=num(F[0]),A=num(F[1]),fi=num(F[2]),di=num(F[3]);
+if(!(P>0&&P<1e9)){o.innerHTML="Escribe cuánto dinero pides al banco.";return}
+if(!(A>=1&&A<=50)){o.innerHTML="Escribe el plazo en años (entre 1 y 50).";return}
+if(!(fi>=0&&fi<20)){o.innerHTML="Escribe el interés de la hipoteca fija (por ejemplo, 3).";return}
+if(!(di>=-2&&di<10)){o.innerHTML="Escribe el diferencial de la variable: lo que va después de «euríbor +» (por ejemplo, 0,6).";return}
+var n=Math.round(A*12),cf=cuota(P,fi,n),eq=fi-di,h="<p style=\"margin:0 0 8px\">Con la <b>fija al "+pct(fi)+"</b> pagas <b>"+eur(cf)+" al mes</b> durante "+(Math.round(A*12)/12+"").replace(".",",").replace(/(,\d\d)\d+$/,"$1")+" años, y "+eur(cf*n-P)+" de intereses en total.</p>";
+h+="<p style=\"margin:0 0 8px\">"+(eq>0?"La <b>variable</b> (euríbor + "+pct(di)+") te sale más barata <b>mientras el euríbor esté por debajo del "+pct(eq)+"</b>; por encima, pagas más que con la fija.":"Con estos números la fija es igual o más barata que la variable incluso con el euríbor a cero: la variable no compensa salvo que el euríbor baje de cero.")+"</p>";
+var E=[0,1,2,3,4,5],t="<table class=\"cmp\" style=\"width:100%\"><caption class=\"m\" style=\"text-align:left;padding-bottom:6px\">Cuota de la variable según el euríbor</caption><tr><th scope=\"col\">Euríbor</th><th scope=\"col\">Cuota variable</th><th scope=\"col\">Frente a la fija</th></tr>";
+E.forEach(function(e){var r=Math.max(e+di,0),cv=cuota(P,r,n),d=cv-cf;t+="<tr><td>"+pct(e)+"</td><td>"+eur(cv)+"</td><td>"+(Math.abs(d)<1?"igual":(d<0?"<b style=\"color:#1f6f54\">"+eur(-d)+" menos</b>":eur(d)+" más"))+"</td></tr>"});
+o.innerHTML=h+t+"</table><p class=\"m\" style=\"margin:8px 0 0\">Cada punto que sube el euríbor, la cuota variable sube unos "+eur(cuota(P,Math.max(eq+di,0)+1,n)-cf)+" al mes con tus números.</p>"}
+F.forEach(function(e){e.addEventListener("input",calc)});calc()})();</script>""" + f"""
+{fv_html}
+<a class="cta" href="../">¿Buscas piso? Analízalo gratis</a>
+<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca: ¿cuota o plazo?</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../ahorrar-para-comprar/">Ahorrar para comprar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a></div>"""
+os.makedirs(F("hipoteca-fija-o-variable"), exist_ok=True)
+open(F("hipoteca-fija-o-variable", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Hipoteca fija o variable? Calculadora para comparar",
+    desc_corta("Compara una hipoteca fija y una variable con tus números: a partir de qué euríbor compensa la fija y cuánto pagas al mes con cada una.", " Gratis."),
+    "hipoteca-fija-o-variable/", body, [("Vivible", "../"), ("Hipoteca fija o variable", None)], fv_ld))
+urls.insert(35, BASE + "hipoteca-fija-o-variable/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

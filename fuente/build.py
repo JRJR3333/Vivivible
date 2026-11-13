@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -895,7 +895,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -1493,7 +1493,7 @@ r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años)
 d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
 open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de alquiler: cuánto dura y qué debe incluir",
@@ -1563,7 +1563,7 @@ r.innerHTML=s}}
 d.addEventListener("change",calc);d.addEventListener("input",calc);a.addEventListener("input",calc);calc()}})();</script>
 {fa_html}
 <a class="cta" href="../">¿Buscas otro piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("devolver-fianza"), exist_ok=True)
 open(F("devolver-fianza", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuándo me devuelven la fianza del alquiler? Plazo y descuentos",
@@ -1826,7 +1826,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pc_html}
 <a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("pasos-para-comprar"), exist_ok=True)
 open(F("pasos-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
     "Pasos para comprar un piso: arras, hipoteca, notario y gastos",
@@ -2070,13 +2070,93 @@ var q=new URLSearchParams(location.search);if(+q.get("s"))s.value=+q.get("s");
 [s,a].forEach(function(e){{e.addEventListener("input",calc)}});calc()}})();</script>
 {in_html}
 <a class="cta" href="../">¿Has visto un piso o una habitación? Comprueba si su precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("independizarse"), exist_ok=True)
 open(F("independizarse", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto cuesta independizarse? Habitación o estudio (2026)",
     desc_corta(f"Lo que cuesta independizarse en 10 ciudades: habitación desde {fmt(ib['hab'])} € al mes, cuánto necesitas para entrar y cuánto ganar. Con calculadora.", " Gratis."),
     "independizarse/", body, [("Vivible", "../"), ("Independizarse", None)], in_ld))
 urls.insert(19, BASE + "independizarse/")
+
+# ---------- mudanza (mudanza/): «qué hacer al mudarse de piso», «checklist mudanza», «a quién avisar del cambio de domicilio»;
+# lista para marcar en el móvil antes, durante y después de la mudanza (sin cifras: solo trámites y consejos)
+assert "mudanza" not in C
+MUD = [
+    ("Antes: dos o tres semanas", [
+        "Si dejas un alquiler, avisa al propietario por escrito con 30 días de antelación como mínimo (o lo que diga tu contrato).",
+        "Pide presupuesto a dos o tres empresas de mudanzas, o reserva una furgoneta y pide ayuda con tiempo.",
+        "Pregunta en el ayuntamiento si hace falta permiso para aparcar el camión delante del portal.",
+        "Deshazte de lo que no vas a llevar: véndelo, regálalo o llévalo al punto limpio.",
+        "Pide ya el traslado o el alta de internet en la casa nueva: la instalación puede tardar días. Pregunta si tienes permanencia.",
+    ]),
+    ("Luz, agua, gas y seguro", [
+        "Casa vieja: haz foto de los contadores el día que sales y da de baja o cambia de titular lo que esté a tu nombre.",
+        "Casa nueva: haz foto de los contadores el día que entras y pon a tu nombre la luz, el gas y el agua (o pregunta al propietario cómo se pagan).",
+        "Revisa la potencia de luz contratada y la tarifa: es buen momento para cambiar si pagas de más.",
+        "Seguro de hogar: cambia la dirección del que tienes o contrata uno para la casa nueva.",
+    ]),
+    ("Cambiar la dirección", [
+        "Empadrónate en el ayuntamiento de tu casa nueva: te lo piden para el centro de salud, el colegio y muchas ayudas.",
+        "Pide centro de salud y médico nuevos si cambias de zona.",
+        "Hacienda: cambia tu domicilio fiscal en la web de la Agencia Tributaria.",
+        "Tráfico (DGT): cambia la dirección del carné de conducir y del coche si tienes.",
+        "Avisa al banco, a tu trabajo y a la Seguridad Social si te escriben por carta.",
+        "Cambia la dirección de entrega en las tiendas por internet y en tus suscripciones.",
+        "Si te preocupa perder cartas, Correos tiene un servicio de pago para reenviártelas un tiempo.",
+    ]),
+    ("El día que dejas el piso de alquiler", [
+        "Haz fotos y vídeo con fecha de cómo dejas cada habitación: te servirán para recuperar la fianza.",
+        "Déjalo limpio y como lo recibiste; el desgaste normal por el uso no te lo pueden descontar.",
+        "Entrega todas las llaves y pide un papel o un mensaje con la fecha: desde ese día cuenta el mes para devolverte la fianza.",
+        "Deja al propietario una cuenta bancaria para que te devuelva la fianza.",
+    ]),
+    ("El día que entras en tu casa nueva", [
+        "Haz fotos con fecha de cómo está todo, también de los desperfectos, y mándaselas al propietario por correo o mensaje.",
+        "Prueba el agua caliente, la calefacción, los enchufes y los electrodomésticos; avisa por escrito de lo que no funcione.",
+        "Localiza la llave de paso del agua, el cuadro eléctrico y la llave del gas.",
+        "Si has comprado, cambia el bombín de la cerradura: no sabes cuántas copias de las llaves hay.",
+        "Pon tu nombre en el buzón y preséntate a los vecinos.",
+    ]),
+]
+nmud = sum(len(xs) for _, xs in MUD)
+mu_html, mu_ld = faq([
+    ("¿Qué hay que hacer al mudarse de piso?",
+     "Antes: avisar al propietario si dejas un alquiler, organizar el transporte y pedir el alta de internet. Después: cambiar la luz, el agua y el gas, empadronarte en tu nueva dirección y avisar del cambio a Hacienda, Tráfico, el banco y tu trabajo. Y hacer fotos con fecha al salir y al entrar."),
+    ("¿Es obligatorio empadronarse al cambiar de casa?",
+     "Sí. Todas las personas que viven en España tienen que estar inscritas en el padrón del municipio donde viven habitualmente. Además, el padrón te lo piden para el centro de salud, el colegio, muchas ayudas y para votar donde vives."),
+    ("¿Puedo empadronarme en un piso de alquiler sin permiso del propietario?",
+     "Sí. Normalmente basta con tu DNI o NIE y el contrato de alquiler; el propietario no tiene que dar permiso. Si vives en una habitación, el contrato de la habitación sirve igual."),
+    ("¿Con cuánta antelación tengo que avisar si dejo el piso de alquiler?",
+     "Con la ley de alquileres puedes irte a partir de los seis meses avisando con 30 días de antelación como mínimo. Si tu contrato lo dice, pagarás un mes de alquiler por cada año que quede, o la parte proporcional."),
+    ("¿Qué hago con la luz y el agua cuando me mudo?",
+     "En el piso que dejas, apunta (con foto) la lectura de los contadores y da de baja o cambia de titular lo que esté a tu nombre. En el nuevo, haz lo mismo al entrar y pon los contratos a tu nombre, o acuerda con el propietario cómo se pagan."),
+])
+lis = "".join(f'<div class="card"><h2 class="vh">{esc(t)}</h2>' + "".join(
+    f'<label class="vc"><input type="checkbox" data-k="{i}-{j}"><span>{esc(x)}</span></label>' for j, x in enumerate(xs)) + "</div>" for i, (t, xs) in enumerate(MUD))
+body = f"""<h1>Mudanza: lista de todo lo que hay que hacer al cambiarte de piso</h1>
+<p>Con las cajas es fácil olvidar un trámite y darte cuenta meses después. Esta lista tiene {nmud} cosas que hacer antes, durante y después de mudarte, si alquilas o si has comprado. Márcalas en el móvil según las haces: se quedan guardadas en este móvil.</p>
+<div class="card" id="vp" aria-live="polite"><b id="vn">0 de {nmud} hechas</b><div class="vb"><i id="vi"></i></div>
+<button type="button" id="vr" class="vbt">Empezar otra mudanza</button></div>
+{lis}
+<style>.vh{{font:700 19px/1.2 Fraunces,Georgia,serif;margin:0 0 6px}}.vc{{display:flex;gap:10px;align-items:flex-start;padding:9px 0;min-height:44px;box-sizing:border-box;border-top:1px solid #f1ede6;cursor:pointer}}.vc input{{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#1f6f54}}.vc input:checked+span{{color:#5f6b66;text-decoration:line-through}}
+.vb{{height:8px;background:#efebe4;border-radius:99px;margin:8px 0 10px;overflow:hidden}}.vb i{{display:block;height:100%;width:0;background:#1f6f54}}.vbt{{font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer}}
+#vp{{position:sticky;top:0;z-index:1}}</style>
+<script>(function(){{var K="vivible.mudanza",cs=[].slice.call(document.querySelectorAll(".vc input")),s={{}};
+try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
+function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" hechas";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
+function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
+cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
+document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
+<p class="m">¿Dejas un alquiler? Mira <a href="../devolver-fianza/">cuándo te tienen que devolver la fianza</a> y <a href="../contrato-de-alquiler/">cuánto dura tu contrato</a>. ¿Aún buscas casa? <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a>.</p>
+{mu_html}
+<a class="cta" href="../">¿Aún no tienes piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("mudanza"), exist_ok=True)
+open(F("mudanza", "index.html"), "w", encoding="utf-8").write(page(
+    "Mudanza: lista de qué hacer al cambiarte de piso (2026)",
+    desc_corta(f"Checklist de mudanza con {nmud} pasos: avisar al casero, luz, agua e internet, empadronarte, cambiar la dirección en Hacienda y Tráfico y la fianza.", " Gratis."),
+    "mudanza/", body, [("Vivible", "../"), ("Mudanza", None)], mu_ld))
+urls.insert(20, BASE + "mudanza/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

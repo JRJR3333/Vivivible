@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -211,7 +211,7 @@ for ck, c in C.items():
 <div class="card"><table><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² en cada distrito de {esc(c["n"])} ({esc(c["mes"])})</caption><tr><th scope="col">Distrito</th><th scope="col">Venta</th><th scope="col">Alquiler/mes</th></tr>{tr}</table>{nota}</div>
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
-<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../comprar-o-alquilar/?c={ck}">¿Compensa comprar o alquilar en {esc(c["n"])}?</a> · <a href="../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a></div>
+<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../comprar-o-alquilar/?c={ck}">¿Compensa comprar o alquilar en {esc(c["n"])}?</a> · <a href="../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../estafas-alquiler/">Cómo evitar estafas</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
@@ -845,7 +845,7 @@ body = f"""<h1>Cuota de la hipoteca: cuánto pagarás al mes (2026)</h1>
 <p class="m">El banco suele prestar hasta el 80 % del precio: el 20 % restante, el impuesto y los gastos los pones tú. Lo tienes por distritos en la guía de cada ciudad.</p></div>
 {hq_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si te lo puedes permitir</a>
-<div class="card m"><b>Más guías:</b> <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Gastos de comprar en {esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
+<div class="card m"><b>Más guías:</b> <a href="../amortizar-hipoteca/">Amortizar la hipoteca: ¿cuota o plazo?</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../gastos-de-compra/">Calculadora de gastos de compra</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Gastos de comprar en {esc(c["n"])}</a>' for k, c in C.items()) + f"""</div>
 <style>#calc input{{display:block;width:100%;box-sizing:border-box;margin-top:4px;font:16px Inter,system-ui,sans-serif;padding:10px;min-height:44px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321}}#calc label{{display:block}}</style>
 <script>(function(){{var f=function(n){{return String(Math.round(n)).replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")}};function c(){{var tv=document.getElementById("ht").value,q=+document.getElementById("hq").value,a=+document.getElementById("ha").value,t=+tv/1200,r=document.getElementById("hr"),s=document.getElementById("hs");
 if(tv===""||!(q>0&&a>0&&a<=50&&t>=0&&t<1)){{r.textContent="—";s.textContent="Revisa los datos";return}}var n=a*12,m=t?q*t/(1-Math.pow(1+t,-n)):q/n;r.textContent="≈ "+f(m)+" €";s.textContent="Ganar ≈ "+f(m/{ESC})+" € netos · intereses "+f(m*n-q)+" €"}}
@@ -1828,7 +1828,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pc_html}
 <a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../arras/">Contrato de arras</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../arras/">Contrato de arras</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("pasos-para-comprar"), exist_ok=True)
 open(F("pasos-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
     "Pasos para comprar un piso: arras, hipoteca, notario y gastos",
@@ -2815,6 +2815,86 @@ open(F("arras", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta("Calcula la señal de arras de tu piso y qué pierdes si te echas atrás: arras penitenciales, confirmatorias y penales, y qué revisar antes de firmar.", " Gratis."),
     "arras/", body, [("Vivible", "../"), ("Contrato de arras", None)], ar_ld))
 urls.insert(28, BASE + "arras/")
+
+# ---------- Amortizar la hipoteca (amortizar-hipoteca/): «amortizar hipoteca calculadora», «reducir cuota o plazo», «comisión amortización anticipada».
+# Sin cifras inventadas: el usuario escribe su deuda, interés y plazo. Topes de la compensación: Ley 5/2019, art. 23 (variable 0,25 % los 3 primeros años
+# o 0,15 % los 5 primeros, según el contrato; fijo 2 % los 10 primeros años y 1,5 % después). Gastos de la hipoteca: art. 14.1.e.
+assert "amortizar-hipoteca" not in C
+def _cuota(P, r, n):
+    i = r / 1200
+    return P / n if i == 0 else P * i / (1 - (1 + i) ** -n)
+assert abs(_cuota(150000, 3, 300) - 711.32) < 0.01  # comprobación de la fórmula (la misma que la página)
+am_html, am_ld = faq([
+    ("¿Qué es mejor, reducir la cuota o el plazo?",
+     "Reducir el plazo ahorra más intereses, porque terminas de pagar antes. Reducir la cuota ahorra menos, pero te deja más dinero libre cada mes. Si vas justo a fin de mes o quieres un colchón, la cuota; si tu cuota te resulta cómoda, el plazo."),
+    ("¿Cuánto me cobra el banco por amortizar la hipoteca?",
+     "Lo que diga tu contrato, con un tope legal. En hipotecas variables, como mucho un 0,25 % de lo que adelantas los 3 primeros años o un 0,15 % los 5 primeros (según el contrato), y nada después. En hipotecas fijas, como mucho un 2 % los 10 primeros años y un 1,5 % después. Muchos contratos cobran menos o nada."),
+    ("¿Cuándo compensa amortizar?",
+     "Cuanto antes y cuanto más alto sea el interés, más ahorras, porque al principio la cuota es casi todo intereses. Antes de hacerlo, guarda un colchón para imprevistos: el dinero que adelantas al banco no lo recuperas si luego lo necesitas."),
+    ("¿Quién paga los gastos de la hipoteca?",
+     "Desde junio de 2019 el banco paga la notaría de la escritura de la hipoteca, el registro y la gestoría, y desde noviembre de 2018 también el impuesto de esa escritura. Tú pagas la tasación y las copias de la escritura que pidas."),
+    ("¿Tengo que pagar notaría para amortizar?",
+     "No. Una amortización parcial se pide en el banco y no necesita escritura. Solo si cancelas la hipoteca del todo conviene inscribir la cancelación en el Registro, y eso sí tiene un coste."),
+])
+body = """<h1>Amortizar la hipoteca: cuánto ahorras y cuánto te cobra el banco</h1>
+<p>Adelantar dinero al banco reduce los intereses que pagas. Escribe lo que te queda de hipoteca y cuánto quieres adelantar: te decimos cuánto ahorras si <b>reduces la cuota</b> o si <b>reduces el plazo</b>, y la comisión máxima que te pueden cobrar.</p>
+<div class="card" id="mc"><b>Haz la cuenta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 140px">Lo que te queda por pagar (€)<br><input type="number" id="md" inputmode="decimal" min="1" step="1000" placeholder="150000" class="vin"></label>
+<label class="m" style="flex:1 1 120px">Interés anual (%)<br><input type="number" id="mi" inputmode="decimal" min="0" max="20" step="0.05" placeholder="3" class="vin"></label>
+<label class="m" style="flex:1 1 120px">Años que te quedan<br><input type="number" id="mn" inputmode="decimal" min="1" max="40" step="1" placeholder="25" class="vin"></label>
+<label class="m" style="flex:1 1 140px">Cuánto quieres adelantar (€)<br><input type="number" id="ma" inputmode="decimal" min="1" step="500" placeholder="10000" class="vin"></label>
+<label class="m" style="flex:1 1 160px">Tu hipoteca es<br><select id="mt" class="vin"><option value="v">Variable o mixta</option><option value="f">Fija</option></select></label>
+<label class="m" style="flex:1 1 140px">Años desde que firmaste<br><input type="number" id="my" inputmode="decimal" min="0" max="50" step="1" placeholder="2" class="vin"></label></div>
+<div id="mo" aria-live="polite" class="m">Escribe lo que te queda por pagar, el interés, los años y cuánto quieres adelantar.</div></div>
+<style>.vin{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Comisión máxima por amortizar</h2>
+<div class="card"><table class="cmp"><tr><th scope="col">Hipoteca</th><th scope="col">Cuándo</th><th scope="col">Tope</th></tr>
+<tr><td><b>Variable</b></td><td>3 primeros años*</td><td>0,25 %</td></tr>
+<tr><td><b>Variable</b></td><td>5 primeros años*</td><td>0,15 %</td></tr>
+<tr><td><b>Variable</b></td><td>Después</td><td>Nada</td></tr>
+<tr><td><b>Fija</b></td><td>10 primeros años</td><td>2 %</td></tr>
+<tr><td><b>Fija</b></td><td>Después</td><td>1,5 %</td></tr></table>
+<p class="m">El porcentaje es sobre lo que adelantas. * En las variables, el contrato elige una de las dos opciones. Topes de la Ley 5/2019 (artículo 23) para hipotecas firmadas desde el 16 de junio de 2019. Tu contrato puede cobrar menos o nada, y el banco nunca puede cobrarte más de lo que pierde. Mira la cláusula de «compensación por desistimiento» o «reembolso anticipado».</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Quién paga los gastos de la hipoteca</h2>
+<div class="card"><table class="cmp"><tr><th scope="col">Gasto</th><th scope="col">Quién paga</th></tr>
+<tr><td>Tasación del piso</td><td>Tú</td></tr>
+<tr><td>Notaría de la escritura de la hipoteca</td><td>El banco</td></tr>
+<tr><td>Copias de la escritura</td><td>Quien las pida</td></tr>
+<tr><td>Registro de la Propiedad (de la hipoteca)</td><td>El banco</td></tr>
+<tr><td>Gestoría</td><td>El banco</td></tr>
+<tr><td>Impuesto de la escritura de la hipoteca (AJD)</td><td>El banco</td></tr>
+<tr><td>Comisión de apertura</td><td>Tú, si el contrato la incluye (una sola vez)</td></tr></table>
+<p class="m">Ley 5/2019, artículo 14, y Real Decreto-ley 17/2018. Son los gastos de la hipoteca: los de la compraventa (impuesto de compra, notaría y registro de la compra) los pagas tú; míralos en <a href="../gastos-de-compra/">gastos de comprar un piso</a>. Esto es una orientación, no asesoramiento financiero.</p></div>
+<script>(function(){var D=document.getElementById("md"),I=document.getElementById("mi"),N=document.getElementById("mn"),A=document.getElementById("ma"),T=document.getElementById("mt"),Y=document.getElementById("my"),o=document.getElementById("mo");
+function eur(v){var n=Math.round(v),s=Math.abs(n).toFixed(0);return(n<0?"-":"")+s.replace(/\\B(?=(\\d{3})+(?!\\d))/g,".")+" €"}
+function f(e,mn,mx){var v=parseFloat((e.value||"").replace(",","."));return v>=mn&&v<=mx?v:NaN}
+function cuota(P,r,n){var i=r/1200;return i?P*i/(1-Math.pow(1+i,-n)):P/n}
+function plazo(P,r,c){var i=r/1200;return i?-Math.log(1-P*i/c)/Math.log(1+i):P/c}
+function tiempo(m){m=Math.round(m);var a=Math.floor(m/12),r=m%12;return(a?a+(a==1?" año":" años"):"")+(a&&r?" y ":"")+(r?r+(r==1?" mes":" meses"):"")||"0 meses"}
+function calc(){var P=f(D,1,1e8),r=f(I,0,20),n=Math.round(f(N,1,40)*12),a=f(A,1,1e8),y=f(Y,0,50),h,c,c2,it,i1,i2,n2,i3,com,pc;
+if(isNaN(P)||isNaN(r)||!(n>0)||isNaN(a)){o.innerHTML="Escribe lo que te queda por pagar, el interés, los años y cuánto quieres adelantar.";return}
+if(a>=P){o.innerHTML="Con "+eur(a)+" <b>cancelas la hipoteca entera</b> (te quedan "+eur(P)+"). Pide en el banco el importe exacto a fecha de pago y la carta de deuda cero.";return}
+c=cuota(P,r,n);it=c*n-P;c2=cuota(P-a,r,n);i1=it-(c2*n-(P-a));n2=plazo(P-a,r,c);i2=it-(c*n2-(P-a));
+if(isNaN(y))pc=null;else if(T.value=="f")pc=y<10?2:1.5;else pc=y<3?.25:y<5?.15:0;
+h="Ahora pagas <b>"+eur(c)+" al mes</b> y te quedan <b>"+eur(it)+" de intereses</b>.<br>";
+h+="<b>Si reduces la cuota</b>: pagas "+eur(c2)+" al mes ("+eur(c-c2)+" menos) y ahorras <b>"+eur(i1)+"</b> de intereses.<br>";
+h+="<b>Si reduces el plazo</b>: sigues pagando "+eur(c)+" pero terminas <b>"+tiempo(n-n2)+" antes</b> y ahorras <b>"+eur(i2)+"</b> de intereses.<br>";
+if(pc===null)h+="Escribe los años desde que firmaste para saber la comisión máxima.";
+else if(!pc)h+="<b>Comisión: nada.</b> Pasados 5 años, en una hipoteca variable no te pueden cobrar por amortizar.";
+else{com=a*pc/100;h+="<b>Comisión: como mucho "+eur(com)+"</b> (el "+String(pc).replace(".",",")+" % de lo que adelantas"+(T.value=="v"&&y<3?"; si tu contrato eligió la opción de 5 años, como mucho el 0,15 %: "+eur(a*.0015):"")+")."+(i2>com?" Aun pagándola, reduciendo el plazo ganas <b>"+eur(i2-com)+"</b>.":" <b>La comisión es mayor que lo que ahorras en intereses</b>: con este interés no compensa amortizar.")}
+o.innerHTML=h}
+var q=new URLSearchParams(location.search);if(+q.get("d")>0)D.value=+q.get("d");
+[D,I,N,A,T,Y].forEach(function(e){e.addEventListener("input",calc);e.addEventListener("change",calc)});calc()})();</script>
+""" + am_html + """
+<a class="cta" href="../">¿Buscas piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a> · <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a></div>"""
+os.makedirs(F("amortizar-hipoteca"), exist_ok=True)
+open(F("amortizar-hipoteca", "index.html"), "w", encoding="utf-8").write(page(
+    "Amortizar hipoteca: calculadora de cuota o plazo y comisión",
+    desc_corta("¿Reducir cuota o plazo? Calcula cuánto ahorras al amortizar la hipoteca, la comisión máxima que te cobra el banco y quién paga sus gastos.", " Gratis."),
+    "amortizar-hipoteca/", body, [("Vivible", "../"), ("Amortizar la hipoteca", None)], am_ld))
+urls.insert(29, BASE + "amortizar-hipoteca/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

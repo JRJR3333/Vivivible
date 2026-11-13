@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -1416,7 +1416,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pa_html}
 <a class="cta" href="../">¿Ya tienes un piso en mente? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../empadronarse/">Empadronarse: papeles y autorización</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("papeles-para-alquilar"), exist_ok=True)
 open(F("papeles-para-alquilar", "index.html"), "w", encoding="utf-8").write(page(
     "Qué papeles piden para alquilar un piso: lista de documentos",
@@ -1495,7 +1495,7 @@ r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años)
 d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../nota-simple/">Comprobar quién es el dueño: nota simple</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../nota-simple/">Comprobar quién es el dueño: nota simple</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../empadronarse/">Empadronarse en un piso de alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
 open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de alquiler: cuánto dura y qué debe incluir",
@@ -1633,7 +1633,7 @@ document.getElementById("rmen").addEventListener("click",function(){{if(H.childr
 document.getElementById("rf").addEventListener("input",calc);document.getElementById("rf").addEventListener("change",calc);calc()}})();</script>
 {ra_html}
 <a class="cta" href="../">¿Has visto una habitación? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../empadronarse/">Empadronarse: papeles y autorización</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("repartir-alquiler"), exist_ok=True)
 open(F("repartir-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Cómo repartir el alquiler de un piso compartido: calculadora",
@@ -2152,7 +2152,7 @@ document.getElementById("vr").addEventListener("click",function(){{if(cs.some(fu
 <p class="m">¿Dejas un alquiler? Avisa al propietario con el <a href="../dejar-el-piso/">modelo de carta para dejar el piso</a> y mira <a href="../devolver-fianza/">cuándo te tienen que devolver la fianza</a> y <a href="../contrato-de-alquiler/">cuánto dura tu contrato</a>. ¿Aún buscas casa? <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a>.</p>
 {mu_html}
 <a class="cta" href="../">¿Aún no tienes piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../inventario-piso/">Inventario del piso</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../empadronarse/">Empadronarse: papeles y autorización</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("mudanza"), exist_ok=True)
 open(F("mudanza", "index.html"), "w", encoding="utf-8").write(page(
     "Mudanza: lista de qué hacer al cambiarte de piso (2026)",
@@ -2987,6 +2987,84 @@ open(F("nota-simple", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta("Qué es la nota simple del Registro, cómo pedirla por internet y qué significa lo que pone: dueño, hipoteca, embargo o usufructo, para comprar o alquilar.", " Gratis."),
     "nota-simple/", body, [("Vivible", "../"), ("Nota simple", None)], ns_ld))
 urls.insert(30, BASE + "nota-simple/")
+
+# ---------- Empadronarse (empadronarse/): «empadronarse en un piso de alquiler», «autorización de empadronamiento modelo», «papeles para empadronarse».
+# Sin cifras ni plazos inventados: qué papeles llevar según cómo vives y un modelo de autorización del titular para copiar o enviar.
+assert "empadronarse" not in C
+EMP = [  # (id, situación, papeles que suelen pedir)
+    ("con", "Alquilo el piso y el contrato está a mi nombre",
+     ["Tu DNI, NIE o pasaporte (el original)", "La hoja de inscripción del padrón de tu ayuntamiento, rellena y firmada", "El contrato de alquiler en vigor (algunos ayuntamientos piden también el último recibo)"]),
+    ("hab", "Alquilo una habitación o vivo en un piso compartido",
+     ["Tu DNI, NIE o pasaporte", "La hoja de inscripción del padrón", "Tu contrato de la habitación, o bien la autorización firmada de quien tiene el contrato del piso (el modelo está abajo) con copia de su DNI y de su contrato"]),
+    ("fam", "Vivo en casa de un familiar, mi pareja o un amigo",
+     ["Tu DNI, NIE o pasaporte", "La hoja de inscripción del padrón", "La autorización firmada del dueño o de quien tiene el contrato (el modelo está abajo), copia de su DNI y la escritura, la nota simple o el contrato que demuestre que puede autorizarte"]),
+    ("pro", "El piso es mío (lo he comprado o heredado)",
+     ["Tu DNI, NIE o pasaporte", "La hoja de inscripción del padrón", "La escritura, la nota simple o un recibo del IBI a tu nombre"]),
+    ("sin", "Vivo allí pero no tengo contrato ni autorización",
+     ["Tu DNI, NIE o pasaporte", "La hoja de inscripción del padrón", "Explica en el ayuntamiento que vives allí: el padrón debe reflejar dónde vive cada persona aunque no tenga contrato, y el ayuntamiento puede comprobarlo (por ejemplo, con una visita). Lleva lo que tengas: recibos, cartas a tu nombre en esa dirección o pagos del alquiler"]),
+]
+emp_html, emp_ld = faq([
+    ("¿Es obligatorio empadronarse?",
+     "Sí. Toda persona que vive en España tiene que estar inscrita en el padrón del municipio donde vive la mayor parte del año (Ley de Bases del Régimen Local, artículo 15). Si te mudas a otro municipio, al empadronarte en el nuevo te dan de baja en el anterior."),
+    ("¿Me puedo empadronar en un piso de alquiler sin permiso del propietario?",
+     "Si el contrato está a tu nombre, no necesitas su permiso: basta con el contrato. El propietario no puede impedir que te empadrones donde vives, aunque el contrato diga lo contrario. Si alquilas una habitación sin contrato, te pedirán la autorización de quien tenga el contrato del piso."),
+    ("¿Empadronar a alguien le da derechos sobre la vivienda?",
+     "No. El padrón solo dice dónde vive una persona: no da derecho a quedarse en el piso, ni es un contrato, ni cambia quién es el dueño. Por eso no hay motivo para negar la autorización a quien vive contigo."),
+    ("¿Para qué sirve estar empadronado?",
+     "Para pedir la tarjeta sanitaria y médico de cabecera, escolarizar a tus hijos, votar en tu municipio, pedir ayudas al alquiler y muchos trámites del ayuntamiento y de tu comunidad. Muchos de ellos piden el certificado o volante de empadronamiento."),
+    ("¿Cómo pido el certificado de empadronamiento?",
+     "En tu ayuntamiento, en persona o por su sede electrónica con certificado digital o Cl@ve. El volante sirve para la mayoría de trámites; el certificado es el que se pide para trámites oficiales más formales."),
+])
+emp_opts = "".join(f'<label class="nsm"><input type="radio" name="es" value="{k}"{" checked" if i == 0 else ""}> <span>{esc(t)}</span></label>' for i, (k, t, _) in enumerate(EMP))
+emp_js = json.dumps({k: p for k, _, p in EMP}, ensure_ascii=False).replace("</", "<\\/")
+body = f"""<h1>Empadronarse en un piso de alquiler: papeles y autorización</h1>
+<p>Empadronarte donde vives es <b>obligatorio</b> y lo necesitas para el médico, el colegio o las ayudas al alquiler. Elige cómo vives y te decimos qué papeles llevar al ayuntamiento. Si necesitas que te autorice el dueño o quien tiene el contrato, te preparamos la autorización para copiarla o enviarla.</p>
+<div class="card" id="ec"><b>¿Cómo vives?</b>
+<div role="radiogroup" aria-label="Cómo vives" style="margin:8px 0">{emp_opts}</div>
+<div id="eo" aria-live="polite" class="m"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Modelo de autorización de empadronamiento</h2>
+<div class="card" id="ea"><p class="m" style="margin-top:0">La firma el <b>dueño del piso o quien tiene el contrato</b> y autoriza a otra persona a empadronarse. Lo que escribas no se guarda ni se envía a nadie.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+{campo("an", "Quien autoriza (dueño o inquilino)", 'autocomplete="off" placeholder="Nombre y apellidos"')}
+<label class="m" style="flex:1 1 150px">Autoriza como<br><select id="ar" style="{IN}"><option value="p">Propietario</option><option value="i">Inquilino con contrato</option></select></label>
+{campo("ae", "Persona que se empadrona", 'autocomplete="off" placeholder="Nombre y apellidos"')}
+{campo("ad", "Dirección del piso", 'autocomplete="off" placeholder="Calle, número, piso y puerta"')}
+{campo("ac", "Municipio", 'placeholder="Por ejemplo, Madrid"')}
+</div>
+<label class="m" for="at">La autorización (puedes retocarla antes de copiarla)</label>
+<textarea id="at" rows="13" style="font:15px/1.45 Inter,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:10px;border:1px solid #d6d0c4;border-radius:10px;margin-top:4px;resize:vertical"></textarea>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button type="button" id="acp" class="vbt">Copiar la autorización</button><a id="awa" class="vbt" target="_blank" rel="noopener">Enviar por WhatsApp</a></div>
+<p class="m" style="margin-bottom:0">Imprímela, que la firme quien autoriza y llévala con <b>copia de su DNI</b> y del contrato o la escritura. Algunos ayuntamientos tienen su propio impreso de autorización: si lo tiene el tuyo, usa ese.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cómo empadronarte, paso a paso</h2>
+<div class="card"><ol style="margin:0;padding-left:20px">
+<li><b>Pide cita</b> en tu ayuntamiento (en la web o por teléfono). En muchas ciudades también se puede hacer por la sede electrónica con certificado digital o Cl@ve.</li>
+<li><b>Rellena la hoja de inscripción</b> del padrón: la tiene tu ayuntamiento en su web o en la oficina.</li>
+<li><b>Lleva los papeles</b> que te decimos arriba, originales y copias.</li>
+<li><b>Pide el volante</b> de empadronamiento al terminar si lo necesitas para otro trámite.</li></ol>
+<p class="m" style="margin:8px 0 0">Si vienes de otro municipio no hace falta darte de baja: al empadronarte en el nuevo te dan de baja en el anterior. Para los menores se lleva además el libro de familia o su partida de nacimiento. Cada ayuntamiento puede pedir algún papel más: míralo en su web antes de ir.</p></div>
+<style>.nsm{{display:flex;align-items:center;gap:10px;min-height:44px;padding:4px 10px;margin:6px 0;cursor:pointer;border:1px solid #d6d0c4;border-radius:10px;background:#fff}}.nsm input{{width:22px;height:22px;flex:none;margin:0}}.vbt{{display:inline-flex;align-items:center;font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer;text-decoration:none;box-sizing:border-box}}#eo ul{{margin:6px 0;padding-left:20px}}</style>
+<script>""" + r"""(function(){var D=""" + emp_js + r""",M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],$=function(i){return document.getElementById(i)},o=$("eo"),t=$("at");
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function v(i){return ($(i).value||"").trim()}
+function sit(){var k=document.querySelector('input[name=es]:checked').value,h="<b>Lleva al ayuntamiento:</b><ul>"+D[k].map(function(p){return"<li>"+esc(p)+"</li>"}).join("")+"</ul>";
+if(k=="hab"||k=="fam")h+='<a href="#ea">Preparar la autorización</a>';o.innerHTML=h}
+function aut(){var h=new Date(),f=h.getDate()+" de "+M[h.getMonth()]+" de "+h.getFullYear(),p=v("ar")=="i";
+t.value="AUTORIZACIÓN DE EMPADRONAMIENTO\n\n"+(v("ac")||"[Municipio]")+", a "+f+"\n\nYo, "+(v("an")||"[nombre de quien autoriza]")+", con DNI o NIE ____________, como "+(p?"inquilino con contrato de alquiler en vigor":"propietario")+" de la vivienda situada en "+(v("ad")||"[dirección completa del piso]")+", "+(v("ac")||"[municipio]")+",\n\nAUTORIZO a "+(v("ae")||"[nombre de la persona que se empadrona]")+", con DNI, NIE o pasaporte ____________, a inscribirse en el padrón municipal en dicha vivienda, donde reside.\n\nAdjunto copia de mi documento de identidad y "+(p?"del contrato de alquiler":"de la escritura o nota simple")+".\n\nFirma:\n\n\n"+(v("an")||"[nombre de quien autoriza]");
+$("awa").href="https://wa.me/?text="+encodeURIComponent(t.value)}
+$("ec").addEventListener("change",sit);["an","ar","ae","ad","ac"].forEach(function(i){$(i).addEventListener("input",aut);$(i).addEventListener("change",aut)});
+t.addEventListener("input",function(){$("awa").href="https://wa.me/?text="+encodeURIComponent(t.value)});
+$("acp").addEventListener("click",function(){var b=this,ok=function(){b.textContent="Copiada";setTimeout(function(){b.textContent="Copiar la autorización"},2000)};
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,function(){t.select();try{document.execCommand("copy");ok()}catch(e){}});else{t.select();try{document.execCommand("copy");ok()}catch(e){}}});
+sit();aut()})();</script>""" + f"""
+{emp_html}
+<a class="cta" href="../">¿Buscas piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../mudanza/">Lista para la mudanza</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../estafas-alquiler/">Estafas en el alquiler</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("empadronarse"), exist_ok=True)
+open(F("empadronarse", "index.html"), "w", encoding="utf-8").write(page(
+    "Empadronarse en un piso de alquiler: papeles y modelo de autorización",
+    desc_corta("Qué papeles llevar para empadronarte si alquilas un piso o una habitación o vives con alguien, y modelo de autorización del propietario para copiar.", " Gratis."),
+    "empadronarse/", body, [("Vivible", "../"), ("Empadronarse", None)], emp_ld))
+urls.insert(31, BASE + "empadronarse/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

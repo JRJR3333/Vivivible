@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -1563,7 +1563,7 @@ r.innerHTML=s}}
 d.addEventListener("change",calc);d.addEventListener("input",calc);a.addEventListener("input",calc);calc()}})();</script>
 {fa_html}
 <a class="cta" href="../">¿Buscas otro piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../inventario-piso/">Inventario del piso al entrar y salir</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("devolver-fianza"), exist_ok=True)
 open(F("devolver-fianza", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuándo me devuelven la fianza del alquiler? Plazo y descuentos",
@@ -2150,7 +2150,7 @@ document.getElementById("vr").addEventListener("click",function(){{if(cs.some(fu
 <p class="m">¿Dejas un alquiler? Avisa al propietario con el <a href="../dejar-el-piso/">modelo de carta para dejar el piso</a> y mira <a href="../devolver-fianza/">cuándo te tienen que devolver la fianza</a> y <a href="../contrato-de-alquiler/">cuánto dura tu contrato</a>. ¿Aún buscas casa? <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a>.</p>
 {mu_html}
 <a class="cta" href="../">¿Aún no tienes piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../inventario-piso/">Inventario del piso</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("mudanza"), exist_ok=True)
 open(F("mudanza", "index.html"), "w", encoding="utf-8").write(page(
     "Mudanza: lista de qué hacer al cambiarte de piso (2026)",
@@ -2236,7 +2236,7 @@ $("dcp").addEventListener("click",function(){var b=this,ok=function(){b.textCont
 if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,function(){t.select();try{document.execCommand("copy");ok()}catch(e){}});else{t.select();try{document.execCommand("copy");ok()}catch(e){}}});calc()})();</script>""" + f"""
 {dj_html}
 <a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("dejar-el-piso"), exist_ok=True)
 open(F("dejar-el-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Carta para dejar el piso de alquiler: modelo y plazos (2026)",
@@ -2334,13 +2334,111 @@ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeT
 var u=new URLSearchParams(location.search).get("q");if(u)q.value=u;fil()})();</script>""" + f"""
 {rp_html}
 <a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("reparaciones-alquiler"), exist_ok=True)
 open(F("reparaciones-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Quién paga las reparaciones en un alquiler? Lista 2026",
     desc_corta(f"Caldera, persiana, grifo, humedades, electrodomésticos: quién paga cada una de {len(REP)} averías en un piso de alquiler, según la ley, y aviso al propietario.", " Gratis."),
     "reparaciones-alquiler/", body, [("Vivible", "../"), ("Reparaciones del alquiler", None)], rp_ld))
 urls.insert(22, BASE + "reparaciones-alquiler/")
+
+# ---------- inventario (inventario-piso/): «inventario piso alquiler», «acta de entrega de llaves», «estado del piso al entrar».
+# Código Civil art. 1561 (devolver la finca como se recibió, salvo lo que se deteriore por el tiempo) y 1562 (si no se dice el
+# estado al arrendar, se presume que se recibió en buen estado, salvo prueba en contrario); LAU art. 36.4 (fianza: un mes desde la
+# entrega de llaves). Sin cifras. Lo escrito solo se guarda en este móvil (localStorage «vivible.inventario»).
+assert "inventario-piso" not in C
+INV = [
+    ("Entrada y pasillo", ["Puerta y cerradura", "Suelo", "Paredes y techo", "Luces e interruptores", "Telefonillo"]),
+    ("Salón", ["Suelo", "Paredes y techo", "Ventanas y persianas", "Enchufes y luces", "Radiador o aire acondicionado", "Sofá", "Mesa y sillas", "Muebles"]),
+    ("Cocina", ["Frigorífico", "Horno", "Placa o vitrocerámica", "Campana", "Lavadora", "Lavavajillas", "Microondas", "Fregadero y grifo", "Muebles y encimera", "Caldera o termo"]),
+    ("Baño", ["Lavabo y grifo", "Ducha o bañera y mampara", "Váter y cisterna", "Azulejos y juntas", "Espejo y muebles", "Extractor o ventana"]),
+    ("Dormitorio principal", ["Cama y colchón", "Armario", "Suelo, paredes y techo", "Ventana y persiana", "Enchufes y luces"]),
+    ("Otro dormitorio", ["Cama y colchón", "Armario", "Suelo, paredes y techo", "Ventana y persiana", "Enchufes y luces"]),
+    ("Terraza, trastero o garaje", ["Suelo y barandilla", "Toldo", "Puerta del trastero o mando del garaje"]),
+]
+INVE = [("", "Sin revisar"), ("b", "Bien"), ("g", "Desgastado"), ("r", "Roto o con daño"), ("n", "No hay")]
+def inv_fila(z, j, it):
+    k = f"{z}-{j}"
+    ops = "".join(f'<option value="{v}">{esc(t)}</option>' for v, t in INVE)
+    return (f'<div class="ivi" data-k="{k}"><label class="ivl" for="iv{k}">{esc(it)}</label><select id="iv{k}" class="ivs">{ops}</select>'
+            f'<input class="ivn" type="text" placeholder="Nota: mancha, golpe, falta una balda…" aria-label="Nota sobre {esc(it)}" hidden></div>')
+inv_lis = "".join(f'<div class="card" data-z="{esc(z)}"><h2 class="vh">{esc(z)}</h2>' + "".join(inv_fila(i, j, it) for j, it in enumerate(its)) + "</div>" for i, (z, its) in enumerate(INV))
+inv_n = sum(len(x) for _, x in INV)
+def icampo(i, et, ph="", tipo="text", extra=""):
+    return (f'<label class="m" for="{i}" style="display:block;margin-top:10px">{et}</label><input id="{i}" type="{tipo}" placeholder="{ph}" {extra} '
+            'style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 10px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;margin-top:4px">')
+iv_html, iv_ld = faq([
+    ("¿Es obligatorio hacer inventario al alquilar un piso?",
+     "La ley no lo exige, pero es tu mejor prueba. Si no queda por escrito cómo estaba el piso, se da por hecho que lo recibiste en buen estado (artículo 1562 del Código Civil), y al irte te pueden reclamar daños que ya estaban."),
+    ("¿Qué tiene que poner el inventario de un piso de alquiler?",
+     "Cada habitación con sus muebles y electrodomésticos y cómo están: bien, desgastado, roto o con daño. Añade las lecturas de los contadores de luz, agua y gas, cuántas llaves te dan y fotos con fecha de todo lo que tenga algún defecto."),
+    ("¿Lo tiene que firmar el propietario?",
+     "Lo ideal es que lo firméis los dos y que cada uno se quede una copia. Si no es posible, mándaselo por correo o WhatsApp con las fotos los primeros días: así queda la fecha y lo que le enseñaste."),
+    ("¿Y al dejar el piso?",
+     "Repite la lista el día que devuelves las llaves, mejor con el propietario delante, y compárala con la de la entrada. El desgaste normal por el uso y el paso del tiempo no se paga (artículo 1561 del Código Civil); los daños que hayas causado tú, sí, y pueden descontarse de la fianza."),
+    ("¿Cuándo me tienen que devolver la fianza?",
+     "En un mes desde que entregas las llaves. Si tarda más, te debe también el interés legal de ese dinero (artículo 36.4 de la Ley de Arrendamientos Urbanos). Un inventario de entrada y otro de salida evitan casi todas las discusiones."),
+])
+body = f"""<h1>Inventario del piso de alquiler: lista para entrar y salir</h1>
+<p>Antes de meter la primera caja, recorre el piso con esta lista y apunta cómo está cada cosa. Si algo tiene un defecto, hazle una foto. Al terminar, la lista prepara un resumen para mandárselo al propietario: así, al irte, nadie te cobra lo que ya estaba roto.</p>
+<div class="card"><b>El piso</b>
+<div role="group" aria-label="Cuándo haces el inventario" style="display:flex;gap:6px;margin-top:8px"><button type="button" class="rpf ivm" data-m="entrada" aria-pressed="true">Al entrar</button><button type="button" class="rpf ivm" data-m="salida" aria-pressed="false">Al salir</button></div>
+{icampo("ivd", "Dirección (opcional)", "Calle, número, piso", extra='autocomplete="off"')}
+{icampo("ivf", "Fecha", tipo="date")}
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0 10px">{icampo("ivc1", "Contador de luz", "Lectura", extra='inputmode="decimal"')}{icampo("ivc2", "Contador de agua", "Lectura", extra='inputmode="decimal"')}{icampo("ivc3", "Contador de gas", "Lectura", extra='inputmode="decimal"')}{icampo("ivc4", "Llaves y mandos", "Por ejemplo, 3 llaves y 1 mando")}</div></div>
+<div class="card" id="ivp"><div id="ivn" class="m" aria-live="polite"></div><div class="vb"><i id="ivi"></i></div><p class="m" style="margin:0">Marca solo lo que hay en tu piso: lo que no tenga, déjalo en «Sin revisar» o pon «No hay».</p></div>
+{inv_lis}
+<div class="card"><b>Resumen para el propietario</b>
+<p class="m" style="margin:4px 0 8px">Mándaselo con las fotos y pídele que te confirme que lo ha recibido. Puedes retocar el texto.</p>
+<textarea id="ivt" rows="10" aria-label="Resumen del inventario" style="font:15px/1.45 Inter,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:10px;border:1px solid #d6d0c4;border-radius:10px;resize:vertical"></textarea>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button type="button" id="ivcp" class="vbt">Copiar</button><a id="ivwa" class="vbt" target="_blank" rel="noopener">Enviar por WhatsApp</a><a id="ivml" class="vbt">Enviar por correo</a><button type="button" id="ivr" class="vbt">Empezar de cero</button></div>
+<p class="m" style="margin-bottom:0">Lo que escribes solo se guarda en este móvil.</p></div>
+<div class="card"><b>Trucos para que sirva de prueba</b><ul style="margin:6px 0 0;padding-left:20px">
+<li>Haz <b>fotos o un vídeo</b> de cada habitación y de cada defecto, con la fecha visible o guardada en el móvil.</li>
+<li>Prueba que <b>funciona</b> todo: grifos, cisternas, electrodomésticos, calefacción, persianas y enchufes.</li>
+<li>Apunta las <b>lecturas de los contadores</b> el mismo día: así no pagas el consumo de otro.</li>
+<li>Mándalo por escrito <b>en los primeros días</b> y guarda la respuesta del propietario.</li>
+</ul></div>
+<style>.vh{{font:700 19px/1.2 Fraunces,Georgia,serif;margin:0 0 6px}}.vbt{{display:inline-flex;align-items:center;font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer;text-decoration:none;box-sizing:border-box}}.rpf{{font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:22px;background:#fff;color:#1d2321;cursor:pointer}}.rpf[aria-pressed=true]{{background:#1d2321;color:#fff;border-color:#1d2321}}
+.ivi{{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 0;border-top:1px solid #f1ede6}}.ivl{{flex:1 1 140px}}.ivs{{font:15px Inter,system-ui,sans-serif;min-height:44px;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;flex:0 0 auto;max-width:100%}}.ivs.r{{border-color:#9a3b1c;color:#9a3b1c}}.ivs.g{{border-color:#6b5a12;color:#6b5a12}}.ivs.b{{border-color:#1f6f54;color:#1f6f54}}.ivn{{flex:1 1 100%;font:15px Inter,system-ui,sans-serif;min-height:44px;box-sizing:border-box;padding:0 10px;border:1px solid #d6d0c4;border-radius:10px}}
+.vb{{height:8px;background:#efebe4;border-radius:99px;margin:8px 0 10px;overflow:hidden}}.vb i{{display:block;height:100%;width:0;background:#1f6f54}}#ivp{{position:sticky;top:0;z-index:1}}</style>
+<script>""" + r"""(function(){var K="vivible.inventario",$=function(i){return document.getElementById(i)},s={},m="entrada",
+it=[].slice.call(document.querySelectorAll(".ivi")),ms=[].slice.call(document.querySelectorAll(".ivm")),F=["ivd","ivf","ivc1","ivc2","ivc3","ivc4"],t=$("ivt"),ed=false,
+E={b:"bien",g:"desgastado",r:"roto o con daño",n:"no hay"};
+try{s=JSON.parse(localStorage.getItem(K)||"{}")||{}}catch(e){}
+function hoy(){var d=new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function fe(v){var p=(v||"").split("-");return p.length===3?(+p[2])+"/"+(+p[1])+"/"+p[0]:"[fecha]"}
+function guarda(){var o={m:m,f:{},e:{},n:{}};F.forEach(function(i){o.f[i]=$(i).value});it.forEach(function(d){var k=d.getAttribute("data-k"),v=d.querySelector("select").value,n=d.querySelector("input").value;if(v)o.e[k]=v;if(n)o.n[k]=n});try{localStorage.setItem(K,JSON.stringify(o))}catch(e){}}
+function texto(){var c=$("ivc1").value,a=$("ivc2").value,g=$("ivc3").value,l=$("ivc4").value,L=[];
+L.push("Inventario del piso"+($("ivd").value?" de "+$("ivd").value.trim():"")+" al "+(m==="entrada"?"entrar":"salir")+", el "+fe($("ivf").value)+".");
+if(c||a||g)L.push("Contadores: "+[c&&"luz "+c,a&&"agua "+a,g&&"gas "+g].filter(Boolean).join(", ")+".");
+if(l)L.push("Llaves y mandos: "+l.trim()+".");
+[].slice.call(document.querySelectorAll("[data-z]")).forEach(function(z){var r=[];[].slice.call(z.querySelectorAll(".ivi")).forEach(function(d){var v=d.querySelector("select").value,n=d.querySelector("input").value.trim();if(v&&v!=="n")r.push(d.querySelector("label").textContent+": "+E[v]+(n?" ("+n+")":""))});if(r.length)L.push("","· "+z.getAttribute("data-z")+":",r.join(". ")+".")});
+L.push("","Te mando las fotos aparte. ¿Me confirmas que lo has recibido y que estás de acuerdo? Gracias.");return L.join("\n")}
+function pinta(){var k=0;it.forEach(function(d){var se=d.querySelector("select"),v=se.value;if(v)k++;se.className="ivs "+v;d.querySelector("input").hidden=!(v==="g"||v==="r"||d.querySelector("input").value)});
+$("ivn").textContent=k+" de "+it.length+" revisados";$("ivi").style.width=(k*100/it.length)+"%";if(!ed)t.value=texto();enl()}
+function enl(){$("ivwa").href="https://wa.me/?text="+encodeURIComponent(t.value);$("ivml").href="mailto:?subject="+encodeURIComponent("Inventario del piso")+"&body="+encodeURIComponent(t.value)}
+function modo(x){m=x==="salida"?"salida":"entrada";ms.forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-m")===m?"true":"false")})}
+modo(s.m);F.forEach(function(i){$(i).value=(s.f&&s.f[i])||""});if(!$("ivf").value)$("ivf").value=hoy();
+it.forEach(function(d){var k=d.getAttribute("data-k"),se=d.querySelector("select"),n=d.querySelector("input");se.value=(s.e&&s.e[k])||"";if(!se.value)se.value="";n.value=(s.n&&s.n[k])||"";
+se.addEventListener("change",function(){pinta();guarda();if((se.value==="g"||se.value==="r")&&!n.value)n.focus()});n.addEventListener("input",function(){pinta();guarda()})});
+F.forEach(function(i){$(i).addEventListener("input",function(){pinta();guarda()})});
+ms.forEach(function(b){b.addEventListener("click",function(){modo(b.getAttribute("data-m"));pinta();guarda()})});
+t.addEventListener("input",function(){ed=true;enl()});
+$("ivcp").addEventListener("click",function(){var b=this,ok=function(){b.textContent="Copiado";setTimeout(function(){b.textContent="Copiar"},2000)};
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,function(){t.select();try{document.execCommand("copy");ok()}catch(e){}});else{t.select();try{document.execCommand("copy");ok()}catch(e){}}});
+$("ivr").addEventListener("click",function(){var hay=it.some(function(d){return d.querySelector("select").value||d.querySelector("input").value})||F.some(function(i){return i!=="ivf"&&$(i).value});if(hay&&!confirm("¿Borrar todo el inventario y empezar de cero?"))return;
+it.forEach(function(d){d.querySelector("select").value="";d.querySelector("input").value=""});F.forEach(function(i){$(i).value=""});$("ivf").value=hoy();modo("entrada");ed=false;pinta();guarda()});
+pinta()})();</script>""" + f"""
+{iv_html}
+<a class="cta" href="../">¿Aún buscas piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("inventario-piso"), exist_ok=True)
+open(F("inventario-piso", "index.html"), "w", encoding="utf-8").write(page(
+    "Inventario del piso de alquiler: lista para entrar y salir",
+    desc_corta(f"Lista de inventario para el piso de alquiler: {inv_n} cosas por habitación, contadores y llaves, y un resumen para mandar al propietario. Protege tu fianza.", " Gratis."),
+    "inventario-piso/", body, [("Vivible", "../"), ("Inventario del piso", None)], iv_ld))
+urls.insert(23, BASE + "inventario-piso/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

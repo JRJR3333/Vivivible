@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -212,7 +212,7 @@ for ck, c in C.items():
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../mudanza/">Lista para la mudanza</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
@@ -269,7 +269,7 @@ for ck, c in C.items():
 {bar_html}{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="../../pasos-para-comprar/">Pasos para comprar un piso</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../../mudanza/">Lista para la mudanza</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../../mudanza/">Lista para la mudanza</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
@@ -895,7 +895,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -1493,7 +1493,7 @@ r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años)
 d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
 open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de alquiler: cuánto dura y qué debe incluir",
@@ -1563,7 +1563,7 @@ r.innerHTML=s}}
 d.addEventListener("change",calc);d.addEventListener("input",calc);a.addEventListener("input",calc);calc()}})();</script>
 {fa_html}
 <a class="cta" href="../">¿Buscas otro piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("devolver-fianza"), exist_ok=True)
 open(F("devolver-fianza", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuándo me devuelven la fianza del alquiler? Plazo y descuentos",
@@ -2236,13 +2236,111 @@ $("dcp").addEventListener("click",function(){var b=this,ok=function(){b.textCont
 if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,function(){t.select();try{document.execCommand("copy");ok()}catch(e){}});else{t.select();try{document.execCommand("copy");ok()}catch(e){}}});calc()})();</script>""" + f"""
 {dj_html}
 <a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("dejar-el-piso"), exist_ok=True)
 open(F("dejar-el-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Carta para dejar el piso de alquiler: modelo y plazos (2026)",
     desc_corta("Modelo de carta para avisar al propietario de que dejas el piso de alquiler: rellénala y cópiala o envíala. Con cuánta antelación avisar.", " Gratis."),
     "dejar-el-piso/", body, [("Vivible", "../"), ("Dejar el piso", None)], dj_ld))
 urls.insert(21, BASE + "dejar-el-piso/")
+
+# ---------- reparaciones (reparaciones-alquiler/): «quién paga las reparaciones en un piso de alquiler», «avería caldera alquiler
+# quién paga», «pequeñas reparaciones inquilino». LAU art. 21.1 (las necesarias para la habitabilidad, el propietario, salvo daño
+# del inquilino), 21.2 (obra de más de 20 días: baja el alquiler), 21.3 (avisar cuanto antes; urgentes: las haces y te las paga),
+# 21.4 (pequeñas reparaciones por el desgaste del uso ordinario, el inquilino), art. 27 (resolver el contrato si no repara) y
+# Código Civil art. 1561-1563 (devolver el piso como se recibió, salvo el desgaste por el tiempo). Sin cifras.
+assert "reparaciones-alquiler" not in C
+RPK = {"p": ("Propietario", "#1f6f54"), "i": ("Tú (inquilino)", "#9a3b1c"), "d": ("Depende", "#6b5a12"), "c": ("Comunidad", "#2d5a8a")}
+REP = [
+    ("Caldera o calentador que se estropea", "p", "Es una avería de una instalación del piso. Si se rompe porque la has usado mal, la pagas tú."),
+    ("Revisión periódica de la caldera", "d", "Es mantenimiento: la paga quien diga el contrato, y muchos se la ponen al inquilino. Si el contrato no dice nada, pregunta antes de llamar al técnico."),
+    ("Termo eléctrico que deja de calentar", "p", "Avería por el uso o la edad del aparato: propietario."),
+    ("Grifo que gotea o cambiar la goma", "i", "Es una pequeña reparación por el desgaste del uso diario."),
+    ("Bombillas y fluorescentes", "i", "Desgaste normal por el uso: te toca a ti."),
+    ("Enchufe o interruptor roto", "i", "Pequeña reparación. Si falla la instalación (el cuadro, el cableado, saltan los plomos sin motivo), es del propietario."),
+    ("Instalación eléctrica, cuadro o cableado", "p", "Es necesaria para que el piso se pueda habitar."),
+    ("Atasco del fregadero, la ducha o el váter", "i", "Si es por el uso (pelos, restos, toallitas), lo pagas tú. Si viene de la tubería general del edificio, es de la comunidad."),
+    ("Tubería rota o fuga de agua", "p", "Tuberías del piso: propietario. Si la fuga sale de una bajante o tubería común del edificio, la arregla la comunidad. Avisa enseguida y da parte al seguro."),
+    ("Humedades y filtraciones", "p", "Si vienen del tejado, la fachada o las tuberías, las arregla el propietario o la comunidad."),
+    ("Moho por condensación", "d", "Si es por no ventilar ni secar, te toca limpiarlo. Si el piso tiene un defecto de aislamiento o ventilación, es del propietario."),
+    ("Cinta de la persiana", "i", "Se desgasta con el uso: pequeña reparación."),
+    ("Persiana atascada, motor o lamas rotas", "p", "Avería de un elemento del piso por la edad o el uso normal. Si la rompes tú, la pagas tú."),
+    ("Lavadora, frigorífico u horno del piso", "p", "Si venían con el piso y se estropean por la edad o el uso normal, propietario. Si es por mal uso, tú."),
+    ("Aire acondicionado que no enfría", "p", "Avería del aparato: propietario. Limpiar los filtros es cosa tuya."),
+    ("Vitrocerámica o placa rota por un golpe", "i", "Los daños que causas tú (o tus visitas) los pagas tú. Si deja de calentar por una avería, es del propietario."),
+    ("Cerradura que falla por el desgaste", "p", "Si falla por el uso o la edad, propietario. Si pierdes las llaves o rompes la cerradura, tú."),
+    ("Bisagras o tiradores de armarios y puertas", "i", "Ajustes pequeños por el uso diario: te tocan a ti."),
+    ("Cristal roto", "d", "Si lo rompes tú o tus visitas, tú. Si se rompe por un fallo de la ventana o un temporal, el propietario (o su seguro)."),
+    ("Plagas: cucarachas, chinches, carcoma", "d", "Si ya estaban al entrar o vienen del edificio, propietario o comunidad. Si aparecen por falta de limpieza, tú."),
+    ("Pintar el piso al irte", "d", "El desgaste normal por el paso del tiempo no se paga. Manchas, agujeros grandes o colores que pusiste tú, sí: pueden descontarlos de la fianza."),
+    ("Agujeros de cuadros y estanterías", "d", "Lo prudente es taparlos al irte. Pregunta antes de taladrar y guarda por escrito el permiso."),
+    ("Ascensor, portal, fachada o tejado", "c", "Son elementos comunes: los paga la comunidad con las cuotas del propietario."),
+    ("Antena, portero automático o bajantes", "c", "Son instalaciones del edificio: comunidad. El telefonillo de dentro de tu piso, si se estropea, propietario."),
+    ("Daños que causas tú o tus visitas", "i", "Siempre los pagas tú, aunque sean grandes. Mira si tu seguro de hogar o de responsabilidad civil los cubre."),
+]
+def rep_fila(n, k, x):
+    et, col = RPK[k]
+    return (f'<div class="rpi" data-k="{k}"><div class="rpt"><b>{esc(n)}</b><span class="rpb" style="background:{col}">{esc(et)}</span></div>'
+            f'<p class="m">{esc(x)}</p><button type="button" class="rpa" data-n="{esc(n)}">Avisar al propietario de esto</button></div>')
+rpn = {k: sum(1 for _, kk, _ in REP if kk == k) for k in RPK}
+rp_html, rp_ld = faq([
+    ("¿Quién paga las reparaciones en un piso de alquiler?",
+     "El propietario paga las reparaciones necesarias para que el piso se pueda habitar (caldera, tuberías, instalación eléctrica, humedades), salvo que el daño lo hayas causado tú. Tú pagas las pequeñas reparaciones por el desgaste del uso diario, como una bombilla, un grifo que gotea o la cinta de la persiana. Lo dice el artículo 21 de la Ley de Arrendamientos Urbanos."),
+    ("¿Qué son las pequeñas reparaciones que paga el inquilino?",
+     "Las que hacen falta por el desgaste normal del uso del día a día: cambiar bombillas, gomas de grifos, la cinta de una persiana, un enchufe o un tirador. La ley no da una lista ni un importe máximo, así que si dudas, mira tu contrato o pregúntale al propietario por escrito."),
+    ("¿El contrato puede decir que pago yo todas las reparaciones?",
+     "En el alquiler de tu vivienda habitual, no puede quitarte derechos que te da la ley: las reparaciones necesarias para habitar el piso siguen siendo del propietario aunque el contrato diga otra cosa. Sí puede decir quién paga el mantenimiento, como la revisión de la caldera."),
+    ("¿Qué hago si el propietario no quiere arreglar una avería?",
+     "Avísale por escrito cuanto antes y guarda la prueba. Si es urgente para evitar un daño mayor (una fuga, quedarte sin agua caliente), puedes arreglarlo tú avisándole y pedirle después lo que pagaste con la factura. Si se niega a hacer reparaciones necesarias, puedes pedirlo en el juzgado o incluso dar por terminado el contrato."),
+    ("¿Me bajan el alquiler si la obra dura mucho?",
+     "Sí: si la reparación dura más de 20 días, el alquiler baja en proporción a la parte del piso que no puedes usar mientras dura la obra."),
+    ("¿Me pueden descontar las reparaciones de la fianza?",
+     "Solo los daños que hayas causado tú y lo que debas, y justificándolo. El desgaste normal por el paso del tiempo y el uso no se descuenta. Haz fotos con fecha al entrar y al salir."),
+])
+body = f"""<h1>¿Quién paga las reparaciones en un piso de alquiler?</h1>
+<p>La regla corta: lo que hace falta para que el piso se pueda habitar lo paga <b>el propietario</b>; las <b>pequeñas reparaciones por el desgaste del uso diario</b> las pagas <b>tú</b>, y lo que rompas, también. Busca tu avería en la lista y, si le toca al propietario, prepárale el aviso con un toque.</p>
+<div class="card"><label class="m" for="rq">Busca la avería</label>
+<input id="rq" type="search" placeholder="Por ejemplo, caldera, persiana, grifo" autocomplete="off" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 10px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;margin-top:4px">
+<div id="rf" role="group" aria-label="Filtrar por quién paga" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px"><button type="button" class="rpf" data-k="" aria-pressed="true">Todas ({len(REP)})</button>""" + "".join(f'<button type="button" class="rpf" data-k="{k}" aria-pressed="false">{esc(et)} ({rpn[k]})</button>' for k, (et, _) in RPK.items()) + f"""</div>
+<p id="rn" class="m" aria-live="polite" style="margin:10px 0 0"></p></div>
+<div id="rl">{"".join(rep_fila(*x) for x in REP)}</div>
+<div class="card" id="rav" hidden><b>Aviso al propietario</b>
+<p class="m" style="margin:4px 0 8px">La ley te pide avisar cuanto antes de cualquier avería. Hazlo por escrito para que quede prueba.</p>
+<label class="m" for="rt">Tu mensaje (puedes retocarlo)</label>
+<textarea id="rt" rows="8" style="font:15px/1.45 Inter,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:10px;border:1px solid #d6d0c4;border-radius:10px;margin-top:4px;resize:vertical"></textarea>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button type="button" id="rcp" class="vbt">Copiar el mensaje</button><a id="rwa" class="vbt" target="_blank" rel="noopener">Enviar por WhatsApp</a></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo que dice la ley</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>El propietario</b> hace las reparaciones necesarias para que el piso se pueda habitar, sin subirte el alquiler por ello, salvo que el daño lo hayas causado tú (artículo 21.1 de la Ley de Arrendamientos Urbanos).</li>
+<li><b>Tú</b> pagas las pequeñas reparaciones por el desgaste del uso ordinario (21.4) y los daños que causes tú o quien viva o te visite.</li>
+<li><b>Avisa cuanto antes</b> de cualquier avería. Si es urgente para evitar un daño mayor, puedes arreglarla tú y pedirle después lo que pagaste (21.3).</li>
+<li>Si la obra dura <b>más de 20 días</b>, el alquiler baja en proporción a la parte del piso que no puedes usar (21.2).</li>
+<li>Al irte, devuelves el piso como lo recibiste, salvo el <b>desgaste normal por el tiempo</b>, que no se paga.</li>
+</ul><p class="m" style="margin-bottom:0">Es para el alquiler de tu vivienda habitual. En una habitación o un piso de temporada, mira también lo que diga tu contrato. Esto es orientativo: ante un conflicto, consulta la oficina de vivienda o de consumo de tu ayuntamiento.</p></div>
+<style>.vbt{{display:inline-flex;align-items:center;font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 14px;border:1px solid #d6d0c4;border-radius:10px;background:#fff;color:#1d2321;cursor:pointer;text-decoration:none;box-sizing:border-box}}.rpf{{font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 12px;border:1px solid #d6d0c4;border-radius:22px;background:#fff;color:#1d2321;cursor:pointer}}.rpf[aria-pressed=true]{{background:#1d2321;color:#fff;border-color:#1d2321}}.rpi{{background:#fff;border:1px solid #e6e0d4;border-radius:14px;padding:12px 14px;margin:10px 0}}.rpt{{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}}.rpb{{flex:none;color:#fff;font:600 12px Inter,system-ui,sans-serif;border-radius:12px;padding:3px 9px;white-space:nowrap}}.rpi p{{margin:6px 0 0}}.rpa{{font:600 13px Inter,system-ui,sans-serif;min-height:44px;margin-top:4px;padding:0;border:0;background:none;color:#1f6f54;text-decoration:underline;cursor:pointer}}.rpi[data-k=i] .rpa,.rpi[data-k=c] .rpa{{display:none}}</style>
+<script>""" + r"""(function(){var $=function(i){return document.getElementById(i)},q=$("rq"),it=[].slice.call(document.querySelectorAll(".rpi")),fs=[].slice.call(document.querySelectorAll(".rpf")),k="",t=$("rt");
+function n(s){return (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
+function fil(){var w=n(q.value).split(/\s+/).filter(Boolean),c=0;it.forEach(function(e){var x=n(e.textContent),ok=(!k||e.getAttribute("data-k")===k)&&w.every(function(p){return x.indexOf(p)>=0});e.hidden=!ok;if(ok)c++});
+$("rn").textContent=c?c+(c===1?" avería":" averías"):"No la encontramos. Regla general: si hace falta para vivir en el piso, propietario; si es pequeña y por el uso diario, tú."}
+q.addEventListener("input",fil);
+fs.forEach(function(b){b.addEventListener("click",function(){k=b.getAttribute("data-k");fs.forEach(function(o){o.setAttribute("aria-pressed",o===b?"true":"false")});fil()})});
+function enl(){$("rwa").href="https://wa.me/?text="+encodeURIComponent(t.value)}
+[].slice.call(document.querySelectorAll(".rpa")).forEach(function(b){b.addEventListener("click",function(){var a=b.getAttribute("data-n").toLowerCase();
+t.value="Hola. Le escribo para avisarle de una avería en el piso que le tengo alquilado: "+a+". Lo noto desde el día [fecha]."+(b.parentNode.getAttribute("data-k")==="p"?" Según el artículo 21 de la Ley de Arrendamientos Urbanos, las reparaciones necesarias para habitar la vivienda corren a cargo del propietario.":"")+" ¿Cuándo podría venir alguien a arreglarlo? Puedo mandarle fotos. Gracias.";
+enl();$("rav").hidden=false;$("rav").scrollIntoView({behavior:"smooth",block:"start"});t.focus({preventScroll:true})})});
+t.addEventListener("input",enl);
+$("rcp").addEventListener("click",function(){var b=this,ok=function(){b.textContent="Copiado";setTimeout(function(){b.textContent="Copiar el mensaje"},2000)};
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,function(){t.select();try{document.execCommand("copy");ok()}catch(e){}});else{t.select();try{document.execCommand("copy");ok()}catch(e){}}});
+var u=new URLSearchParams(location.search).get("q");if(u)q.value=u;fil()})();</script>""" + f"""
+{rp_html}
+<a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("reparaciones-alquiler"), exist_ok=True)
+open(F("reparaciones-alquiler", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Quién paga las reparaciones en un alquiler? Lista 2026",
+    desc_corta(f"Caldera, persiana, grifo, humedades, electrodomésticos: quién paga cada una de {len(REP)} averías en un piso de alquiler, según la ley, y aviso al propietario.", " Gratis."),
+    "reparaciones-alquiler/", body, [("Vivible", "../"), ("Reparaciones del alquiler", None)], rp_ld))
+urls.insert(22, BASE + "reparaciones-alquiler/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

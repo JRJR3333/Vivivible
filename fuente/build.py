@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}hipoteca-fija-o-variable/">Hipoteca fija o variable</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}prorrateo/">Alquiler prorrateado</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}comision-inmobiliaria/">Comisión de la inmobiliaria</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}hipoteca-fija-o-variable/">Hipoteca fija o variable</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}prorrateo/">Alquiler prorrateado</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}comision-inmobiliaria/">Comisión de la inmobiliaria</a><a href="{pre}alquiler-opcion-compra/">Alquiler con opción a compra</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -211,7 +211,7 @@ for ck, c in C.items():
 <div class="card"><table><caption class="m" style="text-align:left;padding-bottom:6px">Precio medio por m² en cada distrito de {esc(c["n"])} ({esc(c["mes"])})</caption><tr><th scope="col">Distrito</th><th scope="col">Venta</th><th scope="col">Alquiler/mes</th></tr>{tr}</table>{nota}</div>
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
-<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../comprar-o-alquilar/?c={ck}">¿Compensa comprar o alquilar en {esc(c["n"])}?</a> · <a href="../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a></div>
+<div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../comprar-o-alquilar/?c={ck}">¿Compensa comprar o alquilar en {esc(c["n"])}?</a> · <a href="../alquiler-opcion-compra/?c={ck}">Alquiler con opción a compra</a> · <a href="../cuanto-vale-mi-piso/?c={ck}">¿Cuánto vale mi piso?</a></div>
 <div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../estafas-alquiler/">Cómo evitar estafas</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
@@ -2630,7 +2630,7 @@ var q=new URLSearchParams(location.search);if(V[q.get("c")])k.value=q.get("c");d
 [m,n,pp,pa,pg,pi,d].forEach(function(e){{e.addEventListener("input",calc);e.addEventListener("change",calc)}});k.addEventListener("change",function(){{dis();calc()}});calc()}})();</script>
 {ca_html}
 <a class="cta" href="../">¿Has visto un piso? Analízalo gratis</a>
-<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../ahorrar-para-comprar/">Ahorrar para comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../alquiler-opcion-compra/">Alquiler con opción a compra</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../ahorrar-para-comprar/">Ahorrar para comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("comprar-o-alquilar"), exist_ok=True)
 open(F("comprar-o-alquilar", "index.html"), "w", encoding="utf-8").write(page(
     "¿Compensa comprar o alquilar? Calculadora por distritos (2026)",
@@ -2824,7 +2824,7 @@ var q=new URLSearchParams(location.search);if(+q.get("p")>0)P.value=+q.get("p");
 [P,Q,T].forEach(function(e){e.addEventListener("input",calc);e.addEventListener("change",calc)});calc()})();</script>
 """ + ar_html + """
 <a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../alquiler-opcion-compra/">Alquiler con opción a compra</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a> · """ + " · ".join(f'<a href="../{k}/gastos-de-compra/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("arras"), exist_ok=True)
 open(F("arras", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de arras: cuánto se paga y qué pasa si te echas atrás",
@@ -3419,6 +3419,94 @@ open(F("comision-inmobiliaria", "index.html"), "w", encoding="utf-8").write(page
     desc_corta("Calcula cuánto te cobra la inmobiliaria por vender tu piso, con el IVA, cuánto te queda y por cuánto vender para quedarte lo que quieres.", " Gratis."),
     "comision-inmobiliaria/", body, [("Vivible", "../"), ("Comisión de la inmobiliaria", None)], ci_ld))
 urls.insert(36, BASE + "comision-inmobiliaria/")
+
+# ---------- Alquiler con opción a compra (alquiler-opcion-compra/): «alquiler con opción a compra», «cómo funciona el alquiler con opción a compra», «calculadora alquiler con opción a compra».
+# Sin porcentajes ni plazos de mercado inventados: el usuario escribe los de su contrato (los grises son solo ejemplo). Precios medios del distrito de precios.json (CA, como comprar-o-alquilar/).
+# Son dos contratos en uno: el alquiler (LAU) y la opción de compra (libertad de pactos, Código Civil art. 1255); inscribible en el Registro (Reglamento Hipotecario art. 14).
+assert "alquiler-opcion-compra" not in C
+def _oc_resto(precio, alq, meses, pct, prima, prima_desc=True):  # lo que queda por pagar al comprar
+    return max(0, precio - alq * meses * pct / 100 - (prima if prima_desc else 0))
+assert _oc_resto(200000, 900, 36, 50, 6000) == 200000 - 16200 - 6000 and _oc_resto(200000, 900, 36, 50, 6000, False) == 200000 - 16200
+oc_html, oc_ld = faq([
+    ("¿Cómo funciona el alquiler con opción a compra?",
+     "Firmas dos cosas a la vez: un alquiler normal y el derecho a comprar el piso más adelante por un precio que se fija ya. Mientras vives de alquiler decides si compras; si compras, se descuenta del precio la parte del alquiler y la prima que diga el contrato. Si al final no compras, te vas como cualquier inquilino y pierdes la prima."),
+    ("¿Qué es la prima de la opción de compra?",
+     "Es el dinero que pagas al firmar por tener el derecho a comprar al precio pactado. Lo normal es que se descuente del precio si compras y que te la quedes sin recuperar si no compras, pero depende de lo que firméis: que el contrato diga las dos cosas con claridad."),
+    ("¿Cuánto del alquiler se descuenta del precio?",
+     "Lo que pactéis: no hay un porcentaje fijado por ley. Puede ser todo el alquiler, una parte o solo el de los primeros años. Fíjate también en si el alquiler es más caro que el normal de la zona: si pagas de más cada mes y luego no compras, ese dinero no lo recuperas. La calculadora de esta página lo compara con el alquiler medio del distrito."),
+    ("¿Qué pasa si el propietario vende el piso a otro o se muere?",
+     "Si la opción está inscrita en el Registro de la Propiedad, quien compre o herede el piso tiene que respetarla. Si no está inscrita, te quedaría reclamar al propietario por no cumplir. Por eso conviene firmarla ante notario e inscribirla, y pedir antes una nota simple para ver que el piso no tiene cargas que te puedan afectar."),
+    ("¿Tengo que pagar impuestos al comprar con opción a compra?",
+     "Sí, los mismos que en cualquier compra: el ITP de tu comunidad si es de segunda mano, o el IVA y el AJD si es nuevo, sobre el precio de la compra y no solo sobre lo que te queda por pagar. Súmalos, junto con notaría y registro, a lo que necesitas tener ahorrado."),
+    ("¿Me darán la hipoteca para lo que me queda?",
+     "No es seguro: el banco mira tu sueldo, tus deudas y la tasación del piso cuando vayas a comprar, no cuando firmas la opción. Pregunta en tu banco antes de firmar si te prestarían lo que te va a quedar, porque si llega el día y no consigues la hipoteca, pierdes la prima y lo pagado de más."),
+])
+body = f"""<h1>Alquiler con opción a compra: cómo funciona y calculadora</h1>
+<p>Escribe el precio pactado, lo que pagas de alquiler y lo que se descuenta, y te decimos <b>cuánto te quedará por pagar</b> si compras y <b>cuánto pierdes</b> si no. Si eliges el distrito, lo comparamos con los precios medios de la zona. No guardamos nada de lo que escribes.</p>
+<div class="card" id="oc"><b>Tu contrato</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+{campo("op", "Precio de compra pactado (€)", 'inputmode="decimal" placeholder="200.000"')}
+{campo("oa", "Alquiler al mes (€)", 'inputmode="decimal" placeholder="900"')}
+{campo("ot", "Parte del alquiler que se descuenta (%)", 'inputmode="decimal" placeholder="50"')}
+{campo("om", "Meses hasta que compras", 'inputmode="numeric" placeholder="36"')}
+{campo("oi", "Prima que pagas al firmar (€, opcional)", 'inputmode="decimal" placeholder="0"')}
+<label class="m" style="flex:1 1 180px">¿La prima se descuenta del precio?<br><select id="ob" style="{IN}"><option value="1">Sí</option><option value="0">No</option></select></label></div>
+<p class="m" style="margin:4px 0 0">Si dejas el precio, el alquiler, el porcentaje o los meses vacíos usamos el número gris de ejemplo, que no es lo habitual del mercado: cámbialos por los de tu contrato.</p>
+<details class="m" style="margin:8px 0 0"><summary style="min-height:44px;display:flex;align-items:center;cursor:pointer">Comparar con los precios del distrito (opcional)</summary>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:6px 0">
+<label class="m" style="flex:1 1 140px">Ciudad<br><select id="ok" style="{IN}"><option value="">Elige ciudad</option></select></label>
+<label class="m" style="flex:1 1 180px">Distrito<br><select id="od" style="{IN}"></select></label>
+{campo("o2", "Metros (m²)", 'inputmode="decimal" placeholder="70"')}</div></details>
+<div id="oo" aria-live="polite" style="margin-top:10px"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo básico, en corto</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>Son dos contratos en uno:</b> un alquiler normal, con los derechos de cualquier inquilino, y el derecho a comprar por un precio fijado hoy.</li>
+<li><b>Todo se pacta:</b> el precio, la prima, qué parte del alquiler se descuenta y hasta cuándo puedes decidir. Que quede escrito.</li>
+<li><b>Si no compras</b>, pierdes la prima (salvo que el contrato diga otra cosa) y lo que hayas pagado de alquiler por encima de lo normal.</li>
+<li><b>Antes de firmar:</b> pide la <a href="../nota-simple/">nota simple</a>, pregunta al banco si te daría la hipoteca para lo que te quede y compara el precio con el de la zona.</li>
+<li><b>Mejor ante notario e inscrita en el Registro:</b> así, si el dueño vende a otro, la opción se respeta.</li>
+<li><b>Al comprar pagas los impuestos de una compra</b> (ITP o IVA) sobre el precio, más notaría y registro: mira los <a href="../gastos-de-compra/">gastos de comprar</a>.</li></ul>
+<p class="m" style="margin:8px 0 0">Es una orientación para echar cuentas, no asesoramiento legal: manda lo que diga tu contrato.</p></div>
+<script>var OC={CAJ};</script>
+<script>""" + r"""(function(){var $=function(i){return document.getElementById(i)},P=$("op"),A=$("oa"),T=$("ot"),M=$("om"),I=$("oi"),B=$("ob"),K=$("ok"),D=$("od"),Q=$("o2"),o=$("oo");
+function num(e,ej){var s=(e.value||"").trim()||(ej?e.placeholder:"");var v=parseFloat(s.replace(/\.(?=\d{3}(\D|$))/g,"").replace(",","."));return isFinite(v)?v:NaN}
+function eur(v){return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")+" €"}
+function pc(v){return(Math.round(v*10)/10+"").replace(".",",")+" %"}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function mt(n){var a=Math.floor(n/12),m=Math.round(n%12);return(a?a+(a==1?" año":" años"):"")+(a&&m?" y ":"")+(m?m+(m==1?" mes":" meses"):"")}
+Object.keys(OC).forEach(function(k){var e=document.createElement("option");e.value=k;e.textContent=OC[k][0];K.appendChild(e)});
+function dist(){D.innerHTML="";var c=OC[K.value];if(!c){var e=document.createElement("option");e.value="";e.textContent="Elige antes la ciudad";D.appendChild(e);return}
+var z=document.createElement("option");z.value="";z.textContent="Elige distrito";D.appendChild(z);c[2].forEach(function(d,i){var e=document.createElement("option");e.value=i;e.textContent=d[0];D.appendChild(e)})}
+function calc(){var p=num(P,1),a=num(A,1),t=num(T,1),m=num(M,1),pr=I.value.trim()?num(I,0):0,bd=B.value==="1";
+if(!(p>0&&p<1e9)){o.innerHTML="Escribe el precio de compra que pactáis.";return}
+if(!(a>0&&a<1e5)){o.innerHTML="Escribe lo que pagas de alquiler al mes.";return}
+if(!(t>=0&&t<=100)){o.innerHTML="Escribe qué parte del alquiler se descuenta del precio, de 0 a 100 %.";return}
+if(!(m>=1&&m<=360)){o.innerHTML="Escribe cuántos meses pasarán hasta que compres (por ejemplo, 36).";return}
+if(!(pr>=0&&pr<1e9)){o.innerHTML="Escribe la prima en euros, o déjala vacía si no hay.";return}
+m=Math.round(m);var pag=a*m,dsc=pag*t/100,dp=bd?pr:0,rest=Math.max(0,p-dsc-dp),h="";
+h+="<p style=\"margin:0 0 8px\">En "+mt(m)+" pagas <b>"+eur(pag)+"</b> de alquiler"+(pr>0?" y "+eur(pr)+" de prima":"")+". Se descuentan del precio <b>"+eur(dsc+dp)+"</b>"+(pr>0&&!bd?" (la prima no)":"")+".</p>";
+h+="<p style=\"margin:0 0 8px\">Si compras, te quedan por pagar <b>"+eur(rest)+"</b> de los "+eur(p)+" ("+pc(rest/p*100)+" del precio): eso es lo que tendrás que pagar con tus ahorros o pedir al banco, más los impuestos y gastos de la compra.</p>";
+var c=OC[K.value],d=c&&D.value!==""&&c[2][+D.value],q=num(Q,1),ex="";
+if(c&&d){if(!(q>=10&&q<=1000)){ex="<p class=\"m\" style=\"margin:0 0 8px\">Escribe los metros del piso (de 10 a 1.000) para compararlo con "+esc(d[0])+".</p>"}else{
+var vm=d[1]*q,am=d[2]*q,dv=(p/vm-1)*100,da=a-am;
+ex+="<p style=\"margin:0 0 8px\">En <b>"+esc(d[0])+"</b> ("+esc(c[0])+"), un piso de "+Math.round(q)+" m² vale de media <b>"+eur(vm)+"</b> y se alquila por unos <b>"+eur(am)+"</b> al mes"+(d[3]?" (estimado)":"")+". Tu precio está un "+pc(Math.abs(dv))+(dv>=0?" por encima":" por debajo")+" y tu alquiler "+(Math.abs(da)<1?"igual que la media":(da>0?eur(da)+" al mes por encima":eur(-da)+" al mes por debajo"))+".</p>";
+ex+="<p style=\"margin:0 0 8px\">Si compras de segunda mano, el ITP en "+esc(c[0])+" es del "+pc(c[1])+": unos <b>"+eur(p*c[1]/100)+"</b> sobre el precio completo, no solo sobre lo que te queda.</p>";
+}}
+var cmp=c&&d&&q>=10&&q<=1000,xt=cmp&&a>d[2]*q?(a-d[2]*q)*m:0,ps=[];
+if(pr>0)ps.push("la prima ("+eur(pr)+")");if(xt>0)ps.push("lo pagado por encima del alquiler medio de la zona ("+eur(xt)+")");
+h+="<p style=\"margin:0 0 8px\">Si al final no compras, "+(ps.length?"pierdes <b>"+eur(pr+xt)+"</b>: "+ps.join(" y ")+".":(cmp?"no pierdes nada aparte de un alquiler normal: no hay prima y tu alquiler no pasa de la media de la zona.":"no hay prima que perder. Abre «Comparar con los precios del distrito» para saber si pagas de más de alquiler."))+"</p>";
+o.innerHTML=h+ex}
+var u=new URLSearchParams(location.search);if(OC[u.get("c")]){K.value=u.get("c")}dist();
+[P,A,T,M,I,Q].forEach(function(e){e.addEventListener("input",calc)});[B,D].forEach(function(e){e.addEventListener("change",calc)});K.addEventListener("change",function(){dist();calc()});calc()})();</script>""" + f"""
+{oc_html}
+<a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../comprar-o-alquilar/">¿Compensa comprar o alquilar?</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../ahorrar-para-comprar/">Ahorrar para comprar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a></div>"""
+os.makedirs(F("alquiler-opcion-compra"), exist_ok=True)
+open(F("alquiler-opcion-compra", "index.html"), "w", encoding="utf-8").write(page(
+    "Alquiler con opción a compra: cómo funciona y calculadora",
+    desc_corta("Calcula cuánto te queda por pagar en un alquiler con opción a compra, cuánto pierdes si no compras y si el precio y el alquiler están en la media del distrito.", " Gratis."),
+    "alquiler-opcion-compra/", body, [("Vivible", "../"), ("Alquiler con opción a compra", None)], oc_ld))
+urls.insert(37, BASE + "alquiler-opcion-compra/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

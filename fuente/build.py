@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}hipoteca-fija-o-variable/">Hipoteca fija o variable</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}prorrateo/">Alquiler prorrateado</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}hipoteca-fija-o-variable/">Hipoteca fija o variable</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}prorrateo/">Alquiler prorrateado</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}comision-inmobiliaria/">Comisión de la inmobiliaria</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -1900,7 +1900,7 @@ h=irpf(ga);r.innerHTML=p+"Ganas <b>"+eur(ga)+"</b>: a Hacienda le tocan unos <b>
 ["vq","vg","vv","vx"].forEach(function(i){{document.getElementById(i).addEventListener("input",calc)}});calc()}})();</script>
 {ve_html}
 <a class="cta" href="../">¿Vas a comprar otro? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../plusvalia-municipal/">Plusvalía municipal: calculadora</a> · <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../plusvalia-municipal/">Plusvalía municipal: calculadora</a> · <a href="../comision-inmobiliaria/">Comisión de la inmobiliaria</a> · <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("vender-un-piso"), exist_ok=True)
 open(F("vender-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto pago a Hacienda al vender un piso? Calculadora IRPF 2026",
@@ -3209,7 +3209,7 @@ o.innerHTML=h}
 ["pc","pv","vs","vt","pt","pk"].forEach(function(i){$(i).addEventListener("input",calc)});calc()})();</script>""" + f"""
 {pm_html}
 <a class="cta" href="../cuanto-vale-mi-piso/">¿Vas a vender? Mira cuánto vale tu piso</a>
-<div class="card m"><b>Más guías:</b> <a href="../prorrateo/">Reparto del IBI al vender</a> · <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../certificado-energetico/">Certificado energético</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../prorrateo/">Reparto del IBI al vender</a> · <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../comision-inmobiliaria/">Comisión de la inmobiliaria</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../certificado-energetico/">Certificado energético</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("plusvalia-municipal"), exist_ok=True)
 open(F("plusvalia-municipal", "index.html"), "w", encoding="utf-8").write(page(
     "Plusvalía municipal: calculadora y quién la paga al vender",
@@ -3338,6 +3338,71 @@ open(F("hipoteca-fija-o-variable", "index.html"), "w", encoding="utf-8").write(p
     desc_corta("Compara una hipoteca fija y una variable con tus números: a partir de qué euríbor compensa la fija y cuánto pagas al mes con cada una.", " Gratis."),
     "hipoteca-fija-o-variable/", body, [("Vivible", "../"), ("Hipoteca fija o variable", None)], fv_ld))
 urls.insert(35, BASE + "hipoteca-fija-o-variable/")
+
+# ---------- Comisión de la inmobiliaria (comision-inmobiliaria/): «comisión inmobiliaria venta piso», «cuánto cobra una inmobiliaria por vender un piso», «comisión inmobiliaria con IVA».
+# Sin porcentajes de mercado inventados: el usuario escribe el suyo (el 3 gris es solo un ejemplo). IVA general del 21 % (Ley 37/1992, art. 90).
+# La comisión es un gasto de la venta que se resta del precio al calcular la ganancia en el IRPF (Ley 35/2006, art. 35.2).
+assert "comision-inmobiliaria" not in C
+def _comision(precio, pct, con_iva):  # total que pagas (IVA incluido)
+    return precio * pct / 100 * (1 if con_iva else 1.21)
+def _precio_para_neto(neto, pct, con_iva): return neto / (1 - pct / 100 * (1 if con_iva else 1.21))
+assert abs(_comision(250000, 3, False) - 9075) < 1e-6 and abs(_comision(250000, 3, True) - 7500) < 1e-6
+assert abs(_precio_para_neto(240925, 3, False) - 250000) < 1e-6
+ci_html, ci_ld = faq([
+    ("¿Cuánto cobra una inmobiliaria por vender un piso?",
+     "No hay una tarifa fijada por ley: cada agencia pone su porcentaje (o una cantidad fija) y se pacta en la hoja de encargo que firmas. Pide la cifra por escrito, pregunta si lleva el IVA incluido y compara varias agencias antes de firmar: se puede negociar."),
+    ("¿La comisión de la inmobiliaria lleva IVA?",
+     "Sí: es un servicio y lleva el 21 % de IVA. Si te dicen «el 3 %», pregunta si es «más IVA»: entonces pagas en realidad un 3,63 % del precio. La calculadora de esta página te lo hace de las dos formas."),
+    ("¿Quién paga la comisión, el comprador o el vendedor?",
+     "La paga quien encarga el servicio a la agencia, que al vender suele ser el propietario. Si una agencia quiere cobrarte también como comprador, que te lo diga antes de visitar y que quede por escrito. En un alquiler de vivienda es distinto: desde la Ley 12/2023 la inmobiliaria la paga siempre el propietario, nunca el inquilino."),
+    ("¿Qué pasa si firmo la venta en exclusiva?",
+     "Solo esa agencia puede vender tu piso durante el plazo que pongáis. Si en ese tiempo lo vendes tú o con otra agencia, puede que tengas que pagarle igualmente, según lo que diga la hoja de encargo. Antes de firmar, mira cuánto dura la exclusiva, cómo se termina y qué pasa si vendes por tu cuenta."),
+    ("¿Cuándo se paga la comisión de la inmobiliaria?",
+     "Lo normal es pagarla cuando se firma la escritura de venta ante notario, que es cuando cobras. Si te la piden antes (al firmar las arras o al poner el piso a la venta), léelo bien en la hoja de encargo antes de aceptarlo."),
+    ("¿Puedo restar la comisión de la inmobiliaria en la renta?",
+     "Sí. Al calcular lo que ganas con la venta para el IRPF, los gastos de vender, como la comisión de la inmobiliaria con su IVA, se restan del precio de venta. Así la ganancia es menor y pagas menos. Guarda la factura de la agencia."),
+])
+body = f"""<h1>Comisión de la inmobiliaria al vender un piso: calcula cuánto pagas</h1>
+<p>Escribe el precio de venta y el porcentaje que te pide la agencia y te decimos <b>cuánto pagas con el IVA</b> y <b>cuánto te queda</b>. No guardamos nada de lo que escribes.</p>
+<div class="card" id="ci"><b>Tu venta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+{campo("cp", "Precio de venta (€)", 'inputmode="decimal" placeholder="250.000"')}
+{campo("cc", "Comisión (%)", 'inputmode="decimal" placeholder="3"')}
+<label class="m" style="flex:1 1 180px">¿El porcentaje lleva IVA?<br><select id="cv" style="font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff"><option value="0">No: se suma el 21 % de IVA</option><option value="1">Sí: ya lleva el IVA</option></select></label>
+{campo("cn", "Lo que quieres que te quede (€, opcional)", 'inputmode="decimal" placeholder="Opcional"')}</div>
+<p class="m" style="margin:4px 0 0">Si dejas el precio o el porcentaje vacíos usamos el número gris de ejemplo, que no es una tarifa de mercado: cámbialos por los de tu agencia.</p>
+<div id="co" aria-live="polite" style="margin-top:10px"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo básico, en corto</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>No hay tarifa oficial:</b> el porcentaje lo pone cada agencia y se puede negociar.</li>
+<li><b>Pregunta siempre por el IVA:</b> «3 % más IVA» es un 3,63 % del precio.</li>
+<li><b>Todo por escrito:</b> el porcentaje, quién lo paga, cuándo se paga y si hay exclusiva, en la hoja de encargo.</li>
+<li><b>Exclusiva:</b> mira cuánto dura y qué pasa si vendes tú por tu cuenta en ese tiempo.</li>
+<li><b>En la renta:</b> la comisión se resta del precio de venta, así que pagas menos IRPF por la ganancia. Guarda la factura.</li>
+<li><b>Alquiler:</b> si alquilas tu piso como vivienda, la inmobiliaria la pagas tú como propietario, no el inquilino (Ley 12/2023).</li></ul>
+<p class="m" style="margin:8px 0 0">Es una orientación para echar cuentas; manda lo que pongas en la hoja de encargo con tu agencia.</p></div>
+<script>""" + r"""(function(){var $=function(i){return document.getElementById(i)},P=$("cp"),C=$("cc"),V=$("cv"),N=$("cn"),o=$("co");
+function num(e,ej){var s=(e.value||"").trim()||(ej?e.placeholder:"");var v=parseFloat(s.replace(/\.(?=\d{3}(\D|$))/g,"").replace(",","."));return isFinite(v)?v:NaN}
+function eur(v){return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")+" €"}
+function pct(v){var r=Math.round(v*100)/100;return(r+"").replace(".",",")+" %"}
+function calc(){var p=num(P,1),c=num(C,1),iva=V.value==="1",n=num(N,0);
+if(!(p>0&&p<1e9)){o.innerHTML="Escribe el precio por el que vendes el piso.";return}
+if(!(c>=0&&c<30)){o.innerHTML="Escribe el porcentaje de la comisión (por ejemplo, 3).";return}
+var f=c/100*(iva?1:1.21),t=p*f,b=t/1.21,h="<p style=\"margin:0 0 8px\">Pagas a la inmobiliaria <b>"+eur(t)+"</b> en total: "+eur(b)+" de comisión y "+eur(t-b)+" de IVA (un "+pct(f*100)+" del precio).</p>";
+h+="<p style=\"margin:0 0 8px\">De los "+eur(p)+" de la venta <b>te quedan "+eur(p-t)+"</b>, antes de la plusvalía municipal, el IRPF y lo que debas de la hipoteca.</p>";
+if(c>=0.5)h+="<p class=\"m\" style=\"margin:0 0 8px\">Cada medio punto que negocies a la baja te ahorra "+eur(p*0.005*(iva?1:1.21))+" (con IVA).</p>";
+if(N.value.trim()){if(n>0&&n<1e9&&f<1)h+="<p style=\"margin:0\">Para que te queden <b>"+eur(n)+"</b> después de la comisión, tendrías que vender por <b>"+eur(n/(1-f))+"</b>.</p>";else h+="<p style=\"margin:0\">Escribe lo que quieres que te quede en euros (por ejemplo, 240.000).</p>"}
+o.innerHTML=h}
+[P,C,N].forEach(function(e){e.addEventListener("input",calc)});V.addEventListener("change",calc);calc()})();</script>""" + f"""
+{ci_html}
+<a class="cta" href="../cuanto-vale-mi-piso/">¿Cuánto vale tu piso? Calcúlalo gratis</a>
+<div class="card m"><b>Más guías:</b> <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../plusvalia-municipal/">Plusvalía municipal</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../certificado-energetico/">Certificado energético</a> · <a href="../arras/">Contrato de arras</a> · <a href="../prorrateo/">Reparto del IBI al vender</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../precio-metro-cuadrado/">Precio por metro cuadrado</a></div>"""
+os.makedirs(F("comision-inmobiliaria"), exist_ok=True)
+open(F("comision-inmobiliaria", "index.html"), "w", encoding="utf-8").write(page(
+    "Comisión de la inmobiliaria al vender un piso: calculadora con IVA",
+    desc_corta("Calcula cuánto te cobra la inmobiliaria por vender tu piso, con el IVA, cuánto te queda y por cuánto vender para quedarte lo que quieres.", " Gratis."),
+    "comision-inmobiliaria/", body, [("Vivible", "../"), ("Comisión de la inmobiliaria", None)], ci_ld))
+urls.insert(36, BASE + "comision-inmobiliaria/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

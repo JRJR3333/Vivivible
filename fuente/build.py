@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -1324,7 +1324,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {vi_html}
 <a class="cta" href="../">¿Te ha gustado el piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../estafas-alquiler/">Cómo saber si un anuncio es una estafa</a> · <a href="../nota-simple/">Cómo leer la nota simple</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../estafas-alquiler/">Cómo saber si un anuncio es una estafa</a> · <a href="../nota-simple/">Cómo leer la nota simple</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("visitar-un-piso"), exist_ok=True)
 open(F("visitar-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Qué mirar al visitar un piso: lista para alquilar o comprar",
@@ -1495,7 +1495,7 @@ r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años)
 d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../nota-simple/">Comprobar quién es el dueño: nota simple</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../empadronarse/">Empadronarse en un piso de alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../nota-simple/">Comprobar quién es el dueño: nota simple</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../empadronarse/">Empadronarse en un piso de alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
 open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de alquiler: cuánto dura y qué debe incluir",
@@ -1828,7 +1828,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pc_html}
 <a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple: cómo pedirla y leerla</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple: cómo pedirla y leerla</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("pasos-para-comprar"), exist_ok=True)
 open(F("pasos-para-comprar", "index.html"), "w", encoding="utf-8").write(page(
     "Pasos para comprar un piso: arras, hipoteca, notario y gastos",
@@ -1900,7 +1900,7 @@ h=irpf(ga);r.innerHTML=p+"Ganas <b>"+eur(ga)+"</b>: a Hacienda le tocan unos <b>
 ["vq","vg","vv","vx"].forEach(function(i){{document.getElementById(i).addEventListener("input",calc)}});calc()}})();</script>
 {ve_html}
 <a class="cta" href="../">¿Vas a comprar otro? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("vender-un-piso"), exist_ok=True)
 open(F("vender-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto pago a Hacienda al vender un piso? Calculadora IRPF 2026",
@@ -2007,7 +2007,7 @@ var q=new URLSearchParams(location.search);if(V[q.get("c")])k.value=q.get("c");d
 [o,p,m,d].forEach(function(e){{e.addEventListener("input",calc);e.addEventListener("change",calc)}});k.addEventListener("change",function(){{dis();calc()}});calc()}})();</script>
 {pm_html}
 <a class="cta" href="../">Pega el anuncio y te decimos si su precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../certificado-energetico/">Certificado energético: qué es cada letra</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("precio-metro-cuadrado"), exist_ok=True)
 open(F("precio-metro-cuadrado", "index.html"), "w", encoding="utf-8").write(page(
     "Precio por metro cuadrado: calculadora y media por distrito (2026)",
@@ -3065,6 +3065,88 @@ open(F("empadronarse", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta("Qué papeles llevar para empadronarte si alquilas un piso o una habitación o vives con alguien, y modelo de autorización del propietario para copiar.", " Gratis."),
     "empadronarse/", body, [("Vivible", "../"), ("Empadronarse", None)], emp_ld))
 urls.insert(31, BASE + "empadronarse/")
+
+# ---------- Certificado energético (certificado-energetico/): «certificado energético alquiler obligatorio», «qué significa la letra G», «cuánto dura el certificado energético».
+# Sin cifras de precios ni de consumo inventadas: quién lo necesita, qué dice cada letra y hasta cuándo vale (RD 390/2021: 10 años, 5 si la letra es G).
+assert "certificado-energetico" not in C
+CE_SIT = [  # (id, situación, qué te toca)
+    ("ven", "Voy a vender mi piso",
+     ["Necesitas el certificado <b>antes de anunciarlo</b>: la letra tiene que salir en el anuncio, también en portales como idealista o Fotocasa.", "Lo hace un técnico (arquitecto, aparejador o ingeniero) que visita el piso, y después se registra en tu comunidad autónoma.", "Al firmar la venta se entrega al comprador. Sin él te pueden multar."]),
+    ("alq", "Voy a alquilar mi piso",
+     ["Lo necesitas para alquilar a un inquilino nuevo y la letra tiene que salir en el anuncio.", "Lo pagas tú, como propietario, y se entrega una copia al inquilino al firmar el contrato.", "Si ya tienes uno en vigor, vale el mismo: no hace falta hacer otro para cada inquilino."]),
+    ("hab", "Voy a alquilar una habitación de mi piso",
+     ["La norma está pensada para vender o alquilar viviendas o partes de ellas; si alquilas habitaciones con frecuencia, lo más seguro es tenerlo.", "Si el piso ya tiene certificado en vigor, te sirve el mismo: enséñalo o pon la letra en el anuncio.", "Ante la duda, pregunta en el registro de certificados de tu comunidad autónoma."]),
+    ("com", "Voy a comprar un piso",
+     ["Tienes derecho a ver la letra en el anuncio y a recibir el certificado al firmar.", "Mira las dos letras (consumo y emisiones) y las <b>recomendaciones de mejora</b> que trae: te dicen qué obras bajarían la factura.", "Una letra baja (E, F o G) no es motivo para no comprar, pero sí para negociar el precio si habrá que cambiar ventanas o calefacción."]),
+    ("inq", "Voy a alquilar un piso",
+     ["El propietario debe darte una copia del certificado al firmar el contrato y la letra tiene que salir en el anuncio.", "Si el anuncio no la pone o dice «en trámite», pregunta: es una pista de lo que gastarás en calefacción y aire.", "Pide también las últimas facturas de luz y gas: con la letra te dan una idea real del gasto al mes."]),
+]
+CE_LET = [  # (letra, color, qué suele significar)
+    ("A", "#1b8a3e", "La más eficiente. Casi siempre obra nueva o reformas a fondo con buen aislamiento y equipos eficientes. Gastarás muy poco en calefacción y aire."),
+    ("B", "#3fa34d", "Muy eficiente. Edificios recientes o bien reformados. Factura de climatización baja."),
+    ("C", "#9cc23b", "Buena. Gasto en calefacción y aire moderado."),
+    ("D", "#f2d22e", "Normal tirando a buena. Mira el estado de las ventanas y la calefacción."),
+    ("E", "#f0a32f", "Frecuente en pisos de segunda mano. Suele haber margen de mejora con ventanas, aislamiento o caldera."),
+    ("F", "#e4682a", "Poco eficiente. Espera facturas de calefacción y aire altas, sobre todo en pisos sin aislar."),
+    ("G", "#d1302c", "La menos eficiente. El certificado dura solo 5 años y el piso gastará mucho en climatizar si no se reforma. Útil para negociar el precio."),
+]
+ce_html, ce_ld = faq([
+    ("¿Es obligatorio el certificado energético para alquilar?",
+     "Sí. Para vender o alquilar una vivienda a un nuevo inquilino hace falta el certificado de eficiencia energética (Real Decreto 390/2021), y la letra tiene que aparecer en el anuncio. El propietario debe entregar una copia al inquilino."),
+    ("¿Cuánto tiempo dura el certificado energético?",
+     "Diez años como máximo. Si la letra es G, solo cinco. Si haces una reforma que cambie mucho la eficiencia (ventanas, aislamiento, calefacción), conviene hacer uno nuevo, que además puede salir con mejor letra."),
+    ("¿Quién paga el certificado energético?",
+     "El propietario, porque es quien vende o alquila y quien está obligado a tenerlo."),
+    ("¿Qué pasa si venden o alquilan un piso sin certificado energético?",
+     "El propietario puede ser multado, y anunciar sin la letra también es una infracción. Como comprador o inquilino, puedes pedir que te lo entreguen antes de firmar."),
+    ("¿Qué significan las dos letras del certificado?",
+     "Una mide el consumo de energía (cuánta energía necesita el piso para la calefacción, el aire y el agua caliente) y la otra las emisiones de CO₂. Van de la A, la mejor, a la G, la peor. Para tu bolsillo importa sobre todo la de consumo."),
+])
+ce_opts = "".join(f'<label class="nsm"><input type="radio" name="cs" value="{k}"{" checked" if i == 0 else ""}> <span>{esc(t)}</span></label>' for i, (k, t, _) in enumerate(CE_SIT))
+ce_lets = "".join(f'<button type="button" class="cel" data-l="{l}" aria-pressed="false" style="background:{col}">{l}</button>' for l, col, _ in CE_LET)
+ce_js = json.dumps({"s": {k: p for k, _, p in CE_SIT}, "l": {l: t for l, _, t in CE_LET}}, ensure_ascii=False).replace("</", "<\\/")
+body = f"""<h1>Certificado energético: qué es, quién lo paga y qué significa cada letra</h1>
+<p>Para vender o alquilar un piso hace falta el <b>certificado de eficiencia energética</b>, y su letra (de la A a la G) tiene que salir en el anuncio. Elige tu caso y te decimos qué te toca; toca una letra para saber qué significa; y comprueba hasta cuándo vale el tuyo.</p>
+<div class="card" id="cc"><b>¿Cuál es tu caso?</b>
+<div role="radiogroup" aria-label="Tu caso" style="margin:8px 0">{ce_opts}</div>
+<div id="co" aria-live="polite" class="m"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">¿Qué significa la letra del anuncio?</h2>
+<div class="card"><div class="celw" role="group" aria-label="Letras del certificado">{ce_lets}</div>
+<p id="clo" aria-live="polite" class="m" style="margin-bottom:0">Toca una letra. La A es la más eficiente y la G la que más gasta en calefacción y aire.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">¿Hasta cuándo vale mi certificado?</h2>
+<div class="card" id="cv"><div style="display:flex;flex-wrap:wrap;gap:10px">
+{campo("cf", "Fecha del certificado", "", "date")}
+<label class="m" style="flex:1 1 150px">Letra de consumo<br><select id="cl" style="{IN}">{"".join(f'<option>{l}</option>' for l, _, _ in CE_LET)}</select></label></div>
+<p id="cvo" aria-live="polite" class="m" style="margin-bottom:0">Escribe la fecha que pone en el certificado o en su registro.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo básico, en corto</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>Quién lo necesita:</b> quien vende o alquila una vivienda a un nuevo inquilino (Real Decreto 390/2021).</li>
+<li><b>Quién lo paga:</b> el propietario.</li>
+<li><b>Quién lo hace:</b> un técnico competente (arquitecto, arquitecto técnico o ingeniero) que visita el piso; después se inscribe en el registro de tu comunidad autónoma.</li>
+<li><b>Qué trae:</b> dos letras (consumo de energía y emisiones de CO₂) y recomendaciones de mejora.</li>
+<li><b>Cuánto dura:</b> 10 años; 5 si la letra es G.</li>
+<li><b>En el anuncio:</b> la letra tiene que aparecer siempre, también en portales y carteles.</li></ul></div>
+<style>.nsm{{display:flex;align-items:center;gap:10px;min-height:44px;padding:4px 10px;margin:6px 0;cursor:pointer;border:1px solid #d6d0c4;border-radius:10px;background:#fff}}.nsm input{{width:22px;height:22px;flex:none;margin:0}}#co ul{{margin:6px 0;padding-left:20px}}.celw{{display:flex;gap:6px}}.cel{{flex:1 1 0;min-width:0;min-height:44px;border:0;border-radius:8px;color:#fff;font:700 18px Inter,system-ui,sans-serif;cursor:pointer;text-shadow:0 1px 1px rgba(0,0,0,.35)}}.cel[aria-pressed=true]{{outline:3px solid #1d2321;outline-offset:2px}}</style>
+<script>""" + r"""(function(){var D=""" + ce_js + r""",$=function(i){return document.getElementById(i)},M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+function sit(){var k=document.querySelector('input[name=cs]:checked').value;$("co").innerHTML="<ul>"+D.s[k].map(function(p){return"<li>"+p+"</li>"}).join("")+"</ul>"}
+$("cc").addEventListener("change",sit);
+var bs=document.querySelectorAll(".cel");for(var i=0;i<bs.length;i++)bs[i].addEventListener("click",function(){for(var j=0;j<bs.length;j++)bs[j].setAttribute("aria-pressed","false");this.setAttribute("aria-pressed","true");var l=this.getAttribute("data-l");$("clo").innerHTML="<b>Letra "+l+":</b> "+D.l[l]});
+function cad(){var v=$("cf").value,o=$("cvo");if(!/^\d{4}-\d{2}-\d{2}$/.test(v)){o.textContent="Escribe la fecha que pone en el certificado o en su registro.";return}
+var p=v.split("-"),vi=v<"2021-06-02",n=$("cl").value=="G"&&!vi?5:10,f=new Date(+p[0]+n,+p[1]-1,+p[2]),h=new Date();h.setHours(0,0,0,0);
+if(isNaN(f.getTime())){o.textContent="Revisa la fecha.";return}
+var t=f.getDate()+" de "+M[f.getMonth()]+" de "+f.getFullYear(),m=Math.round((f-h)/2629746e3);
+o.innerHTML=f<h?"<b>Caducado</b> desde el "+t+". Para vender o alquilar hace falta uno nuevo.":"<b>Vale hasta el "+t+"</b> ("+n+" años"+(n==5?", por ser letra G":"")+")."+(vi&&$("cl").value=="G"?" Los certificados de antes de junio de 2021 siguen la norma anterior, que daba 10 años a todas las letras; confírmalo en el registro de tu comunidad.":"")+(m<12?" Caduca en menos de un año: si vas a vender o alquilar pronto, ten en cuenta que tendrás que renovarlo.":"")}
+$("cf").addEventListener("input",cad);$("cf").addEventListener("change",cad);$("cl").addEventListener("change",cad);
+sit();cad()})();</script>""" + f"""
+{ce_html}
+<a class="cta" href="../">¿Buscas piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../estafas-alquiler/">Estafas en el alquiler</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("certificado-energetico"), exist_ok=True)
+open(F("certificado-energetico", "index.html"), "w", encoding="utf-8").write(page(
+    "Certificado energético: quién lo paga, cuánto dura y qué es cada letra",
+    desc_corta("Si vendes o alquilas un piso necesitas el certificado energético. Quién lo paga, cuánto dura, qué significa cada letra de la A a la G y si caduca el tuyo.", " Gratis."),
+    "certificado-energetico/", body, [("Vivible", "../"), ("Certificado energético", None)], ce_ld))
+urls.insert(32, BASE + "certificado-energetico/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

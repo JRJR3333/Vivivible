@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -212,7 +212,7 @@ for ck, c in C.items():
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../estafas-alquiler/">Cómo evitar estafas</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
@@ -269,7 +269,7 @@ for ck, c in C.items():
 {bar_html}{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="../../pasos-para-comprar/">Pasos para comprar un piso</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../../mudanza/">Lista para la mudanza</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../../mudanza/">Lista para la mudanza</a> · <a href="../../estafas-alquiler/">Cómo evitar estafas</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
@@ -1322,7 +1322,7 @@ cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListen
 document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {vi_html}
 <a class="cta" href="../">¿Te ha gustado el piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../estafas-alquiler/">Cómo saber si un anuncio es una estafa</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("visitar-un-piso"), exist_ok=True)
 open(F("visitar-un-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Qué mirar al visitar un piso: lista para alquilar o comprar",
@@ -1418,7 +1418,7 @@ document.getElementById("vr").addEventListener("click",function(){{if(cs.some(fu
 os.makedirs(F("papeles-para-alquilar"), exist_ok=True)
 open(F("papeles-para-alquilar", "index.html"), "w", encoding="utf-8").write(page(
     "Qué papeles piden para alquilar un piso: lista de documentos",
-    desc_corta(f"Documentos para alquilar un piso si trabajas, eres autónomo o estudias, lo que te debe dar el propietario y lo que no te pueden pedir. Lista para marcar en el móvil.", ""),
+    desc_corta(f"Documentos para alquilar un piso si trabajas, eres autónomo o estudias, lo que te debe dar el propietario y lo que no te pueden pedir. Lista para marcar.", ""),
     "papeles-para-alquilar/", body, [("Vivible", "../"), ("Papeles para alquilar", None)], pa_ld))
 urls.insert(11, BASE + "papeles-para-alquilar/")
 
@@ -2439,6 +2439,103 @@ open(F("inventario-piso", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Lista de inventario para el piso de alquiler: {inv_n} cosas por habitación, contadores y llaves, y un resumen para mandar al propietario. Protege tu fianza.", " Gratis."),
     "inventario-piso/", body, [("Vivible", "../"), ("Inventario del piso", None)], iv_ld))
 urls.insert(23, BASE + "inventario-piso/")
+
+# ---------- estafas (estafas-alquiler/): «estafa alquiler piso», «cómo saber si un anuncio de alquiler es falso», «pagar reserva sin ver el piso».
+# Comprobador de precio con el alquiler medio por m² del distrito (VM, de precios.json) o el precio medio de habitación de la ciudad,
+# y lista de señales de alarma. Sin cifras inventadas: los umbrales (35 % y 20 % por debajo de la media) son orientativos y se dicen.
+assert "estafas-alquiler" not in C
+EH = {k: c["hab"] for k, c in C.items()}
+EHJ = json.dumps(EH, separators=(",", ":"))
+SEN = [
+    (1, "Te pide dinero (reserva, señal o fianza) <b>antes de que veas el piso</b>."),
+    (1, "Dice que está <b>fuera de España</b> y que te manda las llaves por mensajero o por una «agencia» cuando pagues."),
+    (1, "Quiere cobrar por <b>Western Union, MoneyGram, criptomonedas, tarjeta regalo</b> o Bizum a un particular sin haber firmado nada."),
+    (1, "La cuenta para pagar <b>no está a nombre del propietario</b> o es de un banco de otro país."),
+    (0, "El precio está <b>muy por debajo</b> de lo normal en la zona (compruébalo arriba)."),
+    (0, "No puedes visitarlo o siempre hay <b>una excusa</b> para no enseñarlo."),
+    (0, "Solo habla por <b>WhatsApp o correo</b> y evita llamar o quedar."),
+    (0, "Te mete <b>prisa</b>: «hay mucha gente interesada», «decide hoy»."),
+    (0, "Te pide <b>copia del DNI, nóminas o datos del banco</b> antes de enseñarte el piso."),
+    (0, "Las <b>fotos</b> parecen de revista o salen en otros anuncios con otra dirección."),
+    (0, "Cuenta una <b>historia larga</b> (trabajo en el extranjero, herencia, divorcio) para justificar el precio o la prisa."),
+    (0, "No quiere enseñarte el <b>contrato</b> o firmarlo hasta que pagues."),
+]
+sen_lis = "".join(f'<label class="esl"><input type="checkbox" class="esc" data-g="{g}"><span>{t}</span></label>' for g, t in SEN)
+hb = min(C.values(), key=lambda c: c["hab"]); hc = max(C.values(), key=lambda c: c["hab"])
+es_html, es_ld = faq([
+    ("¿Cómo saber si un anuncio de alquiler es falso?",
+     "Las señales más claras son un precio muy por debajo de lo normal en la zona, un propietario que no puede enseñarte el piso y que te pide dinero antes de verlo, y pagos por métodos difíciles de recuperar (Western Union, criptomonedas o Bizum a un desconocido). Si se juntan dos o más, no pagues nada."),
+    ("¿Es normal pagar una reserva antes de ver el piso?",
+     "No. Nunca pagues reserva, señal ni fianza de un piso que no has visto por dentro en persona (o con alguien de confianza). Lo seguro es visitarlo, comprobar quién es el dueño, firmar el contrato y entonces pagar."),
+    ("¿Cómo sé si quien me alquila es el dueño del piso?",
+     "Pide una nota simple del piso en el Registro de la Propiedad (se pide por internet y cuesta poco): dice a nombre de quién está. Compara ese nombre con el DNI de quien firma el contrato y con el titular de la cuenta donde vas a pagar. Si es una agencia, comprueba que existe, que tiene oficina y que el propietario le ha encargado el alquiler."),
+    ("¿Es seguro pagar la fianza por Bizum?",
+     "Bizum es inmediato y muy difícil de recuperar, así que úsalo solo con alguien que ya conoces y después de firmar. Para la fianza y el primer mes, mejor una transferencia a una cuenta española a nombre del propietario, con el concepto escrito y el contrato firmado."),
+    ("¿Qué hago si me han estafado con un alquiler?",
+     "Llama a tu banco en cuanto te des cuenta para intentar parar o devolver el pago. Guarda el anuncio, los mensajes y los justificantes, denuncia en la Policía Nacional o la Guardia Civil y avisa al portal donde viste el anuncio para que lo retire."),
+])
+body = f"""<h1>¿Es una estafa? Cómo saber si un anuncio de alquiler es falso</h1>
+<p>Los timos del alquiler se repiten: un piso bonito y barato, un dueño que no puede enseñarlo y prisa por cobrar una reserva. Antes de pagar nada, comprueba si el precio es normal para la zona y repasa las señales de alarma.</p>
+<div class="card"><b>1. ¿El precio es normal para la zona?</b>
+<div role="group" aria-label="Qué alquilas" style="display:flex;gap:6px;margin-top:8px"><button type="button" class="rpf esm" data-m="p" aria-pressed="true">Piso</button><button type="button" class="rpf esm" data-m="h" aria-pressed="false">Habitación</button></div>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 140px">Ciudad<br><select id="ek" class="vin"></select></label>
+<label class="m" style="flex:1 1 180px" id="edl">Distrito<br><select id="ed" class="vin"></select></label>
+<label class="m" style="flex:1 1 110px">Alquiler al mes (€)<br><input type="number" id="ep" inputmode="decimal" min="50" max="20000" step="1" placeholder="Por ejemplo, 700" class="vin"></label>
+<label class="m" style="flex:1 1 110px" id="eml">Metros (m²)<br><input type="number" id="em" inputmode="decimal" min="10" max="1000" step="1" placeholder="Por ejemplo, 60" class="vin"></label></div>
+<div id="er" aria-live="polite" class="m">Escribe el alquiler y los metros del anuncio.</div></div>
+<div class="card"><b>2. Señales de alarma: marca las que ves en el anuncio</b>
+<div style="margin-top:6px">{sen_lis}</div>
+<div id="es" aria-live="polite" class="esr" style="margin-top:10px"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cómo alquilar sin que te timen</h2>
+<div class="card"><ol style="margin:0;padding-left:20px">
+<li><b>Visita el piso en persona</b> (o manda a alguien de confianza) antes de pagar nada.</li>
+<li><b>Comprueba quién es el dueño</b> con una nota simple del Registro de la Propiedad y compárala con el DNI de quien firma.</li>
+<li><b>Busca las fotos en internet</b> (con Google Lens o similar): si salen en otro anuncio de otra ciudad, es falso.</li>
+<li><b>Lee y firma el contrato</b> antes de pagar. Mira qué te piden en nuestra guía del <a href="../contrato-de-alquiler/">contrato de alquiler</a>.</li>
+<li><b>Paga por transferencia</b> a una cuenta española a nombre del propietario, con el concepto escrito, y guarda el justificante.</li>
+<li><b>Lo que la ley permite pedir:</b> el primer mes, un mes de fianza y, como mucho, dos meses de garantía adicional. La inmobiliaria la paga el propietario. Más en <a href="../gastos-de-alquiler/">dinero para alquilar</a>.</li></ol></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Si ya has pagado</h2>
+<div class="card"><ol style="margin:0;padding-left:20px">
+<li><b>Llama a tu banco ya.</b> Cuanto antes avises, más fácil es parar o devolver una transferencia o un pago con tarjeta.</li>
+<li><b>Guarda todo:</b> capturas del anuncio, los mensajes, el número de cuenta o teléfono y los justificantes de pago.</li>
+<li><b>Denuncia</b> en una comisaría de la Policía Nacional o en la Guardia Civil, con todo lo que has guardado.</li>
+<li><b>Avisa al portal</b> donde viste el anuncio para que lo retire y no caiga nadie más.</li></ol></div>
+<style>.vin{{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}}.rpf{{font:600 14px Inter,system-ui,sans-serif;min-height:44px;padding:0 12px;border:1px solid #d6d0c4;border-radius:22px;background:#fff;color:#1d2321;cursor:pointer}}.rpf[aria-pressed=true]{{background:#1d2321;color:#fff;border-color:#1d2321}}
+.esl{{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid #f1ede6;cursor:pointer;min-height:44px;box-sizing:border-box}}.esl input{{width:22px;height:22px;flex:none;margin:2px 0 0;accent-color:#1f6f54}}
+.esr{{border-radius:12px;padding:10px 12px;background:#eef6f1}}.esr.a{{background:#fff5e0}}.esr.r{{background:#fde8e6}}</style>
+<script>(function(){{var V={VMJ},H={EHJ},m="p";
+var $=function(i){{return document.getElementById(i)}},k=$("ek"),d=$("ed"),p=$("ep"),mm=$("em"),r=$("er"),ms=[].slice.call(document.querySelectorAll(".esm")),cb=[].slice.call(document.querySelectorAll(".esc")),s=$("es");
+function eur(x){{return Math.round(x).toString().replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")+" €"}}
+function esc(t){{return String(t).replace(/[&<>"']/g,function(c){{return"&#"+c.charCodeAt(0)+";"}})}}
+function num(e){{return parseFloat((e.value||"").replace(",","."))}}
+Object.keys(V).forEach(function(c){{k.add(new Option(V[c][0],c))}});
+function dis(){{d.innerHTML="";V[k.value][1].forEach(function(x){{d.add(new Option(x[0],x[4]))}});d.selectedIndex=0}}
+function calc(){{var a=num(p),c=V[k.value],med,t,dn;
+if(m==="h"){{med=H[k.value];dn="una habitación en "+esc(c[0]);if(!(a>=50&&a<=5000)){{r.textContent="Escribe el alquiler de la habitación.";return}}}}
+else{{var x=c[1][d.selectedIndex];t=num(mm);if(!(a>=50&&a<=20000&&t>=10&&t<=1000)){{r.textContent="Escribe el alquiler y los metros del anuncio.";return}}med=t*x[2];dn="un piso de "+Math.round(t)+" m² en "+esc(x[0])+" ("+esc(c[0])+")"}}
+var q=a/med,pc=Math.round(Math.abs(1-q)*100),b="Lo normal para "+dn+" es unos <b>"+eur(med)+" al mes</b>. ";
+if(q<0.65)r.innerHTML=b+"<b style=\\"color:#b3261e\\">Este anuncio está un "+pc+" % por debajo: demasiado barato.</b> Es la señal más típica de estafa: no pagues nada sin ver el piso y comprobar quién es el dueño.";
+else if(q<0.8)r.innerHTML=b+"<b style=\\"color:#8a5a00\\">Está un "+pc+" % por debajo.</b> Puede ser una ganga, pero pregunta por qué (bajo interior, sin ascensor, necesita reforma…) y no pagues antes de verlo.";
+else if(q<=1.2)r.innerHTML=b+"<b style=\\"color:#1f6f54\\">El precio está en lo normal de la zona.</b> Repasa igualmente las señales de abajo.";
+else r.innerHTML=b+"Está un "+pc+" % por encima: no es señal de estafa, pero puede que esté caro. <a href=\\"../\\">Compruébalo con el anuncio</a>.";
+if(m==="p")r.innerHTML+=" <a href=\\"../"+k.value+"/"+c[1][d.selectedIndex][4]+"/\\">Precios de "+esc(c[1][d.selectedIndex][0])+"</a>."}}
+function modo(x){{m=x;ms.forEach(function(b){{b.setAttribute("aria-pressed",b.getAttribute("data-m")===m?"true":"false")}});$("edl").hidden=$("eml").hidden=m==="h";calc()}}
+function sen(){{var n=0,g=0;cb.forEach(function(c){{if(c.checked){{n++;if(c.getAttribute("data-g")==="1")g++}}}});
+if(g||n>=3){{s.className="esr r";s.innerHTML="<b>Riesgo alto de estafa.</b> "+(g?"Has marcado una señal muy grave. ":"")+"No pagues nada: si de verdad existe, el piso se puede visitar y el dueño se puede comprobar."}}
+else if(n){{s.className="esr a";s.innerHTML="<b>Ojo.</b> Por sí solo no prueba nada, pero comprueba al dueño y visita el piso antes de pagar."}}
+else{{s.className="esr";s.innerHTML="Ninguna señal marcada. Aun así, no pagues nada sin ver el piso y firmar el contrato."}}}}
+dis();k.addEventListener("change",function(){{dis();calc()}});d.addEventListener("change",calc);p.addEventListener("input",calc);mm.addEventListener("input",calc);
+ms.forEach(function(b){{b.addEventListener("click",function(){{modo(b.getAttribute("data-m"))}})}});cb.forEach(function(c){{c.addEventListener("change",sen)}});sen();calc()}})();</script>
+{es_html}
+<a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
+<div class="card m"><b>Más guías:</b> <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("estafas-alquiler"), exist_ok=True)
+open(F("estafas-alquiler", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Es una estafa? Cómo saber si un anuncio de alquiler es falso",
+    desc_corta("Comprueba si el precio de un anuncio de alquiler es normal para el distrito y repasa las señales de estafa: pagar sin ver el piso, dueño en el extranjero…", " Gratis."),
+    "estafas-alquiler/", body, [("Vivible", "../"), ("Estafas en el alquiler", None)], es_ld))
+urls.insert(24, BASE + "estafas-alquiler/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

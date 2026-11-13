@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -576,6 +576,7 @@ for ck, c in C.items():
 <div class="k"><small>Hipoteca del piso medio</small><b>≈ {fmt(cm)} €/mes</b><small>Piso de ≈ {fmt(med)} €</small></div>
 <div class="k"><small>Ahorro para comprar</small><b>≈ {fmt(ah)} €</b><small>Entrada, impuesto y gastos</small></div>
 <div class="k"><small>Rentabilidad bruta media</small><b>{dec(rb)} %</b><small>Alquiler de un año / precio</small></div></div>
+<div class="card m"><b>¿Cuántos años piensas quedarte?</b> <a href="../../comprar-o-alquilar/?c={ck}">Calcula a partir de cuándo compensa comprar en tu distrito</a></div>
 <div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso de {M2A} m² por distritos, de mayor a menor rentabilidad: alquiler al mes, hipoteca al mes y rentabilidad bruta</caption><tr><th scope="col">Distrito</th><th scope="col">Alquiler</th><th scope="col">Hipoteca</th><th scope="col">Rentab.</th></tr>{tr}</table>{nota}
 <p class="m">La hipoteca no incluye seguros, IBI ni comunidad; el alquiler, tampoco gastos. Cifras orientativas, no una recomendación de inversión.</p></div>
 {oq_html}
@@ -2536,6 +2537,89 @@ open(F("estafas-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta("Comprueba si el precio de un anuncio de alquiler es normal para el distrito y repasa las señales de estafa: pagar sin ver el piso, dueño en el extranjero…", " Gratis."),
     "estafas-alquiler/", body, [("Vivible", "../"), ("Estafas en el alquiler", None)], es_ld))
 urls.insert(24, BASE + "estafas-alquiler/")
+
+# ---------- ¿Compensa comprar o alquilar? (comprar-o-alquilar/): «calculadora comprar o alquilar», «a partir de cuántos años compensa comprar».
+# Compara el dinero que no se recupera: alquiler frente a impuesto y gastos de compra (gastos()) + intereses de la hipoteca (80 %, TIN, ANOS, como cuota())
+# + gastos del propietario que escriba el usuario. La parte de la cuota que amortiza capital no es gasto (queda en el piso). Precios constantes.
+assert "comprar-o-alquilar" not in C
+def intereses(precio, n, tin=TIN):  # intereses pagados en los n primeros años de una hipoteca del 80 % a ANOS años
+    p, i, m = precio * .8, tin / 12, n * 12
+    cq = p * i / (1 - (1 + i) ** -(ANOS * 12))
+    return cq * m - (p - (p * (1 + i) ** m - cq * ((1 + i) ** m - 1) / i))
+def anos_compensa(precio, alq, c):  # primer año en que lo pagado de alquiler supera lo no recuperable de comprar (None si no pasa en ANOS años)
+    imp, otros, _ = gastos(precio, c)
+    return next((n for n in range(1, ANOS + 1) if alq * 12 * n > imp + otros + intereses(precio, n)), None)
+assert abs(intereses(100000, ANOS) - (cuota(100000) * ANOS * 12 - 80000)) < 1e-6
+CA = {k: [c["n"], c["itp"], [[d, round(s), round(r, 1), int(es or er), slug(d)] for d, (s, r, es, er) in sorted(((d, dprice(c, d)) for d in c["d"]), key=lambda x: x[0])]] for k, c in C.items()}
+CAJ = json.dumps(CA, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+def a_txt(n): return "más de 30 años" if n is None else ("1 año" if n == 1 else f"{n} años")
+fca = []
+for k, c in sorted(C.items(), key=lambda kc: kc[1]["alquiler"] * 12 / kc[1]["venta"], reverse=True):
+    med, alq = c["venta"] * M2A, c["alquiler"] * M2A
+    fca.append((k, c, med, alq, anos_compensa(med, alq, c)))
+tca = "".join(f'<tr><td><a href="../{k}/comprar-o-alquilar/">{esc(c["n"])}</a></td><td>{fmt(alq)} €</td><td>{fmt(cuota(med))} €</td><td>{fmt(sum(gastos(med, c)[:2]))} €</td><td><b>{a_txt(n)}</b></td></tr>' for k, c, med, alq, n in fca)
+cr = min(fca, key=lambda x: x[4] or 99); cl = max(fca, key=lambda x: x[4] or 99)
+ca_html, ca_ld = faq([
+    ("¿A partir de cuántos años compensa comprar en vez de alquilar?",
+     f"Depende de la ciudad y del distrito. Para un piso medio de {M2A} m², comprar empieza a compensar a los {a_txt(cr[4])} en {cr[1]['n']} y a los {a_txt(cl[4])} en {cl[1]['n']}, contando el impuesto y los gastos de la compra y los intereses de la hipoteca frente a lo que pagarías de alquiler (sin IBI, comunidad ni seguros, que lo retrasan algo). "
+     "Si piensas mudarte antes, suele salir mejor alquilar."),
+    ("¿Por qué no cuento toda la cuota de la hipoteca como gasto?",
+     "Porque una parte de cada cuota devuelve el préstamo: ese dinero no se pierde, se queda en el piso y lo recuperas al venderlo. Lo que no recuperas son los intereses, el impuesto y los gastos de la compra, y lo que cuesta mantener el piso. Eso es lo que hay que comparar con el alquiler, que no recuperas nunca."),
+    ("¿Qué gastos tiene un propietario que no tiene un inquilino?",
+     "El IBI, la comunidad de vecinos, el seguro de hogar (y muchas veces el de vida que pide el banco) y las reparaciones. Escríbelos en la calculadora (al año) para que la comparación sea más justa: cada euro que sumes retrasa el momento en que compensa comprar."),
+    ("¿Qué no tiene en cuenta esta cuenta?",
+     f"Supone que el alquiler y el precio del piso no cambian, y no cuenta lo que podrías ganar si invirtieras la entrada en vez de meterla en el piso, ni los gastos de vender (inmobiliaria e impuestos). Es una orientación con la hipoteca más común (80 % a {ANOS} años al 2,8 %), no una recomendación de inversión."),
+])
+body = f"""<h1>¿Compensa comprar o alquilar? Calculadora</h1>
+<p>Elige dónde quieres vivir, los metros y cuántos años piensas quedarte. Te decimos si te sale mejor <b>comprar o alquilar</b> y a partir de cuántos años compensa comprar, con los precios medios de cada distrito.</p>
+<div class="card" id="cc"><b>Haz la cuenta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 140px">Ciudad<br><select id="ck" class="vin"></select></label>
+<label class="m" style="flex:1 1 180px">Distrito<br><select id="cd" class="vin"></select></label>
+<label class="m" style="flex:1 1 110px">Metros (m²)<br><input type="number" id="cm" inputmode="decimal" min="10" max="1000" step="1" value="{M2A}" class="vin"></label>
+<label class="m" style="flex:1 1 110px">Años que te quedarías<br><input type="number" id="cn" inputmode="numeric" min="1" max="{ANOS}" step="1" value="10" class="vin"></label></div>
+<details class="m" style="margin:6px 0"><summary style="min-height:44px;display:flex;align-items:center;cursor:pointer">Más detalles (opcional)</summary>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:6px 0">
+<label class="m" style="flex:1 1 140px">Precio del piso (€)<br><input type="number" id="cp" inputmode="decimal" min="1" step="1" placeholder="El medio del distrito" class="vin"></label>
+<label class="m" style="flex:1 1 140px">Alquiler al mes (€)<br><input type="number" id="ca" inputmode="decimal" min="1" step="1" placeholder="El medio del distrito" class="vin"></label>
+<label class="m" style="flex:1 1 140px">IBI, comunidad y seguros al año (€)<br><input type="number" id="cg" inputmode="decimal" min="0" step="1" placeholder="0" class="vin"></label>
+<label class="m" style="flex:1 1 110px">Interés de la hipoteca (%)<br><input type="number" id="ci" inputmode="decimal" min="0" max="15" step="0.1" placeholder="2,8" class="vin"></label></div></details>
+<div id="cr" aria-live="polite" class="m">Escribe los metros y los años.</div></div>
+<style>.vin{{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cuándo compensa comprar en cada ciudad</h2>
+<div class="card"><table class="cmp"><caption class="m" style="text-align:left;padding-bottom:6px">Piso medio de {M2A} m² ({esc(mes_txt)}, idealista): alquiler, cuota de la hipoteca (80 %, {ANOS} años, 2,8 %), impuesto y gastos de la compra, y años a partir de los que compensa comprar</caption><tr><th scope="col">Ciudad</th><th scope="col">Alquiler</th><th scope="col">Hipoteca</th><th scope="col">Impuesto y gastos</th><th scope="col">Compensa a los</th></tr>{tca}</table>
+<p class="m">Sin IBI, comunidad ni seguros: si los sumas, compensa algo más tarde. Por distritos, en la página de cada ciudad. <a href="../como-calculamos/">Cómo calculamos</a>.</p></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Cómo hacemos la cuenta</h2>
+<div class="card"><ul style="margin:0;padding-left:20px"><li><b>Si alquilas</b>, pierdes el alquiler de cada mes.</li>
+<li><b>Si compras</b>, pierdes el impuesto de la compra (el ITP de tu comunidad) y los gastos de notaría, registro, gestoría y tasación, los intereses de la hipoteca y lo que cuesta mantener el piso. La parte de la cuota que devuelve el préstamo no se pierde: queda en el piso.</li>
+<li>Compensa comprar <b>a partir del año en que lo pagado de alquiler supera lo perdido comprando</b>. Para comprar necesitas además ahorrar la entrada (20 %): mira <a href="../ahorrar-para-comprar/">cuánto tardarías en ahorrarla</a>.</li></ul></div>
+<script>(function(){{var V={CAJ},TIN={TIN * 100},AN={ANOS},NOT={NOT},TAS={TAS};
+var k=document.getElementById("ck"),d=document.getElementById("cd"),m=document.getElementById("cm"),n=document.getElementById("cn"),pp=document.getElementById("cp"),pa=document.getElementById("ca"),pg=document.getElementById("cg"),pi=document.getElementById("ci"),r=document.getElementById("cr");
+function eur(x){{return Math.round(x).toString().replace(/\\B(?=(\\d{{3}})+(?!\\d))/g,".")+" €"}}
+function esc(s){{return String(s).replace(/[&<>"']/g,function(c){{return"&#"+c.charCodeAt(0)+";"}})}}
+function f(e){{return parseFloat((e.value||"").replace(",","."))}}
+Object.keys(V).forEach(function(c){{k.add(new Option(V[c][0],c))}});
+function dis(sel){{d.innerHTML="";V[k.value][2].forEach(function(x){{d.add(new Option(x[0],x[4]))}});if(sel)d.value=sel;if(d.selectedIndex<0)d.selectedIndex=0}}
+function intereses(P,y,t){{var p=P*.8,i=t/1200,q=Math.round(y*12),c=i?p*i/(1-Math.pow(1+i,-AN*12)):p/(AN*12);if(!i)return 0;return c*q-(p-(p*Math.pow(1+i,q)-c*(Math.pow(1+i,q)-1)/i))}}
+function calc(){{var c=V[k.value],x=c[2][d.selectedIndex],t=f(m),a=Math.round(f(n));
+if(!(t>=10&&t<=1000)||!(a>=1&&a<=AN)){{r.textContent="Escribe los metros (de 10 a 1.000) y los años (de 1 a "+AN+").";return}}
+var P=f(pp)>0?f(pp):t*x[1],R=f(pa)>0?f(pa):t*x[2],G=f(pg)>=0?f(pg):0,T=f(pi)>=0&&f(pi)<=15?f(pi):TIN;
+var i=T/1200,cuo=i?P*.8*i/(1-Math.pow(1+i,-AN*12)):P*.8/(AN*12),gc=P*c[1]/100+P*NOT+TAS;
+function compra(y){{return gc+intereses(P,y,T)+G*y}}
+var al=R*12*a,co=compra(a),be=null;for(var y=1;y<=AN;y++)if(R*12*y>compra(y)){{be=y;break}}
+var dif=Math.abs(al-co),gana=al>co;
+r.innerHTML="En "+a+(a==1?" año":" años")+", <b>alquilando</b> pagarías <b>"+eur(al)+"</b> ("+eur(R)+" al mes). <b>Comprando</b> ("+eur(P)+", cuota de "+eur(cuo)+" al mes) perderías <b>"+eur(co)+"</b>: "+eur(gc)+" de impuesto y gastos, "+eur(intereses(P,a,T))+" de intereses"+(G?" y "+eur(G*a)+" de IBI, comunidad y seguros":"")+".<br><b>"+(dif<R?"Sale casi igual.":gana?"Te compensa comprar: perderías "+eur(dif)+" menos.":"Te compensa alquilar: perderías "+eur(dif)+" menos.")+"</b> "+(be?"Comprar compensa a partir de <b>"+be+(be==1?" año":" años")+"</b>.":"Con estas cifras, comprar no compensa en "+AN+" años.")+" Para comprar necesitas ahorrar unos <b>"+eur(P*.2+gc)+"</b> (entrada del 20 %, impuesto y gastos)."+(x[3]&&!(f(pp)>0&&f(pa)>0)?" <i>idealista no publica todos los precios de este distrito: parte de la cifra es una estimación.</i>":"")+" <a href=\\"../"+k.value+"/"+x[4]+"/\\">Ver precios de "+esc(x[0])+"</a>"}}
+var q=new URLSearchParams(location.search);if(V[q.get("c")])k.value=q.get("c");dis(q.get("d"));if(+q.get("m"))m.value=+q.get("m");
+[m,n,pp,pa,pg,pi,d].forEach(function(e){{e.addEventListener("input",calc);e.addEventListener("change",calc)}});k.addEventListener("change",function(){{dis();calc()}});calc()}})();</script>
+{ca_html}
+<a class="cta" href="../">¿Has visto un piso? Analízalo gratis</a>
+<div class="card m"><b>Más guías:</b> <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../ahorrar-para-comprar/">Ahorrar para comprar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../rentabilidad/">Rentabilidad del alquiler</a> · """ + " · ".join(f'<a href="../{k}/comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("comprar-o-alquilar"), exist_ok=True)
+open(F("comprar-o-alquilar", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Compensa comprar o alquilar? Calculadora por distritos (2026)",
+    desc_corta(f"Calcula si te sale mejor comprar o alquilar y a partir de cuántos años compensa comprar, con precios por distrito de 10 ciudades.", " Gratis."),
+    "comprar-o-alquilar/", body, [("Vivible", "../"), ("¿Comprar o alquilar?", None)], ca_ld))
+urls.insert(25, BASE + "comprar-o-alquilar/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

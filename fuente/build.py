@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}prorrateo/">Alquiler prorrateado</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -897,7 +897,7 @@ body = f"""<h1>¿Cuánto dinero necesito para alquilar un piso? Fianza y garant�
 <p class="m">Cuenta también con la mudanza y con el alta de la luz, el agua e internet si van a tu nombre.</p></div>
 {ga_html}
 <a class="cta" href="../">¿Has visto un piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../prorrateo/">Alquiler prorrateado por días</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../precios/">Comparar las 10 ciudades</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("gastos-de-alquiler"), exist_ok=True)
 open(F("gastos-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuánto dinero necesito para alquilar un piso? Fianza y garantía (2026)",
@@ -2152,7 +2152,7 @@ document.getElementById("vr").addEventListener("click",function(){{if(cs.some(fu
 <p class="m">¿Dejas un alquiler? Avisa al propietario con el <a href="../dejar-el-piso/">modelo de carta para dejar el piso</a> y mira <a href="../devolver-fianza/">cuándo te tienen que devolver la fianza</a> y <a href="../contrato-de-alquiler/">cuánto dura tu contrato</a>. ¿Aún buscas casa? <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a>.</p>
 {mu_html}
 <a class="cta" href="../">¿Aún no tienes piso? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../empadronarse/">Empadronarse: papeles y autorización</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../prorrateo/">Alquiler prorrateado por días</a> · <a href="../empadronarse/">Empadronarse: papeles y autorización</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("mudanza"), exist_ok=True)
 open(F("mudanza", "index.html"), "w", encoding="utf-8").write(page(
     "Mudanza: lista de qué hacer al cambiarte de piso (2026)",
@@ -2238,7 +2238,7 @@ $("dcp").addEventListener("click",function(){var b=this,ok=function(){b.textCont
 if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,function(){t.select();try{document.execCommand("copy");ok()}catch(e){}});else{t.select();try{document.execCommand("copy");ok()}catch(e){}}});calc()})();</script>""" + f"""
 {dj_html}
 <a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../prorrateo/">Alquiler prorrateado por días</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("dejar-el-piso"), exist_ok=True)
 open(F("dejar-el-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Carta para dejar el piso de alquiler: modelo y plazos (2026)",
@@ -2745,7 +2745,7 @@ var q=new URLSearchParams(location.search);if(+q.get("r"))r.value=+q.get("r");
 [r,c,i,b,p].forEach(function(e){e.addEventListener("input",calc);e.addEventListener("change",calc)});calc()})();</script>
 """ + ic_html + """
 <a class="cta" href="../">¿Has visto un piso? Analízalo gratis</a>
-<div class="card m"><b>Más guías:</b> <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../estafas-alquiler/">Estafas en el alquiler</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../prorrateo/">Alquiler prorrateado por días</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../estafas-alquiler/">Estafas en el alquiler</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("ibi-comunidad-alquiler"), exist_ok=True)
 open(F("ibi-comunidad-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Quién paga el IBI y la comunidad en un alquiler? (2026)",
@@ -3209,13 +3209,73 @@ o.innerHTML=h}
 ["pc","pv","vs","vt","pt","pk"].forEach(function(i){$(i).addEventListener("input",calc)});calc()})();</script>""" + f"""
 {pm_html}
 <a class="cta" href="../cuanto-vale-mi-piso/">¿Vas a vender? Mira cuánto vale tu piso</a>
-<div class="card m"><b>Más guías:</b> <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../certificado-energetico/">Certificado energético</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../prorrateo/">Reparto del IBI al vender</a> · <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../cuanto-vale-mi-piso/">¿Cuánto vale mi piso?</a> · <a href="../certificado-energetico/">Certificado energético</a> · <a href="../arras/">Contrato de arras</a> · <a href="../nota-simple/">Nota simple</a> · <a href="../amortizar-hipoteca/">Amortizar la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · """ + " · ".join(f'<a href="../{k}/venta/">Precio de la vivienda en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("plusvalia-municipal"), exist_ok=True)
 open(F("plusvalia-municipal", "index.html"), "w", encoding="utf-8").write(page(
     "Plusvalía municipal: calculadora y quién la paga al vender",
     desc_corta("Calcula la plusvalía municipal al vender un piso: quién la paga, cuándo no se paga (si vendes con pérdidas), método real u objetivo y plazo.", " Gratis."),
     "plusvalia-municipal/", body, [("Vivible", "../"), ("Plusvalía municipal", None)], pm_ld))
 urls.insert(33, BASE + "plusvalia-municipal/")
+
+# ---------- Prorrateo (prorrateo/): «calcular alquiler prorrateado», «alquiler por días primer mes», «prorrateo IBI venta piso».
+# Sin cifras inventadas: el usuario escribe sus importes. Alquiler: reparto por días del mes (lo habitual, por acuerdo; LAU art. 17 no lo regula).
+# IBI: lo debe quien es dueño el 1 de enero (TRLRHL art. 75); el Supremo (STS 409/2016) admite que el vendedor pida la parte por días salvo pacto en contra.
+assert "prorrateo" not in C
+def prorrata(importe, dias, total): return importe * dias / total
+assert abs(prorrata(900, 16, 30) - 480) < 1e-9 and abs(prorrata(365, 100, 365) - 100) < 1e-9
+pr_html, pr_ld = faq([
+    ("¿Cómo se calcula el alquiler prorrateado del primer mes?",
+     "Se divide la renta del mes entre los días que tiene ese mes y se multiplica por los días que vas a vivir en el piso, contando el día que entras. Por ejemplo, 900 € en un mes de 30 días entrando el día 15: 900 ÷ 30 × 16 días = 480 €."),
+    ("¿Es obligatorio pagar solo los días del primer mes?",
+     "La ley no lo dice: lo que pagues el primer y el último mes depende de lo que acordéis. Lo habitual es pagar por días, y lo mejor es que el contrato lo ponga con el importe exacto para evitar discusiones."),
+    ("¿Y si me voy a mitad de mes?",
+     "Si das el preaviso y dejas el piso a mitad de mes, lo razonable es pagar solo los días hasta la entrega de las llaves, siempre que lo acordéis por escrito. Si no hay acuerdo, el propietario puede pedir el mes entero, así que hazlo constar al avisar."),
+    ("¿Quién paga el IBI del año en que se vende el piso?",
+     "Ante el ayuntamiento, quien era dueño el 1 de enero, normalmente el vendedor. Pero el Supremo admite que el vendedor pida al comprador la parte de los días que el piso ya es suyo, salvo que en la escritura se pacte otra cosa. Por eso casi siempre se reparte por días en la notaría."),
+    ("¿Se prorratean también los gastos de comunidad al vender?",
+     "Suelen repartirse por meses o días según se pacte. Al vender, el vendedor tiene que estar al corriente de la comunidad y presentar el certificado de deudas que firma el secretario o el administrador."),
+])
+body = f"""<h1>Prorrateo por días: alquiler del primer mes e IBI al vender</h1>
+<p>Si entras o sales de un piso a mitad de mes, o vendes a mitad de año, lo justo es pagar <b>solo los días que te tocan</b>. Escribe el importe y la fecha y te decimos cuánto paga cada uno. No guardamos nada de lo que escribes.</p>
+<div class="card" id="pr"><b>Haz la cuenta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 220px">¿Qué quieres repartir?<br><select id="rm" style="{IN}"><option value="e">Alquiler: el mes en que entro</option><option value="s">Alquiler: el mes en que me voy</option><option value="i">IBI del año en que se vende</option></select></label>
+{campo("ri", "Alquiler al mes (€)", 'inputmode="decimal" placeholder="900"')}
+{campo("rf", "Día que entras", "", "date")}</div>
+<div id="ro" aria-live="polite" class="m" style="margin-top:8px"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo básico, en corto</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>Alquiler:</b> renta del mes ÷ días de ese mes × días que vives en el piso. El día que entras cuenta; el día que entregas las llaves, también.</li>
+<li><b>Es un acuerdo:</b> la ley dice que el alquiler se paga por meses y en los primeros 7 días de cada mes, salvo pacto, pero no obliga a cobrar por días. Ponlo por escrito en el contrato o al avisar de que te vas.</li>
+<li><b>IBI al vender:</b> el ayuntamiento lo cobra entero a quien era dueño el 1 de enero. El vendedor puede pedir al comprador la parte de los días desde la firma, salvo que la escritura diga otra cosa.</li>
+<li><b>Comunidad al vender:</b> el vendedor tiene que estar al corriente; el mes de la venta se reparte como se pacte.</li></ul>
+<p class="m" style="margin:8px 0 0">Es una orientación, no asesoramiento legal: manda lo que diga tu contrato o la escritura.</p></div>
+<script>""" + r"""(function(){var $=function(i){return document.getElementById(i)},m=$("rm"),im=$("ri"),fe=$("rf"),o=$("ro"),
+li=im.parentNode.firstChild,lf=fe.parentNode.firstChild;
+function eur(v){var n=Math.round(v*100)/100,s=n.toFixed(2).split(".");return s[0].replace(/\B(?=(\d{3})+(?!\d))/g,".")+(s[1]=="00"?"":","+s[1])+" €"}
+function num(){var v=parseFloat((im.value||"").replace(/\.(?=\d{3}(\D|$))/g,"").replace(",","."));return v>0&&v<1e8?v:0}
+var MES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+function hoy(){var d=new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function etq(){var k=m.value;li.textContent=k=="i"?"IBI del año (€)":"Alquiler al mes (€)";lf.textContent=k=="e"?"Día que entras":k=="s"?"Día que entregas las llaves":"Día de la firma en la notaría";im.placeholder=k=="i"?"450":"900"}
+function calc(){etq();var k=m.value,v=num(),p=/^(\d{4})-(\d{2})-(\d{2})$/.exec(fe.value||"");
+if(!v){o.innerHTML=k=="i"?"Escribe lo que cuesta el IBI del año (viene en el recibo).":"Escribe lo que pagas de alquiler al mes.";return}
+if(!p){o.innerHTML="Elige la fecha.";return}
+var y=+p[1],mo=+p[2]-1,d=+p[3];
+if(k=="i"){var bis=(y%4==0&&y%100!=0)||y%400==0,T=bis?366:365,dia=Math.round((Date.UTC(y,mo,d)-Date.UTC(y,0,1))/864e5),c=T-dia,pc=v*c/T;
+o.innerHTML="El año "+y+" tiene "+T+" días. Si firmas el "+d+" de "+MES[mo]+", el vendedor ha tenido el piso <b>"+dia+" días</b> y el comprador lo tendrá <b>"+c+"</b> (contando el día de la firma).<br>Del IBI de "+eur(v)+": <b>el vendedor paga "+eur(v-pc)+"</b> y <b>el comprador "+eur(pc)+"</b>. Como el recibo llega al vendedor, el comprador le devuelve "+eur(pc)+" en la firma, salvo que la escritura diga otra cosa.";return}
+var T=new Date(Date.UTC(y,mo+1,0)).getUTCDate(),n=k=="e"?T-d+1:d,pg=v*n/T;
+o.innerHTML=MES[mo].charAt(0).toUpperCase()+MES[mo].slice(1)+" tiene "+T+" días y vives en el piso <b>"+n+(n==1?" día":" días")+"</b> ("+(k=="e"?"del "+d+" al "+T:"del 1 al "+d)+").<br>Te toca pagar <b>"+eur(pg)+"</b> ese mes en lugar de "+eur(v)+(n<T?" (te ahorras "+eur(v-pg)+")":"")+".<br>"+(k=="e"?"Pide que el contrato ponga ese importe para el primer mes.":"Pon por escrito al avisar que pagarás solo hasta el día que entregas las llaves.")+(T!=30?" Si contáis el mes como 30 días, saldría "+eur(v*(k=="e"?Math.max(31-Math.min(d,30),1):Math.min(d,30))/30)+".":"")}
+var q=new URLSearchParams(location.search);if(/^[esi]$/.test(q.get("t")||""))m.value=q.get("t");if(+q.get("i")>0)im.value=+q.get("i");
+fe.value=hoy();[m,im,fe].forEach(function(e){e.addEventListener("input",calc);e.addEventListener("change",calc)});calc()})();</script>""" + f"""
+{pr_html}
+<a class="cta" href="../">¿Buscas piso? Analízalo gratis</a>
+<div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../plusvalia-municipal/">Plusvalía municipal</a> · <a href="../vender-un-piso/">Vender un piso: IRPF</a> · <a href="../arras/">Contrato de arras</a></div>"""
+os.makedirs(F("prorrateo"), exist_ok=True)
+open(F("prorrateo", "index.html"), "w", encoding="utf-8").write(page(
+    "Alquiler prorrateado e IBI por días: calculadora de prorrateo",
+    desc_corta("Calcula el alquiler prorrateado del primer o último mes y el reparto del IBI por días al vender un piso, con la fecha de entrada o de firma.", " Gratis."),
+    "prorrateo/", body, [("Vivible", "../"), ("Prorrateo por días", None)], pr_ld))
+urls.insert(34, BASE + "prorrateo/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

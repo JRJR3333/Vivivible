@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -1495,7 +1495,7 @@ r.innerHTML="Puedes quedarte al menos hasta el <b>"+txt(fin)+"</b> ("+n+" años)
 d.addEventListener("change",calc);d.addEventListener("input",calc);t.addEventListener("change",calc);calc()}})();</script>
 {co_html}
 <a class="cta" href="../">¿Ya tienes el piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../subida-alquiler/">¿Cuánto me pueden subir el alquiler?</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("contrato-de-alquiler"), exist_ok=True)
 open(F("contrato-de-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Contrato de alquiler: cuánto dura y qué debe incluir",
@@ -1565,7 +1565,7 @@ r.innerHTML=s}}
 d.addEventListener("change",calc);d.addEventListener("input",calc);a.addEventListener("input",calc);calc()}})();</script>
 {fa_html}
 <a class="cta" href="../">¿Buscas otro piso? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../inventario-piso/">Inventario del piso al entrar y salir</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../inventario-piso/">Inventario del piso al entrar y salir</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("devolver-fianza"), exist_ok=True)
 open(F("devolver-fianza", "index.html"), "w", encoding="utf-8").write(page(
     "¿Cuándo me devuelven la fianza del alquiler? Plazo y descuentos",
@@ -2238,7 +2238,7 @@ $("dcp").addEventListener("click",function(){var b=this,ok=function(){b.textCont
 if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,function(){t.select();try{document.execCommand("copy");ok()}catch(e){}});else{t.select();try{document.execCommand("copy");ok()}catch(e){}}});calc()})();</script>""" + f"""
 {dj_html}
 <a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("dejar-el-piso"), exist_ok=True)
 open(F("dejar-el-piso", "index.html"), "w", encoding="utf-8").write(page(
     "Carta para dejar el piso de alquiler: modelo y plazos (2026)",
@@ -2336,7 +2336,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeT
 var u=new URLSearchParams(location.search).get("q");if(u)q.value=u;fil()})();</script>""" + f"""
 {rp_html}
 <a class="cta" href="../">¿Buscas piso nuevo? Pega el anuncio y comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../subida-alquiler/">Subida del alquiler</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("reparaciones-alquiler"), exist_ok=True)
 open(F("reparaciones-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "¿Quién paga las reparaciones en un alquiler? Lista 2026",
@@ -2621,6 +2621,66 @@ open(F("comprar-o-alquilar", "index.html"), "w", encoding="utf-8").write(page(
     desc_corta(f"Calcula si te sale mejor comprar o alquilar y a partir de cuántos años compensa comprar, con precios por distrito de 10 ciudades.", " Gratis."),
     "comprar-o-alquilar/", body, [("Vivible", "../"), ("¿Comprar o alquilar?", None)], ca_ld))
 urls.insert(25, BASE + "comprar-o-alquilar/")
+
+# ---------- ¿Cuánto me pueden subir el alquiler? (subida-alquiler/): «subida alquiler 2026», «actualizar renta alquiler IPC», «calculadora IRAV».
+# Sin cifras del índice: el IRAV y el IPC cambian cada mes, así que el usuario escribe el % que publica el INE para su mes. LAU art. 18; Ley 12/2023 (IRAV).
+assert "subida-alquiler" not in C
+sa_html, sa_ld = faq([
+    ("¿Cuánto me pueden subir el alquiler este año?",
+     "Solo lo que diga el índice de tu contrato, una vez al año y en la fecha en que se cumple cada año del contrato. Si lo firmaste desde el 26 de mayo de 2023, la subida no puede pasar del IRAV, el índice de referencia para alquileres que publica el INE cada mes. Si es anterior, se usa el índice que diga el contrato, casi siempre el IPC. Si el contrato no habla de actualizar la renta, no te la pueden subir mientras dure."),
+    ("¿Qué es el IRAV?",
+     "Es el Índice de Referencia para la Actualización de Arrendamientos de Vivienda. Lo creó la Ley de Vivienda de 2023 para que las subidas del alquiler no se disparen con la inflación, y el INE lo publica cada mes. Para tu subida vale el dato del mes en que se cumple el año de tu contrato (o el último publicado)."),
+    ("¿Me pueden subir el alquiler sin avisar?",
+     "No. El propietario tiene que avisarte por escrito diciendo el porcentaje que aplica, y si se lo pides, enseñarte el dato del INE. La renta nueva se paga desde el mes siguiente al aviso: no puede cobrarte meses anteriores con la subida si no te avisó."),
+    ("¿Y si me piden subir más de lo que dice el índice?",
+     "Contesta por escrito (un correo o un burofax) diciendo que solo aceptas la subida del índice de tu contrato, con la cuenta hecha, y sigue pagando la renta correcta. Si no hay acuerdo, puedes pedir ayuda gratis a la oficina de consumo o de vivienda de tu ayuntamiento o comunidad."),
+    ("¿Pueden subirme el alquiler al renovar el contrato?",
+     "Durante la prórroga obligatoria (hasta 5 años, o 7 si el propietario es una empresa) y la de 3 años más, el contrato sigue igual y solo vale la subida anual del índice. Un precio nuevo solo se puede pactar al firmar un contrato nuevo cuando el anterior ha terminado. En zonas declaradas tensionadas hay además límites al precio de los contratos nuevos."),
+])
+body = """<h1>¿Cuánto me pueden subir el alquiler? Calculadora</h1>
+<p>Escribe lo que pagas, el porcentaje del índice de tu contrato y, si ya te lo han dicho, la renta nueva que te piden. Te decimos <b>cuánto puede subir como mucho</b> y si lo que te piden es correcto.</p>
+<div class="card" id="sc"><b>Haz la cuenta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+<label class="m" style="flex:1 1 140px">Lo que pagas ahora al mes (€)<br><input type="number" id="sr" inputmode="decimal" min="1" step="1" placeholder="900" class="vin"></label>
+<label class="m" style="flex:1 1 200px">¿Cuándo firmaste el contrato?<br><select id="sf" class="vin"><option value="n">Desde el 26 de mayo de 2023</option><option value="v">Antes del 26 de mayo de 2023</option></select></label>
+<label class="m" style="flex:1 1 140px">Índice del contrato (%)<br><input type="number" id="si" inputmode="decimal" min="-20" max="30" step="0.01" placeholder="Ej.: 2,2" class="vin"></label>
+<label class="m" style="flex:1 1 140px">Renta nueva que te piden (€, opcional)<br><input type="number" id="sp" inputmode="decimal" min="1" step="1" placeholder="Si ya te la han dicho" class="vin"></label></div>
+<p class="m" id="sx" style="margin:4px 0 8px"></p>
+<div id="so" aria-live="polite" class="m">Escribe lo que pagas ahora.</div></div>
+<style>.vin{font:16px Inter,system-ui,sans-serif;min-height:44px;width:100%;box-sizing:border-box;padding:0 8px;border:1px solid #d6d0c4;border-radius:10px;background:#fff}</style>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Las reglas, en corto</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>Una vez al año</b>, en la fecha en que se cumple cada año del contrato, y <b>solo si el contrato lo dice</b>. Si no habla de actualizar la renta, no sube.</li>
+<li><b>Contratos desde el 26 de mayo de 2023:</b> la subida no puede pasar del <b>IRAV</b>, el índice para alquileres que publica el INE cada mes, aunque el contrato diga IPC.</li>
+<li><b>Contratos anteriores:</b> se usa el índice que diga el contrato (casi siempre el IPC de los últimos 12 meses).</li>
+<li><b>Con aviso por escrito:</b> el propietario tiene que decirte el porcentaje y, si lo pides, enseñarte el dato del INE. La renta nueva se paga desde el mes siguiente al aviso.</li>
+<li>Si el índice baja, la renta también puede bajar si el contrato actualiza con ese índice.</li></ul>
+<p class="m" style="margin:8px 0 0">El IRAV y el IPC de cada mes los publica el <a href="https://www.ine.es/" rel="noopener">INE</a> (busca «IRAV» o «IPC variación anual»). Esto es una orientación, no asesoramiento legal: mira siempre lo que dice tu contrato.</p></div>
+<script>(function(){var r=document.getElementById("sr"),fi=document.getElementById("sf"),ix=document.getElementById("si"),p=document.getElementById("sp"),o=document.getElementById("so"),x=document.getElementById("sx");
+function eur(v){var n=Math.round(v*100)/100,s=Math.abs(n).toFixed(2).split(".");return(n<0?"-":"")+s[0].replace(/\\B(?=(\\d{3})+(?!\\d))/g,".")+(s[1]=="00"?"":","+s[1])+" €"}
+function pc(v){return(Math.round(v*100)/100).toString().replace(".",",")+" %"}
+function f(e){return parseFloat((e.value||"").replace(",","."))}
+function calc(){var R=f(r),I=f(ix),P=f(p),nv=fi.value=="n";
+x.innerHTML=nv?"Para tu contrato vale el <b>IRAV</b> del mes en que se cumple el año (o el último publicado), aunque el contrato diga IPC.":"Para tu contrato vale el índice que diga (casi siempre el <b>IPC</b> de los últimos 12 meses) del mes en que se cumple el año.";
+if(!(R>0&&R<100000)){o.textContent="Escribe lo que pagas ahora.";return}
+var h="",ok=I>=-20&&I<=30,M=ok?R*(1+I/100):0;
+if(ok)h+="Con un índice del <b>"+pc(I)+"</b>, tu alquiler puede pasar como mucho de "+eur(R)+" a <b>"+eur(M)+"</b> al mes: "+(M>=R?"sube ":"baja ")+eur(Math.abs(M-R))+" al mes y "+eur(Math.abs(M-R)*12)+" al año.";
+if(P>0){var s=(P/R-1)*100;h+=(h?"<br>":"")+"Te piden <b>"+eur(P)+"</b>: "+(P>=R?"una subida de "+eur(P-R)+" al mes ("+pc(s)+")":"una bajada de "+eur(R-P)+" al mes")+".";
+if(ok){if(P>M+0.5)h+=" <b>Es más de lo que permite el índice</b>: te pedirían "+eur(P-M)+" de más al mes ("+eur((P-M)*12)+" al año). Contesta por escrito que aceptas "+eur(M)+" y pide que te enseñen el dato del INE.";else h+=" <b>Está dentro de lo que permite el índice.</b>"}
+else h+=" Escribe el porcentaje del índice para saber si es correcto."}
+if(!ok&&!(P>0))h="Escribe el porcentaje del índice de tu contrato (lo publica el INE cada mes) para saber cuánto puede subir.";
+o.innerHTML=h}
+var q=new URLSearchParams(location.search);if(+q.get("r"))r.value=+q.get("r");
+[r,ix,p,fi].forEach(function(e){e.addEventListener("input",calc);e.addEventListener("change",calc)});calc()})();</script>
+""" + sa_html + """
+<a class="cta" href="../">¿Buscas otro piso? Analízalo gratis</a>
+<div class="card m"><b>Más guías:</b> <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../dejar-el-piso/">Carta para dejar el piso</a> · <a href="../reparaciones-alquiler/">Quién paga las reparaciones</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../comprar-o-alquilar/">¿Comprar o alquilar?</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("subida-alquiler"), exist_ok=True)
+open(F("subida-alquiler", "index.html"), "w", encoding="utf-8").write(page(
+    "¿Cuánto me pueden subir el alquiler? Calculadora IRAV e IPC",
+    desc_corta("Calcula cuánto te pueden subir el alquiler este año con el IRAV o el IPC y comprueba si la subida que te piden es legal.", " Gratis."),
+    "subida-alquiler/", body, [("Vivible", "../"), ("Subida del alquiler", None)], sa_ld))
+urls.insert(26, BASE + "subida-alquiler/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())

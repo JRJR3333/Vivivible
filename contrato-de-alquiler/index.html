@@ -32,7 +32,7 @@ try{s=JSON.parse(localStorage.getItem(K)||"{}")||{}}catch(e){}
 function pinta(){var k=0;cs.forEach(function(c){if(c.checked)k++});document.getElementById("vn").textContent=k+" de "+cs.length+" revisados";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}
 function guarda(){var o={};cs.forEach(function(c){if(c.checked)o[c.getAttribute("data-k")]=1});try{localStorage.setItem(K,JSON.stringify(o))}catch(e){}}
 cs.forEach(function(c){c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){guarda();pinta()})});
-document.getElementById("vr").addEventListener("click",function(){cs.forEach(function(c){c.checked=false});guarda();pinta()});pinta();
+document.getElementById("vr").addEventListener("click",function(){if(cs.some(function(c){return c.checked})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){c.checked=false});guarda();pinta()});pinta();
 var M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],d=document.getElementById("cd"),t=document.getElementById("ct"),r=document.getElementById("cr");
 function mas(f,a,m){var x=new Date(f.getFullYear()+a,f.getMonth()+m,1),u=new Date(x.getFullYear(),x.getMonth()+1,0).getDate();x.setDate(Math.min(f.getDate(),u));return x}
 function txt(x){return x.getDate()+" de "+M[x.getMonth()]+" de "+x.getFullYear()}

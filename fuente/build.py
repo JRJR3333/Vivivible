@@ -212,7 +212,7 @@ for ck, c in C.items():
 {fq_html}
 <a class="cta" href="../#c={ck}">Analiza un piso concreto en {esc(c["n"])}</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="venta/">Precio de la vivienda en {esc(c["n"])} por tamaño</a> · <a href="gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="comprar-con-presupuesto/">Qué piso puedo comprar con mi presupuesto</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="alquiler/">Precio del alquiler en {esc(c["n"])} por distritos</a> · <a href="sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="alquilar-con-presupuesto/">Qué piso puedo alquilar con mi presupuesto</a> · <a href="../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../mudanza/">Lista para la mudanza</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otras ciudades:</b> {" · ".join(f'<a href="../{k2}/">{esc(c2["n"])}</a>' for k2, c2 in C.items() if k2 != ck)} · <a href="../precios/">Comparar las 10 ciudades</a></div>
@@ -269,7 +269,7 @@ for ck, c in C.items():
 {bar_html}{dq_html}
 <a class="cta" href="../../#c={ck}&d={quote(d)}">¿Tienes un piso en {esc(d)}? Analízalo gratis</a>
 <div class="card m"><b>¿Vas a comprar?</b> <a href="../venta/">Precio de la vivienda por tamaño</a> · <a href="../gastos-de-compra/">Gastos e impuestos de comprar un piso en {esc(c["n"])}</a> · <a href="../sueldo-para-comprar/">Cuánto hay que ganar para comprar</a> · <a href="../../pasos-para-comprar/">Pasos para comprar un piso</a></div>
-<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../../devolver-fianza/">Cuándo te devuelven la fianza</a></div>
+<div class="card m"><b>¿Vas a alquilar?</b> <a href="../alquiler/">Precio del alquiler en {esc(c["n"])}</a> · <a href="../sueldo-para-alquilar/">Cuánto hay que ganar para alquilar en {esc(c["n"])}</a> · <a href="../../papeles-para-alquilar/">Qué papeles piden para alquilar</a> · <a href="../../contrato-de-alquiler/">Cuánto dura el contrato</a> · <a href="../../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../../mudanza/">Lista para la mudanza</a></div>
 <div class="card m"><b>¿Buscas habitación?</b> <a href="../habitacion/">Precio de una habitación en {esc(c["n"])} por distritos</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a></div>
 <div class="card m"><b>¿Dudas?</b> <a href="../comprar-o-alquilar/">Comprar o alquilar en {esc(c["n"])}: hipoteca frente a alquiler</a> · <a href="../../visitar-un-piso/">Qué mirar al visitar un piso</a></div>
 <div class="card m"><b>Otros distritos de {esc(c["n"])}:</b> {otros}</div>"""
@@ -1319,7 +1319,7 @@ try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
 function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" revisados";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
 function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
 cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
-document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
+document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {vi_html}
 <a class="cta" href="../">¿Te ha gustado el piso? Pega el anuncio y comprueba si el precio es justo</a>
 <div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../pasos-para-comprar/">Pasos para comprar un piso</a> · <a href="../barrios/">¿En qué distrito está mi barrio?</a> · """ + " · ".join(f'<a href="../{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
@@ -1411,7 +1411,7 @@ try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
 function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" preparados";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
 function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
 cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
-document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
+document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pa_html}
 <a class="cta" href="../">¿Ya tienes un piso en mente? Pega el anuncio y comprueba si el precio es justo</a>
 <div class="card m"><b>Más guías:</b> <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../barrios-baratos/">Barrios más baratos</a> · """ + " · ".join(f'<a href="../{k}/alquiler/">Alquiler en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
@@ -1483,7 +1483,7 @@ try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
 function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" revisados";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
 function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
 cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
-document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta();
+document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta();
 var M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],d=document.getElementById("cd"),t=document.getElementById("ct"),r=document.getElementById("cr");
 function mas(f,a,m){{var x=new Date(f.getFullYear()+a,f.getMonth()+m,1),u=new Date(x.getFullYear(),x.getMonth()+1,0).getDate();x.setDate(Math.min(f.getDate(),u));return x}}
 function txt(x){{return x.getDate()+" de "+M[x.getMonth()]+" de "+x.getFullYear()}}
@@ -1823,7 +1823,7 @@ try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
 function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" hechos";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
 function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
 cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
-document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
+document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 {pc_html}
 <a class="cta" href="../">¿Has visto un piso? Pega el anuncio y comprueba si el precio es justo</a>
 <div class="card m"><b>Más guías:</b> <a href="../ahorrar-para-comprar/">Cuánto tardo en ahorrar</a> · <a href="../vender-un-piso/">Cuánto pagas al vender un piso</a> · <a href="../hipoteca/">Cuota de la hipoteca</a> · <a href="../gastos-de-compra/">Gastos de comprar</a> · <a href="../sueldo/">Qué piso puedo pagar con mi sueldo</a> · <a href="../mudanza/">Lista para la mudanza</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/venta/">Comprar en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
@@ -2146,7 +2146,7 @@ try{{s=JSON.parse(localStorage.getItem(K)||"{{}}")||{{}}}}catch(e){{}}
 function pinta(){{var k=0;cs.forEach(function(c){{if(c.checked)k++}});document.getElementById("vn").textContent=k+" de "+cs.length+" hechas";document.getElementById("vi").style.width=(k*100/cs.length)+"%"}}
 function guarda(){{var o={{}};cs.forEach(function(c){{if(c.checked)o[c.getAttribute("data-k")]=1}});try{{localStorage.setItem(K,JSON.stringify(o))}}catch(e){{}}}}
 cs.forEach(function(c){{c.checked=!!s[c.getAttribute("data-k")];c.addEventListener("change",function(){{guarda();pinta()}})}});
-document.getElementById("vr").addEventListener("click",function(){{cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
+document.getElementById("vr").addEventListener("click",function(){{if(cs.some(function(c){{return c.checked}})&&!confirm("¿Borrar lo que has marcado y empezar de cero?"))return;cs.forEach(function(c){{c.checked=false}});guarda();pinta()}});pinta()}})();</script>
 <p class="m">¿Dejas un alquiler? Mira <a href="../devolver-fianza/">cuándo te tienen que devolver la fianza</a> y <a href="../contrato-de-alquiler/">cuánto dura tu contrato</a>. ¿Aún buscas casa? <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a>.</p>
 {mu_html}
 <a class="cta" href="../">¿Aún no tienes piso? Pega el anuncio y comprueba si el precio es justo</a>

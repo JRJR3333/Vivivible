@@ -120,7 +120,7 @@ FORMATOS = {"web": "", "chat": "chat"}
 for nombre, carpeta in FORMATOS.items():
     pre = "../" if carpeta else ""
     t = rd("fuente", "formatos", nombre + ".html")
-    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}hipoteca-fija-o-variable/">Hipoteca fija o variable</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}prorrateo/">Alquiler prorrateado</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}comision-inmobiliaria/">Comisión de la inmobiliaria</a><a href="{pre}alquiler-opcion-compra/">Alquiler con opción a compra</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
+    links = "".join(f'<a href="{pre}{k}/">Vivir en {esc(c["n"])}</a>' for k, c in C.items()) + f'<a href="{pre}precios/">Comparar ciudades</a><a href="{pre}sueldo/">Qué piso puedo pagar</a><a href="{pre}hipoteca/">Cuota de la hipoteca</a><a href="{pre}amortizar-hipoteca/">Amortizar la hipoteca</a><a href="{pre}hipoteca-fija-o-variable/">Hipoteca fija o variable</a><a href="{pre}gastos-de-alquiler/">Dinero para alquilar</a><a href="{pre}gastos-de-compra/">Gastos de comprar</a><a href="{pre}comparar/">Ciudad o ciudad</a><a href="{pre}barrios/">¿En qué distrito está mi barrio?</a><a href="{pre}barrios-baratos/">Barrios más baratos</a><a href="{pre}barrios-caros/">Barrios más caros</a><a href="{pre}rentabilidad/">Rentabilidad del alquiler</a><a href="{pre}visitar-un-piso/">Qué mirar al visitar un piso</a><a href="{pre}papeles-para-alquilar/">Papeles para alquilar</a><a href="{pre}contrato-de-alquiler/">Contrato de alquiler</a><a href="{pre}subida-alquiler/">Subida del alquiler</a><a href="{pre}devolver-fianza/">Devolver la fianza</a><a href="{pre}dejar-el-piso/">Carta para dejar el piso</a><a href="{pre}reparaciones-alquiler/">Quién paga las reparaciones</a><a href="{pre}ibi-comunidad-alquiler/">Quién paga el IBI y la comunidad</a><a href="{pre}repartir-alquiler/">Repartir el alquiler</a><a href="{pre}subarrendar/">Subalquilar una habitación</a><a href="{pre}prorrateo/">Alquiler prorrateado</a><a href="{pre}independizarse/">Cuánto cuesta independizarse</a><a href="{pre}mudanza/">Lista para la mudanza</a><a href="{pre}empadronarse/">Empadronarse</a><a href="{pre}inventario-piso/">Inventario del piso</a><a href="{pre}estafas-alquiler/">Estafas en el alquiler</a><a href="{pre}comprar-o-alquilar/">¿Comprar o alquilar?</a><a href="{pre}ahorrar-para-comprar/">Ahorrar para comprar</a><a href="{pre}pasos-para-comprar/">Pasos para comprar</a><a href="{pre}arras/">Contrato de arras</a><a href="{pre}nota-simple/">Nota simple</a><a href="{pre}certificado-energetico/">Certificado energético</a><a href="{pre}vender-un-piso/">Vender un piso: IRPF</a><a href="{pre}plusvalia-municipal/">Plusvalía municipal</a><a href="{pre}comision-inmobiliaria/">Comisión de la inmobiliaria</a><a href="{pre}alquiler-opcion-compra/">Alquiler con opción a compra</a><a href="{pre}como-calculamos/">Cómo calculamos</a>'
     if pre: t = t.replace('href="assets/', f'href="{pre}assets/').replace('src="assets/', f'src="{pre}assets/')
     t = t.replace("__CAMPOS__", CAMPOS).replace("__HEADX__", HEADX).replace("__MESES__", mes_txt).replace("__CIUDADES__", links).replace("__V__", V)
     if not carpeta:  # portada: datos estructurados para que Google sepa qué es (la de /chat/ tiene canonical a la portada)
@@ -535,7 +535,7 @@ for ck, c in C.items():
 <p class="m">Habitación estimada a partir de la media de {esc(c["n"])} y del alquiler de cada distrito. Precios sin gastos. Cifras orientativas.</p></div>
 {hq_html}
 <a class="cta" href="../../#c={ck}&op=habitacion">¿Has visto una habitación? Analízala gratis</a>
-<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a> · <a href="../../independizarse/">Cuánto cuesta independizarse</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
+<div class="card m"><b>Más sobre {esc(c["n"])}:</b> <a href="../">Precios por distritos</a> · <a href="../sueldo-para-alquilar/">Sueldo para alquilar</a> · <a href="../comprar-o-alquilar/">Comprar o alquilar</a> · <a href="../../repartir-alquiler/">Cómo repartir el alquiler</a> · <a href="../../subarrendar/?c={ck}">Subalquilar una habitación</a> · <a href="../../independizarse/">Cuánto cuesta independizarse</a> · <a href="../../precios/">Comparar las 10 ciudades</a></div>"""
     os.makedirs(F(ck, "habitacion"), exist_ok=True)
     open(F(ck, "habitacion", "index.html"), "w", encoding="utf-8").write(page(
         f"Precio de una habitación en {c['n']} por distritos (2026)",
@@ -1649,7 +1649,7 @@ document.getElementById("rmen").addEventListener("click",function(){{if(H.childr
 document.getElementById("rf").addEventListener("input",calc);document.getElementById("rf").addEventListener("change",calc);calc()}})();</script>
 {ra_html}
 <a class="cta" href="../">¿Has visto una habitación? Comprueba si el precio es justo</a>
-<div class="card m"><b>Más guías:</b> <a href="../empadronarse/">Empadronarse: papeles y autorización</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+<div class="card m"><b>Más guías:</b> <a href="../subarrendar/">Subalquilar una habitación</a> · <a href="../empadronarse/">Empadronarse: papeles y autorización</a> · <a href="../independizarse/">Cuánto cuesta independizarse</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../papeles-para-alquilar/">Papeles para alquilar</a> · <a href="../gastos-de-alquiler/">Dinero para alquilar</a> · <a href="../visitar-un-piso/">Qué mirar al visitar un piso</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
 os.makedirs(F("repartir-alquiler"), exist_ok=True)
 open(F("repartir-alquiler", "index.html"), "w", encoding="utf-8").write(page(
     "Cómo repartir el alquiler de un piso compartido: calculadora",
@@ -3507,6 +3507,75 @@ open(F("alquiler-opcion-compra", "index.html"), "w", encoding="utf-8").write(pag
     desc_corta("Calcula cuánto te queda por pagar en un alquiler con opción a compra, cuánto pierdes si no compras y si el precio y el alquiler están en la media del distrito.", " Gratis."),
     "alquiler-opcion-compra/", body, [("Vivible", "../"), ("Alquiler con opción a compra", None)], oc_ld))
 urls.insert(37, BASE + "alquiler-opcion-compra/")
+
+# ---------- Subalquilar una habitación (subarrendar/): «subalquilar habitación», «subarrendar habitación es legal», «cuánto cobrar por subalquilar una habitación».
+# LAU (Ley 29/1994) art. 8.2: solo subarriendo parcial, con consentimiento escrito del arrendador; el subarriendo se extingue con el arriendo;
+# su precio no puede exceder del que corresponda al arrendamiento. Art. 27.2.c: el subarriendo sin consentimiento es causa de resolución.
+# IRPF: lo cobrado por subarrendar es rendimiento del capital mobiliario (LIRPF art. 25.4.c). Habitación media por ciudad de precios.json.
+assert "subarrendar" not in C
+def _sub_max(renta, personas, habs): return renta / personas * habs  # lo que cobrarías en total a partes iguales (nunca más que la renta)
+assert _sub_max(1200, 3, 2) == 800 and _sub_max(900, 2, 1) == 450
+SBJ = json.dumps({k: [c["n"], c["hab"]] for k, c in C.items()}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+sb_html, sb_ld = faq([
+    ("¿Es legal subalquilar una habitación de mi piso de alquiler?",
+     "Sí, si el propietario te da su permiso por escrito. La ley de alquileres solo deja subalquilar una parte del piso, nunca el piso entero, y siempre con ese consentimiento. Si subalquilas sin permiso, el propietario puede acabar con tu contrato."),
+    ("¿Cuánto puedo cobrar por subalquilar una habitación?",
+     "La ley dice que el precio del subarriendo no puede pasar en ningún caso del que corresponda al alquiler. En la práctica, lo prudente es cobrar como mucho la parte proporcional de lo que tú pagas: si pagas 1.200 € y vivís tres, 400 € por habitación. Ganar dinero con el subalquiler no está permitido aunque en la zona se paguen precios más altos."),
+    ("¿Qué pasa con mi subinquilino si se acaba mi contrato?",
+     "Su derecho se acaba a la vez que el tuyo: si tú dejas el piso o el propietario no te renueva, el subinquilino también tiene que irse. Por eso conviene que vuestro acuerdo diga hasta cuándo puede quedarse y con cuánto tiempo os avisaréis."),
+    ("¿Tengo que declarar en la renta lo que cobro?",
+     "Sí. Lo que cobras por subalquilar se declara como rendimiento del capital mobiliario, y puedes restar la parte del alquiler que pagas por esa habitación y sus gastos. Si cobras solo la parte proporcional, lo normal es que el rendimiento salga cero o casi cero."),
+    ("¿Puedo repartir los gastos de luz, agua e internet?",
+     "Sí: lo habitual es repartir los suministros aparte por lo que cuesten de verdad, enseñando las facturas. Lo que no debes es inflarlos para cobrar más por la habitación."),
+    ("¿Qué debe poner el acuerdo con el subinquilino?",
+     "Quiénes sois, qué habitación y qué zonas comunes puede usar, cuánto paga y cuándo, cómo se reparten los gastos, la fianza si la hay, la fecha de fin (como mucho la de tu contrato) y el preaviso. Adjunta una copia del permiso escrito del propietario."),
+])
+body = f"""<h1>Subalquilar una habitación: qué dice la ley y cuánto cobrar</h1>
+<p>Si vives de alquiler y quieres meter a alguien en una habitación, puedes hacerlo <b>con permiso escrito del propietario</b> y cobrando <b>como mucho la parte que te toca de tu alquiler</b>. Escribe lo que pagas y te decimos cuánto cobrar por habitación. No guardamos nada de lo que escribes.</p>
+<div class="card" id="sb"><b>Haz la cuenta</b>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px">
+{campo("sr", "Tu alquiler al mes (€)", 'inputmode="decimal" placeholder="1.200"')}
+{campo("sp", "Personas que viviréis (contigo)", 'inputmode="numeric" placeholder="3"')}
+{campo("sh", "Habitaciones que subalquilas", 'inputmode="numeric" placeholder="2"')}
+<label class="m" style="flex:1 1 150px">Ciudad (opcional)<br><select id="sk" style="{IN}"><option value="">Elige ciudad</option></select></label></div>
+<p class="m" style="margin:4px 0 0">Si dejas un campo vacío usamos el número gris de ejemplo. Si las habitaciones son muy distintas, reparte por metros con la <a href="../repartir-alquiler/">calculadora para repartir el alquiler</a>.</p>
+<div id="so" aria-live="polite" style="margin-top:10px"></div></div>
+<h2 style="font:700 21px/1.2 Fraunces,Georgia,serif;margin:24px 0 0">Lo básico, en corto</h2>
+<div class="card"><ul style="margin:0;padding-left:20px">
+<li><b>Permiso por escrito:</b> sin él, el propietario puede resolver tu contrato. Un correo o un mensaje en el que lo diga claro sirve; mejor si nombra la habitación.</li>
+<li><b>Solo una parte del piso:</b> puedes subalquilar habitaciones, pero no el piso entero mientras tú te vas.</li>
+<li><b>Precio tope:</b> lo que cobres no puede pasar de lo que corresponde de tu alquiler. No es un negocio: es compartir lo que pagas.</li>
+<li><b>Dura lo que dure lo tuyo:</b> si se acaba tu contrato, se acaba el del subinquilino.</li>
+<li><b>Tú sigues respondiendo</b> ante el propietario del alquiler entero y de los daños, también de los que cause tu subinquilino.</li>
+<li><b>Ponlo por escrito</b> con tu subinquilino: precio, gastos, fianza, fecha de fin y preaviso. Haced un <a href="../inventario-piso/">inventario</a> de la habitación.</li></ul>
+<p class="m" style="margin:8px 0 0">Es una orientación según la Ley de Arrendamientos Urbanos (artículo 8), no asesoramiento legal: manda lo que diga tu contrato.</p></div>
+<script>var SB={SBJ};</script>
+<script>""" + r"""(function(){var $=function(i){return document.getElementById(i)},R=$("sr"),P=$("sp"),H=$("sh"),K=$("sk"),o=$("so");
+function num(e){var s=(e.value||"").trim()||e.placeholder;var v=parseFloat(s.replace(/\.(?=\d{3}(\D|$))/g,"").replace(",","."));return isFinite(v)?v:NaN}
+function eur(v){return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")+" €"}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+Object.keys(SB).forEach(function(k){var e=document.createElement("option");e.value=k;e.textContent=SB[k][0];K.appendChild(e)});
+function calc(){var r=num(R),p=num(P),h=num(H);
+if(!(r>0&&r<1e5)){o.innerHTML="Escribe lo que pagas de alquiler al mes.";return}
+if(!(p>=2&&p<=20&&p==Math.round(p))){o.innerHTML="Escribe cuántas personas viviréis en el piso contándote a ti (de 2 a 20).";return}
+if(!(h>=1&&h==Math.round(h))){o.innerHTML="Escribe cuántas habitaciones subalquilas (al menos 1).";return}
+if(h>=p){o.innerHTML="Las habitaciones que subalquilas tienen que ser menos que las personas: tú también vives en el piso. Subalquilar el piso entero no está permitido.";return}
+var u=r/p,t=u*h,y=r-t,c=SB[K.value],x="";
+x+="<p style=\"margin:0 0 8px\">A partes iguales, a cada uno os toca <b>"+eur(u)+" al mes</b>. Por "+(h==1?"la habitación":"cada habitación")+" puedes cobrar como mucho eso"+(h>1?": <b>"+eur(t)+"</b> entre las "+h:"")+", y tú pagas <b>"+eur(y)+"</b>.</p>";
+x+="<p style=\"margin:0 0 8px\">Los gastos de luz, agua e internet se reparten aparte, por lo que cuesten de verdad.</p>";
+if(c){var d=c[1]-u;x+="<p style=\"margin:0 0 8px\">En <b>"+esc(c[0])+"</b> una habitación en piso compartido ronda los <b>"+eur(c[1])+"</b> al mes. "+(Math.abs(d)<5?"Tu parte está en la media.":d>0?"Tu parte está "+eur(d)+" por debajo de la media: es un buen precio para quien entra, pero no puedes subirlo por encima de tu parte aunque el mercado lo pague.":"Tu parte está "+eur(-d)+" por encima de la media de la ciudad: puede costarte encontrar a alguien. Mira el <a href=\"../"+K.value+"/habitacion/\">precio por distritos</a>.")+"</p>"}
+o.innerHTML=x}
+var q=new URLSearchParams(location.search);if(SB[q.get("c")])K.value=q.get("c");
+[R,P,H].forEach(function(e){e.addEventListener("input",calc)});K.addEventListener("change",calc);calc()})();</script>""" + f"""
+{sb_html}
+<a class="cta" href="../">¿Buscas piso o habitación? Analízalo gratis</a>
+<div class="card m"><b>Más guías:</b> <a href="../repartir-alquiler/">Repartir el alquiler</a> · <a href="../contrato-de-alquiler/">Contrato de alquiler: cuánto dura</a> · <a href="../inventario-piso/">Inventario del piso</a> · <a href="../devolver-fianza/">Cuándo te devuelven la fianza</a> · <a href="../empadronarse/">Empadronarse</a> · <a href="../estafas-alquiler/">Estafas en el alquiler</a> · """ + " · ".join(f'<a href="../{k}/habitacion/">Habitación en {esc(c["n"])}</a>' for k, c in C.items()) + """</div>"""
+os.makedirs(F("subarrendar"), exist_ok=True)
+open(F("subarrendar", "index.html"), "w", encoding="utf-8").write(page(
+    "Subalquilar una habitación: qué dice la ley y cuánto cobrar",
+    desc_corta("¿Puedes subalquilar una habitación de tu piso de alquiler? Qué dice la ley, el permiso del propietario y cuánto cobrar como máximo, con calculadora.", " Gratis."),
+    "subarrendar/", body, [("Vivible", "../"), ("Subalquilar una habitación", None)], sb_ld))
+urls.insert(38, BASE + "subarrendar/")
 
 # ---------- 404: GitHub Pages la sirve en cualquier ruta que no exista (enlaces absolutos; fuera del sitemap)
 ciud = " · ".join(f'<a href="{BASE}{k}/">{esc(c["n"])}</a>' for k, c in C.items())
